@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='utf-8'?>
+<note class='form' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.0'
+ replicaid='C12581600034AF94'>
+<noteinfo noteid='4ea' unid='28DC4C001A851C32C12581640041B7A8' sequence='12'>
+<created><datetime dst='true'>20170721T135748,56+02</datetime></created>
+<modified><datetime dst='true'>20170721T144201,25+02</datetime></modified>
+<revised><datetime dst='true'>20170721T144201,24+02</datetime></revised>
+<lastaccessed><datetime dst='true'>20170721T144201,25+02</datetime></lastaccessed>
+<addedtofile><datetime dst='true'>20170721T135748,69+02</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></updatedby>
+<wassignedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></wassignedby>
+<item name='$HTMLCode' sign='true'>
+<rawitemdata type='1'>
+X/8QAAIADwAHAAAAAAAAAA==
+</rawitemdata></item>
+<item name='$Comment' sign='true'><text/></item>
+<item name='$Info' sign='true'>
+<rawitemdata type='1'>
+hhgBAIAAAAAAgAAAAQABAP///wAQAAAA
+</rawitemdata></item>
+<item name='$Flags'><text/></item>
+<item name='$$ScriptName' summary='false' sign='true'><text>configQueries</text></item>
+<item name='query' placeholder='true'>
+<rawitemdata type='0'>
+</rawitemdata></item>
+<item name='queryDatasource' placeholder='true'>
+<rawitemdata type='0'>
+</rawitemdata></item>
+<item name='$Fields'><textlist><text>queryDatasource</text><text>query</text></textlist></item>
+<item name='$Body' sign='true'>
+<rawitemdata type='1'>
+gQKC/1oAAQAAAAAAAAAAAKAFAACgBQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAABAAAAAJSHAAAAAAAAAAAAAAAAAQAAAAQAAACDBAEAhf8IAAEAAAqBAoMEAQDdBgEA
++//7/ywAAAAAAAICAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAFz/PgAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAOAAAAAAAAAAEAAAoAAAAAAQAAAAAA3gYBAPv/
+ow6gBSgAPAAAAAAAAgCkEgAAoAUPDgAAVQIREQEBAACBAoL/WgACAAAAAAAAAAAArwUPDq8FAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAhgEAAAAAVIcAAAAAAAAAAAAA
+AAABAAAABAAAAIMEAgCF/xMAAQAACkRhdGFzb3VyY2U6AKQSAAEPDvYWAABVAhERAQEAAIECgv9a
+AAMAAAAAAAAAAAAeDvYWHg4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AACGAQAAAABUhwAAAAAAAAAAAAAAAAEAAAAEAAAAgwQDAIX/CAABAAAK3QYAAPf/9/8kAAEAAIAA
+AKAFaAEAAAAAAAAAAGQAAAAAAAAAAAAAAAAA/v9QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAeAB4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACw/xQAAAAE
+QIAAAAAAAAAAAAAAAIr/dACKAgAFACACAAAAAAAAAgEAAAoAAAAAAAAAAA8AAABAAHF1ZXJ5RGF0
+YXNvdXJjZQAAPgAAADIAAQAAAAEABwBSZUNhY2hlAAEAAAABAAsAZGF0YXNvdXJjZXMAAQABADAA
+qgUDAAcACgAEAAkxMVMA0ggBAAAAAADSCAkA////AN4GAAD3/4X/CAABAAAKpBIBAKAFDw4AAFUC
+EREBAQAAgQKDBAIAhf8OAAEAAApRdWVyeTqkEgEBDw72FgAAVQIREQEBAACBAoMEAwCF/wgAAQAA
+Ct0GAACK//7/UAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHgAeAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAiv8qAIoAAAUAMAIAAAAAAAACAQAACgAAAAAA
+AAAABQAAAAAAcXVlcnkAYg4BAIQAAAAAAAAAAADeBgAAiv+F/wgAAQAACqUGAAAAAIECgwQBAIX/
+CAABAAAK
+</rawitemdata></item>
+<item name='$TITLE' sign='true'><text>configQuery</text></item>
+<item name='$DesignerVersion' sign='true'><text>8.5.3</text></item></note>
+

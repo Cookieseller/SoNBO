@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core">
+	<xp:this.beforePageLoad>
+		<![CDATA[#{javascript:sboManager.init()}]]>
+	</xp:this.beforePageLoad>
+	<xp:this.resources>
+		<xp:styleSheet href="/main.css"/>
+	</xp:this.resources>
+	<xp:panel styleClass="sbo-main-container">
+		<xp:panel styleClass="sbo-main-container-left"></xp:panel>
+		<xp:panel styleClass="sbo-main-container-center">
+			<xp:include pageName="/businessObject.xsp" id="businessObject"></xp:include>
+		</xp:panel>
+		<xp:panel styleClass="sbo-main-container-right"></xp:panel>
+	</xp:panel>
+</xp:view>

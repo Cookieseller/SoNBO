@@ -1,0 +1,34 @@
+.sbo-object-container {
+	height: 100%;
+	width: 100%;
+}
+
+.sbo-object-name {
+	font-size: 2em;
+}
+
+.sbo-object-fields-container {
+	margin-top: 5%;
+	width: 100%;
+	height: 100%;
+}
+
+.sbo-object-field1 {
+	display: inline-block;
+}
+
+.sbo-object-field2 {
+	display: inline-block;
+	float: right;
+	vertical-align: top;
+}
+
+.sbo-object-field3 {
+	display: inline-block;
+}
+
+.sbo-object-field4 {
+	display: inline-block;
+	float: right;
+	vertical-align: bottom;
+}

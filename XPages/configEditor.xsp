@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core">
+	<xp:label value="Configuration Editor" id="label1"></xp:label>
+	<xp:br></xp:br>
+	<!-- Object type -->
+	<xp:label value="Object type" id="label2"></xp:label>
+	<xp:br></xp:br>
+	<xp:comboBox id="objectType"></xp:comboBox>
+	<xp:br></xp:br>
+	<!-- Object peers -->
+	<xp:label value="Object peers" id="label4"></xp:label>
+	<xp:br></xp:br>
+	<xp:listBox id="objectPeers"></xp:listBox>
+	<xp:br></xp:br>
+	<xp:br></xp:br>
+	<!-- Object attributes -->
+	<xp:label value="Object attributes" id="label3"></xp:label>
+	<xp:br></xp:br>
+	
+	<xp:repeat id="objectAttributes" value="2" rows="30">
+		<!-- Attribute name -->
+		<xp:label value="Attribute name" id="label5"></xp:label>
+		<xp:inputText id="attributeName"></xp:inputText>
+		<xp:br></xp:br>
+		<!-- Data source -->
+		<xp:label value="Data source" id="label6"></xp:label>
+		<xp:comboBox id="dataSource"></xp:comboBox>
+		<xp:br></xp:br>
+		<!-- Query -->
+		<xp:label value="Query" id="label7"></xp:label>
+		<xp:comboBox id="query"></xp:comboBox>
+		<xp:br></xp:br>
+		<!-- Key name -->
+		<xp:label value="Key name" id="label8"></xp:label>
+		<xp:inputText id="key"></xp:inputText>
+	</xp:repeat>
+</xp:view>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.0" replicaid="C12581600034AF94" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="4ae" sequence="10" unid="4A5BC581797B5D76C1258160004045DE">
+<created><datetime dst="true">20170717T134201,90+02</datetime></created>
+<modified><datetime dst="true">20170718T164940,11+02</datetime></modified>
+<revised><datetime dst="true">20170718T164940,10+02</datetime></revised>
+<lastaccessed><datetime dst="true">20170718T164940,11+02</datetime></lastaccessed>
+<addedtofile><datetime dst="true">20170717T134201,91+02</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Flemming Goetz/O=uniko/C=de</name><name>CN=Flemming Goetz/O=uniko/C=DE</name></updatedby>
+<wassignedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></wassignedby>
+<item name="$Flags"><text>34567Cg~[</text></item>
+<item name="$TITLE"><text>org/openntf/Utils.java</text></item>
+<item name="$DesignerVersion"><text>8.5.3</text></item>
+
+
+<item name="$FileNames" sign="true"><text>org/openntf/Utils.java</text></item>
+
+
+
+
+</note>
