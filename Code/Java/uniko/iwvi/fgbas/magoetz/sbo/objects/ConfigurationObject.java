@@ -4,18 +4,18 @@ import java.util.ArrayList;
 
 public class ConfigurationObject {
 
-	private String objectType;
+	private String objectClass;
 	
 	private String[] peers;
 	
 	private ArrayList<ConfigurationObjectAttribute> configurationObjectAttributes = new ArrayList<ConfigurationObjectAttribute>();
 	
-	public String getObjectType() {
-		return objectType;
+	public String getObjectClass() {
+		return objectClass;
 	}
 
-	public void setObjectType(String objectType) {
-		this.objectType = objectType;
+	public void setObjectClass(String objectType) {
+		this.objectClass = objectType;
 	}
 
 	public String[] getPeers() {
