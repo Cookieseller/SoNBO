@@ -35,7 +35,7 @@ public class ConfigurationObject {
 		this.configurationObjectAttributes = configurationObjectAttributes;
 	}
 	
-	public void addConfigurationObjectAttribute(String datasource, int query, String fieldname, int displayfield) {
+	public void addConfigurationObjectAttribute(String datasource, String query, String fieldname, int displayfield) {
 		ConfigurationObjectAttribute configObjAttr = new ConfigurationObjectAttribute(datasource, query, fieldname, displayfield);
 		this.configurationObjectAttributes.add(configObjAttr);
 	}
@@ -43,11 +43,11 @@ public class ConfigurationObject {
 	public class ConfigurationObjectAttribute {
 			
 		private String datasource;
-		private int query;
+		private String query;
 		private String fieldname;
 		private int displayfield;
 		
-		private ConfigurationObjectAttribute(String datasource, int query, String fieldname, int displayfield) {
+		private ConfigurationObjectAttribute(String datasource, String query, String fieldname, int displayfield) {
 			this.datasource = datasource;
 			this.setQuery(query);
 			this.fieldname = fieldname;
@@ -78,11 +78,11 @@ public class ConfigurationObject {
 			this.displayfield = displayfield;
 		}
 
-		public void setQuery(int query) {
+		public void setQuery(String query) {
 			this.query = query;
 		}
 
-		public int getQuery() {
+		public String getQuery() {
 			return query;
 		}
 	}

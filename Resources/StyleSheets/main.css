@@ -4,21 +4,21 @@
 }
 
 .sbo-main-container-left {
-	display: inline-block;
+	display: block;
 	float: left;
 	height: 100%;
 	width: 240.0px;
 }
 
 .sbo-main-container-center {
-	display: inline-block;
+	display: block;
 	margin-left: 240px;
 	margin-right: 240px;
 	height: 100%;
 }
 
 .sbo-main-container-right {
-	display: inline-block;
+	display: block;
 	float: right;
 	height: 100%;
 	width: 240.0px;

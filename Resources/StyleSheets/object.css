@@ -1,3 +1,7 @@
+.sbo-keyvaluepair {
+	display: block;
+}
+
 .sbo-object-container {
 	height: 100%;
 	width: 100%;
@@ -15,20 +19,20 @@
 
 .sbo-object-field1 {
 	display: inline-block;
+	margin-right: 40px;
 }
 
 .sbo-object-field2 {
 	display: inline-block;
-	float: right;
 	vertical-align: top;
 }
 
 .sbo-object-field3 {
 	display: inline-block;
+	margin-right: 40px;
 }
 
 .sbo-object-field4 {
 	display: inline-block;
-	float: right;
 	vertical-align: bottom;
 }
