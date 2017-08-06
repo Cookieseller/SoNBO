@@ -50,8 +50,8 @@ public class ObjectService implements Serializable {
 				// get query				
 				JsonObject jsonQueryObject = queryService.getJsonObject("queries", query, "query");
 				// log json
-				utilities.printJson(jsonQueryResultObject, "json query object");
-				jsonQueryResultObject = queryService.executeQuery(jsonDatasourceObject, jsonQueryObject);
+				utilities.printJson(jsonQueryObject, "json query object");
+				jsonQueryResultObject = queryService.executeQuery(jsonDatasourceObject, jsonQueryObject, objectId);
 				queryResult.setJsonObject(jsonQueryResultObject);
 				queryResultList.add(queryResult);
 				// log json

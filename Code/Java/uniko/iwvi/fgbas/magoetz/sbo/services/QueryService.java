@@ -42,14 +42,14 @@ public class QueryService implements Serializable {
 		return jsonObject;
 	}
 	
-	public JsonObject executeQuery(JsonObject jsonDatasourceObject, JsonObject jsonQueryObject) {
+	public JsonObject executeQuery(JsonObject jsonDatasourceObject, JsonObject jsonQueryObject, String objectId) {
 		
 		Database notesDB = DominoUtils.getCurrentDatabase();
 		
 		JsonElement jsonFirstSourceElement = jsonDatasourceObject.get("datasource");
 		JsonObject jsonFirstSourceObject = jsonFirstSourceElement.getAsJsonObject();
 		
-		//TODO: Evaluate whole query and change to dynamic execution for all query types
+		//TODO: Evaluate whole query and change to dynamic execution for all query types (currently only IBM Domino supported)
 		String type = jsonFirstSourceObject.get("type").getAsString();
 		String hostname = jsonFirstSourceObject.get("hostname").getAsString();
 		String database = jsonFirstSourceObject.get("database").getAsString();
@@ -65,7 +65,7 @@ public class QueryService implements Serializable {
 		String queryFieldname = jsonFirstQueryObject.get("fieldname").getAsString();
 		
 		// TODO in this case objectId, but in other cases?
-		//queryKey = objectId;
+		queryKey = objectId;
 		
 		// execute query to get results
 		// TODO make variable dependent on query command
