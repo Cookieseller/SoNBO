@@ -35,25 +35,35 @@ public class ConfigurationObject {
 		this.configurationObjectAttributes = configurationObjectAttributes;
 	}
 	
-	public void addConfigurationObjectAttribute(String datasource, String query, String fieldname, int displayfield) {
-		ConfigurationObjectAttribute configObjAttr = new ConfigurationObjectAttribute(datasource, query, fieldname, displayfield);
+	public void addConfigurationObjectAttribute(String name, String datasource, String query, String fieldname, int displayfield) {
+		ConfigurationObjectAttribute configObjAttr = new ConfigurationObjectAttribute(name, datasource, query, fieldname, displayfield);
 		this.configurationObjectAttributes.add(configObjAttr);
 	}
 	
 	public class ConfigurationObjectAttribute {
 			
+		private String name;
 		private String datasource;
 		private String query;
 		private String fieldname;
 		private int displayfield;
 		
-		private ConfigurationObjectAttribute(String datasource, String query, String fieldname, int displayfield) {
+		private ConfigurationObjectAttribute(String name, String datasource, String query, String fieldname, int displayfield) {
+			this.name = name;
 			this.datasource = datasource;
 			this.setQuery(query);
 			this.fieldname = fieldname;
 			this.displayfield = displayfield;
 		}
 		
+		public String getName() {
+			return name;
+		}
+
+		public void setName(String name) {
+			this.name = name;
+		}
+
 		public String getDatasource() {
 			return datasource;
 		}

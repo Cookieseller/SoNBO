@@ -16,6 +16,9 @@ public class QueryService implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
+	/*
+	 * returns first json object from a query
+	 */
 	public JsonObject getJsonObject(String view, String key, String returnField) {
 		
 		Database notesDB = DominoUtils.getCurrentDatabase();
@@ -42,6 +45,33 @@ public class QueryService implements Serializable {
 		return jsonObject;
 	}
 	
+	/*
+	 * returns all json objects from a query
+	 */
+	public ArrayList<JsonObject> getJsonObjects(String view, String key, String returnField) {
+		
+		Database notesDB = DominoUtils.getCurrentDatabase();
+		
+		ArrayList<String> queryResults = new ArrayList<String>();
+		try {
+			// return values by key
+			queryResults = Utils.Dblookup(notesDB, view, key, returnField);
+		} catch (NotesException ex) {
+			// TODO Auto-generated catch block
+			ex.printStackTrace();
+		}
+		
+		// convert query results to json objects
+		ArrayList<JsonObject> jsonObjects = new ArrayList<JsonObject>();
+		
+		for(String s : queryResults) {			
+			JsonObject o = new JsonParser().parse(s).getAsJsonObject();
+			jsonObjects.add(o);
+		}
+		
+		return jsonObjects;
+	}
+	
 	public JsonObject executeQuery(JsonObject jsonDatasourceObject, JsonObject jsonQueryObject, String objectId) {
 		
 		Database notesDB = DominoUtils.getCurrentDatabase();
@@ -49,7 +79,7 @@ public class QueryService implements Serializable {
 		JsonElement jsonFirstSourceElement = jsonDatasourceObject.get("datasource");
 		JsonObject jsonFirstSourceObject = jsonFirstSourceElement.getAsJsonObject();
 		
-		//TODO: Evaluate whole query and change to dynamic execution for all query types (currently only IBM Domino supported)
+		// TODO: Evaluate whole query and change to dynamic execution for all query types (currently only IBM Domino supported)
 		String type = jsonFirstSourceObject.get("type").getAsString();
 		String hostname = jsonFirstSourceObject.get("hostname").getAsString();
 		String database = jsonFirstSourceObject.get("database").getAsString();
@@ -57,6 +87,7 @@ public class QueryService implements Serializable {
 		JsonElement jsonFirstQueryElement = jsonQueryObject.get("query");
 		JsonObject jsonFirstQueryObject = jsonFirstQueryElement.getAsJsonObject();
 		
+		// TODO: queryType was added and has to be processed (e.g. "IBM Domino") 
 		String queryCommand = jsonFirstQueryObject.get("command").getAsString();
 		String queryServer = jsonFirstQueryObject.get("server").getAsString();
 		String queryDatabase = jsonFirstQueryObject.get("database").getAsString();

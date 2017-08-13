@@ -18,13 +18,13 @@ public class ObjectService implements Serializable {
 	
 	private QueryService queryService = new QueryService();
 
-	public BusinessObject getBusinessObject(String objectId, String objectType) {
+	public BusinessObject getBusinessObject(String objectId, String objectName) {
 		
 		BusinessObject businessObject = new BusinessObject();
 	
 		// 1. GET CONFIGURATION DOCUMENT FOR OBJECT TYPE
 		
-		ConfigurationObject configObject = configService.getConfigurationObject(objectType);
+		ConfigurationObject configObject = configService.getConfigurationObject(objectName);
 		
 		// 2. RETRIEVE INFORMATION FOR BUSINESS OBJECT BASED ON CONFIGURATION
 		
@@ -42,13 +42,15 @@ public class ObjectService implements Serializable {
 			JsonObject jsonQueryResultObject = queryService.getQueryResult(queryResultList, queryResult);
 			
 			if(jsonQueryResultObject == null) {
-				// get data source configuration			
-				JsonObject jsonDatasourceObject = queryService.getJsonObject("datasources", datasource, "datasource");
+				// get datasource configuration			
+				// TODO change 7 to datasourceJSON
+				JsonObject jsonDatasourceObject = queryService.getJsonObject("datasources", datasource, "7");
 				// log json
 				Utilities utilities = new Utilities();
 				utilities.printJson(jsonDatasourceObject, "json datasource object");
 				// get query				
-				JsonObject jsonQueryObject = queryService.getJsonObject("queries", query, "query");
+				// TODO change 8 to queryJSON
+				JsonObject jsonQueryObject = queryService.getJsonObject("queries", query, "8");
 				// log json
 				utilities.printJson(jsonQueryObject, "json query object");
 				jsonQueryResultObject = queryService.executeQuery(jsonDatasourceObject, jsonQueryObject, objectId);
@@ -59,12 +61,14 @@ public class ObjectService implements Serializable {
 			}
 			
 			// load attribute key and value into business object
-			String fieldname = configObjAttr.getFieldname();
+			// TODO: use attribute name instead of fieldname
 			JsonElement jsonFirstQueryResultElement = jsonQueryResultObject.get(objectId);
-			JsonObject jsonFirstQueryResultObject = jsonFirstQueryResultElement.getAsJsonObject();			
+			JsonObject jsonFirstQueryResultObject = jsonFirstQueryResultElement.getAsJsonObject();
+			String name = configObjAttr.getName();
+			String fieldname = configObjAttr.getFieldname();
 			String value = jsonFirstQueryResultObject.get(fieldname).getAsString();
 			int displayfield = configObjAttr.getDisplayfield();
-			businessObject.addKeyValuePair(fieldname, value, displayfield);
+			businessObject.addKeyValuePair(name, value, displayfield);
 		}	
 		
 		return businessObject;

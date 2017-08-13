@@ -16,7 +16,7 @@ public class SboManager implements Serializable {
 	
 	private String objectId = (String) FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("objectId");
 	
-	private String objectType = (String) FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("objectType");
+	private String objectName = (String) FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("objectName");
 	
 	private ArrayList<String> notificationCodeList = new ArrayList<String>();
 	
@@ -26,11 +26,11 @@ public class SboManager implements Serializable {
 	
 	public void init(){
 		
-		if(objectId != null && objectType != null) {
+		if(objectId != null && objectName != null) {
 			
 			System.out.println("NEW REQUEST FOR BUSINESS OBJECT");
 			
-			this.businessObject = objectService.getBusinessObject(objectId, objectType);
+			this.businessObject = objectService.getBusinessObject(objectId, objectName);
 
 		}else {
 			this.notificationCodeList.add("E1");
