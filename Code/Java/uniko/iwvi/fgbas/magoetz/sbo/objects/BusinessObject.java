@@ -25,7 +25,22 @@ public class BusinessObject implements Serializable {
 	public HashMap<String, String> displayField3 = new HashMap<String, String>();
 	public HashMap<String, String> displayField4 = new HashMap<String, String>();
 	
-	public BusinessObject() {
+	public void addKeyValuePair(String key, String value, int displayfield) {
+		
+		switch(displayfield) {
+			case 1:
+				this.displayField1.put(key, value);
+			break;
+			case 2:
+				this.displayField2.put(key, value);
+			break;
+			case 3:
+				this.displayField3.put(key, value);
+			break;
+			case 4:
+				this.displayField4.put(key, value);
+			break;
+		}
 	}
 
 	public void setObjectId(String objectId) {
