@@ -20,14 +20,23 @@ public class ObjectService implements Serializable {
 
 	public BusinessObject getBusinessObject(String objectId, String objectName) {
 		
+		// 0. CREATE NEW BUSINESS OBJECT
 		BusinessObject businessObject = new BusinessObject();
 	
+		// set object id and name
+		businessObject.setObjectId(objectId);
+		businessObject.setObjectName(objectName);
+		
 		// 1. GET CONFIGURATION DOCUMENT FOR OBJECT TYPE
 		
 		ConfigurationObject configObject = configService.getConfigurationObject(objectName);
 		
 		// 2. RETRIEVE INFORMATION FOR BUSINESS OBJECT BASED ON CONFIGURATION
 		
+		// set object peers
+		businessObject.setPeers(configObject.getPeers());
+		
+		// cache result to prevent redundant queries
 		ArrayList<QueryResult> queryResultList = new ArrayList<QueryResult>();
 		
 		// get value for each object attribute
@@ -61,7 +70,6 @@ public class ObjectService implements Serializable {
 			}
 			
 			// load attribute key and value into business object
-			// TODO: use attribute name instead of fieldname
 			JsonElement jsonFirstQueryResultElement = jsonQueryResultObject.get(objectId);
 			JsonObject jsonFirstQueryResultObject = jsonFirstQueryResultElement.getAsJsonObject();
 			String name = configObjAttr.getName();
@@ -69,6 +77,11 @@ public class ObjectService implements Serializable {
 			String value = jsonFirstQueryResultObject.get(fieldname).getAsString();
 			int displayfield = configObjAttr.getDisplayfield();
 			businessObject.addKeyValuePair(name, value, displayfield);
+			//set business object title
+			String titleAttribute = configObject.getObjectTitle();
+			if(titleAttribute.equals(name)) {
+				businessObject.setObjectTitle(value);
+			}
 		}	
 		
 		return businessObject;

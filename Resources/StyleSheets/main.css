@@ -3,23 +3,63 @@
 	width: 100%;
 }
 
-.sbo-main-container-left {
+.sbo-keyvaluepair {
 	display: block;
-	float: left;
-	height: 100%;
-	width: 240.0px;
 }
 
-.sbo-main-container-center {
-	display: block;
-	margin-left: 240px;
-	margin-right: 240px;
+.sbo-object-card {
+	display: inline-block;
+	width: 300px;
+	height: 400px;
+}
+
+.sbo-object-container {
+	height: 100%;
+	width: 100%;
+	margin: 10px;
+}
+
+.sbo-object-fields-container {
+	display: inline-block;
+	margin-top: 5%;
+	width: 70%;
 	height: 100%;
 }
 
-.sbo-main-container-right {
-	display: block;
-	float: right;
-	height: 100%;
-	width: 240.0px;
+.sbo-object-field1 {
+	display: inline-block;
+	margin-right: 40px;
+}
+
+.sbo-object-field2 {
+	display: inline-block;
+	vertical-align: top;
+}
+
+.sbo-object-field3 {
+	display: inline-block;
+	margin-right: 40px;
+}
+
+.sbo-object-field4 {
+	display: inline-block;
+	vertical-align: bottom;
+}
+
+.sbo-object-img {
+	width: 100%
+}
+
+.sbo-object-img-container {
+	display: inline-block;
+	width: 29%;
+}
+
+.sbo-object-name {
+	font-size: 2em;
+}
+
+.sbo-object-preview-container {
+	width: 100%;
+	margin: 10px;
 }
