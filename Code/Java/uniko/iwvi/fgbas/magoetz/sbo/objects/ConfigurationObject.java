@@ -1,12 +1,15 @@
 package uniko.iwvi.fgbas.magoetz.sbo.objects;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ConfigurationObject {
 
+	private String objectTitle;
+	
 	private String objectClass;
 	
-	private String[] peers;
+	private List<String> peers;
 	
 	private ArrayList<ConfigurationObjectAttribute> configurationObjectAttributes = new ArrayList<ConfigurationObjectAttribute>();
 	
@@ -18,11 +21,11 @@ public class ConfigurationObject {
 		this.objectClass = objectType;
 	}
 
-	public String[] getPeers() {
+	public List<String> getPeers() {
 		return peers;
 	}
 
-	public void setPeers(String[] peers) {
+	public void setPeers(List<String> peers) {
 		this.peers = peers;
 	}
 
@@ -95,5 +98,13 @@ public class ConfigurationObject {
 		public String getQuery() {
 			return query;
 		}
+	}
+
+	public String getObjectTitle() {
+		return objectTitle;
+	}
+
+	public void setObjectTitle(String objectTitle) {
+		this.objectTitle = objectTitle;
 	}
 }

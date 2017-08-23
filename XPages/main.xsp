@@ -1,31 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xp:view xmlns:xp="http://www.ibm.com/xsp/core">
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core" xmlns:xc="http://www.ibm.com/xsp/custom">
 	<xp:this.beforePageLoad>
 		<![CDATA[#{javascript:sboManager.init()}]]>
 	</xp:this.beforePageLoad>
-	<!--
-	<xp:this.dataContexts>
-		<xp:dataContext var="notificationCodeList">
-			<xp:this.value><![CDATA[${javascript:sboManager.getNotificationCodeList();}]]></xp:this.value>
-		</xp:dataContext>
-	</xp:this.dataContexts>
-	-->
 	<xp:this.resources>
 		<xp:styleSheet href="/main.css"/>
 	</xp:this.resources>
-	<xp:panel styleClass="sbo-main-container">
+	<xp:panel>
 		<!-- TODO: Mixed js + notes -> Get notificationCodeList, retrieve notification String from DB (@Formula) and display --> 
-		<xp:repeat id="repeat1" var="notificationCode">
+ 		<xp:repeat id="repeat1" var="notificationCode">
 		<xp:this.value><![CDATA[${javascript:sboManager.getNotificationCodeList();}]]></xp:this.value>
 		<xp:label id="label2">
 			<xp:this.value><![CDATA[#{javascript: return notificationCode + ": " + @DbLookup("", "notifications", notificationCode, 2)}]]></xp:this.value>
 		</xp:label>
 		</xp:repeat>
-
-		<xp:panel styleClass="sbo-main-container-left"></xp:panel>
-		<xp:panel styleClass="sbo-main-container-center">
-			<xp:include pageName="/businessObject.xsp" id="businessObject"></xp:include>
-		</xp:panel>
-		<xp:panel styleClass="sbo-main-container-right"></xp:panel>
 	</xp:panel>
+	<xc:mainLayout>
+		<xp:this.facets>
+			<xp:label value="Filter area" id="label1" xp:key="facetLeft"></xp:label>
+			<xp:panel xp:key="facetMiddle">
+				<xc:object/>
+				<xc:navbarPeers/>
+				<xc:navbarRelations/>
+				<xc:objectList/>
+			</xp:panel>
+			<xp:label value="Stream area" id="label3" xp:key="facetRight"></xp:label>
+		</xp:this.facets>
+	</xc:mainLayout>
 </xp:view>

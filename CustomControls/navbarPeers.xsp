@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core"
+	xmlns:xe="http://www.ibm.com/xsp/coreex">
+	<xe:navbar id="navbarPeers" headingText="Peers">
+		<xp:label id="label1">
+			<xp:this.value>all</xp:this.value>
+			<xp:label value="42" id="label3" styleClass="badge"/>
+		</xp:label>
+		<xp:repeat id="repeat1" var="peer">
+			<!-- Java Version <xp:this.value><![CDATA[#{javascript:sboManager.businessObject.getPeers();}]]></xp:this.value> -->
+			<xp:this.value><![CDATA[#{javascript:@DbLookup("", "objects", sboManager.businessObject.getObjectName(), "objectPeers")}]]></xp:this.value>
+			<xp:label id="label2">
+				<xp:this.value>#{peer}</xp:this.value>
+				<xp:label value="42" id="label4" styleClass="badge"/>
+			</xp:label>
+		</xp:repeat>
+	</xe:navbar>
+</xp:view>

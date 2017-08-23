@@ -2,6 +2,8 @@ package uniko.iwvi.fgbas.magoetz.sbo.services;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.ConfigurationObject;
 import uniko.iwvi.fgbas.magoetz.sbo.util.Utilities;
@@ -19,8 +21,7 @@ public class ConfigService implements Serializable {
 	public ConfigurationObject getConfigurationObject(String objectName) {
 		
 		// TODO: check if object type exists 
-		// TODO: change 3 to objectJSON (why not working?)
-		JsonObject jsonConfigObject = queryService.getJsonObject("objects", objectName, "3");
+		JsonObject jsonConfigObject = queryService.getJsonObject("objects", objectName, "objectJSON");
 		// log json
 		Utilities utilities = new Utilities();
 		utilities.printJson(jsonConfigObject, "Parsed object object json");
@@ -30,16 +31,19 @@ public class ConfigService implements Serializable {
 		// object type
 		JsonElement jsonFirstConfigElement = jsonConfigObject.get(objectName);
 		JsonObject jsonFirstConfigObject = jsonFirstConfigElement.getAsJsonObject();
-		// TODO: to String?
+		//object title
+		String objectTitle = jsonFirstConfigObject.get("objectTitle").getAsString();
+		configObject.setObjectTitle(objectTitle);
+		// object class
 		String objectClass = jsonFirstConfigObject.get("objectClass").toString();
 		configObject.setObjectClass(objectName);
 		// peers
 		JsonElement firstLevelConfigElementPeers = jsonFirstConfigObject.get("peers");
 		String[] peers = firstLevelConfigElementPeers.getAsString().split(",");
-		configObject.setPeers(peers);
+		List<String> peerList = Arrays.asList(peers);
+		configObject.setPeers(peerList);
 		// attributes
-		// TODO: change 6 to attributeJSON
-		ArrayList<JsonObject> jsonAttributeObjectList = queryService.getJsonObjects("attributes", objectName, "6");
+		ArrayList<JsonObject> jsonAttributeObjectList = queryService.getJsonObjects("attributes", objectName, "attributeJSON");
 		
 		for(JsonObject jsonAttributeObject : jsonAttributeObjectList) {
 			

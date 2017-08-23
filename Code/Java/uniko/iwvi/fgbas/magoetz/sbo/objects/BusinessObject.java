@@ -14,8 +14,9 @@ public class BusinessObject implements Serializable {
 	
 	private String objectId;
 	
-	// TODO: create database mapping for object type <-> configFormId
-	private String configFormId;
+	private String objectName;
+	
+	private String objectTitle;
 	
 	private List<String> peers;
 	
@@ -50,13 +51,28 @@ public class BusinessObject implements Serializable {
 	public String getObjectId() {
 		return objectId;
 	}
-
-	public void setConfigFormId(String configFormId) {
-		this.configFormId = configFormId;
+	
+	public void setPeers(List<String> peerList) {
+		this.peers = peerList;
 	}
 
-	public String getConfigFormId() {
-		return configFormId;
+	public List<String> getPeers() {
+		return this.peers;
 	}
 
+	public String getObjectName() {
+		return objectName;
+	}
+
+	public void setObjectName(String objectType) {
+		this.objectName = objectType;
+	}
+
+	public String getObjectTitle() {
+		return objectTitle;
+	}
+
+	public void setObjectTitle(String objectTitle) {
+		this.objectTitle = objectTitle;
+	}
 }
