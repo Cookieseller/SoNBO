@@ -21,8 +21,7 @@ public class ConfigService implements Serializable {
 	public ConfigurationObject getConfigurationObject(String objectName) {
 		
 		// TODO: check if object type exists 
-		// TODO: change 3 to objectJSON (why not working?)
-		JsonObject jsonConfigObject = queryService.getJsonObject("objects", objectName, "4");
+		JsonObject jsonConfigObject = queryService.getJsonObject("objects", objectName, "objectJSON");
 		// log json
 		Utilities utilities = new Utilities();
 		utilities.printJson(jsonConfigObject, "Parsed object object json");
@@ -44,8 +43,7 @@ public class ConfigService implements Serializable {
 		List<String> peerList = Arrays.asList(peers);
 		configObject.setPeers(peerList);
 		// attributes
-		// TODO: change 6 to attributeJSON
-		ArrayList<JsonObject> jsonAttributeObjectList = queryService.getJsonObjects("attributes", objectName, "6");
+		ArrayList<JsonObject> jsonAttributeObjectList = queryService.getJsonObjects("attributes", objectName, "attributeJSON");
 		
 		for(JsonObject jsonAttributeObject : jsonAttributeObjectList) {
 			

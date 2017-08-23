@@ -2,13 +2,9 @@
 <xp:view xmlns:xp="http://www.ibm.com/xsp/core"
 	xmlns:xc="http://www.ibm.com/xsp/custom">
 	<xp:panel styleClass="sbo-object-preview-container">
-		
+		<!-- List peer objects filtered by certain criteria (relationship, filter) -->
 
 		<!-- Test -->
-		<xc:objectCard/>
-		<xc:objectCard/>
-		<xc:objectCard/>
-		<xc:objectCard/>
-		<xc:objectCard/>
+		<!-- <xc:objectCard/> -->
 	</xp:panel>
 </xp:view>

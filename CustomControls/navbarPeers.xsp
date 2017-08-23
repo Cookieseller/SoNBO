@@ -8,7 +8,7 @@
 		</xp:label>
 		<xp:repeat id="repeat1" var="peer">
 			<!-- Java Version <xp:this.value><![CDATA[#{javascript:sboManager.businessObject.getPeers();}]]></xp:this.value> -->
-			<xp:this.value><![CDATA[#{javascript:@DbLookup("", "objects", sboManager.businessObject.getObjectName(), 3)}]]></xp:this.value>
+			<xp:this.value><![CDATA[#{javascript:@DbLookup("", "objects", sboManager.businessObject.getObjectName(), "objectPeers")}]]></xp:this.value>
 			<xp:label id="label2">
 				<xp:this.value>#{peer}</xp:this.value>
 				<xp:label value="42" id="label4" styleClass="badge"/>

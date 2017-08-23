@@ -20,18 +20,18 @@ public class ObjectService implements Serializable {
 
 	public BusinessObject getBusinessObject(String objectId, String objectName) {
 		
-		// 0. CREATE NEW BUSINESS OBJECT
+		// 1. CREATE NEW BUSINESS OBJECT
 		BusinessObject businessObject = new BusinessObject();
 	
 		// set object id and name
 		businessObject.setObjectId(objectId);
 		businessObject.setObjectName(objectName);
 		
-		// 1. GET CONFIGURATION DOCUMENT FOR OBJECT TYPE
+		// 2. GET CONFIGURATION DOCUMENT FOR OBJECT TYPE
 		
 		ConfigurationObject configObject = configService.getConfigurationObject(objectName);
 		
-		// 2. RETRIEVE INFORMATION FOR BUSINESS OBJECT BASED ON CONFIGURATION
+		// 3. RETRIEVE ATTRIBUTES OF BUSINESS OBJECT
 		
 		// set object peers
 		businessObject.setPeers(configObject.getPeers());
@@ -52,14 +52,12 @@ public class ObjectService implements Serializable {
 			
 			if(jsonQueryResultObject == null) {
 				// get datasource configuration			
-				// TODO change 7 to datasourceJSON
-				JsonObject jsonDatasourceObject = queryService.getJsonObject("datasources", datasource, "7");
+				JsonObject jsonDatasourceObject = queryService.getJsonObject("datasources", datasource, "datasourceJSON");
 				// log json
 				Utilities utilities = new Utilities();
 				utilities.printJson(jsonDatasourceObject, "json datasource object");
 				// get query				
-				// TODO change 8 to queryJSON
-				JsonObject jsonQueryObject = queryService.getJsonObject("queries", query, "8");
+				JsonObject jsonQueryObject = queryService.getJsonObject("queries", query, "queryJSON");
 				// log json
 				utilities.printJson(jsonQueryObject, "json query object");
 				jsonQueryResultObject = queryService.executeQuery(jsonDatasourceObject, jsonQueryObject, objectId);
@@ -83,6 +81,10 @@ public class ObjectService implements Serializable {
 				businessObject.setObjectTitle(value);
 			}
 		}	
+		
+		// 4. RETRIEVE PEER OBJECTS
+		
+		
 		
 		return businessObject;
 	}

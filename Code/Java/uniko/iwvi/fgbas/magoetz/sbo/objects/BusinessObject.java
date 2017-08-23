@@ -17,8 +17,10 @@ public class BusinessObject implements Serializable {
 	private String objectName;
 	
 	private String objectTitle;
-	
+
 	private List<String> peers;
+
+	private List<BusinessObject> peerObjectList;
 	
 	// String arrays containing attribute names for displaying in respective field	
 	public HashMap<String, String> displayField1 = new HashMap<String, String>();
@@ -74,5 +76,13 @@ public class BusinessObject implements Serializable {
 
 	public void setObjectTitle(String objectTitle) {
 		this.objectTitle = objectTitle;
+	}
+
+	public void setPeerObjectList(List<BusinessObject> peerObjectList) {
+		this.peerObjectList = peerObjectList;
+	}
+
+	public List<BusinessObject> getPeerObjectList() {
+		return peerObjectList;
 	}
 }
