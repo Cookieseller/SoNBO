@@ -303,10 +303,24 @@ public class Utils implements Serializable {
           results.addAll((Vector<String>)values);
         }
       }else{
-        //return field is fieldname, only add if it exist on document
-        if (vwentry.getDocument().hasItem(params.getReturnfield()) == true){
+    	  // CUSTOMIZED
+        /*return field is fieldname, only add if it exist on document -> does not exist in document (is virtual)
+          if (vwentry.getDocument().hasItem(params.getReturnfield()) == true){
           results.addAll(vwentry.getDocument().getItemValue(params.getReturnfield()));
-        }
+          }*/
+    	 //get position of column and retrieve column value
+    	 Vector columnNames = vw.getColumnNames();
+    	 for(Object columnName : columnNames) {
+    		 if(columnName.toString().equals(params.getReturnfield())) {
+    			 int resultIndex = columnNames.indexOf(columnName);
+    	         Object values = vwentry.getColumnValues().elementAt(resultIndex); 
+    	         if ( values instanceof String ) {
+    	           results.add(values.toString());
+    	         }else{
+    	           results.addAll((Vector<String>)values);
+    	         }
+    		 }
+    	 }
       }
   
       // Get entry and go recycle

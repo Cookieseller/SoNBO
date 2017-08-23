@@ -52,14 +52,12 @@ public class ObjectService implements Serializable {
 			
 			if(jsonQueryResultObject == null) {
 				// get datasource configuration			
-				// TODO change 7 to datasourceJSON
-				JsonObject jsonDatasourceObject = queryService.getJsonObject("datasources", datasource, "7");
+				JsonObject jsonDatasourceObject = queryService.getJsonObject("datasources", datasource, "datasourceJSON");
 				// log json
 				Utilities utilities = new Utilities();
 				utilities.printJson(jsonDatasourceObject, "json datasource object");
 				// get query				
-				// TODO change 8 to queryJSON
-				JsonObject jsonQueryObject = queryService.getJsonObject("queries", query, "8");
+				JsonObject jsonQueryObject = queryService.getJsonObject("queries", query, "queryJSON");
 				// log json
 				utilities.printJson(jsonQueryObject, "json query object");
 				jsonQueryResultObject = queryService.executeQuery(jsonDatasourceObject, jsonQueryObject, objectId);
