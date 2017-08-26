@@ -9,8 +9,29 @@
 
 .sbo-object-card {
 	display: inline-block;
-	width: 300px;
-	height: 400px;
+	width: 400px;
+	height: 300px;
+}
+
+.sbo-object-card-fields-container {
+	display: inline-block;
+	margin-top: 5%;
+	width: 45%;
+	height: 100%;
+}
+
+.sbo-object-card-img-container {
+    display: inline-block;
+    width: 50%;
+}
+
+
+.sbo-navbar-link {
+	margin-right: 15px;
+}
+
+.sbo-navbar-selected {
+	font-weight: bold;
 }
 
 .sbo-object-container {
@@ -28,22 +49,30 @@
 
 .sbo-object-field1 {
 	display: inline-block;
-	margin-right: 40px;
+	margin-right: 2%;
+	width: 47%;
+	height: 47%;
 }
 
 .sbo-object-field2 {
 	display: inline-block;
 	vertical-align: top;
+	width: 47%;
+	height: 47%;
 }
 
 .sbo-object-field3 {
 	display: inline-block;
-	margin-right: 40px;
+	margin-right: 2%;
+	width: 47%;
+	height: 47%;
 }
 
 .sbo-object-field4 {
 	display: inline-block;
 	vertical-align: bottom;
+	width: 47%;
+	height: 47%;
 }
 
 .sbo-object-img {

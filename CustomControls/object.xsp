@@ -10,7 +10,7 @@
 					<xp:panel styleClass="sbo-object-field1">
 						<xp:repeat id="repeat5" var="field1">
 							<xp:this.value>
-								<![CDATA[#{javascript:var map:java.util.HashMap = sboManager.businessObject.displayField1; return map.entrySet();}]]>
+								<![CDATA[#{javascript:var map:java.util.HashMap = sboManager.businessObject.attribteList1; return map.entrySet();}]]>
 							</xp:this.value>
 							<div class="sbo-keyvaluepair">
 								<xp:label value="#{javascript:field1.getKey() + ': '}" id="label9"></xp:label>
@@ -21,7 +21,7 @@
 					<xp:panel styleClass="sbo-object-field2">
 						<xp:repeat id="repeat2" var="field2">
 							<xp:this.value>
-								<![CDATA[#{javascript:var map:java.util.HashMap = sboManager.businessObject.displayField2; return map.entrySet();}]]>
+								<![CDATA[#{javascript:var map:java.util.HashMap = sboManager.businessObject.attribteList2; return map.entrySet();}]]>
 							</xp:this.value>
 							<div class="sbo-keyvaluepair">
 								<xp:label value="#{javascript:field2.getKey() + ': '}" id="label3"></xp:label>
@@ -32,7 +32,7 @@
 					<xp:panel styleClass="sbo-object-field3">
 						<xp:repeat id="repeat3" var="field3">
 							<xp:this.value>
-								<![CDATA[#{javascript:var map:java.util.HashMap = sboManager.businessObject.displayField3; return map.entrySet();}]]>
+								<![CDATA[#{javascript:var map:java.util.HashMap = sboManager.businessObject.attribteList3; return map.entrySet();}]]>
 							</xp:this.value>
 							<div class="sbo-keyvaluepair">
 								<xp:label value="#{javascript:field3.getKey() + ': '}" id="label5"></xp:label>
@@ -43,7 +43,7 @@
 					<xp:panel styleClass="sbo-object-field4">
 						<xp:repeat id="repeat4" var="field4">
 							<xp:this.value>
-								<![CDATA[#{javascript:var map:java.util.HashMap = sboManager.businessObject.displayField4; return map.entrySet();}]]>
+								<![CDATA[#{javascript:var map:java.util.HashMap = sboManager.businessObject.attribteList4; return map.entrySet();}]]>
 							</xp:this.value>
 							<div class="sbo-keyvaluepair">
 								<xp:label value="#{javascript:field4.getKey() + ': '}" id="label7"></xp:label>

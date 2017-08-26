@@ -28,15 +28,16 @@ public class ConfigService implements Serializable {
 		
 		// get config information
 		ConfigurationObject configObject = new ConfigurationObject();
-		// object type
+		// object name
+		configObject.setObjectName(objectName);
 		JsonElement jsonFirstConfigElement = jsonConfigObject.get(objectName);
 		JsonObject jsonFirstConfigObject = jsonFirstConfigElement.getAsJsonObject();
 		//object title
 		String objectTitle = jsonFirstConfigObject.get("objectTitle").getAsString();
 		configObject.setObjectTitle(objectTitle);
 		// object class
-		String objectClass = jsonFirstConfigObject.get("objectClass").toString();
-		configObject.setObjectClass(objectName);
+		String objectClass = jsonFirstConfigObject.get("objectClass").getAsString();
+		configObject.setObjectClass(objectClass);
 		// peers
 		JsonElement firstLevelConfigElementPeers = jsonFirstConfigObject.get("peers");
 		String[] peers = firstLevelConfigElementPeers.getAsString().split(",");

@@ -10,7 +10,7 @@ public class QueryResult {
 	
 	private String query = "";
 	
-	private JsonObject jsonObject = new JsonObject();
+	private JsonObject jsonObject = null;
 	
 	public QueryResult(String source, String query) {
 		this.source = source;

@@ -3,7 +3,10 @@
 	xmlns:xc="http://www.ibm.com/xsp/custom">
 	<xp:panel styleClass="sbo-object-preview-container">
 		<!-- List peer objects filtered by certain criteria (relationship, filter) -->
-
+		<xp:repeat id="repeat1">
+			<xp:this.value>4</xp:this.value>
+			<xc:objectCard/>
+		</xp:repeat>
 		<!-- Test -->
 		<!-- <xc:objectCard/> -->
 	</xp:panel>

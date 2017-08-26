@@ -16,6 +16,8 @@ public class BusinessObject implements Serializable {
 	
 	private String objectName;
 	
+	private String objectClass;
+	
 	private String objectTitle;
 
 	private List<String> peers;
@@ -23,27 +25,41 @@ public class BusinessObject implements Serializable {
 	private List<BusinessObject> peerObjectList;
 	
 	// String arrays containing attribute names for displaying in respective field	
-	public HashMap<String, String> displayField1 = new HashMap<String, String>();
-	public HashMap<String, String> displayField2 = new HashMap<String, String>();
-	public HashMap<String, String> displayField3 = new HashMap<String, String>();
-	public HashMap<String, String> displayField4 = new HashMap<String, String>();
+	public HashMap<String, String> attribteList1 = new HashMap<String, String>();
+	public HashMap<String, String> attribteList2 = new HashMap<String, String>();
+	public HashMap<String, String> attribteList3 = new HashMap<String, String>();
+	public HashMap<String, String> attribteList4 = new HashMap<String, String>();
 	
 	public void addKeyValuePair(String key, String value, int displayfield) {
 		
 		switch(displayfield) {
 			case 1:
-				this.displayField1.put(key, value);
+				this.attribteList1.put(key, value);
 			break;
 			case 2:
-				this.displayField2.put(key, value);
+				this.attribteList2.put(key, value);
 			break;
 			case 3:
-				this.displayField3.put(key, value);
+				this.attribteList3.put(key, value);
 			break;
 			case 4:
-				this.displayField4.put(key, value);
+				this.attribteList4.put(key, value);
 			break;
 		}
+	}
+	
+	public String getAttributeValue(String key) {
+		String attributeValue = this.attribteList1.get(key);
+		if(attributeValue == null) {
+			attributeValue = this.attribteList2.get(key);
+			if(attributeValue == null) {
+				attributeValue = this.attribteList3.get(key);
+				if(attributeValue == null) {
+					attributeValue = this.attribteList4.get(key);
+				}
+			}
+		}
+		return attributeValue;
 	}
 
 	public void setObjectId(String objectId) {
@@ -84,5 +100,13 @@ public class BusinessObject implements Serializable {
 
 	public List<BusinessObject> getPeerObjectList() {
 		return peerObjectList;
+	}
+
+	public String getObjectClass() {
+		return objectClass;
+	}
+
+	public void setObjectClass(String objectClass) {
+		this.objectClass = objectClass;
 	}
 }

@@ -1,6 +1,7 @@
 package uniko.iwvi.fgbas.magoetz.sbo;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.faces.context.FacesContext;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.BusinessObject;
@@ -18,6 +19,10 @@ public class SboManager implements Serializable {
 	
 	private String objectName = (String) FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("objectName");
 	
+	private String objectPeers = (String) FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("objectPeers");
+	
+	private String objectRelationship = (String) FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("objectRelationship");
+	
 	private ArrayList<String> notificationCodeList = new ArrayList<String>();
 	
 	public BusinessObject businessObject;
@@ -29,9 +34,12 @@ public class SboManager implements Serializable {
 		if(objectId != null && objectName != null) {
 			
 			System.out.println("NEW REQUEST FOR BUSINESS OBJECT");
-			
+			// get business objects
 			this.businessObject = objectService.getBusinessObject(objectId, objectName);
-
+			// get list of peer objects
+			List<BusinessObject> peerObjectList = objectService.getPeerObjects(businessObject, objectPeers, objectRelationship);
+			this.businessObject.setPeerObjectList(peerObjectList);
+			
 		}else {
 			this.notificationCodeList.add("E1");
 		}

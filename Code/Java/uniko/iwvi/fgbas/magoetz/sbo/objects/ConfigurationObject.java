@@ -5,6 +5,8 @@ import java.util.List;
 
 public class ConfigurationObject {
 
+	private String objectName;
+	
 	private String objectTitle;
 	
 	private String objectClass;
@@ -13,12 +15,20 @@ public class ConfigurationObject {
 	
 	private ArrayList<ConfigurationObjectAttribute> configurationObjectAttributes = new ArrayList<ConfigurationObjectAttribute>();
 	
+	public void setObjectName(String objectName) {
+		this.objectName = objectName;
+	}
+
+	public String getObjectName() {
+		return objectName;
+	}
+
 	public String getObjectClass() {
 		return objectClass;
 	}
 
-	public void setObjectClass(String objectType) {
-		this.objectClass = objectType;
+	public void setObjectClass(String objectClass) {
+		this.objectClass = objectClass;
 	}
 
 	public List<String> getPeers() {

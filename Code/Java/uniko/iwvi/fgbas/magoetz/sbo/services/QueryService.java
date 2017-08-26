@@ -6,6 +6,8 @@ import org.openntf.Utils;
 import uniko.iwvi.fgbas.magoetz.sbo.util.QueryResult;
 import uniko.iwvi.fgbas.magoetz.sbo.util.Utilities;
 import lotus.domino.Database;
+import lotus.domino.Document;
+import lotus.domino.DocumentCollection;
 import lotus.domino.NotesException;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -15,6 +17,56 @@ import com.ibm.xsp.model.domino.DominoUtils;
 public class QueryService implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	
+	/*
+	 * return first returned field value as string
+	 */
+	public String getFieldValue(String view, String key, String returnField) {
+		
+		Database notesDB = DominoUtils.getCurrentDatabase();
+		ArrayList<String> queryResults = new ArrayList<String>();
+		try {
+			// return values by key
+			queryResults = Utils.Dblookup(notesDB, view, key, returnField);
+		} catch (NotesException ex) {
+			// TODO Auto-generated catch block
+			ex.printStackTrace();
+		}
+		String fieldValue = queryResults.get(0);
+		return fieldValue;
+	}
+
+	/*
+	 * return all found field values as string
+	 */
+	public ArrayList<String> getFieldValues(String queryServer, String queryDatabase, String queryView, String queryKey, String queryFieldname) {
+		
+		ArrayList<String> queryResults = new ArrayList<String>();
+		try {
+			// return values by key
+			queryResults = Utils.Dblookup(queryServer, queryDatabase, queryView, queryKey, queryFieldname);
+		} catch (NotesException ex) {
+			// TODO Auto-generated catch block
+			ex.printStackTrace();
+		}
+		return queryResults;
+	}
+	
+	public DocumentCollection ftSearch(String databasename, String searchString) {
+		
+		Database notesDB;
+		DocumentCollection resultCollection = null;
+		try {
+			notesDB = DominoUtils.openDatabaseByName(databasename);
+			// TODO: Don't update index on every query 
+			notesDB.updateFTIndex(true);
+			resultCollection = notesDB.FTSearch(searchString);
+		} catch (NotesException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		return resultCollection;
+	}
 	
 	/*
 	 * returns first json object from a query
@@ -73,8 +125,6 @@ public class QueryService implements Serializable {
 	}
 	
 	public JsonObject executeQuery(JsonObject jsonDatasourceObject, JsonObject jsonQueryObject, String objectId) {
-		
-		Database notesDB = DominoUtils.getCurrentDatabase();
 		
 		JsonElement jsonFirstSourceElement = jsonDatasourceObject.get("datasource");
 		JsonObject jsonFirstSourceObject = jsonFirstSourceElement.getAsJsonObject();

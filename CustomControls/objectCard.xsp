@@ -1,17 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xp:view xmlns:xp="http://www.ibm.com/xsp/core">
-		<xp:panel styleClass="sbo-object-card">Business Object Preview</xp:panel>
-		<xp:panel styleClass="sbo-object-fields-container">
-			<xp:panel styleClass="sbo-object-field1">
-				<xp:repeat id="repeat1" var="field1">
-					<xp:this.value>
-						<![CDATA[#{javascript:var map:java.util.HashMap = sboManager.businessObject.displayField1; return map.entrySet();}]]>
-					</xp:this.value>
-					<div class="sbo-keyvaluepair">
-						<xp:label value="#{javascript:field1.getKey() + ': '}" id="label1"></xp:label>
-						<xp:label value="#{javascript:field1.getValue()}" id="label2"></xp:label>
-					</div>
-				</xp:repeat>
-			</xp:panel>
+		<xp:panel styleClass="sbo-object-card">
+			<xp:panel styleClass="">Business Object Preview</xp:panel>
+			<div>
+				<xp:panel styleClass="sbo-object-card-img-container">
+					<xp:image styleClass="sbo-object-img" url="/placeholder_person.jpg" id="image1"></xp:image>
+				</xp:panel>
+				<xp:panel styleClass="sbo-object-card-fields-container">
+						<div class="sbo-keyvaluepair">
+							<xp:label value="field1: " id="label1"></xp:label>
+							<xp:label value="value1" id="label4"></xp:label>
+						</div>
+						<div class="sbo-keyvaluepair">
+							<xp:label value="field2: " id="label2"></xp:label>
+							<xp:label value="value2" id="label5"></xp:label>
+						</div>
+						<div class="sbo-keyvaluepair">
+							<xp:label value="field3: " id="label3"></xp:label>
+							<xp:label value="value3" id="label6"></xp:label>
+						</div>
+						<!-- 
+						<xp:repeat id="repeat1" var="field1">
+							<xp:this.value>
+								<![CDATA[#{javascript:var map:java.util.HashMap = sboManager.businessObject.displayField1; return map.entrySet();}]]>
+							</xp:this.value>
+							<div class="sbo-keyvaluepair">
+								<xp:label value="#{javascript:field1.getKey() + ': '}" id="label1"></xp:label>
+								<xp:label value="#{javascript:field1.getValue()}" id="label2"></xp:label>
+							</div>
+						</xp:repeat>
+						-->
+				</xp:panel>
+			</div>
 		</xp:panel>
 </xp:view>

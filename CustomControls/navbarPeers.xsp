@@ -2,17 +2,19 @@
 <xp:view xmlns:xp="http://www.ibm.com/xsp/core"
 	xmlns:xe="http://www.ibm.com/xsp/coreex">
 	<xe:navbar id="navbarPeers" headingText="Peers">
-		<xp:label id="label1">
-			<xp:this.value>all</xp:this.value>
+		<xp:link id="label1" styleClass="#{javascript: return param.get('objectPeers') == 'all' ? 'sbo-navbar-selected' : '';}">
+			<xp:text>all</xp:text>
+			<xp:this.value><![CDATA[#{javascript: return "main.xsp?objectId=" + param.get('objectId') + "&objectName=" + param.get('objectName') + "&objectPeers=all";}]]></xp:this.value>
 			<xp:label value="42" id="label3" styleClass="badge"/>
-		</xp:label>
+		</xp:link>
 		<xp:repeat id="repeat1" var="peer">
 			<!-- Java Version <xp:this.value><![CDATA[#{javascript:sboManager.businessObject.getPeers();}]]></xp:this.value> -->
 			<xp:this.value><![CDATA[#{javascript:@DbLookup("", "objects", sboManager.businessObject.getObjectName(), "objectPeers")}]]></xp:this.value>
-			<xp:label id="label2">
-				<xp:this.value>#{peer}</xp:this.value>
+			<xp:link id="label2" styleClass="sbo-navbar-link #{javascript: return param.get('objectPeers') == peer ? 'sbo-navbar-selected' : '';}">
+				<xp:this.text>#{peer}</xp:this.text>
+				<xp:this.value><![CDATA[#{javascript: return "main.xsp?objectId=" + param.get('objectId') + "&objectName=" + param.get('objectName') + "&objectPeers=" + peer;}]]></xp:this.value>
 				<xp:label value="42" id="label4" styleClass="badge"/>
-			</xp:label>
+			</xp:link>
 		</xp:repeat>
 	</xe:navbar>
 </xp:view>
