@@ -99,6 +99,8 @@ public class ObjectService implements Serializable {
 
 	public List<BusinessObject> getPeerObjects(BusinessObject businessObject, String objectPeers, String objectRelationship) {
 		
+		System.out.println("Peer objects");
+		System.out.println("============");
 		// TODO: Only implemented for object person (main source / query)
 		
 		List<BusinessObject> peerObjectList = new ArrayList<BusinessObject>();
@@ -110,8 +112,7 @@ public class ObjectService implements Serializable {
 		String organization = businessObject.getAttributeValue("organization");
 		String department = businessObject.getAttributeValue("department");
 		String key = department;
-		String queryString = "FIELD body CONTAINS EXACTCASE FGBAS";
-		queryString = "\"Universität Koblenz-Landau\" AND FGBAS";
+		String queryString = "\"Universität Koblenz-Landau\" AND FGBAS";
 		DocumentCollection resultCollection = queryService.ftSearch("test.nsf", queryString);
 		ArrayList<String> peerObjectIds = new ArrayList<String>();
 		try {
@@ -154,6 +155,8 @@ public class ObjectService implements Serializable {
 				JsonObject jsonFirstQueryObject = jsonFirstQueryElement.getAsJsonObject();
 				// TODO get preview attributes from config object?
 				String fullname = jsonFirstQueryObject.get("fullName").getAsString();
+				// TODO: Object type dependent
+				peerObject.setObjectTitle(fullname);
 				peerObject.addKeyValuePair("fullname", fullname, 1);
 				String email = jsonFirstQueryObject.get("email").getAsString();
 				peerObject.addKeyValuePair("email", email, 1);

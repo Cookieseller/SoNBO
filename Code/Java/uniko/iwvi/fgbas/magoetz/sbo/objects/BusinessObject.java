@@ -20,16 +20,48 @@ public class BusinessObject implements Serializable {
 	
 	private String objectTitle;
 
-	private List<String> peers;
+	private List<String> objectPeers;
 
 	private List<BusinessObject> peerObjectList;
 	
 	// String arrays containing attribute names for displaying in respective field	
-	public HashMap<String, String> attribteList1 = new HashMap<String, String>();
-	public HashMap<String, String> attribteList2 = new HashMap<String, String>();
-	public HashMap<String, String> attribteList3 = new HashMap<String, String>();
-	public HashMap<String, String> attribteList4 = new HashMap<String, String>();
+	private HashMap<String, String> attribteList1 = new HashMap<String, String>();
+	private HashMap<String, String> attribteList2 = new HashMap<String, String>();
+	private HashMap<String, String> attribteList3 = new HashMap<String, String>();
+	private HashMap<String, String> attribteList4 = new HashMap<String, String>();
 	
+	public HashMap<String, String> getAttribteList1() {
+		return attribteList1;
+	}
+
+	public void setAttribteList1(HashMap<String, String> attribteList1) {
+		this.attribteList1 = attribteList1;
+	}
+
+	public HashMap<String, String> getAttribteList2() {
+		return attribteList2;
+	}
+
+	public void setAttribteList2(HashMap<String, String> attribteList2) {
+		this.attribteList2 = attribteList2;
+	}
+
+	public HashMap<String, String> getAttribteList3() {
+		return attribteList3;
+	}
+
+	public void setAttribteList3(HashMap<String, String> attribteList3) {
+		this.attribteList3 = attribteList3;
+	}
+
+	public HashMap<String, String> getAttribteList4() {
+		return attribteList4;
+	}
+
+	public void setAttribteList4(HashMap<String, String> attribteList4) {
+		this.attribteList4 = attribteList4;
+	}
+
 	public void addKeyValuePair(String key, String value, int displayfield) {
 		
 		switch(displayfield) {
@@ -71,11 +103,11 @@ public class BusinessObject implements Serializable {
 	}
 	
 	public void setPeers(List<String> peerList) {
-		this.peers = peerList;
+		this.objectPeers = peerList;
 	}
 
 	public List<String> getPeers() {
-		return this.peers;
+		return this.objectPeers;
 	}
 
 	public String getObjectName() {
