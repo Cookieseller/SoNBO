@@ -6,6 +6,7 @@ import java.util.List;
 import javax.faces.context.FacesContext;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.BusinessObject;
 import uniko.iwvi.fgbas.magoetz.sbo.services.ObjectService;
+import uniko.iwvi.fgbas.magoetz.sbo.util.Utilities;
 
 /**
  * @author Flemming
@@ -36,9 +37,19 @@ public class SboManager implements Serializable {
 			System.out.println("NEW REQUEST FOR BUSINESS OBJECT");
 			// get business objects
 			this.businessObject = objectService.getBusinessObject(objectId, objectName);
+			// TODO reload peer object list if other objectPeer was chosen
 			// get list of peer objects
-			List<BusinessObject> peerObjectList = objectService.getPeerObjects(businessObject, objectPeers, objectRelationship);
+			List<BusinessObject> peerObjectList = objectService.getPeerObjects(businessObject, objectPeers);
 			this.businessObject.setPeerObjectList(peerObjectList);
+			// get relationships of peer objects
+			List<String> objectRelationships = objectService.getObjectRelationships(businessObject, objectPeers); 
+			this.businessObject.setObjectRelationships(objectRelationships);
+			// set filters
+			List<BusinessObject> filteredPeerObjectList = objectService.getFilteredBusinessObjects(businessObject, objectRelationship);
+			this.businessObject.setFilteredPeerObjectList(filteredPeerObjectList);
+			// TODO: execute tests if necessary
+			Test test = new Test();
+			//test.javaToJson();
 			
 		}else {
 			this.notificationCodeList.add("E1");

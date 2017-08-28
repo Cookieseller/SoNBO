@@ -20,11 +20,14 @@ public class BusinessObject implements Serializable {
 	
 	private String objectTitle;
 
-	private List<String> objectPeers;
-
 	private List<BusinessObject> peerObjectList;
 	
-	// String arrays containing attribute names for displaying in respective field	
+	private List<BusinessObject> filteredPeerObjectList;
+	
+	private List<String> objectRelationships;
+	
+	// String arrays containing attribute names for displaying in respective field
+	// TODO: Maybe change to separate lists for fields and single list for attributes?
 	private HashMap<String, String> attribteList1 = new HashMap<String, String>();
 	private HashMap<String, String> attribteList2 = new HashMap<String, String>();
 	private HashMap<String, String> attribteList3 = new HashMap<String, String>();
@@ -93,6 +96,20 @@ public class BusinessObject implements Serializable {
 		}
 		return attributeValue;
 	}
+	
+	public boolean containsAttribute(String key, String value) {
+		String attributeValue = this.attribteList1.get(key);
+		if(attributeValue == null) {
+			attributeValue = this.attribteList2.get(key);
+			if(attributeValue == null) {
+				attributeValue = this.attribteList3.get(key);
+				if(attributeValue == null) {
+					attributeValue = this.attribteList4.get(key);
+				}
+			}
+		}
+		return attributeValue.equals(value) ? true : false;
+	}
 
 	public void setObjectId(String objectId) {
 		this.objectId = objectId;
@@ -100,14 +117,6 @@ public class BusinessObject implements Serializable {
 
 	public String getObjectId() {
 		return objectId;
-	}
-	
-	public void setPeers(List<String> peerList) {
-		this.objectPeers = peerList;
-	}
-
-	public List<String> getPeers() {
-		return this.objectPeers;
 	}
 
 	public String getObjectName() {
@@ -132,6 +141,22 @@ public class BusinessObject implements Serializable {
 
 	public List<BusinessObject> getPeerObjectList() {
 		return peerObjectList;
+	}
+
+	public void setFilteredPeerObjectList(List<BusinessObject> filteredPeerObjectList) {
+		this.filteredPeerObjectList = filteredPeerObjectList;
+	}
+
+	public List<BusinessObject> getFilteredPeerObjectList() {
+		return filteredPeerObjectList;
+	}
+
+	public List<String> getObjectRelationships() {
+		return objectRelationships;
+	}
+
+	public void setObjectRelationships(List<String> objectRelationships) {
+		this.objectRelationships = objectRelationships;
 	}
 
 	public String getObjectClass() {

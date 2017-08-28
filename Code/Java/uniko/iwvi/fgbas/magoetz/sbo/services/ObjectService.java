@@ -2,6 +2,9 @@ package uniko.iwvi.fgbas.magoetz.sbo.services;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -12,10 +15,13 @@ import lotus.domino.DocumentCollection;
 import lotus.domino.NotesException;
 
 import uniko.iwvi.fgbas.magoetz.sbo.objects.BusinessObject;
+import uniko.iwvi.fgbas.magoetz.sbo.objects.ClassObject;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.ConfigurationObject;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.ConfigurationObject.ConfigurationObjectAttribute;
 import uniko.iwvi.fgbas.magoetz.sbo.util.QueryResult;
 import uniko.iwvi.fgbas.magoetz.sbo.util.Utilities;
+
+import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
@@ -44,9 +50,6 @@ public class ObjectService implements Serializable {
 		
 		// set object class
 		businessObject.setObjectClass(configObject.getObjectClass());
-		
-		// set object peers
-		businessObject.setPeers(configObject.getPeers());
 		
 		// cache result to prevent redundant queries
 		ArrayList<QueryResult> queryResultList = new ArrayList<QueryResult>();
@@ -97,11 +100,12 @@ public class ObjectService implements Serializable {
 		return businessObject;
 	}
 
-	public List<BusinessObject> getPeerObjects(BusinessObject businessObject, String objectPeers, String objectRelationship) {
+	public List<BusinessObject> getPeerObjects(BusinessObject businessObject, String objectPeers) {
 		
 		System.out.println("Peer objects");
 		System.out.println("============");
 		// TODO: Only implemented for object person (main source / query)
+		// TODO: Implement filter objectRelationship
 		
 		List<BusinessObject> peerObjectList = new ArrayList<BusinessObject>();
 		// get peer query for object type
@@ -112,7 +116,7 @@ public class ObjectService implements Serializable {
 		String organization = businessObject.getAttributeValue("organization");
 		String department = businessObject.getAttributeValue("department");
 		String key = department;
-		String queryString = "\"Universität Koblenz-Landau\" AND FGBAS";
+		String queryString = "\"" + organization + "\" AND \"" + department + "\"";
 		DocumentCollection resultCollection = queryService.ftSearch("test.nsf", queryString);
 		ArrayList<String> peerObjectIds = new ArrayList<String>();
 		try {
@@ -134,14 +138,11 @@ public class ObjectService implements Serializable {
 			e.printStackTrace();
 		}
 		// get main object source from config
-		String mainSource = queryService.getFieldValue("classes", businessObject.getObjectClass(), "classMainDatasource");
-		String mainQuery = queryService.getFieldValue("classes", businessObject.getObjectClass(), "classMainQuery");
-		System.out.println("Main source: " + mainSource);
-		System.out.println("Main query: " + mainQuery);
+		ClassObject classObject = configService.getClassObject(businessObject.getObjectClass());
+		String mainSource = classObject.getClassMainDatasource();
+		String mainQuery = classObject.getClassMainQuery();
 		JsonObject datasourceJSON = queryService.getJsonObject("datasources", mainSource, "datasourceJSON");
 		JsonObject queryJSON = queryService.getJsonObject("queries", mainQuery, "queryJSON");
-		System.out.println(datasourceJSON.toString());
-		System.out.println(queryJSON.toString());
 		// get peer objects from main object source
 		ArrayList<JsonObject> peerObjectJsonList = new ArrayList<JsonObject>();
 		for(String peerObjectId : peerObjectIds) {
@@ -162,10 +163,42 @@ public class ObjectService implements Serializable {
 				peerObject.addKeyValuePair("email", email, 1);
 				String employeeId = jsonFirstQueryObject.get("employeeId").getAsString();
 				peerObject.addKeyValuePair("employeeId", employeeId, 1);
+				String role = jsonFirstQueryObject.get("role").getAsString();
+				peerObject.addKeyValuePair("role", role, 1);
 				peerObjectList.add(peerObject);
 			}
 		}
-		
 		return peerObjectList;
+	}
+	
+	public List<BusinessObject> getFilteredBusinessObjects(BusinessObject businessObject, String objectRelationshipAttributeValue) {
+		List<BusinessObject> filteredPeerObjectList = new ArrayList<BusinessObject>();
+		// filter by relationship
+		ClassObject classObject = configService.getClassObject(businessObject.getObjectClass());
+		String objectRelationshipAttributeKey = classObject.getClassRelationships();
+		for(BusinessObject peerObject : businessObject.getPeerObjectList()) {
+			if(peerObject.containsAttribute(objectRelationshipAttributeKey, objectRelationshipAttributeValue)) {
+				filteredPeerObjectList.add(peerObject);
+			}
+		}
+		return filteredPeerObjectList;
+	}
+
+	public List<String> getObjectRelationships(BusinessObject businessObject, String objectPeers) {
+		
+		// get class object -> relationship attribute
+		ClassObject classObject = configService.getClassObject(businessObject.getObjectClass());
+		String classRelationship = classObject.getClassRelationships();
+		// query get all possible values from peer object attributes (use HashSet)
+		HashSet<String> objectRelationships = new HashSet<String>();
+		for(BusinessObject peerObject : businessObject.getPeerObjectList()) {
+			String[] attributeValues = peerObject.getAttributeValue(classRelationship).split(",");
+			for(String attributeValue : attributeValues) {
+				objectRelationships.add(attributeValue);
+			}	
+		}
+		List<String> objectRelationshipsList = new ArrayList<String>(objectRelationships);
+		Collections.sort(objectRelationshipsList);
+		return objectRelationshipsList;
 	}
 }

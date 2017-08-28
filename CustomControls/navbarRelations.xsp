@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xp:view xmlns:xp="http://www.ibm.com/xsp/core"
 	xmlns:xe="http://www.ibm.com/xsp/coreex">
-	<xe:navbar id="navbarRelations" headingText="Relationships"></xe:navbar>
+	<xe:navbar id="navbarRelations" headingText="Relationships">
+		<xp:repeat id="repeat1" var="relation">
+		<xp:this.value><![CDATA[#{javascript:sboManager.businessObject.getObjectRelationships();}]]></xp:this.value>
+		<xp:link id="label2" styleClass="sbo-navbar-link #{javascript: return param.get('objectRelationships') == relation ? 'sbo-navbar-selected' : '';}">
+			<xp:this.text>#{relation}</xp:this.text>
+			<xp:this.value><![CDATA[#{javascript: return "main.xsp?objectId=" + param.get('objectId') + "&objectName=" + param.get('objectName') + "&objectPeers=" + param.get('objectPeers') + "&objectRelationship=" + relation;}]]></xp:this.value>
+			<xp:label value="42" id="label4" styleClass="badge"/>
+		</xp:link>
+	</xp:repeat>
+	</xe:navbar>
 </xp:view>

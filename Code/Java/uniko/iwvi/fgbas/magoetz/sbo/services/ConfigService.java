@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
+
+import uniko.iwvi.fgbas.magoetz.sbo.objects.ClassObject;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.ConfigurationObject;
 import uniko.iwvi.fgbas.magoetz.sbo.util.Utilities;
 import com.google.gson.Gson;
@@ -38,11 +40,11 @@ public class ConfigService implements Serializable {
 		// object class
 		String objectClass = jsonFirstConfigObject.get("objectClass").getAsString();
 		configObject.setObjectClass(objectClass);
-		// peers
-		JsonElement firstLevelConfigElementPeers = jsonFirstConfigObject.get("peers");
-		String[] peers = firstLevelConfigElementPeers.getAsString().split(",");
-		List<String> peerList = Arrays.asList(peers);
+		// peers TODO: shift to class (service?)
+		/*String peers = queryService.getFieldValue("classes", objectClass, "classPeers");
+		List<String> peerList = Arrays.asList(peers.split(","));
 		configObject.setPeers(peerList);
+		*/
 		// attributes
 		ArrayList<JsonObject> jsonAttributeObjectList = queryService.getJsonObjects("attributes", objectName, "attributeJSON");
 		
@@ -63,5 +65,12 @@ public class ConfigService implements Serializable {
 		}
 		
 		return configObject;
+	}
+
+	public ClassObject getClassObject(String classObjectName) {
+		
+		String jsonFromDb = queryService.getFieldValue("classes", "person", "classJSON");
+		Gson gson = new Gson();
+		return gson.fromJson(jsonFromDb, ClassObject.class);
 	}
 }

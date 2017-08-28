@@ -11,7 +11,7 @@ public class ConfigurationObject {
 	
 	private String objectClass;
 	
-	private List<String> peers;
+	private String relationships;
 	
 	private ArrayList<ConfigurationObjectAttribute> configurationObjectAttributes = new ArrayList<ConfigurationObjectAttribute>();
 	
@@ -31,12 +31,12 @@ public class ConfigurationObject {
 		this.objectClass = objectClass;
 	}
 
-	public List<String> getPeers() {
-		return peers;
+	public void setRelationships(String relationships) {
+		this.relationships = relationships;
 	}
 
-	public void setPeers(List<String> peers) {
-		this.peers = peers;
+	public String getRelationships() {
+		return relationships;
 	}
 
 	public ArrayList<ConfigurationObjectAttribute> getConfigurationObjectAttributes() {
