@@ -2,9 +2,9 @@
 <xp:view xmlns:xp="http://www.ibm.com/xsp/core">
 		<xp:panel styleClass="sbo-object-card">
 			<xp:link text="#{javascript:peerObject.getObjectTitle()}" id="label3">
-				<xp:this.value><![CDATA[#{javascript: return "main.xsp?objectId=" + peerObject.getObjectId() + "&objectName=" + param.get('objectName') + "&objectPeers=" + param.get('objectPeers');}]]></xp:this.value>
+				<xp:this.value><![CDATA[#{javascript: return "main.xsp?id=" + peerObject.getObjectId() + "&name=" + param.get('name') + "&peers=" + param.get('peers');}]]></xp:this.value>
 			</xp:link>
-			<div>
+			<xp:panel styleClass="sbo-object-card-content-wrapper">
 				<xp:panel styleClass="sbo-object-card-img-container">
 					<xp:image styleClass="sbo-object-img" url="/placeholder_person.jpg" id="image1"></xp:image>
 				</xp:panel>
@@ -20,6 +20,6 @@
 						</div>
 					</xp:repeat>
 				</xp:panel>
-			</div>
+			</xp:panel>
 		</xp:panel>
 </xp:view>

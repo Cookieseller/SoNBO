@@ -105,7 +105,6 @@ public class ObjectService implements Serializable {
 		System.out.println("Peer objects");
 		System.out.println("============");
 		// TODO: Only implemented for object person (main source / query)
-		// TODO: Implement filter objectRelationship
 		
 		List<BusinessObject> peerObjectList = new ArrayList<BusinessObject>();
 		// get peer query for object type
@@ -117,6 +116,7 @@ public class ObjectService implements Serializable {
 		String department = businessObject.getAttributeValue("department");
 		String key = department;
 		String queryString = "\"" + organization + "\" AND \"" + department + "\"";
+		
 		DocumentCollection resultCollection = queryService.ftSearch("test.nsf", queryString);
 		ArrayList<String> peerObjectIds = new ArrayList<String>();
 		try {
@@ -172,15 +172,22 @@ public class ObjectService implements Serializable {
 	}
 	
 	public List<BusinessObject> getFilteredBusinessObjects(BusinessObject businessObject, String objectRelationshipAttributeValue) {
+		
 		List<BusinessObject> filteredPeerObjectList = new ArrayList<BusinessObject>();
-		// filter by relationship
-		ClassObject classObject = configService.getClassObject(businessObject.getObjectClass());
-		String objectRelationshipAttributeKey = classObject.getClassRelationships();
-		for(BusinessObject peerObject : businessObject.getPeerObjectList()) {
-			if(peerObject.containsAttribute(objectRelationshipAttributeKey, objectRelationshipAttributeValue)) {
-				filteredPeerObjectList.add(peerObject);
+		
+		if(objectRelationshipAttributeValue != null && !objectRelationshipAttributeValue.equals("all")) {
+			// filter by relationship
+			ClassObject classObject = configService.getClassObject(businessObject.getObjectClass());
+			String objectRelationshipAttributeKey = classObject.getClassRelationships();
+			for(BusinessObject peerObject : businessObject.getPeerObjectList()) {
+				if(peerObject.containsAttribute(objectRelationshipAttributeKey, objectRelationshipAttributeValue)) {
+					filteredPeerObjectList.add(peerObject);
+				}
 			}
+		}else {
+			filteredPeerObjectList = businessObject.getPeerObjectList();
 		}
+		
 		return filteredPeerObjectList;
 	}
 

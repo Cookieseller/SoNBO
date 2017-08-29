@@ -1,3 +1,9 @@
+<!-- app css -->
+
+.sbo-badge {
+	margin-right: 2px;
+}
+
 .sbo-main-container {
 	height: 100%;
 	width: 100%;
@@ -8,26 +14,34 @@
 }
 
 .sbo-object-card {
+	border: 1px solid rgba(0, 0, 0, .2);
 	display: inline-block;
-	width: 400px;
-	height: 300px;
+	height: 230px;
+	padding: 8px;
+}
+
+.sbo-object-card-content-wrapper {
+	padding-top: 7px;
 }
 
 .sbo-object-card-fields-container {
 	display: inline-block;
-	margin-top: 5%;
-	width: 45%;
-	height: 100%;
+	height: 170px;
 }
 
 .sbo-object-card-img-container {
     display: inline-block;
-    width: 50%;
+    width: 170px;
+    margin-right: 5px;
 }
-
 
 .sbo-navbar-link {
 	margin-right: 15px;
+}
+
+.sbo-navbar-link-wrapper {
+	min-width: 8em; 
+	display: inline-block;
 }
 
 .sbo-navbar-selected {

@@ -16,13 +16,13 @@ public class SboManager implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private String objectId = (String) FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("objectId");
+	private String objectId = (String) FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id");
 	
-	private String objectName = (String) FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("objectName");
+	private String objectName = (String) FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("name");
 	
-	private String objectPeers = (String) FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("objectPeers");
+	private String objectPeers = (String) FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("peers");
 	
-	private String objectRelationship = (String) FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("objectRelationship");
+	private String objectRelationship = (String) FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("relationship");
 	
 	private ArrayList<String> notificationCodeList = new ArrayList<String>();
 	
