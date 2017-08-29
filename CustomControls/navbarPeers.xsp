@@ -2,13 +2,6 @@
 <xp:view xmlns:xp="http://www.ibm.com/xsp/core"
 	xmlns:xe="http://www.ibm.com/xsp/coreex">
 	<xe:navbar id="navbarPeers" headingText="Peers">
-		<!-- future feature
-		<xp:link id="label1" styleClass="#{javascript: return param.get('peers') == 'all' ? 'sbo-navbar-selected' : '';}">
-			<xp:text>all</xp:text>
-			<xp:this.value><![CDATA[#{javascript: return "main.xsp?id=" + param.get('id') + "&name=" + param.get('name') + "&peers=all";}]]></xp:this.value>
-			<xp:label value="42" id="label3" styleClass="badge"/>
-		</xp:link>
-		-->
 		<xp:repeat id="repeat1" var="peer">
 			<!-- <xp:this.value><![CDATA[#{javascript:var classPeers = ["all"]; var peersLookup = @Explode(@DbLookup("", "classes", param.get('peers'), "classPeers"), ","); classPeers.push(peersLookup); return classPeers;}]]></xp:this.value> -->
 			<xp:this.value><![CDATA[#{javascript:var classPeers = @DbLookup("", "classes", param.get('peers'), "classPeers"); classPeers.unshift("all"); return classPeers;}]]></xp:this.value>

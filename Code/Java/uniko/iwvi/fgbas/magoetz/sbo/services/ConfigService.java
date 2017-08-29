@@ -69,7 +69,7 @@ public class ConfigService implements Serializable {
 
 	public ClassObject getClassObject(String classObjectName) {
 		
-		String jsonFromDb = queryService.getFieldValue("classes", "person", "classJSON");
+		String jsonFromDb = queryService.getFieldValue("classes", classObjectName, "classJSON");
 		Gson gson = new Gson();
 		return gson.fromJson(jsonFromDb, ClassObject.class);
 	}

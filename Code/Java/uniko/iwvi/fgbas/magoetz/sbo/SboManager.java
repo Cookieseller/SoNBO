@@ -39,6 +39,7 @@ public class SboManager implements Serializable {
 			this.businessObject = objectService.getBusinessObject(objectId, objectName);
 			// TODO reload peer object list if other objectPeer was chosen
 			// get list of peer objects
+			
 			List<BusinessObject> peerObjectList = objectService.getPeerObjects(businessObject, objectPeers);
 			this.businessObject.setPeerObjectList(peerObjectList);
 			// get relationships of peer objects
@@ -47,6 +48,7 @@ public class SboManager implements Serializable {
 			// set filters
 			List<BusinessObject> filteredPeerObjectList = objectService.getFilteredBusinessObjects(businessObject, objectRelationship);
 			this.businessObject.setFilteredPeerObjectList(filteredPeerObjectList);
+			
 			// TODO: execute tests if necessary
 			Test test = new Test();
 			//test.javaToJson();
