@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.faces.context.FacesContext;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.BusinessObject;
+import uniko.iwvi.fgbas.magoetz.sbo.objects.ClassObject;
+import uniko.iwvi.fgbas.magoetz.sbo.services.ConfigService;
 import uniko.iwvi.fgbas.magoetz.sbo.services.ObjectService;
 import uniko.iwvi.fgbas.magoetz.sbo.util.Utilities;
 
@@ -39,16 +41,30 @@ public class SboManager implements Serializable {
 			this.businessObject = objectService.getBusinessObject(objectId, objectName);
 			// TODO reload peer object list if other objectPeer was chosen
 			// get list of peer objects
-			
-			List<BusinessObject> peerObjectList = objectService.getPeerObjects(businessObject, objectPeers);
-			this.businessObject.setPeerObjectList(peerObjectList);
-			// get relationships of peer objects
-			List<String> objectRelationships = objectService.getObjectRelationships(businessObject, objectPeers); 
-			this.businessObject.setObjectRelationships(objectRelationships);
-			// set filters
-			List<BusinessObject> filteredPeerObjectList = objectService.getFilteredBusinessObjects(businessObject, objectRelationship, objectPeers);
-			this.businessObject.setFilteredPeerObjectList(filteredPeerObjectList);
-			
+			if(objectPeers.equals("all")) {
+				ConfigService configService = new ConfigService();
+				ClassObject classObject = configService.getClassObject(businessObject.getObjectClass());
+					List<BusinessObject> peerObjectList = new ArrayList<BusinessObject>();
+					List<String> objectRelationships = new ArrayList<String>();
+					List<BusinessObject> filteredPeerObjectList = new ArrayList<BusinessObject>();
+				for(String objectPeers : classObject.getClassPeers())  {
+					peerObjectList.addAll(objectService.getPeerObjects(businessObject, objectPeers));
+					this.businessObject.setPeerObjectList(peerObjectList);
+					objectRelationships.addAll(objectService.getObjectRelationships(businessObject, objectPeers));
+					this.businessObject.setObjectRelationships(objectRelationships);
+					filteredPeerObjectList.addAll(objectService.getFilteredBusinessObjects(businessObject, objectRelationship, objectPeers));
+					this.businessObject.setFilteredPeerObjectList(filteredPeerObjectList);
+				}
+			}else {
+				List<BusinessObject> peerObjectList = objectService.getPeerObjects(businessObject, objectPeers);
+				this.businessObject.setPeerObjectList(peerObjectList);
+				// get relationships of peer objects
+				List<String> objectRelationships = objectService.getObjectRelationships(businessObject, objectPeers); 
+				this.businessObject.setObjectRelationships(objectRelationships);
+				// set filters
+				List<BusinessObject> filteredPeerObjectList = objectService.getFilteredBusinessObjects(businessObject, objectRelationship, objectPeers);
+				this.businessObject.setFilteredPeerObjectList(filteredPeerObjectList);
+			}
 			// TODO: execute tests if necessary
 			Test test = new Test();
 			//test.javaToJson();

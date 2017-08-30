@@ -4,7 +4,8 @@
 	<xe:navbar id="navbarPeers" headingText="Peers">
 		<xp:repeat id="repeat1" var="peer">
 			<!-- <xp:this.value><![CDATA[#{javascript:var classPeers = ["all"]; var peersLookup = @Explode(@DbLookup("", "classes", param.get('peers'), "classPeers"), ","); classPeers.push(peersLookup); return classPeers;}]]></xp:this.value> -->
-			<xp:this.value><![CDATA[#{javascript:var classPeers = @DbLookup("", "classes", param.get('peers'), "classPeers"); classPeers.unshift("all"); return classPeers;}]]></xp:this.value>
+			<!-- <xp:this.value><![CDATA[#{javascript: var classPeers = @DbLookup("", "classes", param.get('peers'), "classPeers"); classPeers.unshift("all"); return classPeers;}]]></xp:this.value> -->
+			<xp:this.value><![CDATA[#{javascript: var peers = param.get('peers') == 'all' ? 'person' : param.get('peers'); var classPeers = @DbLookup("", "classes", peers, "classPeers"); classPeers.unshift("all"); return classPeers;}]]></xp:this.value>
 			<xp:panel styleClass="sbo-navbar-link-wrapper">
 				<xp:link id="label2" styleClass="sbo-navbar-link #{javascript: return param.get('peers') == peer ? 'sbo-navbar-selected' : '';}">
 					<xp:this.text>#{peer}</xp:this.text>

@@ -222,10 +222,13 @@ public class ObjectService implements Serializable {
 		// query get all possible values from peer object attributes (use HashSet)
 		HashSet<String> objectRelationships = new HashSet<String>();
 		for(BusinessObject peerObject : businessObject.getPeerObjectList()) {
-			String[] attributeValues = peerObject.getAttributeValue(classRelationship).split(",");
-			for(String attributeValue : attributeValues) {
-				objectRelationships.add(attributeValue);
-			}	
+			String attributeValue  = peerObject.getAttributeValue(classRelationship);
+			if(attributeValue != null) {
+				String[] attributeValues = attributeValue.split(",");
+				for(String attr : attributeValues) {
+					objectRelationships.add(attr);
+				}	
+			}
 		}
 		List<String> objectRelationshipsList = new ArrayList<String>(objectRelationships);
 		Collections.sort(objectRelationshipsList);
