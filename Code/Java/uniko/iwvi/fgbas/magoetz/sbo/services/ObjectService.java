@@ -193,13 +193,13 @@ public class ObjectService implements Serializable {
 		return peerObjectList;
 	}
 	
-	public List<BusinessObject> getFilteredBusinessObjects(BusinessObject businessObject, String objectRelationshipAttributeValue) {
+	public List<BusinessObject> getFilteredBusinessObjects(BusinessObject businessObject, String objectRelationshipAttributeValue, String objectPeers) {
 		
 		List<BusinessObject> filteredPeerObjectList = new ArrayList<BusinessObject>();
 		
 		if(objectRelationshipAttributeValue != null && !objectRelationshipAttributeValue.equals("all")) {
 			// filter by relationship
-			ClassObject classObject = configService.getClassObject(businessObject.getObjectClass());
+			ClassObject classObject = configService.getClassObject(objectPeers);
 			String objectRelationshipAttributeKey = classObject.getClassRelationships();
 			for(BusinessObject peerObject : businessObject.getPeerObjectList()) {
 				if(peerObject.containsAttribute(objectRelationshipAttributeKey, objectRelationshipAttributeValue)) {

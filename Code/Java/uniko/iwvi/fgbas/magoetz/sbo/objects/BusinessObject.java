@@ -3,6 +3,7 @@ package uniko.iwvi.fgbas.magoetz.sbo.objects;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -97,6 +98,7 @@ public class BusinessObject implements Serializable {
 		return attributeValue;
 	}
 	
+	/*
 	public boolean containsAttribute(String key, String value) {
 		String attributeValue = this.attribteList1.get(key);
 		if(attributeValue == null) {
@@ -109,6 +111,41 @@ public class BusinessObject implements Serializable {
 			}
 		}
 		return attributeValue.equals(value) ? true : false;
+	}
+	*/
+
+	public boolean containsAttribute(String key, String value) {
+		boolean containsKeyValue = this.containsAttrSubstring(key, value, this.attribteList1);
+		if(!containsKeyValue) {
+			containsKeyValue = this.containsAttrSubstring(key, value, this.attribteList2);
+			if(!containsKeyValue) {
+				containsKeyValue = this.containsAttrSubstring(key, value, this.attribteList3);
+				if(!containsKeyValue) {
+					containsKeyValue = this.containsAttrSubstring(key, value, this.attribteList4);
+				}
+			}
+		}
+		return containsKeyValue;
+	}
+	
+	// helper function - temporary TODO
+	public boolean containsAttrSubstring(String key, String value, HashMap<String, String> hashMap) {
+		boolean containsKeyValue = false;
+	    Iterator it = hashMap.entrySet().iterator();
+	    while (it.hasNext()) {
+	        Map.Entry<String, String> pair = (Map.Entry)it.next();
+	        boolean containsValue = pair.getValue().contains(value);
+	        boolean containsKey = false;
+	        if(containsValue) {
+	        	containsKey = pair.getKey().equals(key);
+	        	if(containsKey && containsValue) {
+	        		containsKeyValue = true;
+	        		break;
+	        	}
+	        }
+	        it.remove(); // avoids a ConcurrentModificationException
+	    }
+		return containsKeyValue;
 	}
 
 	public void setObjectId(String objectId) {

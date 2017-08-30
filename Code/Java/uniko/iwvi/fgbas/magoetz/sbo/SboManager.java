@@ -46,7 +46,7 @@ public class SboManager implements Serializable {
 			List<String> objectRelationships = objectService.getObjectRelationships(businessObject, objectPeers); 
 			this.businessObject.setObjectRelationships(objectRelationships);
 			// set filters
-			List<BusinessObject> filteredPeerObjectList = objectService.getFilteredBusinessObjects(businessObject, objectRelationship);
+			List<BusinessObject> filteredPeerObjectList = objectService.getFilteredBusinessObjects(businessObject, objectRelationship, objectPeers);
 			this.businessObject.setFilteredPeerObjectList(filteredPeerObjectList);
 			
 			// TODO: execute tests if necessary
