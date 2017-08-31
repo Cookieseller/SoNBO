@@ -42,7 +42,7 @@ public class SboManager implements Serializable {
 			
 			System.out.println("NEW REQUEST FOR BUSINESS OBJECT");
 			// get business objects
-			this.businessObject = objectService.getBusinessObject(objectId, objectName);
+			this.businessObject = objectService.getBusinessObject(objectId, objectName, false);
 			// TODO reload peer object list if other objectPeer was chosen
 			// get list of peer objects (all)
 			ConfigService configService = new ConfigService();

@@ -35,7 +35,7 @@ public class ObjectService implements Serializable {
 	
 	private QueryService queryService = new QueryService();
 
-	public BusinessObject getBusinessObject(String objectId, String objectName) {
+	public BusinessObject getBusinessObject(String objectId, String objectName, boolean objectPreview) {
 		
 		// 1. CREATE NEW BUSINESS OBJECT
 		BusinessObject businessObject = new BusinessObject();
@@ -57,6 +57,20 @@ public class ObjectService implements Serializable {
 		// TODO: set individual image if available
 		ClassObject classObject = configService.getClassObject(businessObject.getObjectClass());
 		businessObject.setObjectImage(classObject.getClassDefaultImage());
+		
+		// get business object attributes
+		ArrayList<QueryResult> queryResultList = getObjectAttributes(configObject, objectId, objectPreview);
+		
+		// load attribute key and value into business object
+		businessObject = loadAttributes(businessObject, configObject, queryResultList, objectPreview);
+	
+		return businessObject;
+	}
+	
+	/*
+	 * returns list of business object attributes
+	 */
+	private ArrayList<QueryResult> getObjectAttributes(ConfigurationObject configObject, String objectId, boolean objectPreview) {
 		
 		// cache result to prevent redundant queries
 		ArrayList<QueryResult> queryResultList = new ArrayList<QueryResult>();
@@ -88,22 +102,35 @@ public class ObjectService implements Serializable {
 				// log json
 				utilities.printJson(jsonQueryResultObject, "Parsed queryResult json");
 			}
-			
-			// load attribute key and value into business object
-			JsonElement jsonFirstQueryResultElement = jsonQueryResultObject.get(objectId);
-			JsonObject jsonFirstQueryResultObject = jsonFirstQueryResultElement.getAsJsonObject();
+		}	
+		
+		return queryResultList;
+	}
+	
+	private BusinessObject loadAttributes(BusinessObject businessObject, ConfigurationObject configObject, ArrayList<QueryResult> queryResultList, boolean objectPreview) {
+
+		for(ConfigurationObjectAttribute configObjAttr : configObject.getConfigurationObjectAttributes()) {
+			// get name and fieldname of attribute
 			String name = configObjAttr.getName();
 			String fieldname = configObjAttr.getFieldname();
-			System.out.println("Fieldname: " + fieldname);
+			// get query result for config object attribute
+			String datasource = configObjAttr.getDatasource();
+			String query = configObjAttr.getQuery();
+			QueryResult queryResult = new QueryResult(datasource, query);
+			JsonObject jsonQueryResultObject = queryService.getQueryResult(queryResultList, queryResult);
+			// extract value from query result
+			JsonElement jsonFirstQueryResultElement = jsonQueryResultObject.get(businessObject.getObjectId());
+			JsonObject jsonFirstQueryResultObject = jsonFirstQueryResultElement.getAsJsonObject();
 			String value = jsonFirstQueryResultObject.get(fieldname).getAsString();
 			int displayfield = configObjAttr.getDisplayfield();
+			
 			businessObject.addKeyValuePair(name, value, displayfield);
-			//set business object title
+			//set business object title if attribute is configured as title
 			String titleAttribute = configObject.getObjectTitle();
 			if(titleAttribute.equals(name)) {
 				businessObject.setObjectTitle(value);
 			}
-		}	
+		}
 		
 		return businessObject;
 	}
@@ -232,7 +259,6 @@ public class ObjectService implements Serializable {
 		String classRelationship = classObject.getClassRelationships();
 		// query get all possible values from peer object attributes (use HashSet)
 		HashSet<String> objectRelationships = new HashSet<String>();
-		//List<BusinessObject> peerObjects = addAll ? businessObject.getAllPeerObjectList() : businessObject.getPeerObjectList();
 		List<BusinessObject> peerObjects = businessObject.getPeerObjectList();
 		for(BusinessObject peerObject : peerObjects) {
 			String attributeValue  = peerObject.getAttributeValue(classRelationship);
