@@ -1,7 +1,11 @@
 package uniko.iwvi.fgbas.magoetz.sbo;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.faces.context.FacesContext;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.BusinessObject;
@@ -40,31 +44,45 @@ public class SboManager implements Serializable {
 			// get business objects
 			this.businessObject = objectService.getBusinessObject(objectId, objectName);
 			// TODO reload peer object list if other objectPeer was chosen
-			// get list of peer objects
-			if(objectPeers.equals("all")) {
-				ConfigService configService = new ConfigService();
-				ClassObject classObject = configService.getClassObject(businessObject.getObjectClass());
-					List<BusinessObject> peerObjectList = new ArrayList<BusinessObject>();
-					List<String> objectRelationships = new ArrayList<String>();
-					List<BusinessObject> filteredPeerObjectList = new ArrayList<BusinessObject>();
-				for(String objectPeers : classObject.getClassPeers())  {
-					peerObjectList.addAll(objectService.getPeerObjects(businessObject, objectPeers));
-					this.businessObject.setPeerObjectList(peerObjectList);
-					objectRelationships.addAll(objectService.getObjectRelationships(businessObject, objectPeers));
-					this.businessObject.setObjectRelationships(objectRelationships);
-					filteredPeerObjectList.addAll(objectService.getFilteredBusinessObjects(businessObject, objectRelationship, objectPeers));
-					this.businessObject.setFilteredPeerObjectList(filteredPeerObjectList);
+			// get list of peer objects (all)
+			ConfigService configService = new ConfigService();
+			ClassObject classObject = configService.getClassObject(businessObject.getObjectClass());
+			List<BusinessObject> allPeerObjectList = new ArrayList<BusinessObject>();
+			List<BusinessObject> peerObjectList = new ArrayList<BusinessObject>();
+			
+			HashSet<String> objectRelationships = new HashSet<String>();
+			List<BusinessObject> filteredPeerObjectList = new ArrayList<BusinessObject>();
+			
+			boolean addAll = this.objectPeers.equals("all");
+			
+			for(String peers : classObject.getClassPeers())  {
+				List<BusinessObject> objects = objectService.getPeerObjects(businessObject, peers);
+				allPeerObjectList.addAll(objects);
+				if(this.objectPeers.equals(peers) || this.objectPeers.equals("all")) {
+					peerObjectList.addAll(objects);
 				}
-			}else {
-				List<BusinessObject> peerObjectList = objectService.getPeerObjects(businessObject, objectPeers);
 				this.businessObject.setPeerObjectList(peerObjectList);
-				// get relationships of peer objects
-				List<String> objectRelationships = objectService.getObjectRelationships(businessObject, objectPeers); 
-				this.businessObject.setObjectRelationships(objectRelationships);
-				// set filters
-				List<BusinessObject> filteredPeerObjectList = objectService.getFilteredBusinessObjects(businessObject, objectRelationship, objectPeers);
-				this.businessObject.setFilteredPeerObjectList(filteredPeerObjectList);
+				objectRelationships.addAll(objectService.getObjectRelationships(businessObject, peers, addAll));
+				filteredPeerObjectList.addAll(objectService.getFilteredBusinessObjects(businessObject, objectRelationship, peers));
 			}
+			List<String> relationshipList = new ArrayList<String>();
+			for(String relationship : objectRelationships) {
+				relationshipList.add(relationship);
+			}
+			this.businessObject.setObjectRelationships(relationshipList);
+			//filteredPeerObjectList.addAll(objectService.getFilteredBusinessObjects(businessObject, objectRelationship, objectPeers));
+			this.businessObject.setFilteredPeerObjectList(filteredPeerObjectList);
+			/*
+			for(BusinessObject bo : businessObject.getFilteredPeerObjectList()) {
+				System.out.println(bo.getObjectTitle());
+				Iterator it = bo.getAttribteList1().entrySet().iterator();
+				while(it.hasNext()) {
+					Map.Entry<String, String> s = (Entry<String, String>) it.next();
+					System.out.println(s.getKey() + " = " + s.getValue());
+					it.remove();
+				}
+			}
+			*/
 			// TODO: execute tests if necessary
 			Test test = new Test();
 			//test.javaToJson();

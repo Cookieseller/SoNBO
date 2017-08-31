@@ -5,10 +5,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
+import java.util.Map.Entry;
 
 import lotus.domino.Document;
 import lotus.domino.DocumentCollection;
@@ -180,7 +182,8 @@ public class ObjectService implements Serializable {
 					peerObject.addKeyValuePair("employeeId", employeeId, 1);
 					String role = jsonFirstQueryObject.get("role").getAsString();
 					peerObject.addKeyValuePair("role", role, 1);
-				}else if(objectPeers.equals("teaching")) {
+				}
+				if(objectPeers.equals("teaching")) {
 					String projectName = jsonFirstQueryObject.get("projectName").getAsString();
 					peerObject.setObjectTitle(projectName);
 					peerObject.addKeyValuePair("projectName", projectName, 1);
@@ -202,18 +205,26 @@ public class ObjectService implements Serializable {
 			ClassObject classObject = configService.getClassObject(objectPeers);
 			String objectRelationshipAttributeKey = classObject.getClassRelationships();
 			for(BusinessObject peerObject : businessObject.getPeerObjectList()) {
+				System.out.println("Object title: " + peerObject.getObjectTitle());
+				System.out.println("object attribute value: " + objectRelationshipAttributeValue);
+				System.out.println("objectRelationshipAttributeValue: " + peerObject.getAttributeValue(objectRelationshipAttributeValue));
+				Iterator it = peerObject.getAttribteList1().entrySet().iterator();
+				while(it.hasNext()) {
+					Map.Entry<String, String> s = (Entry<String, String>) it.next();
+					System.out.println(s.getKey() + " = " + s.getValue());
+				}
 				if(peerObject.containsAttribute(objectRelationshipAttributeKey, objectRelationshipAttributeValue)) {
+					System.out.println("Object added: " + peerObject.getObjectTitle());
 					filteredPeerObjectList.add(peerObject);
 				}
 			}
 		}else {
 			filteredPeerObjectList = businessObject.getPeerObjectList();
 		}
-		
 		return filteredPeerObjectList;
 	}
 
-	public List<String> getObjectRelationships(BusinessObject businessObject, String objectPeers) {
+	public List<String> getObjectRelationships(BusinessObject businessObject, String objectPeers, boolean addAll) {
 		
 		// get class object -> relationship attribute
 		ClassObject classObject = configService.getClassObject(objectPeers);
@@ -221,7 +232,9 @@ public class ObjectService implements Serializable {
 		System.out.println("classRelationship: " + classRelationship);
 		// query get all possible values from peer object attributes (use HashSet)
 		HashSet<String> objectRelationships = new HashSet<String>();
-		for(BusinessObject peerObject : businessObject.getPeerObjectList()) {
+		//List<BusinessObject> peerObjects = addAll ? businessObject.getAllPeerObjectList() : businessObject.getPeerObjectList();
+		List<BusinessObject> peerObjects = businessObject.getPeerObjectList();
+		for(BusinessObject peerObject : peerObjects) {
 			String attributeValue  = peerObject.getAttributeValue(classRelationship);
 			if(attributeValue != null) {
 				String[] attributeValues = attributeValue.split(",");

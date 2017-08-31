@@ -21,6 +21,8 @@ public class BusinessObject implements Serializable {
 	
 	private String objectTitle;
 
+	private List<BusinessObject> allPeerObjectList;
+	
 	private List<BusinessObject> peerObjectList;
 	
 	private List<BusinessObject> filteredPeerObjectList;
@@ -98,7 +100,7 @@ public class BusinessObject implements Serializable {
 		return attributeValue;
 	}
 	
-	/*
+/*
 	public boolean containsAttribute(String key, String value) {
 		String attributeValue = this.attribteList1.get(key);
 		if(attributeValue == null) {
@@ -112,8 +114,8 @@ public class BusinessObject implements Serializable {
 		}
 		return attributeValue.equals(value) ? true : false;
 	}
-	*/
-
+	
+*/
 	public boolean containsAttribute(String key, String value) {
 		boolean containsKeyValue = this.containsAttrSubstring(key, value, this.attribteList1);
 		if(!containsKeyValue) {
@@ -170,6 +172,14 @@ public class BusinessObject implements Serializable {
 
 	public void setObjectTitle(String objectTitle) {
 		this.objectTitle = objectTitle;
+	}
+
+	public void setAllPeerObjectList(List<BusinessObject> allPeerObjectList) {
+		this.allPeerObjectList = allPeerObjectList;
+	}
+
+	public List<BusinessObject> getAllPeerObjectList() {
+		return allPeerObjectList;
 	}
 
 	public void setPeerObjectList(List<BusinessObject> peerObjectList) {
