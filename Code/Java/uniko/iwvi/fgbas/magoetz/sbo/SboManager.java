@@ -24,8 +24,6 @@ public class SboManager implements Serializable {
 	
 	private String objectId = (String) FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id");
 	
-	private String objectName = (String) FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("name");
-	
 	private String objectPeers = (String) FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("peers");
 	
 	private String objectRelationship = (String) FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("relationship");
@@ -38,11 +36,11 @@ public class SboManager implements Serializable {
 	
 	public void init(){
 		
-		if(objectId != null && objectName != null) {
+		if(objectId != null) {
 			
 			System.out.println("NEW REQUEST FOR BUSINESS OBJECT");
 			// get business objects
-			this.businessObject = objectService.getBusinessObject(objectId, objectName, false);
+			this.businessObject = objectService.getBusinessObject(objectId, false);
 			// TODO reload peer object list if other objectPeer was chosen
 			// get list of peer objects (all)
 			ConfigService configService = new ConfigService();

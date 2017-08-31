@@ -35,18 +35,20 @@ public class ObjectService implements Serializable {
 	
 	private QueryService queryService = new QueryService();
 
-	public BusinessObject getBusinessObject(String objectId, String objectName, boolean objectPreview) {
+	public BusinessObject getBusinessObject(String objectId, boolean objectPreview) {
 		
 		// 1. CREATE NEW BUSINESS OBJECT
 		BusinessObject businessObject = new BusinessObject();
 	
 		// set object id and name
 		businessObject.setObjectId(objectId);
-		businessObject.setObjectName(objectName);
+		//businessObject.setObjectName(objectName);
 		
 		// 2. GET CONFIGURATION DOCUMENT FOR OBJECT TYPE
-		
-		ConfigurationObject configObject = configService.getConfigurationObject(objectName);
+
+		//ConfigurationObject configObject = configService.getConfigurationObject(objectName);
+		ConfigurationObject configObject = configService.getConfigurationObjectByObjectId(objectId);
+		businessObject.setObjectName(configObject.getObjectName());
 		
 		// 3. RETRIEVE ATTRIBUTES OF BUSINESS OBJECT
 		
@@ -75,8 +77,16 @@ public class ObjectService implements Serializable {
 		// cache result to prevent redundant queries
 		ArrayList<QueryResult> queryResultList = new ArrayList<QueryResult>();
 		
+		// if it is an object preview only get preview attributes otherwise all defined
+		ArrayList<ConfigurationObjectAttribute> configurationObjectAttributes =  new ArrayList<ConfigurationObjectAttribute>();
+		if(objectPreview){
+			configurationObjectAttributes =  configObject.getPreviewConfigurationObjectAttributes();
+		}else {
+			configurationObjectAttributes =  configObject.getConfigurationObjectAttributes();
+		}
+		
 		// get value for each object attribute
-		for(ConfigurationObjectAttribute configObjAttr : configObject.getConfigurationObjectAttributes()) {
+		for(ConfigurationObjectAttribute configObjAttr : configurationObjectAttributes) {
 
 			String datasource = configObjAttr.getDatasource();
 			String query = configObjAttr.getQuery();
@@ -109,6 +119,14 @@ public class ObjectService implements Serializable {
 	
 	private BusinessObject loadAttributes(BusinessObject businessObject, ConfigurationObject configObject, ArrayList<QueryResult> queryResultList, boolean objectPreview) {
 
+		// if it is an object preview only process preview attributes otherwise all defined
+		ArrayList<ConfigurationObjectAttribute> configurationObjectAttributes =  new ArrayList<ConfigurationObjectAttribute>();
+		if(objectPreview){
+			configurationObjectAttributes =  configObject.getPreviewConfigurationObjectAttributes();
+		}else {
+			configurationObjectAttributes =  configObject.getConfigurationObjectAttributes();
+		}
+		
 		for(ConfigurationObjectAttribute configObjAttr : configObject.getConfigurationObjectAttributes()) {
 			// get name and fieldname of attribute
 			String name = configObjAttr.getName();
@@ -182,53 +200,12 @@ public class ObjectService implements Serializable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		// get main object source from config
-		ClassObject classObject = configService.getClassObject(objectPeers);
-		String mainSource = classObject.getClassMainDatasource();
-		String mainQuery = classObject.getClassMainQuery();
-		System.out.println("objectPeers: " + objectPeers + " mainSource: " + mainSource + "mainQuery: " + mainQuery);
-		JsonObject datasourceJSON = queryService.getJsonObject("datasources", mainSource, "datasourceJSON");
-		JsonObject queryJSON = queryService.getJsonObject("queries", mainQuery, "queryJSON");
-		// get peer objects from main object source
-		ArrayList<JsonObject> peerObjectJsonList = new ArrayList<JsonObject>();
+		
 		for(String peerObjectId : peerObjectIds) {
-			JsonObject peerObjectJSON = queryService.executeQuery(datasourceJSON, queryJSON, peerObjectId); 
-			if(peerObjectJSON != null) {
-				peerObjectJsonList.add(peerObjectJSON);
-				BusinessObject peerObject = new BusinessObject();
-				peerObject.setObjectId(peerObjectId);
-				// TODO set further attributes such as class?
-				JsonElement jsonFirstQueryElement = peerObjectJSON.get(peerObjectId);
-				JsonObject jsonFirstQueryObject = jsonFirstQueryElement.getAsJsonObject();
-				// TODO get preview attributes from config object? Object type dependent
-				if(objectPeers.equals("person")) {
-					String fullname = jsonFirstQueryObject.get("fullName").getAsString();
-					peerObject.setObjectTitle(fullname);
-					peerObject.addKeyValuePair("fullname", fullname, 1);
-					String email = jsonFirstQueryObject.get("email").getAsString();
-					peerObject.addKeyValuePair("email", email, 1);
-					String employeeId = jsonFirstQueryObject.get("employeeId").getAsString();
-					peerObject.addKeyValuePair("employeeId", employeeId, 1);
-					String role = jsonFirstQueryObject.get("role").getAsString();
-					peerObject.addKeyValuePair("role", role, 1);
-				}
-				if(objectPeers.equals("teaching")) {
-					String projectName = jsonFirstQueryObject.get("projectName").getAsString();
-					peerObject.setObjectTitle(projectName);
-					peerObject.addKeyValuePair("projectName", projectName, 1);
-					String projectType = jsonFirstQueryObject.get("projectType").getAsString();
-					peerObject.addKeyValuePair("projecttype", projectType, 1);
-				}
-				// set attributes for all peer objects
-				String objectType = jsonFirstQueryObject.get("objectType").getAsString();
-				peerObject.setObjectName(objectType);
-				// TODO set individual image if available
-				String objectImage = classObject.getClassDefaultImage();
-				peerObject.setObjectImage(objectImage);
-				// add peer object to list
-				peerObjectList.add(peerObject);
-			}
+			// TODO
+			peerObjectList.add(getBusinessObject(peerObjectId, true));
 		}
+		
 		return peerObjectList;
 	}
 	

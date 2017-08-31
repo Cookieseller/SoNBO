@@ -60,8 +60,9 @@ public class ConfigService implements Serializable {
 			String query = jsonFirstAttrObject.get("query").getAsString();
 			String fieldname = jsonFirstAttrObject.get("fieldname").getAsString();
 			int displayfield = jsonFirstAttrObject.get("displayfield").getAsInt();
+			boolean preview = jsonFirstAttrObject.get("preview").getAsBoolean();
 			
-			configObject.addConfigurationObjectAttribute(name, datasource, query, fieldname, displayfield);
+			configObject.addConfigurationObjectAttribute(name, datasource, query, fieldname, displayfield, preview);
 		}
 		
 		return configObject;
@@ -72,5 +73,45 @@ public class ConfigService implements Serializable {
 		String jsonFromDb = queryService.getFieldValue("classes", classObjectName, "classJSON");
 		Gson gson = new Gson();
 		return gson.fromJson(jsonFromDb, ClassObject.class);
+	}
+
+	public ConfigurationObject getConfigurationObjectByObjectId(String objectId) {
+		
+		ConfigurationObject resultConfigObject =  null;
+		
+		// get all configuration documents
+		ArrayList<String> objectNames = queryService.getColumnValues("objects", 0);
+		
+		for(String objectName : objectNames) {
+			System.out.println("Object config found: " + objectName);
+		}
+		
+		ArrayList<ConfigurationObject> configObjectList = new ArrayList<ConfigurationObject>();
+		for(String objectName : objectNames) {
+			configObjectList.add(this.getConfigurationObject(objectName));
+		}
+		// search main datasource query for json containing object name
+		
+		for(ConfigurationObject configObject : configObjectList) {
+			
+			// TODO: change to object individual source and query
+			ClassObject classObject = this.getClassObject(configObject.getObjectClass());
+			String mainSource = classObject.getClassMainDatasource();
+			String mainQuery = classObject.getClassMainQuery();
+			System.out.println("mainSource: " + mainSource + " mainQuery: " + mainQuery);
+			JsonObject datasourceJSON = queryService.getJsonObject("datasources", mainSource, "datasourceJSON");
+			JsonObject queryJSON = queryService.getJsonObject("queries", mainQuery, "queryJSON");
+			JsonObject peerObjectJSON = queryService.executeQuery(datasourceJSON, queryJSON, objectId); 
+			if(peerObjectJSON != null) {
+				// get object type
+				JsonElement jsonFirstQueryElement = peerObjectJSON.get(objectId);
+				JsonObject jsonFirstQueryObject = jsonFirstQueryElement.getAsJsonObject();
+				String objectType = jsonFirstQueryObject.get("objectType").getAsString();
+				resultConfigObject = this.getConfigurationObject(objectType);
+				break;
+			}
+		}
+		
+		return resultConfigObject;
 	}
 }

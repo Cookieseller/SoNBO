@@ -58,6 +58,20 @@ public class QueryService implements Serializable {
 		return queryResults;
 	}
 	
+	public ArrayList<String> getColumnValues(String queryView, int columnNr) {
+		
+		Database notesDB = DominoUtils.getCurrentDatabase();
+		ArrayList<String> queryResults = new ArrayList<String>();
+		try {
+			// return values by key
+			queryResults = Utils.Dbcolumn(notesDB, queryView, columnNr);
+		} catch (NotesException ex) {
+			// TODO Auto-generated catch block
+			ex.printStackTrace();
+		}
+		return queryResults;
+	}
+	
 	public DocumentCollection ftSearch(String databasename, String searchString) {
 		
 		Database notesDB;
@@ -174,7 +188,12 @@ public class QueryService implements Serializable {
 			jsonQueryResultObjects.add(o);
 		}
 		
-		JsonObject jsonObject = jsonQueryResultObjects.get(0);
+		JsonObject jsonObject = new JsonObject();
+		try{
+			 jsonObject = jsonQueryResultObjects.get(0);
+		}catch(IndexOutOfBoundsException ex) {
+			return null;
+		}
 		// log json
 		Utilities utilities = new Utilities();
 		utilities.printJson(jsonObject, "query result json object");

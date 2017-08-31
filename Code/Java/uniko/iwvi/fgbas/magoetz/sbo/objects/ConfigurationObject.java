@@ -42,14 +42,25 @@ public class ConfigurationObject {
 	public ArrayList<ConfigurationObjectAttribute> getConfigurationObjectAttributes() {
 		return configurationObjectAttributes;
 	}
+	
+	public ArrayList<ConfigurationObjectAttribute> getPreviewConfigurationObjectAttributes() {
+		
+		ArrayList<ConfigurationObjectAttribute> previewConfigObjectAttrList = new ArrayList<ConfigurationObjectAttribute>();
+		for(ConfigurationObjectAttribute configObjectAttr : this.getConfigurationObjectAttributes()) {
+			if(configObjectAttr.isPreview()) {
+				previewConfigObjectAttrList.add(configObjectAttr);
+			}
+		}
+		return previewConfigObjectAttrList;
+	}
 
 	public void setConfigurationObjectAttributes(
 			ArrayList<ConfigurationObjectAttribute> configurationObjectAttributes) {
 		this.configurationObjectAttributes = configurationObjectAttributes;
 	}
 	
-	public void addConfigurationObjectAttribute(String name, String datasource, String query, String fieldname, int displayfield) {
-		ConfigurationObjectAttribute configObjAttr = new ConfigurationObjectAttribute(name, datasource, query, fieldname, displayfield);
+	public void addConfigurationObjectAttribute(String name, String datasource, String query, String fieldname, int displayfield, boolean preview) {
+		ConfigurationObjectAttribute configObjAttr = new ConfigurationObjectAttribute(name, datasource, query, fieldname, displayfield, preview);
 		this.configurationObjectAttributes.add(configObjAttr);
 	}
 	
@@ -60,13 +71,15 @@ public class ConfigurationObject {
 		private String query;
 		private String fieldname;
 		private int displayfield;
+		private boolean preview;
 		
-		private ConfigurationObjectAttribute(String name, String datasource, String query, String fieldname, int displayfield) {
+		private ConfigurationObjectAttribute(String name, String datasource, String query, String fieldname, int displayfield, boolean preview) {
 			this.name = name;
 			this.datasource = datasource;
 			this.setQuery(query);
 			this.fieldname = fieldname;
 			this.displayfield = displayfield;
+			this.setPreview(preview);
 		}
 		
 		public String getName() {
@@ -107,6 +120,14 @@ public class ConfigurationObject {
 
 		public String getQuery() {
 			return query;
+		}
+
+		public void setPreview(boolean preview) {
+			this.preview = preview;
+		}
+
+		public boolean isPreview() {
+			return preview;
 		}
 	}
 
