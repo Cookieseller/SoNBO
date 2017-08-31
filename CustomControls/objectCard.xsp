@@ -6,7 +6,7 @@
 			</xp:link>
 			<xp:panel styleClass="sbo-object-card-content-wrapper">
 				<xp:panel styleClass="sbo-object-card-img-container">
-					<xp:image styleClass="sbo-object-img" url="/placeholder_person.jpg" id="image1"></xp:image>
+					<xp:image styleClass="sbo-object-img" url="#{javascript: return '/' + peerObject.getObjectImage();}" id="image1"></xp:image>
 				</xp:panel>
 				<xp:panel styleClass="sbo-object-card-fields-container">
 					<xp:repeat id="repeat5" var="field1">

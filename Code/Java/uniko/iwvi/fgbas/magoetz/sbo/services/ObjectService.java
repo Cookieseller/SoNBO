@@ -53,6 +53,11 @@ public class ObjectService implements Serializable {
 		// set object class
 		businessObject.setObjectClass(configObject.getObjectClass());
 		
+		// set object image
+		// TODO: set individual image if available
+		ClassObject classObject = configService.getClassObject(businessObject.getObjectClass());
+		businessObject.setObjectImage(classObject.getClassDefaultImage());
+		
 		// cache result to prevent redundant queries
 		ArrayList<QueryResult> queryResultList = new ArrayList<QueryResult>();
 		
@@ -170,8 +175,6 @@ public class ObjectService implements Serializable {
 				JsonObject jsonFirstQueryObject = jsonFirstQueryElement.getAsJsonObject();
 				// TODO get preview attributes from config object? Object type dependent
 				if(objectPeers.equals("person")) {
-					String objectType = jsonFirstQueryObject.get("objectType").getAsString();
-					peerObject.setObjectName(objectType);
 					String fullname = jsonFirstQueryObject.get("fullName").getAsString();
 					peerObject.setObjectTitle(fullname);
 					peerObject.addKeyValuePair("fullname", fullname, 1);
@@ -183,14 +186,19 @@ public class ObjectService implements Serializable {
 					peerObject.addKeyValuePair("role", role, 1);
 				}
 				if(objectPeers.equals("teaching")) {
-					String objectType = jsonFirstQueryObject.get("objectType").getAsString();
-					peerObject.setObjectName(objectType);
 					String projectName = jsonFirstQueryObject.get("projectName").getAsString();
 					peerObject.setObjectTitle(projectName);
 					peerObject.addKeyValuePair("projectName", projectName, 1);
 					String projectType = jsonFirstQueryObject.get("projectType").getAsString();
 					peerObject.addKeyValuePair("projecttype", projectType, 1);
 				}
+				// set attributes for all peer objects
+				String objectType = jsonFirstQueryObject.get("objectType").getAsString();
+				peerObject.setObjectName(objectType);
+				// TODO set individual image if available
+				String objectImage = classObject.getClassDefaultImage();
+				peerObject.setObjectImage(objectImage);
+				// add peer object to list
 				peerObjectList.add(peerObject);
 			}
 		}

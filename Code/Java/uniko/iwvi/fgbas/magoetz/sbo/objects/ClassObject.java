@@ -12,6 +12,8 @@ public class ClassObject {
 	private String classMainQuery;
 	
 	private ArrayList<String> classPeers;
+	
+	private String classDefaultImage;
 
 	private String classRelationships;
 	
@@ -56,5 +58,13 @@ public class ClassObject {
 
 	public void setClassRelationships(String classRelationships) {
 		this.classRelationships = classRelationships;
+	}
+
+	public void setClassDefaultImage(String classDefaultImage) {
+		this.classDefaultImage = classDefaultImage;
+	}
+
+	public String getClassDefaultImage() {
+		return classDefaultImage;
 	}
 }

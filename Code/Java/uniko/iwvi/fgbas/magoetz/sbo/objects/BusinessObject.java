@@ -29,6 +29,8 @@ public class BusinessObject implements Serializable {
 	
 	private List<String> objectRelationships;
 	
+	private String objectImage;
+	
 	// String arrays containing attribute names for displaying in respective field
 	// TODO: Maybe change to separate lists for fields and single list for attributes?
 	private HashMap<String, String> attribteList1 = new HashMap<String, String>();
@@ -214,5 +216,13 @@ public class BusinessObject implements Serializable {
 
 	public void setObjectClass(String objectClass) {
 		this.objectClass = objectClass;
+	}
+
+	public void setObjectImage(String objectImage) {
+		this.objectImage = objectImage;
+	}
+
+	public String getObjectImage() {
+		return objectImage;
 	}
 }

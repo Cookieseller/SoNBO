@@ -4,7 +4,7 @@
 		<xp:label id="object_name" value="#{javascript:sboManager.businessObject.getObjectTitle();}" styleClass="sbo-object-name"></xp:label>
 			<div>
 				<xp:panel styleClass="sbo-object-img-container">
-					<xp:image styleClass="sbo-object-img" url="/placeholder_person.jpg" id="image1"></xp:image>
+					<xp:image styleClass="sbo-object-img" url="#{javascript: return '/' + sboManager.businessObject.getObjectImage();}" id="image1"></xp:image>
 				</xp:panel>
 				<xp:panel styleClass="sbo-object-fields-container">
 					<xp:panel styleClass="sbo-object-field1">

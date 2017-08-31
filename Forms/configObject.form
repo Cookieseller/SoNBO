@@ -1,15 +1,18 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note class='form' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.0'
  replicaid='C125817D00447BEE'>
-<noteinfo noteid='17a' unid='20062A6198CE09CDC125816300749DD5' sequence='21'>
+<noteinfo noteid='17a' unid='20062A6198CE09CDC125816300749DD5' sequence='23'>
 <created><datetime dst='true'>20170720T231345,81+02</datetime></created>
-<modified><datetime dst='true'>20170828T114538,96+02</datetime></modified>
-<revised><datetime dst='true'>20170828T114538,95+02</datetime></revised>
-<lastaccessed><datetime dst='true'>20170828T114538,96+02</datetime></lastaccessed>
+<modified><datetime dst='true'>20170831T125118,73+02</datetime></modified>
+<revised><datetime dst='true'>20170831T125118,72+02</datetime></revised>
+<lastaccessed><datetime dst='true'>20170831T125118,73+02</datetime></lastaccessed>
 <addedtofile><datetime dst='true'>20170815T142815,97+02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></updatedby>
 <wassignedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></wassignedby>
 <item name='$Comment' sign='true'><text/></item>
+<item name='objectDefaultImage' placeholder='true'>
+<rawitemdata type='0'>
+</rawitemdata></item>
 <item name='$HTMLCode' sign='true'>
 <rawitemdata type='1'>
 X/8QAAIADwAHAAAAAAAAAA==
@@ -35,13 +38,13 @@ hhgBAIAAAAAAgAAAAQABAP///wAQAAAA
 <item name='objectPeers' placeholder='true'>
 <rawitemdata type='0'>
 </rawitemdata></item>
-<item name='objectAttributes' placeholder='true'>
-<rawitemdata type='0'>
-</rawitemdata></item>
 <item name='objectRelationships' placeholder='true'>
 <rawitemdata type='0'>
 </rawitemdata></item>
-<item name='$Fields'><textlist><text>objectRelationships</text><text>objectAttributes</text><text
+<item name='objectAttributes' placeholder='true'>
+<rawitemdata type='0'>
+</rawitemdata></item>
+<item name='$Fields'><textlist><text>objectAttributes</text><text>objectRelationships</text><text
 >objectPeers</text><text>objectClass</text><text>objectTitle</text><text>objectName</text></textlist></item>
 <item name='$Body' sign='true'>
 <rawitemdata type='1'>
