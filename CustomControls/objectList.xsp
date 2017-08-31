@@ -5,6 +5,7 @@
 		<!-- List peer objects filtered by certain criteria (relationship, filter) -->
 		<xp:repeat id="repeat1" var="peerObject">
 			<xp:this.value><![CDATA[#{javascript:sboManager.businessObject.getFilteredPeerObjectList();}]]></xp:this.value>
+			<!--  <xp:this.value><![CDATA[#{javascript:sboManager.businessObject.getPeerObjectList();}]]></xp:this.value> -->
 			<xc:objectCard/>
 		</xp:repeat>
 		<!-- Test -->

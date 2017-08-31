@@ -47,42 +47,36 @@ public class SboManager implements Serializable {
 			// get list of peer objects (all)
 			ConfigService configService = new ConfigService();
 			ClassObject classObject = configService.getClassObject(businessObject.getObjectClass());
-			List<BusinessObject> allPeerObjectList = new ArrayList<BusinessObject>();
+			//List<BusinessObject> allPeerObjectList = new ArrayList<BusinessObject>();
 			List<BusinessObject> peerObjectList = new ArrayList<BusinessObject>();
 			
 			HashSet<String> objectRelationships = new HashSet<String>();
-			List<BusinessObject> filteredPeerObjectList = new ArrayList<BusinessObject>();
+			//List<BusinessObject> filteredPeerObjectList = new ArrayList<BusinessObject>();
+			HashSet<BusinessObject> filteredPeerObjectList = new HashSet<BusinessObject>();
 			
 			boolean addAll = this.objectPeers.equals("all");
 			
 			for(String peers : classObject.getClassPeers())  {
 				List<BusinessObject> objects = objectService.getPeerObjects(businessObject, peers);
-				allPeerObjectList.addAll(objects);
+				//allPeerObjectList.addAll(objects);
 				if(this.objectPeers.equals(peers) || this.objectPeers.equals("all")) {
 					peerObjectList.addAll(objects);
 				}
 				this.businessObject.setPeerObjectList(peerObjectList);
-				objectRelationships.addAll(objectService.getObjectRelationships(businessObject, peers, addAll));
+				objectRelationships.addAll(objectService.getObjectRelationships(businessObject, peers));
 				filteredPeerObjectList.addAll(objectService.getFilteredBusinessObjects(businessObject, objectRelationship, peers));
 			}
 			List<String> relationshipList = new ArrayList<String>();
 			for(String relationship : objectRelationships) {
 				relationshipList.add(relationship);
 			}
-			this.businessObject.setObjectRelationships(relationshipList);
-			//filteredPeerObjectList.addAll(objectService.getFilteredBusinessObjects(businessObject, objectRelationship, objectPeers));
-			this.businessObject.setFilteredPeerObjectList(filteredPeerObjectList);
-			/*
-			for(BusinessObject bo : businessObject.getFilteredPeerObjectList()) {
-				System.out.println(bo.getObjectTitle());
-				Iterator it = bo.getAttribteList1().entrySet().iterator();
-				while(it.hasNext()) {
-					Map.Entry<String, String> s = (Entry<String, String>) it.next();
-					System.out.println(s.getKey() + " = " + s.getValue());
-					it.remove();
-				}
+			List<BusinessObject> peerList = new ArrayList<BusinessObject>();
+			for(BusinessObject filteredPeerObject : filteredPeerObjectList) {
+				peerList.add(filteredPeerObject);
 			}
-			*/
+			this.businessObject.setObjectRelationships(relationshipList);
+			this.businessObject.setFilteredPeerObjectList(peerList);
+
 			// TODO: execute tests if necessary
 			Test test = new Test();
 			//test.javaToJson();

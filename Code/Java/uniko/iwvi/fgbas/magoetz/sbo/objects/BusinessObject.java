@@ -133,7 +133,9 @@ public class BusinessObject implements Serializable {
 	// helper function - temporary TODO
 	public boolean containsAttrSubstring(String key, String value, HashMap<String, String> hashMap) {
 		boolean containsKeyValue = false;
-	    Iterator it = hashMap.entrySet().iterator();
+		// prevent to work on the same hash map (undefined behaviour)
+		HashMap anotherHashMap = (HashMap) hashMap.clone();
+	    Iterator it = anotherHashMap.entrySet().iterator();
 	    while (it.hasNext()) {
 	        Map.Entry<String, String> pair = (Map.Entry)it.next();
 	        boolean containsValue = pair.getValue().contains(value);

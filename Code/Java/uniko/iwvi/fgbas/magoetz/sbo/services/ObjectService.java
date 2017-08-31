@@ -160,9 +160,6 @@ public class ObjectService implements Serializable {
 		// get peer objects from main object source
 		ArrayList<JsonObject> peerObjectJsonList = new ArrayList<JsonObject>();
 		for(String peerObjectId : peerObjectIds) {
-			System.out.println("datasourceJSON: " + datasourceJSON);
-			System.out.println("queryJSON: " + queryJSON);
-			System.out.println("peerObjectId: " + peerObjectId);
 			JsonObject peerObjectJSON = queryService.executeQuery(datasourceJSON, queryJSON, peerObjectId); 
 			if(peerObjectJSON != null) {
 				peerObjectJsonList.add(peerObjectJSON);
@@ -173,6 +170,8 @@ public class ObjectService implements Serializable {
 				JsonObject jsonFirstQueryObject = jsonFirstQueryElement.getAsJsonObject();
 				// TODO get preview attributes from config object? Object type dependent
 				if(objectPeers.equals("person")) {
+					String objectType = jsonFirstQueryObject.get("objectType").getAsString();
+					peerObject.setObjectName(objectType);
 					String fullname = jsonFirstQueryObject.get("fullName").getAsString();
 					peerObject.setObjectTitle(fullname);
 					peerObject.addKeyValuePair("fullname", fullname, 1);
@@ -184,6 +183,8 @@ public class ObjectService implements Serializable {
 					peerObject.addKeyValuePair("role", role, 1);
 				}
 				if(objectPeers.equals("teaching")) {
+					String objectType = jsonFirstQueryObject.get("objectType").getAsString();
+					peerObject.setObjectName(objectType);
 					String projectName = jsonFirstQueryObject.get("projectName").getAsString();
 					peerObject.setObjectTitle(projectName);
 					peerObject.addKeyValuePair("projectName", projectName, 1);
@@ -204,15 +205,7 @@ public class ObjectService implements Serializable {
 			// filter by relationship
 			ClassObject classObject = configService.getClassObject(objectPeers);
 			String objectRelationshipAttributeKey = classObject.getClassRelationships();
-			for(BusinessObject peerObject : businessObject.getPeerObjectList()) {
-				System.out.println("Object title: " + peerObject.getObjectTitle());
-				System.out.println("object attribute value: " + objectRelationshipAttributeValue);
-				System.out.println("objectRelationshipAttributeValue: " + peerObject.getAttributeValue(objectRelationshipAttributeValue));
-				Iterator it = peerObject.getAttribteList1().entrySet().iterator();
-				while(it.hasNext()) {
-					Map.Entry<String, String> s = (Entry<String, String>) it.next();
-					System.out.println(s.getKey() + " = " + s.getValue());
-				}
+			for(BusinessObject peerObject : businessObject.getPeerObjectList()) {			
 				if(peerObject.containsAttribute(objectRelationshipAttributeKey, objectRelationshipAttributeValue)) {
 					System.out.println("Object added: " + peerObject.getObjectTitle());
 					filteredPeerObjectList.add(peerObject);
@@ -224,12 +217,11 @@ public class ObjectService implements Serializable {
 		return filteredPeerObjectList;
 	}
 
-	public List<String> getObjectRelationships(BusinessObject businessObject, String objectPeers, boolean addAll) {
+	public List<String> getObjectRelationships(BusinessObject businessObject, String objectPeers) {
 		
 		// get class object -> relationship attribute
 		ClassObject classObject = configService.getClassObject(objectPeers);
 		String classRelationship = classObject.getClassRelationships();
-		System.out.println("classRelationship: " + classRelationship);
 		// query get all possible values from peer object attributes (use HashSet)
 		HashSet<String> objectRelationships = new HashSet<String>();
 		//List<BusinessObject> peerObjects = addAll ? businessObject.getAllPeerObjectList() : businessObject.getPeerObjectList();

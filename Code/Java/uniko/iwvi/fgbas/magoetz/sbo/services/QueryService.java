@@ -21,7 +21,7 @@ public class QueryService implements Serializable {
 	/*
 	 * return first returned field value as string
 	 */
-	public String getFieldValue(String view, String key, String returnField) {
+	public String getFieldValue(String view, String key, String returnField) throws IndexOutOfBoundsException{
 		
 		Database notesDB = DominoUtils.getCurrentDatabase();
 		ArrayList<String> queryResults = new ArrayList<String>();
@@ -32,7 +32,13 @@ public class QueryService implements Serializable {
 			// TODO Auto-generated catch block
 			ex.printStackTrace();
 		}
-		String fieldValue = queryResults.get(0);
+		String fieldValue = new String();
+		try {
+			fieldValue = queryResults.get(0);
+		}catch (IndexOutOfBoundsException nex) {
+			System.out.println("No query results for view: " + view + " key: " + key + " returnField: " + returnField);
+			throw new IndexOutOfBoundsException();
+		}
 		return fieldValue;
 	}
 
