@@ -10,7 +10,8 @@
 				<xp:link id="label2" styleClass="sbo-navbar-link #{javascript: return param.get('peers') == peer ? 'sbo-navbar-selected' : '';}">
 					<xp:this.text>#{peer}</xp:this.text>
 					<xp:this.value><![CDATA[#{javascript: return "main.xsp?id=" + param.get('id') + "&name=" + param.get('name') + "&peers=" + peer;}]]></xp:this.value>
-					<xp:label value="42" id="label4" styleClass="badge sbo-badge"/>
+					<xp:label
+						value="#{javascript: sboManager.businessObject.getPeerObjectList().size().toString()}" id="label4" style="margin-right: 3px;" styleClass="badge sbo-badge" rendered="#{javascript: param.get('peers') == peer}" />
 				</xp:link>
 			</xp:panel>
 		</xp:repeat>

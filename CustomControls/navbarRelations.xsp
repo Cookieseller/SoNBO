@@ -8,7 +8,7 @@
 			<xp:link id="label2" styleClass="sbo-navbar-link #{javascript: return param.get('relationship') == relation || param.get('relationship') == null &amp;&amp; relation == 'all' ? 'sbo-navbar-selected' : '';}">
 				<xp:this.text>#{relation}</xp:this.text>
 				<xp:this.value><![CDATA[#{javascript: return "main.xsp?id=" + param.get('id') + "&name=" + param.get('name') + "&peers=" + param.get('peers') + "&relationship=" + relation;}]]></xp:this.value>
-				<xp:label value="#{javascript: relationships.length;}" id="label4" styleClass="badge sbo-badge"/>
+				<xp:label value="#{javascript: sboManager.businessObject.getFilteredPeerObjectList().size().toString()}" id="label4" style="margin-right: 3px;" styleClass="badge sbo-badge" rendered="#{javascript: (param.get('relationship') == relation) || (param.get('relationship') == null &amp;&amp; relation == 'all')}"/>
 			</xp:link>
 		</xp:panel>
 	</xp:repeat>
