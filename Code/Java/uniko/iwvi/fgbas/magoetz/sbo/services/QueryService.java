@@ -9,6 +9,9 @@ import lotus.domino.Database;
 import lotus.domino.Document;
 import lotus.domino.DocumentCollection;
 import lotus.domino.NotesException;
+import lotus.domino.View;
+
+import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -88,6 +91,38 @@ public class QueryService implements Serializable {
 		return resultCollection;
 	}
 	
+	public DocumentCollection ftSearchView(String databasename, String searchString, String viewname) {
+		
+		Database notesDB;
+		DocumentCollection resultCollection = null;
+		try {
+			notesDB = DominoUtils.openDatabaseByName(databasename);
+			resultCollection = notesDB.createDocumentCollection();
+			View view = notesDB.getView(viewname);
+			// TODO: Don't update index on every query 
+			notesDB.updateFTIndex(true);
+			int count = view.FTSearch(searchString);
+			if (count == 0){
+		        System.out.println("ftSearchView no documents found in view " + viewname + " with searchString " + searchString);
+			}else {
+			  Document doc = view.getFirstDocument();
+			  Document temp = null;  
+			  while (doc != null) {
+				  resultCollection.addDocument(doc);
+				  temp = view.getNextDocument(doc);
+				  doc.recycle();
+				  doc = temp;
+			  }
+			}
+	        // Clear the full-text search
+	        view.clear();
+		} catch (NotesException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		return resultCollection;
+	}
+	
 	/*
 	 * returns first json object from a query
 	 */
@@ -144,8 +179,30 @@ public class QueryService implements Serializable {
 		return jsonObjects;
 	}
 	
-	public JsonObject executeQuery(JsonObject jsonDatasourceObject, JsonObject jsonQueryObject, String objectId) {
+	// TODO: write wrapper function for various query types
+	public DocumentCollection executeQueryFTSearch(JsonObject jsonDatasourceObject, JsonObject jsonQueryObject) {
 		
+		JsonElement jsonFirstSourceElement = jsonDatasourceObject.get("datasource");
+		JsonObject jsonFirstSourceObject = jsonFirstSourceElement.getAsJsonObject();
+		
+		// TODO: Evaluate whole query and change to dynamic execution for all query types (currently only IBM Domino supported)
+		String type = jsonFirstSourceObject.get("type").getAsString();
+		String hostname = jsonFirstSourceObject.get("hostname").getAsString();
+		String database = jsonFirstSourceObject.get("database").getAsString();
+		
+		JsonElement jsonFirstQueryElement = jsonQueryObject.get("query");
+		JsonObject jsonFirstQueryObject = jsonFirstQueryElement.getAsJsonObject();
+		
+		// TODO: queryType was added and has to be processed (e.g. "IBM Domino") 
+		String queryString = jsonFirstQueryObject.get("string").getAsString();
+		
+		DocumentCollection resultCollection = this.ftSearch(database, queryString);
+		
+		return resultCollection;
+	}
+	
+	public JsonObject executeQuery(JsonObject jsonDatasourceObject, JsonObject jsonQueryObject, String objectId) {
+	
 		JsonElement jsonFirstSourceElement = jsonDatasourceObject.get("datasource");
 		JsonObject jsonFirstSourceObject = jsonFirstSourceElement.getAsJsonObject();
 		
