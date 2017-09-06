@@ -8,6 +8,7 @@ import java.util.Set;
 
 import uniko.iwvi.fgbas.magoetz.sbo.objects.ClassObject;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.ConfigurationObject;
+import uniko.iwvi.fgbas.magoetz.sbo.objects.QueryObject;
 import uniko.iwvi.fgbas.magoetz.sbo.util.Utilities;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -101,7 +102,9 @@ public class ConfigService implements Serializable {
 			System.out.println("mainSource: " + mainSource + " mainQuery: " + mainQuery);
 			JsonObject datasourceJSON = queryService.getJsonObject("datasources", mainSource, "datasourceJSON");
 			JsonObject queryJSON = queryService.getJsonObject("queries", mainQuery, "queryJSON");
-			JsonObject peerObjectJSON = queryService.executeQuery(datasourceJSON, queryJSON, objectId); 
+			Gson gson = new Gson();
+			QueryObject queryObject = gson.fromJson(queryJSON, QueryObject.class);
+			JsonObject peerObjectJSON = queryService.executeQuery(datasourceJSON, queryObject, objectId); 
 			if(peerObjectJSON != null) {
 				// get object type
 				JsonElement jsonFirstQueryElement = peerObjectJSON.get(objectId);

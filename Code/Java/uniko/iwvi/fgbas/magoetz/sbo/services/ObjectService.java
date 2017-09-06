@@ -108,9 +108,11 @@ public class ObjectService implements Serializable {
 				utilities.printJson(jsonDatasourceObject, "json datasource object");
 				// get query				
 				JsonObject jsonQueryObject = queryService.getJsonObject("queries", query, "queryJSON");
+				Gson gson = new Gson();
+				QueryObject queryObject = gson.fromJson(jsonQueryObject, QueryObject.class);
 				// log json
 				utilities.printJson(jsonQueryObject, "json query object");
-				jsonQueryResultObject = queryService.executeQuery(jsonDatasourceObject, jsonQueryObject, objectId);
+				jsonQueryResultObject = queryService.executeQuery(jsonDatasourceObject, queryObject, objectId);
 				queryResult.setJsonObject(jsonQueryResultObject);
 				queryResultList.add(queryResult);
 				// log json
@@ -159,6 +161,8 @@ public class ObjectService implements Serializable {
 
 	public List<BusinessObject> getPeerObjects(BusinessObject businessObject, String objectPeers) {
 		
+		// TODO: refactor method (too big!)
+		
 		System.out.println("Peer objects");
 		System.out.println("============");
 		// TODO: Only implemented for object person (main source / query)
@@ -166,7 +170,6 @@ public class ObjectService implements Serializable {
 		
 		List<BusinessObject> peerObjectList = new ArrayList<BusinessObject>();
 		// get peer query for object type
-			// TODO
 		// execute peer query and retrieve peer object ids
 		String queryString = "";
 		
@@ -175,18 +178,18 @@ public class ObjectService implements Serializable {
 				System.out.println("sourceObjectName: " + sourceObjectName);
 		String sourceObjectId = businessObject.getObjectId();
 				System.out.println("sourceObjectId: " + sourceObjectId);
-		// TODO change (no classes) -- in progress
-		// get children of class objectPeers (target object names) 
-		String queryStringObjectNames = "configObject AND " + sourceObjectName;
-		DocumentCollection resultCollectionObjectNames = queryService.ftSearch("", queryStringObjectNames);
+	
+		// Get children of class objectPeers ( = target object names) e.g. person -> employee, student etc.
 		ArrayList<String> peerObjectNames = new ArrayList<String>();
+		String queryStringObjectNames = "FIELD objectClass = " + objectPeers;
+		DocumentCollection resultCollectionObjectNames = queryService.ftSearchView("", queryStringObjectNames, "objects");
 		try {
 			if(resultCollectionObjectNames != null) {
 				for(int i=1; i<=resultCollectionObjectNames.getCount(); i++) {
 					Document doc = resultCollectionObjectNames.getNthDocument(i);
-					String objectId = doc.getItemValueString("objectName");
-							System.out.println("objectId: " + objectId);
-					peerObjectNames.add(objectId);
+					String objectName = doc.getItemValueString("objectName");
+							System.out.println("childObjectName: " + objectName);
+					peerObjectNames.add(objectName);
 				}
 			}else {
 				System.out.println("Result of query " + queryStringObjectNames + " is null.");
@@ -194,7 +197,8 @@ public class ObjectService implements Serializable {
 		} catch (NotesException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}		
+		}
+		
 		
 		// get peer queries for source object <-> target objects
 		// build query string for getting object relationships
@@ -241,10 +245,7 @@ public class ObjectService implements Serializable {
 			JsonObject jsonQueryObject = queryService.getJsonObject("queries", peerQuery.getPeerQuery(), "queryJSON");
 			//replace attributes in query string with variable values
 			Gson gson = new Gson();
-			// TODO: change json structure (flat)
-			JsonElement jsonFirstQueryElement = jsonQueryObject.get("query");
-			JsonObject jsonFirstQueryObject = jsonFirstQueryElement.getAsJsonObject();
-			QueryObject queryObject = gson.fromJson(jsonFirstQueryObject, QueryObject.class);
+			QueryObject queryObject = gson.fromJson(jsonQueryObject, QueryObject.class);
 			String string = queryObject.getString();
 			Utilities utilities = new Utilities();
 			// create map with replacements
@@ -260,11 +261,6 @@ public class ObjectService implements Serializable {
 			System.out.println("QueryString after replacements: " + string);
 			// replace query string
 			queryObject.setString(string);
-			JsonObject jsonQueryObjectModified = gson.toJsonTree(queryObject).getAsJsonObject();
-			// TODO: change json structure
-			JsonObject jsonQueryObjectMod = new JsonObject();
-			jsonQueryObjectMod.add("query",gson.toJsonTree(jsonQueryObjectModified));
-			utilities.printJson(jsonQueryObjectMod, "queryJSON");
 			
 			String targetObjectName = peerQuery.getPeerTargetObject();
 			String targetObjectIdKey = queryService.getFieldValue("objects", targetObjectName, "objectId");
@@ -272,61 +268,26 @@ public class ObjectService implements Serializable {
 				System.out.println("targetObjectIdKey: " + targetObjectIdKey);
 				System.out.println("targetObjectIdKey: " + sourceObjectId);
 			
-			ArrayList<String> resultPeerObjectIDs = this.getPeerObjectIDs(jsonDatasourceObject, jsonQueryObjectMod, sourceObjectId, targetObjectIdKey);
+			// TODO: 2. change paramter to query object, 3. in method extract keys as targetObjectIDs
+			ArrayList<String> resultPeerObjectIDs = this.getPeerObjectIDs(jsonDatasourceObject, queryObject, sourceObjectId);
 			// test
 			for(String objectId : resultPeerObjectIDs) {
 				System.out.println("PeerObjectID: " + objectId);
 			}
 			peerObjectIDs.addAll(resultPeerObjectIDs);
 		}
-			
-		/*
-		if(objectPeers.equals("person")) {
-			// e.g. a person object is related to another person object if they are in the same organization and department 
-			String organization = businessObject.getAttributeValue("organization");
-			String department = businessObject.getAttributeValue("department");
-			queryString = "\"" + organization + "\" AND \"" + department + "\"";
-		}else if (objectPeers.equals("teaching")) {
-			// e.g. a person object is related to a teaching object if the person is owner or member of the project
-			String email = businessObject.getAttributeValue("email");
-			queryString = "project AND \"" + email + "\"";
-		}
-		// get peer object IDs	
-		DocumentCollection resultCollectionPeerObjectIDs = queryService.ftSearch("test.nsf", queryString);
-		ArrayList<String> peerObjectIds = new ArrayList<String>();
-		try {
-			if(resultCollectionPeerObjectIDs != null) {
-				for(int i=1; i<=resultCollectionPeerObjectIDs.getCount(); i++) {
-					Document doc = resultCollectionPeerObjectIDs.getNthDocument(i);
-					System.out.println(doc.generateXML());
-					String objectId = doc.getItemValueString("email");
-					if(objectPeers.equals("teaching")) {
-						objectId = doc.getItemValueString("projectId");
-					}
-					// add to peer object id list if it is not the object id itself
-					if(!objectId.equals(businessObject.getObjectId())) {
-						peerObjectIds.add(objectId);
-					}
-				}
-			}else {
-				System.out.println("Result of query " + queryString + " is null.");
-			}
-		} catch (NotesException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		*/
 		
 		for(String peerObjectId : peerObjectIDs) {
-			// TODO
 			peerObjectList.add(getBusinessObject(peerObjectId, true));
 		}
 		return peerObjectList;
 	}
 	
-	private ArrayList<String> getPeerObjectIDs(JsonObject jsonDatasourceObject, JsonObject jsonQueryObject, String sourceObjectId, String targetObjectIdKey) {
+	private ArrayList<String> getPeerObjectIDs(JsonObject jsonDatasourceObject, QueryObject queryObject, String sourceObjectId) {
 		
-		DocumentCollection resultCollectionPeerObjectIDs = queryService.executeQueryFTSearch(jsonDatasourceObject, jsonQueryObject); 
+		DocumentCollection resultCollectionPeerObjectIDs = queryService.executeQueryFTSearch(jsonDatasourceObject, queryObject); 
+		// get targetObjectIdKeys
+		List<String> targetObjectIdKeys = queryObject.getKey();
 		// extract object IDs from resultCollection
 		ArrayList<String> peerObjectIds = new ArrayList<String>();
 		if(resultCollectionPeerObjectIDs != null) {
@@ -334,10 +295,12 @@ public class ObjectService implements Serializable {
 				for(int i=1; i<=resultCollectionPeerObjectIDs.getCount(); i++) {
 					Document doc = resultCollectionPeerObjectIDs.getNthDocument(i);
 					System.out.println(doc.generateXML());
-					String objectId = doc.getItemValueString(targetObjectIdKey);
-					// add to peer object id list if it is not the object id itself
-					if(!objectId.equals(sourceObjectId)) {
-						peerObjectIds.add(objectId);
+					for(String targetObjectIdKey : targetObjectIdKeys) {
+						String objectId = doc.getItemValueString(targetObjectIdKey);
+						// add to peer object id list if it is not the object id itself
+						if(!objectId.equals(sourceObjectId)) {
+							peerObjectIds.add(objectId);
+						}
 					}
 				}
 			} catch (NotesException e) {

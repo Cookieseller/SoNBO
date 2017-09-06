@@ -3,6 +3,8 @@ package uniko.iwvi.fgbas.magoetz.sbo.services;
 import java.io.Serializable;
 import java.util.ArrayList;
 import org.openntf.Utils;
+
+import uniko.iwvi.fgbas.magoetz.sbo.objects.QueryObject;
 import uniko.iwvi.fgbas.magoetz.sbo.util.QueryResult;
 import uniko.iwvi.fgbas.magoetz.sbo.util.Utilities;
 import lotus.domino.Database;
@@ -180,7 +182,7 @@ public class QueryService implements Serializable {
 	}
 	
 	// TODO: write wrapper function for various query types
-	public DocumentCollection executeQueryFTSearch(JsonObject jsonDatasourceObject, JsonObject jsonQueryObject) {
+	public DocumentCollection executeQueryFTSearch(JsonObject jsonDatasourceObject, QueryObject queryObject) {
 		
 		JsonElement jsonFirstSourceElement = jsonDatasourceObject.get("datasource");
 		JsonObject jsonFirstSourceObject = jsonFirstSourceElement.getAsJsonObject();
@@ -190,18 +192,15 @@ public class QueryService implements Serializable {
 		String hostname = jsonFirstSourceObject.get("hostname").getAsString();
 		String database = jsonFirstSourceObject.get("database").getAsString();
 		
-		JsonElement jsonFirstQueryElement = jsonQueryObject.get("query");
-		JsonObject jsonFirstQueryObject = jsonFirstQueryElement.getAsJsonObject();
-		
 		// TODO: queryType was added and has to be processed (e.g. "IBM Domino") 
-		String queryString = jsonFirstQueryObject.get("string").getAsString();
+		String queryString = queryObject.getString();
 		
 		DocumentCollection resultCollection = this.ftSearch(database, queryString);
 		
 		return resultCollection;
 	}
 	
-	public JsonObject executeQuery(JsonObject jsonDatasourceObject, JsonObject jsonQueryObject, String objectId) {
+	public JsonObject executeQuery(JsonObject jsonDatasourceObject, QueryObject queryObject, String objectId) {
 	
 		JsonElement jsonFirstSourceElement = jsonDatasourceObject.get("datasource");
 		JsonObject jsonFirstSourceObject = jsonFirstSourceElement.getAsJsonObject();
@@ -211,16 +210,14 @@ public class QueryService implements Serializable {
 		String hostname = jsonFirstSourceObject.get("hostname").getAsString();
 		String database = jsonFirstSourceObject.get("database").getAsString();
 		
-		JsonElement jsonFirstQueryElement = jsonQueryObject.get("query");
-		JsonObject jsonFirstQueryObject = jsonFirstQueryElement.getAsJsonObject();
-		
 		// TODO: queryType was added and has to be processed (e.g. "IBM Domino") 
-		String queryCommand = jsonFirstQueryObject.get("command").getAsString();
-		String queryServer = jsonFirstQueryObject.get("server").getAsString();
-		String queryDatabase = jsonFirstQueryObject.get("database").getAsString();
-		String queryView = jsonFirstQueryObject.get("view").getAsString();
-		String queryKey = jsonFirstQueryObject.get("key").getAsString();
-		String queryFieldname = jsonFirstQueryObject.get("fieldname").getAsString();
+		String queryCommand = queryObject.getCommand();
+		String queryServer = queryObject.getServer();
+		String queryDatabase = queryObject.getDatabase();
+		String queryView = queryObject.getView();
+		// TODO process multiple values (return type is List<String>)
+		String queryKey = queryObject.getKey().toString();
+		String queryFieldname = queryObject.getFieldname();
 		
 		// TODO in this case objectId, but in other cases?
 		queryKey = objectId;

@@ -1,5 +1,7 @@
 package uniko.iwvi.fgbas.magoetz.sbo.objects;
 
+import java.util.List;
+
 public class QueryObject {
 
 	private String name;
@@ -14,7 +16,7 @@ public class QueryObject {
 	
 	private String view;
 	
-	private String key;
+	private List<String> key;
 	
 	private String fieldname;
 	
@@ -68,11 +70,11 @@ public class QueryObject {
 		this.view = view;
 	}
 
-	public String getKey() {
+	public List<String> getKey() {
 		return key;
 	}
 
-	public void setKey(String key) {
+	public void setKey(List<String> key) {
 		this.key = key;
 	}
 
