@@ -170,13 +170,12 @@ public class ObjectService implements Serializable {
 		// execute peer query and retrieve peer object ids
 		String queryString = "";
 		
-		// TODO: should be non static (and only person perspective)
-		
 		// determine peer query by source and target object type
 		String sourceObjectName = businessObject.getObjectName();
 				System.out.println("sourceObjectName: " + sourceObjectName);
 		String sourceObjectId = businessObject.getObjectId();
-				System.out.println("sourceObjectId: " + sourceObjectName);
+				System.out.println("sourceObjectId: " + sourceObjectId);
+		// TODO change (no classes) -- in progress
 		// get children of class objectPeers (target object names) 
 		String queryStringObjectNames = "configObject AND " + sourceObjectName;
 		DocumentCollection resultCollectionObjectNames = queryService.ftSearch("", queryStringObjectNames);
@@ -195,11 +194,8 @@ public class ObjectService implements Serializable {
 		} catch (NotesException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}		
 		
-		// TODO: Test
-		peerObjectNames.removeAll(peerObjectNames);
-		peerObjectNames.add("employee");
 		// get peer queries for source object <-> target objects
 		// build query string for getting object relationships
 		String peerObjectRelationshipQuery = "";
@@ -222,9 +218,11 @@ public class ObjectService implements Serializable {
 					Document doc = resultCollectionPeerRelationships.getNthDocument(i);
 					String peerRelationshipName = doc.getItemValueString("peerRelationshipName");
 					String peerQueryJSON = queryService.getFieldValue("peers", peerRelationshipName, "peerQueryJSON");					
-					// retrieve query and database - FEHLER is not saved in doc
+					// retrieve query and database
 					PeerQueryObject peerQuery = gson.fromJson(peerQueryJSON, PeerQueryObject.class);
 					peerQueryList.add(peerQuery);
+					// test print out
+					System.out.println("peerQuery: " + peerQuery.getPeerQuery());
 				}
 			}else {
 				System.out.println("Result of query " + peerObjectRelationshipQuery + " is null.");
@@ -237,12 +235,11 @@ public class ObjectService implements Serializable {
 		// execute queries for getting peer object IDs
 		ArrayList<String> peerObjectIDs = new ArrayList<String>();
 		for(PeerQueryObject peerQuery : peerQueryList) {
-			
-			//TODO: modify json query object string replace
-				System.out.println("peerQuery: " + peerQuery.getPeerQuery());
+		
+			// get datasource and query for peer query
 			JsonObject jsonDatasourceObject = queryService.getJsonObject("datasources", peerQuery.getPeerDatasource(), "datasourceJSON");				
 			JsonObject jsonQueryObject = queryService.getJsonObject("queries", peerQuery.getPeerQuery(), "queryJSON");
-			//replace attributes in query string with variables
+			//replace attributes in query string with variable values
 			Gson gson = new Gson();
 			// TODO: change json structure (flat)
 			JsonElement jsonFirstQueryElement = jsonQueryObject.get("query");
@@ -250,8 +247,7 @@ public class ObjectService implements Serializable {
 			QueryObject queryObject = gson.fromJson(jsonFirstQueryObject, QueryObject.class);
 			String string = queryObject.getString();
 			Utilities utilities = new Utilities();
-				//utilities.printJson(jsonQueryObject, "jsonQueryObject");
-				//System.out.println("QueryString before replacements: " + string);
+			// create map with replacements
 			ArrayList<String> replaceAttributesList = utilities.getTokens(string);
 			Map<String, String> replaceAttributesMap = new HashMap<String, String>();
 			for(String replaceAttributeKey : replaceAttributesList) {
@@ -259,8 +255,10 @@ public class ObjectService implements Serializable {
 				String replaceAttributeValue = businessObject.getAttributeValue(replaceAttributeKey);
 				replaceAttributesMap.put(replaceAttributeKey, replaceAttributeValue);
 			}
+			// replace [key] in string with variable values
 			string = utilities.replaceTokens(string, replaceAttributesMap);
 			System.out.println("QueryString after replacements: " + string);
+			// replace query string
 			queryObject.setString(string);
 			JsonObject jsonQueryObjectModified = gson.toJsonTree(queryObject).getAsJsonObject();
 			// TODO: change json structure
@@ -275,6 +273,10 @@ public class ObjectService implements Serializable {
 				System.out.println("targetObjectIdKey: " + sourceObjectId);
 			
 			ArrayList<String> resultPeerObjectIDs = this.getPeerObjectIDs(jsonDatasourceObject, jsonQueryObjectMod, sourceObjectId, targetObjectIdKey);
+			// test
+			for(String objectId : resultPeerObjectIDs) {
+				System.out.println("PeerObjectID: " + objectId);
+			}
 			peerObjectIDs.addAll(resultPeerObjectIDs);
 		}
 			
