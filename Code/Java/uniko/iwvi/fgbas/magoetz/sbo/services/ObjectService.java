@@ -180,25 +180,7 @@ public class ObjectService implements Serializable {
 				System.out.println("sourceObjectId: " + sourceObjectId);
 	
 		// Get children of class objectPeers ( = target object names) e.g. person -> employee, student etc.
-		ArrayList<String> peerObjectNames = new ArrayList<String>();
-		String queryStringObjectNames = "FIELD objectClass = " + objectPeers;
-		DocumentCollection resultCollectionObjectNames = queryService.ftSearchView("", queryStringObjectNames, "objects");
-		try {
-			if(resultCollectionObjectNames != null) {
-				for(int i=1; i<=resultCollectionObjectNames.getCount(); i++) {
-					Document doc = resultCollectionObjectNames.getNthDocument(i);
-					String objectName = doc.getItemValueString("objectName");
-							System.out.println("childObjectName: " + objectName);
-					peerObjectNames.add(objectName);
-				}
-			}else {
-				System.out.println("Result of query " + queryStringObjectNames + " is null.");
-			}
-		} catch (NotesException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+		ArrayList<String> peerObjectNames = getChildrenNodes(objectPeers);
 		
 		// get peer queries for source object <-> target objects
 		// build query string for getting object relationships
@@ -283,6 +265,28 @@ public class ObjectService implements Serializable {
 		return peerObjectList;
 	}
 	
+	private ArrayList<String> getChildrenNodes(String objectPeers) {
+		ArrayList<String> peerObjectNames = new ArrayList<String>();
+		String queryStringObjectNames = "FIELD objectClass = " + objectPeers;
+		DocumentCollection resultCollectionObjectNames = queryService.ftSearchView("", queryStringObjectNames, "objects");
+		try {
+			if(resultCollectionObjectNames != null) {
+				for(int i=1; i<=resultCollectionObjectNames.getCount(); i++) {
+					Document doc = resultCollectionObjectNames.getNthDocument(i);
+					String objectName = doc.getItemValueString("objectName");
+							System.out.println("childObjectName: " + objectName);
+					peerObjectNames.add(objectName);
+				}
+			}else {
+				System.out.println("Result of query " + queryStringObjectNames + " is null.");
+			}
+		} catch (NotesException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return peerObjectNames;
+	}
+	
 	private ArrayList<String> getPeerObjectIDs(JsonObject jsonDatasourceObject, QueryObject queryObject, String sourceObjectId) {
 		
 		DocumentCollection resultCollectionPeerObjectIDs = queryService.executeQueryFTSearch(jsonDatasourceObject, queryObject); 
@@ -313,17 +317,12 @@ public class ObjectService implements Serializable {
 		return peerObjectIds;
 	}
 
-	public List<BusinessObject> getFilteredBusinessObjects(BusinessObject businessObject, String objectRelationshipAttributeValue, String objectPeers) {
+	public List<BusinessObject> getFilteredBusinessObjects(BusinessObject businessObject, String peerNodeType, String objectPeers) {
 		
 		List<BusinessObject> filteredPeerObjectList = new ArrayList<BusinessObject>();
-		
-		if(objectRelationshipAttributeValue != null && !objectRelationshipAttributeValue.equals("all")) {
-			// filter by relationship
-			ClassObject classObject = configService.getClassObject(objectPeers);
-			String objectRelationshipAttributeKey = classObject.getClassRelationships();
-			for(BusinessObject peerObject : businessObject.getPeerObjectList()) {			
-				if(peerObject.containsAttribute(objectRelationshipAttributeKey, objectRelationshipAttributeValue)) {
-					System.out.println("Object added: " + peerObject.getObjectTitle());
+		if(peerNodeType != null && !peerNodeType.equals("all")) {
+			for(BusinessObject peerObject : businessObject.getPeerObjectList()) {	
+				if(peerObject.getObjectName().equals(peerNodeType)) {
 					filteredPeerObjectList.add(peerObject);
 				}
 			}
@@ -333,25 +332,13 @@ public class ObjectService implements Serializable {
 		return filteredPeerObjectList;
 	}
 
-	public List<String> getObjectRelationships(BusinessObject businessObject, String objectPeers) {
-		
+	public List<String> getObjectRelationships(String objectPeers) {	
 		// get class object -> relationship attribute
 		ClassObject classObject = configService.getClassObject(objectPeers);
 		String classRelationship = classObject.getClassRelationships();
-		// query get all possible values from peer object attributes (use HashSet)
-		HashSet<String> objectRelationships = new HashSet<String>();
-		List<BusinessObject> peerObjects = businessObject.getPeerObjectList();
-		for(BusinessObject peerObject : peerObjects) {
-			String attributeValue  = peerObject.getAttributeValue(classRelationship);
-			if(attributeValue != null) {
-				String[] attributeValues = attributeValue.split(",");
-				for(String attr : attributeValues) {
-					objectRelationships.add(attr);
-				}	
-			}
-		}
-		List<String> objectRelationshipsList = new ArrayList<String>(objectRelationships);
-		Collections.sort(objectRelationshipsList);
-		return objectRelationshipsList;
+		// get all children node types
+		ArrayList<String> peerObjectNames = getChildrenNodes(objectPeers);
+		
+		return peerObjectNames;
 	}
 }

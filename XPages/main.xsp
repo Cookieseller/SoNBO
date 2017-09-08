@@ -20,8 +20,8 @@
 			<xp:label value="Filter area" id="label1" xp:key="facetLeft"></xp:label>
 			<xp:panel xp:key="facetMiddle">
 				<xc:object/>
-				<xc:navbarPeers/>
-				<xc:navbarRelations/>
+				<xc:navbarNodeType1/>
+				<xc:navbarNodeType2/>
 				<xc:objectList/>
 			</xp:panel>
 			<xp:label value="Stream area" id="label3" xp:key="facetRight"></xp:label>

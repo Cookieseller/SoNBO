@@ -5,9 +5,9 @@
     <default-prefix>xc</default-prefix>
   </faces-config-extension>
   <composite-component>
-    <component-type>navbarPeers</component-type>
-    <composite-name>navbarPeers</composite-name>
-    <composite-file>/navbarPeers.xsp</composite-file>
+    <component-type>navbarNodeType2</component-type>
+    <composite-name>navbarNodeType2</composite-name>
+    <composite-file>/navbarNodeType2.xsp</composite-file>
     <composite-extension>
       <designer-extension>
         <in-palette>true</in-palette>
