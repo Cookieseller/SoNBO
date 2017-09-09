@@ -2,31 +2,20 @@ package uniko.iwvi.fgbas.magoetz.sbo.services;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.Vector;
-import java.util.Map.Entry;
-
 import lotus.domino.Document;
 import lotus.domino.DocumentCollection;
 import lotus.domino.NotesException;
-
 import uniko.iwvi.fgbas.magoetz.sbo.objects.BusinessObject;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.ClassObject;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.ConfigurationObject;
-import uniko.iwvi.fgbas.magoetz.sbo.objects.PeerQueryObject;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.QueryObject;
+import uniko.iwvi.fgbas.magoetz.sbo.objects.RelationshipQueryObject;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.ConfigurationObject.ConfigurationObjectAttribute;
 import uniko.iwvi.fgbas.magoetz.sbo.util.QueryResult;
 import uniko.iwvi.fgbas.magoetz.sbo.util.Utilities;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -125,6 +114,7 @@ public class ObjectService implements Serializable {
 	
 	private BusinessObject loadAttributes(BusinessObject businessObject, ConfigurationObject configObject, ArrayList<QueryResult> queryResultList, boolean objectPreview) {
 
+		// TODO
 		// if it is an object preview only process preview attributes otherwise all defined
 		ArrayList<ConfigurationObjectAttribute> configurationObjectAttributes =  new ArrayList<ConfigurationObjectAttribute>();
 		if(objectPreview){
@@ -187,28 +177,28 @@ public class ObjectService implements Serializable {
 		String peerObjectRelationshipQuery = "";
 		for(int i=0; i<peerObjectNames.size(); i++) {
 			System.out.println("Result string peer object name: " + peerObjectNames.get(i)); // should be employee in this case
-			peerObjectRelationshipQuery += "[peerSourceObject] = " + sourceObjectName + " AND [peerTargetObject] = " + peerObjectNames.get(i);
+			peerObjectRelationshipQuery += "[relationshipSourceObject] = " + sourceObjectName + " AND [relationshipTargetObject] = " + peerObjectNames.get(i);
 			if(i < peerObjectNames.size() - 1) {
 				peerObjectRelationshipQuery += " OR ";
 			}
 		}
 		System.out.println("peerObjectNamesQueryString: " + peerObjectRelationshipQuery);
-		DocumentCollection resultCollectionPeerRelationships = queryService.ftSearchView("", peerObjectRelationshipQuery, "peers");
+		DocumentCollection resultCollectionPeerRelationships = queryService.ftSearchView("", peerObjectRelationshipQuery, "relationships");
 		
 		//execute query for getting object relationships
-		ArrayList<PeerQueryObject> peerQueryList = new ArrayList<PeerQueryObject>();
+		ArrayList<RelationshipQueryObject> peerQueryList = new ArrayList<RelationshipQueryObject>();
 		try {
 			if(resultCollectionPeerRelationships != null) {
 				Gson gson = new Gson();
 				for(int i=1; i<=resultCollectionPeerRelationships.getCount(); i++) {
 					Document doc = resultCollectionPeerRelationships.getNthDocument(i);
 					String peerRelationshipName = doc.getItemValueString("peerRelationshipName");
-					String peerQueryJSON = queryService.getFieldValue("peers", peerRelationshipName, "peerQueryJSON");					
+					String peerQueryJSON = queryService.getFieldValue("relationships", peerRelationshipName, "relationshipQueryJSON");					
 					// retrieve query and database
-					PeerQueryObject peerQuery = gson.fromJson(peerQueryJSON, PeerQueryObject.class);
+					RelationshipQueryObject peerQuery = gson.fromJson(peerQueryJSON, RelationshipQueryObject.class);
 					peerQueryList.add(peerQuery);
 					// test print out
-					System.out.println("peerQuery: " + peerQuery.getPeerQuery());
+					System.out.println("peerQuery: " + peerQuery.getQuery());
 				}
 			}else {
 				System.out.println("Result of query " + peerObjectRelationshipQuery + " is null.");
@@ -220,11 +210,11 @@ public class ObjectService implements Serializable {
 		
 		// execute queries for getting peer object IDs
 		ArrayList<String> peerObjectIDs = new ArrayList<String>();
-		for(PeerQueryObject peerQuery : peerQueryList) {
+		for(RelationshipQueryObject peerQuery : peerQueryList) {
 		
 			// get datasource and query for peer query
-			JsonObject jsonDatasourceObject = queryService.getJsonObject("datasources", peerQuery.getPeerDatasource(), "datasourceJSON");				
-			JsonObject jsonQueryObject = queryService.getJsonObject("queries", peerQuery.getPeerQuery(), "queryJSON");
+			JsonObject jsonDatasourceObject = queryService.getJsonObject("datasources", peerQuery.getDatasource(), "datasourceJSON");				
+			JsonObject jsonQueryObject = queryService.getJsonObject("queries", peerQuery.getQuery(), "queryJSON");
 			//replace attributes in query string with variable values
 			Gson gson = new Gson();
 			QueryObject queryObject = gson.fromJson(jsonQueryObject, QueryObject.class);
@@ -244,7 +234,7 @@ public class ObjectService implements Serializable {
 			// replace query string
 			queryObject.setString(string);
 			
-			String targetObjectName = peerQuery.getPeerTargetObject();
+			String targetObjectName = peerQuery.getTargetObject();
 			String targetObjectIdKey = queryService.getFieldValue("objects", targetObjectName, "objectId");
 			
 				System.out.println("targetObjectIdKey: " + targetObjectIdKey);

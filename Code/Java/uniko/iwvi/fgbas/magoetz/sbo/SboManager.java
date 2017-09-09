@@ -24,9 +24,9 @@ public class SboManager implements Serializable {
 	
 	private String objectId = (String) FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id");
 	
-	private String objectPeers = (String) FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("nodeType1");
+	private String nodeType1 = (String) FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("nodeType1");
 	
-	private String objectRelationship = (String) FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("nodeType2");
+	private String nodeType2 = (String) FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("nodeType2");
 	
 	private ArrayList<String> notificationCodeList = new ArrayList<String>();
 	
@@ -55,12 +55,12 @@ public class SboManager implements Serializable {
 			for(String peers : classObject.getClassPeers())  {
 				List<BusinessObject> objects = objectService.getPeerObjects(businessObject, peers);
 				//allPeerObjectList.addAll(objects);
-				if(this.objectPeers.equals(peers) || this.objectPeers.equals("all")) {
+				if(this.nodeType1.equals(peers) || this.nodeType1.equals("all")) {
 					peerObjectList.addAll(objects);
 				}
 				this.businessObject.setPeerObjectList(peerObjectList);
 				objectRelationships.addAll(objectService.getObjectRelationships(peers));
-				filteredPeerObjectList.addAll(objectService.getFilteredBusinessObjects(businessObject, objectRelationship, peers));
+				filteredPeerObjectList.addAll(objectService.getFilteredBusinessObjects(businessObject, nodeType2, peers));
 			}
 			List<String> relationshipList = new ArrayList<String>();
 			for(String relationship : objectRelationships) {
