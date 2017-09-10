@@ -192,7 +192,8 @@ public class ObjectService implements Serializable {
 				Gson gson = new Gson();
 				for(int i=1; i<=resultCollectionAdjacenyQueryList.getCount(); i++) {
 					Document doc = resultCollectionAdjacenyQueryList.getNthDocument(i);
-					String adjacencyName = doc.getItemValueString("peerRelationshipName");
+					//TODO rename in case
+					String adjacencyName = doc.getItemValueString("relationshipName");
 					String adjacencyQueryJSON = queryService.getFieldValue("relationships", adjacencyName, "relationshipQueryJSON");					
 					// retrieve query and database
 					AdjacencyQuery adjacencyQuery = gson.fromJson(adjacencyQueryJSON, AdjacencyQuery.class);

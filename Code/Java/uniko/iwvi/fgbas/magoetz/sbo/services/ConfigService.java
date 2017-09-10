@@ -27,7 +27,7 @@ public class ConfigService implements Serializable {
 		JsonObject jsonNodeType = queryService.getJsonObject("objects", nodeTypeName, "objectJSON");
 		// log json
 		Utilities utilities = new Utilities();
-		utilities.printJson(jsonNodeType, "Parsed nodeType json");
+		//utilities.printJson(jsonNodeType, "Parsed nodeType json");
 		
 		// get config information
 		NodeType nodeType = new NodeType();
@@ -51,7 +51,7 @@ public class ConfigService implements Serializable {
 		
 		for(JsonObject jsonNodeAttribute : jsonNodeAttributeList) {
 			
-			utilities.printJson(jsonNodeAttribute, "Parsed attribute json");
+			//utilities.printJson(jsonNodeAttribute, "Parsed attribute json");
 			
 			JsonElement jsonFirstAttrElement = jsonNodeAttribute.get("attribute");
 			JsonObject jsonFirstAttrObject = jsonFirstAttrElement.getAsJsonObject();

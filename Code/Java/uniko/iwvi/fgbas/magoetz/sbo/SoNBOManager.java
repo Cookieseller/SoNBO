@@ -44,23 +44,24 @@ public class SoNBOManager implements Serializable {
 			// TODO reload peer object list if other objectPeer was chosen
 			// get list of peer objects (all)
 			ConfigService configService = new ConfigService();
-			NodeTypeCategory classObject = configService.getNodeTypeCategory(businessObject.getNodeTypeCategory());
+			NodeTypeCategory nodeTypeCategory = configService.getNodeTypeCategory(businessObject.getNodeTypeCategory());
 			//List<Node> allPeerObjectList = new ArrayList<Node>();
-			List<Node> peerObjectList = new ArrayList<Node>();
+			List<Node> adjacentNodeList = new ArrayList<Node>();
 			
 			HashSet<String> objectRelationships = new HashSet<String>();
 			//List<Node> filteredPeerObjectList = new ArrayList<Node>();
 			HashSet<Node> filteredPeerObjectList = new HashSet<Node>();
 			
-			for(String peers : classObject.getAdjacentNodeTypeCategories())  {
-				List<Node> objects = objectService.getAdjacentNodes(businessObject, peers);
+			for(String adjacentNodeTypeCategory : nodeTypeCategory.getAdjacentNodeTypeCategories())  {
+				System.out.println("AdjacentNodeTypeCategory: " + adjacentNodeTypeCategory);
+				List<Node> objects = objectService.getAdjacentNodes(businessObject, adjacentNodeTypeCategory);
 				//allPeerObjectList.addAll(objects);
-				if(this.nodeTypeCategory.equals(peers) || this.nodeTypeCategory.equals("all")) {
-					peerObjectList.addAll(objects);
+				if(this.nodeTypeCategory.equals(adjacentNodeTypeCategory) || this.nodeTypeCategory.equals("all")) {
+					adjacentNodeList.addAll(objects);
 				}
-				this.businessObject.setAdjacentNodeList(peerObjectList);
-				objectRelationships.addAll(objectService.getAdjacentNodeTypes(peers));
-				filteredPeerObjectList.addAll(objectService.getFilteredResultList(businessObject, nodeType, peers));
+				this.businessObject.setAdjacentNodeList(adjacentNodeList);
+				objectRelationships.addAll(objectService.getAdjacentNodeTypes(adjacentNodeTypeCategory));
+				filteredPeerObjectList.addAll(objectService.getFilteredResultList(businessObject, nodeType, adjacentNodeTypeCategory));
 			}
 			List<String> relationshipList = new ArrayList<String>();
 			for(String relationship : objectRelationships) {
