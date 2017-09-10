@@ -8,13 +8,14 @@ import java.util.Map;
 import lotus.domino.Document;
 import lotus.domino.DocumentCollection;
 import lotus.domino.NotesException;
+import uniko.iwvi.fgbas.magoetz.sbo.objects.Attribute;
+import uniko.iwvi.fgbas.magoetz.sbo.objects.Datasource;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.Node;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.NodeTypeCategory;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.NodeType;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.Query;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.AdjacencyQuery;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.QueryResult;
-import uniko.iwvi.fgbas.magoetz.sbo.objects.NodeType.NodeTypeAttribute;
 import uniko.iwvi.fgbas.magoetz.sbo.util.Utilities;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -54,7 +55,7 @@ public class ObjectService implements Serializable {
 		node.setNodeImage(nodeTypeCategory.getDefaultImage());
 		
 		// get business object attributes
-		ArrayList<QueryResult> queryResultList = getNodeAttributes(configObject, id, nodePreview);
+		ArrayList<QueryResult> queryResultList = this.getNodeAttributes(configObject, id, nodePreview);
 		
 		// load attribute key and value into business object
 		node = loadAttributes(node, configObject, queryResultList, nodePreview);
@@ -71,7 +72,7 @@ public class ObjectService implements Serializable {
 		ArrayList<QueryResult> queryResultList = new ArrayList<QueryResult>();
 		
 		// if it is an object preview only get preview attributes otherwise all defined
-		ArrayList<NodeTypeAttribute> nodeTypeAttributes =  new ArrayList<NodeTypeAttribute>();
+		List<Attribute> nodeTypeAttributes =  new ArrayList<Attribute>();
 		if(nodePreview){
 			nodeTypeAttributes =  config.getPreviewConfigurationNodeAttributes();
 		}else {
@@ -79,7 +80,7 @@ public class ObjectService implements Serializable {
 		}
 		
 		// get value for each object attribute
-		for(NodeTypeAttribute nodeTypeAttribute : nodeTypeAttributes) {
+		for(Attribute nodeTypeAttribute : nodeTypeAttributes) {
 
 			String datasource = nodeTypeAttribute.getDatasource();
 			String query = nodeTypeAttribute.getQuery();
@@ -90,18 +91,19 @@ public class ObjectService implements Serializable {
 			JsonObject jsonQueryResultObject = queryService.getQueryResult(queryResultList, queryResult);
 			
 			if(jsonQueryResultObject == null) {
-				// get datasource configuration			
+				// get datasource configuration
 				JsonObject jsonDatasourceObject = queryService.getJsonObject("datasources", datasource, "datasourceJSON");
+				Gson gson = new Gson();
+				Datasource datasourceObject = gson.fromJson(jsonDatasourceObject, Datasource.class);
 				// log json
-				Utilities utilities = new Utilities();
-				utilities.printJson(jsonDatasourceObject, "json datasource object");
+				//Utilities utilities = new Utilities();
+				//utilities.printJson(jsonDatasourceObject, "json datasource object");
 				// get query				
 				JsonObject jsonQueryObject = queryService.getJsonObject("queries", query, "queryJSON");
-				Gson gson = new Gson();
 				Query queryObject = gson.fromJson(jsonQueryObject, Query.class);
 				// log json
-				utilities.printJson(jsonQueryObject, "json query object");
-				jsonQueryResultObject = queryService.executeQuery(jsonDatasourceObject, queryObject, id);
+				//utilities.printJson(jsonQueryObject, "json query object");
+				jsonQueryResultObject = queryService.executeQuery(datasourceObject, queryObject, id);
 				queryResult.setJsonObject(jsonQueryResultObject);
 				queryResultList.add(queryResult);
 				// log json
@@ -116,14 +118,14 @@ public class ObjectService implements Serializable {
 
 		// TODO
 		// if it is an object preview only process preview attributes otherwise all defined
-		ArrayList<NodeTypeAttribute> configurationNodeAttributes =  new ArrayList<NodeTypeAttribute>();
+		List<Attribute> configurationNodeAttributes =  new ArrayList<Attribute>();
 		if(nodePreview){
 			configurationNodeAttributes =  configuration.getPreviewConfigurationNodeAttributes();
 		}else {
 			configurationNodeAttributes =  configuration.getNodeTypeAttributes();
 		}
 		
-		for(NodeTypeAttribute nodeTypeAttribute : configuration.getNodeTypeAttributes()) {
+		for(Attribute nodeTypeAttribute : configuration.getNodeTypeAttributes()) {
 			// get name and fieldname of attribute
 			String name = nodeTypeAttribute.getName();
 			String fieldname = nodeTypeAttribute.getFieldname();
@@ -218,6 +220,7 @@ public class ObjectService implements Serializable {
 			JsonObject jsonQueryObject = queryService.getJsonObject("queries", adjacencyQuery.getQuery(), "queryJSON");
 			//replace attributes in query string with variable values
 			Gson gson = new Gson();
+			Datasource datasourceObject = gson.fromJson(jsonDatasourceObject, Datasource.class);
 			Query queryObject = gson.fromJson(jsonQueryObject, Query.class);
 			String string = queryObject.getString();
 			Utilities utilities = new Utilities();
@@ -242,7 +245,7 @@ public class ObjectService implements Serializable {
 				System.out.println("targetNodeIdKey: " + sourceNodeId);
 			
 			// TODO: 2. change paramter to query object, 3. in method extract keys as targetObjectIDs
-			ArrayList<String> resultAdjacentNodeIDs = this.getAdjacentNodeIDs(jsonDatasourceObject, queryObject, sourceNodeId);
+			ArrayList<String> resultAdjacentNodeIDs = this.getAdjacentNodeIDs(datasourceObject, queryObject, sourceNodeId);
 			// test
 			for(String nodeId : resultAdjacentNodeIDs) {
 				System.out.println("AdjacentNodeID: " + nodeId);
@@ -278,9 +281,9 @@ public class ObjectService implements Serializable {
 		return adjacentNodeTypes;
 	}
 	
-	private ArrayList<String> getAdjacentNodeIDs(JsonObject jsonDatasourceObject, Query queryObject, String sourceNodeId) {
+	private ArrayList<String> getAdjacentNodeIDs(Datasource datasourceObject, Query queryObject, String sourceNodeId) {
 		
-		DocumentCollection resultCollectionAdjacentNodesIDs = queryService.executeQueryFTSearch(jsonDatasourceObject, queryObject); 
+		DocumentCollection resultCollectionAdjacentNodesIDs = queryService.executeQueryFTSearch(datasourceObject, queryObject); 
 		// get targetObjectIdKeys
 		List<String> targetNodeIdKeys = queryObject.getKey();
 		// extract object IDs from resultCollection

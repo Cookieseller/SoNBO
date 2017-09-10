@@ -13,7 +13,11 @@ public class NodeType {
 	
 	private String adjacencies;
 	
-	private ArrayList<NodeTypeAttribute> nodeTypeAttributes = new ArrayList<NodeTypeAttribute>();
+	private List<Attribute> nodeTypeAttributes;
+	
+	public NodeType() {
+		this.nodeTypeAttributes = new ArrayList<Attribute>();
+	}
 	
 	public void setNodeTypeName(String nodeTypeName) {
 		this.nodeTypeName = nodeTypeName;
@@ -39,14 +43,13 @@ public class NodeType {
 		return adjacencies;
 	}
 
-	public ArrayList<NodeTypeAttribute> getNodeTypeAttributes() {
-		return nodeTypeAttributes;
+	public List<Attribute> getNodeTypeAttributes() {
+		return this.nodeTypeAttributes;
 	}
 	
-	public ArrayList<NodeTypeAttribute> getPreviewConfigurationNodeAttributes() {
-		
-		ArrayList<NodeTypeAttribute> previewConfigNodeAttrList = new ArrayList<NodeTypeAttribute>();
-		for(NodeTypeAttribute configNodeAttr : this.getNodeTypeAttributes()) {
+	public List<Attribute> getPreviewConfigurationNodeAttributes() {
+		List<Attribute> previewConfigNodeAttrList = new ArrayList<Attribute>();
+		for(Attribute configNodeAttr : this.getNodeTypeAttributes()) {
 			if(configNodeAttr.isPreview()) {
 				previewConfigNodeAttrList.add(configNodeAttr);
 			}
@@ -54,81 +57,12 @@ public class NodeType {
 		return previewConfigNodeAttrList;
 	}
 
-	public void setConfigurationNodeAttributes(
-			ArrayList<NodeTypeAttribute> configurationNodeAttributes) {
-		this.nodeTypeAttributes = configurationNodeAttributes;
+	public void setConfigurationNodeAttributes(List<Attribute> attributes){
+		this.nodeTypeAttributes = attributes;
 	}
 	
-	public void addConfigurationNodeAttribute(String name, String datasource, String query, String fieldname, int displayfield, boolean preview) {
-		NodeTypeAttribute configNdAttr = new NodeTypeAttribute(name, datasource, query, fieldname, displayfield, preview);
-		this.nodeTypeAttributes.add(configNdAttr);
-	}
-	
-	public class NodeTypeAttribute {
-			
-		private String name;
-		private String datasource;
-		private String query;
-		private String fieldname;
-		private int displayfield;
-		private boolean preview;
-		
-		private NodeTypeAttribute(String name, String datasource, String query, String fieldname, int displayfield, boolean preview) {
-			this.name = name;
-			this.datasource = datasource;
-			this.setQuery(query);
-			this.fieldname = fieldname;
-			this.displayfield = displayfield;
-			this.setPreview(preview);
-		}
-		
-		public String getName() {
-			return name;
-		}
-
-		public void setName(String name) {
-			this.name = name;
-		}
-
-		public String getDatasource() {
-			return datasource;
-		}
-		
-		public void setDatasource(String datasource) {
-			this.datasource = datasource;
-		}
-		
-		public String getFieldname() {
-			return fieldname;
-		}
-		
-		public void setFieldname(String fieldname) {
-			this.fieldname = fieldname;
-		}
-		
-		public int getDisplayfield() {
-			return displayfield;
-		}
-		
-		public void setDisplayfield(int displayfield) {
-			this.displayfield = displayfield;
-		}
-
-		public void setQuery(String query) {
-			this.query = query;
-		}
-
-		public String getQuery() {
-			return query;
-		}
-
-		public void setPreview(boolean preview) {
-			this.preview = preview;
-		}
-
-		public boolean isPreview() {
-			return preview;
-		}
+	public void addConfigurationNodeAttribute(Attribute attribute) {
+		this.nodeTypeAttributes.add(attribute);
 	}
 
 	public String getNodeTypeTitle() {

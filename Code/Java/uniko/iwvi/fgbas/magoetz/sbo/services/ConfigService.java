@@ -6,6 +6,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
+import uniko.iwvi.fgbas.magoetz.sbo.objects.Attribute;
+import uniko.iwvi.fgbas.magoetz.sbo.objects.Datasource;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.NodeTypeCategory;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.NodeType;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.Query;
@@ -48,11 +50,11 @@ public class ConfigService implements Serializable {
 		*/
 		// attributes
 		ArrayList<JsonObject> jsonNodeAttributeList = queryService.getJsonObjects("attributes", nodeTypeName, "attributeJSON");
-		
+		Gson gson = new Gson();
 		for(JsonObject jsonNodeAttribute : jsonNodeAttributeList) {
 			
 			//utilities.printJson(jsonNodeAttribute, "Parsed attribute json");
-			
+			/*
 			JsonElement jsonFirstAttrElement = jsonNodeAttribute.get("attribute");
 			JsonObject jsonFirstAttrObject = jsonFirstAttrElement.getAsJsonObject();
 			
@@ -62,8 +64,9 @@ public class ConfigService implements Serializable {
 			String fieldname = jsonFirstAttrObject.get("fieldname").getAsString();
 			int displayfield = jsonFirstAttrObject.get("displayfield").getAsInt();
 			boolean preview = jsonFirstAttrObject.get("preview").getAsBoolean();
-			
-			nodeType.addConfigurationNodeAttribute(name, datasource, query, fieldname, displayfield, preview);
+			*/
+			Attribute attribute = gson.fromJson(jsonNodeAttribute, Attribute.class);
+			nodeType.addConfigurationNodeAttribute(attribute);
 		}
 		
 		return nodeType;
@@ -97,8 +100,9 @@ public class ConfigService implements Serializable {
 			JsonObject datasourceJSON = queryService.getJsonObject("datasources", mainSource, "datasourceJSON");
 			JsonObject queryJSON = queryService.getJsonObject("queries", mainQuery, "queryJSON");
 			Gson gson = new Gson();
+			Datasource datasourceObject = gson.fromJson(datasourceJSON, Datasource.class);
 			Query queryObject = gson.fromJson(queryJSON, Query.class);
-			JsonObject adjacentNodeJSON = queryService.executeQuery(datasourceJSON, queryObject, id); 
+			JsonObject adjacentNodeJSON = queryService.executeQuery(datasourceObject, queryObject, id); 
 			if(adjacentNodeJSON != null) {
 				// get object type
 				JsonElement jsonFirstQueryElement = adjacentNodeJSON.get(id);

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import org.openntf.Utils;
 
+import uniko.iwvi.fgbas.magoetz.sbo.objects.Datasource;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.Query;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.QueryResult;
 import uniko.iwvi.fgbas.magoetz.sbo.util.Utilities;
@@ -182,15 +183,12 @@ public class QueryService implements Serializable {
 	}
 	
 	// TODO: write wrapper function for various query types
-	public DocumentCollection executeQueryFTSearch(JsonObject jsonDatasourceObject, Query queryObject) {
-		
-		JsonElement jsonFirstSourceElement = jsonDatasourceObject.get("datasource");
-		JsonObject jsonFirstSourceObject = jsonFirstSourceElement.getAsJsonObject();
-		
+	public DocumentCollection executeQueryFTSearch(Datasource datasourceObject, Query queryObject) {
+				
 		// TODO: Evaluate whole query and change to dynamic execution for all query types (currently only IBM Domino supported)
-		String type = jsonFirstSourceObject.get("type").getAsString();
-		String hostname = jsonFirstSourceObject.get("hostname").getAsString();
-		String database = jsonFirstSourceObject.get("database").getAsString();
+		String type = datasourceObject.getType();
+		String hostname = datasourceObject.getHostname();
+		String database = datasourceObject.getDatabase();
 		
 		// TODO: queryType was added and has to be processed (e.g. "IBM Domino") 
 		String queryString = queryObject.getString();
@@ -200,15 +198,12 @@ public class QueryService implements Serializable {
 		return resultCollection;
 	}
 	
-	public JsonObject executeQuery(JsonObject jsonDatasourceObject, Query queryObject, String objectId) {
-	
-		JsonElement jsonFirstSourceElement = jsonDatasourceObject.get("datasource");
-		JsonObject jsonFirstSourceObject = jsonFirstSourceElement.getAsJsonObject();
+	public JsonObject executeQuery(Datasource datasourceObject, Query queryObject, String objectId) {
 		
 		// TODO: Evaluate whole query and change to dynamic execution for all query types (currently only IBM Domino supported)
-		String type = jsonFirstSourceObject.get("type").getAsString();
-		String hostname = jsonFirstSourceObject.get("hostname").getAsString();
-		String database = jsonFirstSourceObject.get("database").getAsString();
+		String type = datasourceObject.getType();
+		String hostname = datasourceObject.getHostname();
+		String database = datasourceObject.getDatabase();
 		
 		// TODO: queryType was added and has to be processed (e.g. "IBM Domino") 
 		String queryCommand = queryObject.getCommand();
