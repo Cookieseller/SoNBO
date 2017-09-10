@@ -26,7 +26,7 @@ public class ConfigService implements Serializable {
 	public NodeType getNodeType(String nodeTypeName) {
 		
 		// TODO: check if object type exists 
-		JsonObject jsonNodeType = queryService.getJsonObject("nodeTypes", nodeTypeName, "objectJSON");
+		JsonObject jsonNodeType = queryService.getJsonObject("nodeTypes", nodeTypeName, "nodeTypeJSON");
 		// log json
 		Utilities utilities = new Utilities();
 		//utilities.printJson(jsonNodeType, "Parsed nodeType json");
@@ -48,7 +48,7 @@ public class ConfigService implements Serializable {
 
 	public NodeTypeCategory getNodeTypeCategory(String nodeTypeCategory) {
 		
-		String jsonFromDb = queryService.getFieldValue("nodeTypeCategories", nodeTypeCategory, "classJSON");
+		String jsonFromDb = queryService.getFieldValue("nodeTypeCategories", nodeTypeCategory, "nodeTypeCategoryJSON");
 		Gson gson = new Gson();
 		return gson.fromJson(jsonFromDb, NodeTypeCategory.class);
 	}
@@ -79,6 +79,7 @@ public class ConfigService implements Serializable {
 			JsonObject adjacentNodeJSON = queryService.executeQuery(datasourceObject, queryObject, id); 
 			if(adjacentNodeJSON != null) {
 				// get object type
+				// TODO revise
 				JsonElement jsonFirstQueryElement = adjacentNodeJSON.get(id);
 				JsonObject jsonFirstQueryObject = jsonFirstQueryElement.getAsJsonObject();
 				String nodeType = jsonFirstQueryObject.get("objectType").getAsString();

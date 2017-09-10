@@ -179,7 +179,7 @@ public class ObjectService implements Serializable {
 		String adjacencyQueryString = "";
 		for(int i=0; i<adjacentNodeTypes.size(); i++) {
 			System.out.println("Result string adjacent node name: " + adjacentNodeTypes.get(i));
-			adjacencyQueryString += "[relationshipSourceObject] = " + sourceNodeType + " AND [relationshipTargetObject] = " + adjacentNodeTypes.get(i);
+			adjacencyQueryString += "[adjacencySourceObject] = " + sourceNodeType + " AND [adjacencyTargetObject] = " + adjacentNodeTypes.get(i);
 			if(i < adjacentNodeTypes.size() - 1) {
 				adjacencyQueryString += " OR ";
 			}
@@ -194,9 +194,8 @@ public class ObjectService implements Serializable {
 				Gson gson = new Gson();
 				for(int i=1; i<=resultCollectionAdjacenyQueryList.getCount(); i++) {
 					Document doc = resultCollectionAdjacenyQueryList.getNthDocument(i);
-					//TODO rename in case
-					String adjacencyName = doc.getItemValueString("relationshipName");
-					String adjacencyQueryJSON = queryService.getFieldValue("adjacencies", adjacencyName, "relationshipQueryJSON");					
+					String adjacencyName = doc.getItemValueString("adjacencyName");
+					String adjacencyQueryJSON = queryService.getFieldValue("adjacencies", adjacencyName, "adjacencyQueryJSON");					
 					// retrieve query and database
 					AdjacencyQuery adjacencyQuery = gson.fromJson(adjacencyQueryJSON, AdjacencyQuery.class);
 					adjacencyQueryList.add(adjacencyQuery);
@@ -239,7 +238,7 @@ public class ObjectService implements Serializable {
 			queryObject.setString(string);
 			
 			String targetNodeName = adjacencyQuery.getTargetNode();
-			String targetNodeIdKey = queryService.getFieldValue("nodeTypes", targetNodeName, "objectId");
+			String targetNodeIdKey = queryService.getFieldValue("nodeTypes", targetNodeName, "nodeTypeId");
 			
 				System.out.println("targetNodeIdKey: " + targetNodeIdKey);
 				System.out.println("targetNodeIdKey: " + sourceNodeId);
@@ -261,13 +260,13 @@ public class ObjectService implements Serializable {
 	
 	private ArrayList<String> getChildrenNodeTypes(String nodeTypeCategoryName) {
 		ArrayList<String> adjacentNodeTypes = new ArrayList<String>();
-		String queryStringNodeTypes = "FIELD objectClass = " + nodeTypeCategoryName;
+		String queryStringNodeTypes = "FIELD nodeTypeCategory = " + nodeTypeCategoryName;
 		DocumentCollection resultCollectionNodeTypes = queryService.ftSearchView("", queryStringNodeTypes, "nodeTypes");
 		try {
 			if(resultCollectionNodeTypes != null) {
 				for(int i=1; i<=resultCollectionNodeTypes.getCount(); i++) {
 					Document doc = resultCollectionNodeTypes.getNthDocument(i);
-					String nodeType = doc.getItemValueString("objectName");
+					String nodeType = doc.getItemValueString("nodeTypeName");
 							System.out.println("childObjectName: " + nodeType);
 					adjacentNodeTypes.add(nodeType);
 				}
