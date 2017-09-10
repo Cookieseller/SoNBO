@@ -2,7 +2,7 @@
 <xp:view xmlns:xp="http://www.ibm.com/xsp/core">
 		<xp:panel styleClass="sbo-object-card">
 			<xp:link text="#{javascript:peerObject.getObjectTitle()}" id="label3">
-				<xp:this.value><![CDATA[#{javascript: return "main.xsp?id=" + peerObject.getObjectId() + "&nodeType1=all";}]]></xp:this.value>
+				<xp:this.value><![CDATA[#{javascript: return "main.xsp?id=" + peerObject.getObjectId() + "&nodeTypeCategory=all";}]]></xp:this.value>
 			</xp:link>
 			<xp:panel styleClass="sbo-object-card-content-wrapper">
 				<xp:panel styleClass="sbo-object-card-img-container">

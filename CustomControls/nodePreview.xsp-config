@@ -5,9 +5,9 @@
     <default-prefix>xc</default-prefix>
   </faces-config-extension>
   <composite-component>
-    <component-type>objectCard</component-type>
-    <composite-name>objectCard</composite-name>
-    <composite-file>/objectCard.xsp</composite-file>
+    <component-type>nodePreview</component-type>
+    <composite-name>nodePreview</composite-name>
+    <composite-file>/nodePreview.xsp</composite-file>
     <composite-extension>
       <designer-extension>
         <in-palette>true</in-palette>

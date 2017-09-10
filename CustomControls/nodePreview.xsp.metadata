@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.0" replicaid="C125817D00447BEE" version="9.0" xmlns="http://www.lotus.com/dxl">
-<noteinfo noteid="4fe" sequence="25" unid="C33CAF23876141D7C1258184003DFD8C">
+<noteinfo noteid="4fe" sequence="109" unid="C33CAF23876141D7C1258184003DFD8C">
 <created><datetime dst="true">20170822T131706,04+02</datetime></created>
-<modified><datetime dst="true">20170822T133241,12+02</datetime></modified>
-<revised><datetime dst="true">20170822T133241,11+02</datetime></revised>
-<lastaccessed><datetime dst="true">20170822T133241,12+02</datetime></lastaccessed>
+<modified><datetime dst="true">20170910T110028,76+02</datetime></modified>
+<revised><datetime dst="true">20170910T110028,75+02</datetime></revised>
+<lastaccessed><datetime dst="true">20170910T110028,76+02</datetime></lastaccessed>
 <addedtofile><datetime dst="true">20170822T131706,05+02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></updatedby>
 <wassignedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></wassignedby>
 <item name="$Flags"><text>gC~4;</text></item>
 
 
-<item name="$TITLE" sign="true"><text>objectCard.xsp</text></item>
+<item name="$TITLE" sign="true"><text>nodePreview.xsp</text></item>
 <item name="$DesignerVersion"><text>8.5</text></item>
 
 
@@ -19,4 +19,4 @@
 
 
 
-<item name="$FileNames" sign="true"><text>objectCard.xsp</text></item></note>
+<item name="$FileNames" sign="true"><text>nodePreview.xsp</text></item></note>

@@ -6,7 +6,7 @@
 		<xp:repeat id="repeat1" var="peerObject">
 			<xp:this.value><![CDATA[#{javascript:sboManager.businessObject.getFilteredPeerObjectList();}]]></xp:this.value>
 			<!--  <xp:this.value><![CDATA[#{javascript:sboManager.businessObject.getPeerObjectList();}]]></xp:this.value> -->
-			<xc:objectCard/>
+			<xc:nodePreview/>
 		</xp:repeat>
 		<!-- Test -->
 		<!-- <xc:objectCard/> -->

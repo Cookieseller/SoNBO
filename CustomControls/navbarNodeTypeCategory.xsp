@@ -4,17 +4,17 @@
 	<xe:navbar id="navbarPeers">
 		<xp:repeat id="repeat1" var="peer">
 			<!-- <xp:this.value><![CDATA[#{javascript: var classPeers = @DbLookup("", "classes", param.get('peers'), "classPeers"); classPeers.unshift("all"); return classPeers;}]]></xp:this.value> -->
-			<xp:this.value><![CDATA[#{javascript: var peers = param.get('nodeType1') == 'all' ? 'person' : param.get('nodeType1'); var classPeers = @DbLookup("", "classes", peers, "classPeers"); classPeers.unshift("all"); return classPeers;}]]></xp:this.value>
+			<xp:this.value><![CDATA[#{javascript: var peers = param.get('nodeTypeCategory') == 'all' ? 'person' : param.get('nodeTypeCategory'); var classPeers = @DbLookup("", "classes", peers, "classPeers"); classPeers.unshift("all"); return classPeers;}]]></xp:this.value>
 			<xp:panel styleClass="sbo-navbar-link-wrapper">
 				<xp:link id="label2"
-					styleClass="sbo-navbar-link #{javascript: return param.get('nodeType1') == peer ? 'sbo-navbar-selected' : '';}">
+					styleClass="sbo-navbar-link #{javascript: return param.get('nodeTypeCategory') == peer ? 'sbo-navbar-selected' : '';}">
 					<xp:this.text>#{peer}</xp:this.text>
-					<xp:this.value><![CDATA[#{javascript: return "main.xsp?id=" + param.get('id') + "&nodeType1=" + peer;}]]></xp:this.value>
+					<xp:this.value><![CDATA[#{javascript: return "main.xsp?id=" + param.get('id') + "&nodeTypeCategory=" + peer;}]]></xp:this.value>
 					<xp:label
 						value="#{javascript: sboManager.businessObject.getPeerObjectList().size().toString()}"
 						id="label4" style="margin-right: 3px;"
 						styleClass="badge sbo-badge"
-						rendered="#{javascript: param.get('nodeType1') == peer}" />
+						rendered="#{javascript: param.get('nodeTypeCategory') == peer}" />
 				</xp:link>
 			</xp:panel>
 		</xp:repeat>
