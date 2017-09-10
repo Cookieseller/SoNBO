@@ -32,39 +32,13 @@ public class ConfigService implements Serializable {
 		//utilities.printJson(jsonNodeType, "Parsed nodeType json");
 		
 		// get config information
-		NodeType nodeType = new NodeType();
-		// object name
-		nodeType.setNodeTypeName(nodeTypeName);
-		JsonElement jsonFirstConfigElement = jsonNodeType.get(nodeTypeName);
-		JsonObject jsonFirstConfigObject = jsonFirstConfigElement.getAsJsonObject();
-		//object title
-		String objectTitle = jsonFirstConfigObject.get("objectTitle").getAsString();
-		nodeType.setNodeTypeTitle(objectTitle);
-		// object class
-		String objectClass = jsonFirstConfigObject.get("objectClass").getAsString();
-		nodeType.setNodeTypeCategory(objectClass);
-		// peers TODO: shift to class (service?)
-		/*String peers = queryService.getFieldValue("classes", objectClass, "classPeers");
-		List<String> peerList = Arrays.asList(peers.split(","));
-		configObject.setPeers(peerList);
-		*/
+		Gson gson = new Gson();
+		NodeType nodeType = gson.fromJson(jsonNodeType, NodeType.class);
+		
 		// attributes
 		ArrayList<JsonObject> jsonNodeAttributeList = queryService.getJsonObjects("attributes", nodeTypeName, "attributeJSON");
-		Gson gson = new Gson();
+		
 		for(JsonObject jsonNodeAttribute : jsonNodeAttributeList) {
-			
-			//utilities.printJson(jsonNodeAttribute, "Parsed attribute json");
-			/*
-			JsonElement jsonFirstAttrElement = jsonNodeAttribute.get("attribute");
-			JsonObject jsonFirstAttrObject = jsonFirstAttrElement.getAsJsonObject();
-			
-			String name = jsonFirstAttrObject.get("name").getAsString();
-			String datasource = jsonFirstAttrObject.get("datasource").getAsString();
-			String query = jsonFirstAttrObject.get("query").getAsString();
-			String fieldname = jsonFirstAttrObject.get("fieldname").getAsString();
-			int displayfield = jsonFirstAttrObject.get("displayfield").getAsInt();
-			boolean preview = jsonFirstAttrObject.get("preview").getAsBoolean();
-			*/
 			Attribute attribute = gson.fromJson(jsonNodeAttribute, Attribute.class);
 			nodeType.addConfigurationNodeAttribute(attribute);
 		}

@@ -7,6 +7,8 @@ public class NodeType {
 
 	private String nodeTypeName;
 	
+	private String nodeTypeId;
+	
 	private String nodeTypeTitle;
 	
 	private String nodeTypeCategory;
@@ -25,6 +27,14 @@ public class NodeType {
 
 	public String getNodeTypeName() {
 		return nodeTypeName;
+	}
+
+	public void setNodeTypeId(String nodeTypeId) {
+		this.nodeTypeId = nodeTypeId;
+	}
+
+	public String getNodeTypeId() {
+		return nodeTypeId;
 	}
 
 	public String getNodeTypeCategory() {
