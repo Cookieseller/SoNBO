@@ -40,7 +40,7 @@ public class SoNBOManager implements Serializable {
 			
 			System.out.println("NEW REQUEST FOR BUSINESS OBJECT");
 			// get business objects
-			this.businessObject = objectService.getBusinessObject(objectId, false);
+			this.businessObject = objectService.getNode(objectId, false);
 			// TODO reload peer object list if other objectPeer was chosen
 			// get list of peer objects (all)
 			ConfigService configService = new ConfigService();

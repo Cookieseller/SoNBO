@@ -10,11 +10,11 @@ import lotus.domino.DocumentCollection;
 import lotus.domino.NotesException;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.Node;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.NodeTypeCategory;
-import uniko.iwvi.fgbas.magoetz.sbo.objects.Configuration;
+import uniko.iwvi.fgbas.magoetz.sbo.objects.NodeType;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.Query;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.AdjacencyQuery;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.QueryResult;
-import uniko.iwvi.fgbas.magoetz.sbo.objects.Configuration.ConfigurationNodeAttribute;
+import uniko.iwvi.fgbas.magoetz.sbo.objects.NodeType.NodeTypeAttribute;
 import uniko.iwvi.fgbas.magoetz.sbo.util.Utilities;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -28,61 +28,61 @@ public class ObjectService implements Serializable {
 	
 	private QueryService queryService = new QueryService();
 
-	public Node getBusinessObject(String id, boolean nodePreview) {
+	public Node getNode(String id, boolean nodePreview) {
 		
 		// 1. CREATE NEW BUSINESS OBJECT
-		Node businessObject = new Node();
+		Node node = new Node();
 	
 		// set object id and name
-		businessObject.setId(id);
+		node.setId(id);
 		//businessObject.setObjectName(objectName);
 		
 		// 2. GET CONFIGURATION DOCUMENT FOR OBJECT TYPE
 
-		//Configuration configObject = configService.getConfigurationObject(objectName);
-		Configuration configObject = configService.getConfigurationById(id);
-		businessObject.setNodeType(configObject.getNodeTypeName());
+		//NodeType configObject = configService.getConfigurationObject(objectName);
+		NodeType configObject = configService.getNodeTypeById(id);
+		node.setNodeType(configObject.getNodeTypeName());
 		
 		// 3. RETRIEVE ATTRIBUTES OF BUSINESS OBJECT
 		
 		// set object class
-		businessObject.setNodeTypeCategory(configObject.getNodeTypeCategory());
+		node.setNodeTypeCategory(configObject.getNodeTypeCategory());
 		
 		// set object image
 		// TODO: set individual image if available
-		NodeTypeCategory nodeTypeCategory = configService.getNodeTypeCategory(businessObject.getNodeTypeCategory());
-		businessObject.setNodeImage(nodeTypeCategory.getDefaultImage());
+		NodeTypeCategory nodeTypeCategory = configService.getNodeTypeCategory(node.getNodeTypeCategory());
+		node.setNodeImage(nodeTypeCategory.getDefaultImage());
 		
 		// get business object attributes
 		ArrayList<QueryResult> queryResultList = getNodeAttributes(configObject, id, nodePreview);
 		
 		// load attribute key and value into business object
-		businessObject = loadAttributes(businessObject, configObject, queryResultList, nodePreview);
+		node = loadAttributes(node, configObject, queryResultList, nodePreview);
 	
-		return businessObject;
+		return node;
 	}
 	
 	/*
 	 * returns list of business object attributes
 	 */
-	private ArrayList<QueryResult> getNodeAttributes(Configuration config, String id, boolean nodePreview) {
+	private ArrayList<QueryResult> getNodeAttributes(NodeType config, String id, boolean nodePreview) {
 		
 		// cache result to prevent redundant queries
 		ArrayList<QueryResult> queryResultList = new ArrayList<QueryResult>();
 		
 		// if it is an object preview only get preview attributes otherwise all defined
-		ArrayList<ConfigurationNodeAttribute> configurationNodeAttributes =  new ArrayList<ConfigurationNodeAttribute>();
+		ArrayList<NodeTypeAttribute> nodeTypeAttributes =  new ArrayList<NodeTypeAttribute>();
 		if(nodePreview){
-			configurationNodeAttributes =  config.getPreviewConfigurationNodeAttributes();
+			nodeTypeAttributes =  config.getPreviewConfigurationNodeAttributes();
 		}else {
-			configurationNodeAttributes =  config.getConfigurationNodeAttributes();
+			nodeTypeAttributes =  config.getNodeTypeAttributes();
 		}
 		
 		// get value for each object attribute
-		for(ConfigurationNodeAttribute configNdAttr : configurationNodeAttributes) {
+		for(NodeTypeAttribute nodeTypeAttribute : nodeTypeAttributes) {
 
-			String datasource = configNdAttr.getDatasource();
-			String query = configNdAttr.getQuery();
+			String datasource = nodeTypeAttribute.getDatasource();
+			String query = nodeTypeAttribute.getQuery();
 			System.out.println("Query: " + query);
 			QueryResult queryResult = new QueryResult(datasource, query);
 			
@@ -112,31 +112,31 @@ public class ObjectService implements Serializable {
 		return queryResultList;
 	}
 	
-	private Node loadAttributes(Node businessObject, Configuration configuration, ArrayList<QueryResult> queryResultList, boolean nodePreview) {
+	private Node loadAttributes(Node businessObject, NodeType configuration, ArrayList<QueryResult> queryResultList, boolean nodePreview) {
 
 		// TODO
 		// if it is an object preview only process preview attributes otherwise all defined
-		ArrayList<ConfigurationNodeAttribute> configurationNodeAttributes =  new ArrayList<ConfigurationNodeAttribute>();
+		ArrayList<NodeTypeAttribute> configurationNodeAttributes =  new ArrayList<NodeTypeAttribute>();
 		if(nodePreview){
 			configurationNodeAttributes =  configuration.getPreviewConfigurationNodeAttributes();
 		}else {
-			configurationNodeAttributes =  configuration.getConfigurationNodeAttributes();
+			configurationNodeAttributes =  configuration.getNodeTypeAttributes();
 		}
 		
-		for(ConfigurationNodeAttribute configNdAttr : configuration.getConfigurationNodeAttributes()) {
+		for(NodeTypeAttribute nodeTypeAttribute : configuration.getNodeTypeAttributes()) {
 			// get name and fieldname of attribute
-			String name = configNdAttr.getName();
-			String fieldname = configNdAttr.getFieldname();
+			String name = nodeTypeAttribute.getName();
+			String fieldname = nodeTypeAttribute.getFieldname();
 			// get query result for config object attribute
-			String datasource = configNdAttr.getDatasource();
-			String query = configNdAttr.getQuery();
+			String datasource = nodeTypeAttribute.getDatasource();
+			String query = nodeTypeAttribute.getQuery();
 			QueryResult queryResult = new QueryResult(datasource, query);
 			JsonObject jsonQueryResultObject = queryService.getQueryResult(queryResultList, queryResult);
 			// extract value from query result
 			JsonElement jsonFirstQueryResultElement = jsonQueryResultObject.get(businessObject.getId());
 			JsonObject jsonFirstQueryResultObject = jsonFirstQueryResultElement.getAsJsonObject();
 			String value = jsonFirstQueryResultObject.get(fieldname).getAsString();
-			int displayfield = configNdAttr.getDisplayfield();
+			int displayfield = nodeTypeAttribute.getDisplayfield();
 			
 			businessObject.addKeyValuePair(name, value, displayfield);
 			//set business object title if attribute is configured as title
@@ -250,7 +250,7 @@ public class ObjectService implements Serializable {
 		}
 		
 		for(String adjacentNodeId : adjacentNodeIDs) {
-			adjacentNodesList.add(this.getBusinessObject(adjacentNodeId, true));
+			adjacentNodesList.add(this.getNode(adjacentNodeId, true));
 		}
 		return adjacentNodesList;
 	}

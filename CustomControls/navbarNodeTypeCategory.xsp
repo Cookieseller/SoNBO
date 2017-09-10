@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xp:view xmlns:xp="http://www.ibm.com/xsp/core"
 	xmlns:xe="http://www.ibm.com/xsp/coreex">
-	<xe:navbar id="navbarPeers">
+	<xe:navbar id="navbarPeers" headingText="Category">
 		<xp:repeat id="repeat1" var="peer">
 			<!-- <xp:this.value><![CDATA[#{javascript: var classPeers = @DbLookup("", "classes", param.get('peers'), "classPeers"); classPeers.unshift("all"); return classPeers;}]]></xp:this.value> -->
 			<xp:this.value><![CDATA[#{javascript: var peers = param.get('nodeTypeCategory') == 'all' ? 'person' : param.get('nodeTypeCategory'); var classPeers = @DbLookup("", "classes", peers, "classPeers"); classPeers.unshift("all"); return classPeers;}]]></xp:this.value>

@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 import uniko.iwvi.fgbas.magoetz.sbo.objects.NodeTypeCategory;
-import uniko.iwvi.fgbas.magoetz.sbo.objects.Configuration;
+import uniko.iwvi.fgbas.magoetz.sbo.objects.NodeType;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.Query;
 import uniko.iwvi.fgbas.magoetz.sbo.util.Utilities;
 import com.google.gson.Gson;
@@ -21,33 +21,33 @@ public class ConfigService implements Serializable {
 	
 	private QueryService queryService = new QueryService();
 	
-	public Configuration getConfiguration(String nodeType) {
+	public NodeType getNodeType(String nodeTypeName) {
 		
 		// TODO: check if object type exists 
-		JsonObject jsonConfigObject = queryService.getJsonObject("objects", nodeType, "objectJSON");
+		JsonObject jsonNodeType = queryService.getJsonObject("objects", nodeTypeName, "objectJSON");
 		// log json
 		Utilities utilities = new Utilities();
-		utilities.printJson(jsonConfigObject, "Parsed object object json");
+		utilities.printJson(jsonNodeType, "Parsed nodeType json");
 		
 		// get config information
-		Configuration configuration = new Configuration();
+		NodeType nodeType = new NodeType();
 		// object name
-		configuration.setNodeTypeName(nodeType);
-		JsonElement jsonFirstConfigElement = jsonConfigObject.get(nodeType);
+		nodeType.setNodeTypeName(nodeTypeName);
+		JsonElement jsonFirstConfigElement = jsonNodeType.get(nodeTypeName);
 		JsonObject jsonFirstConfigObject = jsonFirstConfigElement.getAsJsonObject();
 		//object title
 		String objectTitle = jsonFirstConfigObject.get("objectTitle").getAsString();
-		configuration.setNodeTypeTitle(objectTitle);
+		nodeType.setNodeTypeTitle(objectTitle);
 		// object class
 		String objectClass = jsonFirstConfigObject.get("objectClass").getAsString();
-		configuration.setNodeTypeCategory(objectClass);
+		nodeType.setNodeTypeCategory(objectClass);
 		// peers TODO: shift to class (service?)
 		/*String peers = queryService.getFieldValue("classes", objectClass, "classPeers");
 		List<String> peerList = Arrays.asList(peers.split(","));
 		configObject.setPeers(peerList);
 		*/
 		// attributes
-		ArrayList<JsonObject> jsonNodeAttributeList = queryService.getJsonObjects("attributes", nodeType, "attributeJSON");
+		ArrayList<JsonObject> jsonNodeAttributeList = queryService.getJsonObjects("attributes", nodeTypeName, "attributeJSON");
 		
 		for(JsonObject jsonNodeAttribute : jsonNodeAttributeList) {
 			
@@ -63,10 +63,10 @@ public class ConfigService implements Serializable {
 			int displayfield = jsonFirstAttrObject.get("displayfield").getAsInt();
 			boolean preview = jsonFirstAttrObject.get("preview").getAsBoolean();
 			
-			configuration.addConfigurationNodeAttribute(name, datasource, query, fieldname, displayfield, preview);
+			nodeType.addConfigurationNodeAttribute(name, datasource, query, fieldname, displayfield, preview);
 		}
 		
-		return configuration;
+		return nodeType;
 	}
 
 	public NodeTypeCategory getNodeTypeCategory(String nodeTypeCategory) {
@@ -76,18 +76,18 @@ public class ConfigService implements Serializable {
 		return gson.fromJson(jsonFromDb, NodeTypeCategory.class);
 	}
 
-	public Configuration getConfigurationById(String id) {
+	public NodeType getNodeTypeById(String id) {
 		
-		Configuration resultConfigObject =  null;
+		NodeType resultNodeType =  null;
 		
 		// get all configuration documents
 		ArrayList<String> nodeTypes = queryService.getColumnValues("objects", 0);
-		ArrayList<Configuration> configList = new ArrayList<Configuration>();
+		ArrayList<NodeType> configList = new ArrayList<NodeType>();
 		for(String nodeType : nodeTypes) {
-			configList.add(this.getConfiguration(nodeType));
+			configList.add(this.getNodeType(nodeType));
 		}
 		// search main datasource query for json containing object name
-		for(Configuration config : configList) {
+		for(NodeType config : configList) {
 			
 			// TODO: change to object individual source and query
 			NodeTypeCategory nodeTypeCategory = this.getNodeTypeCategory(config.getNodeTypeCategory());
@@ -104,11 +104,11 @@ public class ConfigService implements Serializable {
 				JsonElement jsonFirstQueryElement = adjacentNodeJSON.get(id);
 				JsonObject jsonFirstQueryObject = jsonFirstQueryElement.getAsJsonObject();
 				String nodeType = jsonFirstQueryObject.get("objectType").getAsString();
-				resultConfigObject = this.getConfiguration(nodeType);
+				resultNodeType = this.getNodeType(nodeType);
 				break;
 			}
 		}
 		
-		return resultConfigObject;
+		return resultNodeType;
 	}
 }

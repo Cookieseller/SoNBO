@@ -3,7 +3,7 @@ package uniko.iwvi.fgbas.magoetz.sbo.objects;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Configuration {
+public class NodeType {
 
 	private String nodeTypeName;
 	
@@ -13,7 +13,7 @@ public class Configuration {
 	
 	private String adjacencies;
 	
-	private ArrayList<ConfigurationNodeAttribute> configurationNodeAttributes = new ArrayList<ConfigurationNodeAttribute>();
+	private ArrayList<NodeTypeAttribute> nodeTypeAttributes = new ArrayList<NodeTypeAttribute>();
 	
 	public void setNodeTypeName(String nodeTypeName) {
 		this.nodeTypeName = nodeTypeName;
@@ -39,14 +39,14 @@ public class Configuration {
 		return adjacencies;
 	}
 
-	public ArrayList<ConfigurationNodeAttribute> getConfigurationNodeAttributes() {
-		return configurationNodeAttributes;
+	public ArrayList<NodeTypeAttribute> getNodeTypeAttributes() {
+		return nodeTypeAttributes;
 	}
 	
-	public ArrayList<ConfigurationNodeAttribute> getPreviewConfigurationNodeAttributes() {
+	public ArrayList<NodeTypeAttribute> getPreviewConfigurationNodeAttributes() {
 		
-		ArrayList<ConfigurationNodeAttribute> previewConfigNodeAttrList = new ArrayList<ConfigurationNodeAttribute>();
-		for(ConfigurationNodeAttribute configNodeAttr : this.getConfigurationNodeAttributes()) {
+		ArrayList<NodeTypeAttribute> previewConfigNodeAttrList = new ArrayList<NodeTypeAttribute>();
+		for(NodeTypeAttribute configNodeAttr : this.getNodeTypeAttributes()) {
 			if(configNodeAttr.isPreview()) {
 				previewConfigNodeAttrList.add(configNodeAttr);
 			}
@@ -55,16 +55,16 @@ public class Configuration {
 	}
 
 	public void setConfigurationNodeAttributes(
-			ArrayList<ConfigurationNodeAttribute> configurationNodeAttributes) {
-		this.configurationNodeAttributes = configurationNodeAttributes;
+			ArrayList<NodeTypeAttribute> configurationNodeAttributes) {
+		this.nodeTypeAttributes = configurationNodeAttributes;
 	}
 	
 	public void addConfigurationNodeAttribute(String name, String datasource, String query, String fieldname, int displayfield, boolean preview) {
-		ConfigurationNodeAttribute configNdAttr = new ConfigurationNodeAttribute(name, datasource, query, fieldname, displayfield, preview);
-		this.configurationNodeAttributes.add(configNdAttr);
+		NodeTypeAttribute configNdAttr = new NodeTypeAttribute(name, datasource, query, fieldname, displayfield, preview);
+		this.nodeTypeAttributes.add(configNdAttr);
 	}
 	
-	public class ConfigurationNodeAttribute {
+	public class NodeTypeAttribute {
 			
 		private String name;
 		private String datasource;
@@ -73,7 +73,7 @@ public class Configuration {
 		private int displayfield;
 		private boolean preview;
 		
-		private ConfigurationNodeAttribute(String name, String datasource, String query, String fieldname, int displayfield, boolean preview) {
+		private NodeTypeAttribute(String name, String datasource, String query, String fieldname, int displayfield, boolean preview) {
 			this.name = name;
 			this.datasource = datasource;
 			this.setQuery(query);
