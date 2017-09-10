@@ -3,7 +3,9 @@ package uniko.iwvi.fgbas.magoetz.sbo.objects;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class NodeTypeCategory {
+public class NodeTypeCategory implements Serializable{
+	
+	private static final long serialVersionUID = 805731509510272843L;
 	
 	private String name;
 	

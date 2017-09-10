@@ -24,13 +24,15 @@ public class SoNBOManager implements Serializable {
 	
 	private String objectId = (String) FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id");
 	
-	private String nodeTypeCategory = (String) FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("nodeTypeCategory");
+	private String nodeTypeCategoryName = (String) FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("nodeTypeCategory");
 	
 	private String nodeType = (String) FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("nodeType");
 	
 	private ArrayList<String> notificationCodeList = new ArrayList<String>();
 	
 	public Node businessObject;
+	
+	public NodeTypeCategory nodeTypeCategory;
 	
 	private ObjectService objectService = new ObjectService();
 	
@@ -39,12 +41,13 @@ public class SoNBOManager implements Serializable {
 		if(objectId != null) {
 			
 			System.out.println("NEW REQUEST FOR BUSINESS OBJECT");
+			System.out.println("===============================");
 			// get business objects
 			this.businessObject = objectService.getNode(objectId, false);
 			// TODO reload peer object list if other objectPeer was chosen
 			// get list of peer objects (all)
 			ConfigService configService = new ConfigService();
-			NodeTypeCategory nodeTypeCategory = configService.getNodeTypeCategory(businessObject.getNodeTypeCategory());
+			this.nodeTypeCategory = configService.getNodeTypeCategory(businessObject.getNodeTypeCategory());
 			//List<Node> allPeerObjectList = new ArrayList<Node>();
 			List<Node> adjacentNodeList = new ArrayList<Node>();
 			
@@ -52,11 +55,11 @@ public class SoNBOManager implements Serializable {
 			//List<Node> filteredPeerObjectList = new ArrayList<Node>();
 			HashSet<Node> filteredPeerObjectList = new HashSet<Node>();
 			
-			for(String adjacentNodeTypeCategory : nodeTypeCategory.getAdjacentNodeTypeCategories())  {
+			for(String adjacentNodeTypeCategory : this.nodeTypeCategory.getAdjacentNodeTypeCategories())  {
 				System.out.println("AdjacentNodeTypeCategory: " + adjacentNodeTypeCategory);
 				List<Node> objects = objectService.getAdjacentNodes(businessObject, adjacentNodeTypeCategory);
 				//allPeerObjectList.addAll(objects);
-				if(this.nodeTypeCategory.equals(adjacentNodeTypeCategory) || this.nodeTypeCategory.equals("all")) {
+				if(this.nodeTypeCategoryName.equals(adjacentNodeTypeCategory) || this.nodeTypeCategoryName.equals("all")) {
 					adjacentNodeList.addAll(objects);
 				}
 				this.businessObject.setAdjacentNodeList(adjacentNodeList);

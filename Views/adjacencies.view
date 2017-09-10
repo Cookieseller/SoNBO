@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note class='view' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.0'
  replicaid='C125817D00447BEE'>
-<noteinfo noteid='536' unid='2AD2D4A8B8598D58C125818D007BAF8B' sequence='17'>
+<noteinfo noteid='536' unid='2AD2D4A8B8598D58C125818D007BAF8B' sequence='19'>
 <created><datetime dst='true'>20170901T003058,67+02</datetime></created>
-<modified><datetime dst='true'>20170910T113737,38+02</datetime></modified>
-<revised><datetime dst='true'>20170910T113737,37+02</datetime></revised>
-<lastaccessed><datetime dst='true'>20170910T113737,38+02</datetime></lastaccessed>
+<modified><datetime dst='true'>20170910T221544,28+02</datetime></modified>
+<revised><datetime dst='true'>20170910T221544,27+02</datetime></revised>
+<lastaccessed><datetime dst='true'>20170910T221544,28+02</datetime></lastaccessed>
 <addedtofile><datetime dst='true'>20170901T003058,71+02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></updatedby>
 <wassignedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></wassignedby>
@@ -14,7 +14,6 @@
 AQB/ohaee+7K8eIPRADjgCXB
 </rawitemdata></item>
 <item name='$FormulaClass' sign='true'><text>1</text></item>
-<item name='$TITLE' sign='true'><text>relationships</text></item>
 <item name='$Index' sign='true'><text/></item>
 <item name='$Formula' summary='true' sign='true'><formula compiled='true'>
 qgECANwAAwAkMTcAAQAQAHsAInNvdXJjZU5vZGUiOiIFABgAcmVsYXRpb25zaGlwU291cmNlT2Jq
@@ -33,7 +32,6 @@ ZWN0
 </rawitemdata></item>
 <item name='$Comment' sign='true'><text/></item>
 <item name='$Flags'><text>PY</text></item>
-<item name='$DesignerVersion'><text>8.5.3</text></item>
 <item name='$ViewFormat' sign='true'>
 <rawitemdata type='5'>
 AQAGABMACAAAAFZDAQAQABAAAAAAAFAAAQAACgAAAAAAAAAAAAICAAAAVkMBABgAGAAAAAAAUAAB
@@ -56,5 +54,7 @@ AAAAAAAAAAAAAFdDAQEACQAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAP//AAAAAAAAAAAAAAAAAABX
 QwEBAAkAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAD//wAAAAAAAAAAAAAAAAAAQgAQAAAAAQD///8A
 BQD///8AAQAAAAAAAAAAAAAAAAABAP///wABAP///wAAAAEAAAAAAAEAAAAAAAEAAAAAAAAACAAA
 AAAAAQA=
-</rawitemdata></item></note>
+</rawitemdata></item>
+<item name='$TITLE' sign='true'><text>adjacencies</text></item>
+<item name='$DesignerVersion' sign='true'><text>8.5.3</text></item></note>
 

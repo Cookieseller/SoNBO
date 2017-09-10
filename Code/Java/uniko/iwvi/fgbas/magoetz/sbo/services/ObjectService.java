@@ -183,7 +183,7 @@ public class ObjectService implements Serializable {
 			}
 		}
 		System.out.println("adjacencyQueryString: " + adjacencyQueryString);
-		DocumentCollection resultCollectionAdjacenyQueryList = queryService.ftSearchView("", adjacencyQueryString, "relationships");
+		DocumentCollection resultCollectionAdjacenyQueryList = queryService.ftSearchView("", adjacencyQueryString, "adjacencies");
 		
 		//execute query for getting object relationships
 		ArrayList<AdjacencyQuery> adjacencyQueryList = new ArrayList<AdjacencyQuery>();
@@ -194,7 +194,7 @@ public class ObjectService implements Serializable {
 					Document doc = resultCollectionAdjacenyQueryList.getNthDocument(i);
 					//TODO rename in case
 					String adjacencyName = doc.getItemValueString("relationshipName");
-					String adjacencyQueryJSON = queryService.getFieldValue("relationships", adjacencyName, "relationshipQueryJSON");					
+					String adjacencyQueryJSON = queryService.getFieldValue("adjacencies", adjacencyName, "relationshipQueryJSON");					
 					// retrieve query and database
 					AdjacencyQuery adjacencyQuery = gson.fromJson(adjacencyQueryJSON, AdjacencyQuery.class);
 					adjacencyQueryList.add(adjacencyQuery);
@@ -236,7 +236,7 @@ public class ObjectService implements Serializable {
 			queryObject.setString(string);
 			
 			String targetNodeName = adjacencyQuery.getTargetNode();
-			String targetNodeIdKey = queryService.getFieldValue("objects", targetNodeName, "objectId");
+			String targetNodeIdKey = queryService.getFieldValue("nodeTypes", targetNodeName, "objectId");
 			
 				System.out.println("targetNodeIdKey: " + targetNodeIdKey);
 				System.out.println("targetNodeIdKey: " + sourceNodeId);
@@ -259,7 +259,7 @@ public class ObjectService implements Serializable {
 	private ArrayList<String> getChildrenNodeTypes(String nodeTypeCategoryName) {
 		ArrayList<String> adjacentNodeTypes = new ArrayList<String>();
 		String queryStringNodeTypes = "FIELD objectClass = " + nodeTypeCategoryName;
-		DocumentCollection resultCollectionNodeTypes = queryService.ftSearchView("", queryStringNodeTypes, "objects");
+		DocumentCollection resultCollectionNodeTypes = queryService.ftSearchView("", queryStringNodeTypes, "nodeTypes");
 		try {
 			if(resultCollectionNodeTypes != null) {
 				for(int i=1; i<=resultCollectionNodeTypes.getCount(); i++) {
