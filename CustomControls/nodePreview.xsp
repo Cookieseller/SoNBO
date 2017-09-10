@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xp:view xmlns:xp="http://www.ibm.com/xsp/core">
 		<xp:panel styleClass="sbo-object-card">
-			<xp:link text="#{javascript:peerObject.getObjectTitle()}" id="label3">
-				<xp:this.value><![CDATA[#{javascript: return "main.xsp?id=" + peerObject.getObjectId() + "&nodeTypeCategory=all";}]]></xp:this.value>
+			<xp:link text="#{javascript:adjacentNode.getNodeTitle()}" id="label3">
+				<xp:this.value><![CDATA[#{javascript: return "main.xsp?id=" + adjacentNode.getId() + "&nodeTypeCategory=all";}]]></xp:this.value>
 			</xp:link>
 			<xp:panel styleClass="sbo-object-card-content-wrapper">
 				<xp:panel styleClass="sbo-object-card-img-container">
-					<xp:image styleClass="sbo-object-img" url="#{javascript: return '/' + peerObject.getObjectImage();}" id="image1"></xp:image>
+					<xp:image styleClass="sbo-object-img" url="#{javascript: return '/' + adjacentNode.getNodeImage();}" id="image1"></xp:image>
 				</xp:panel>
 				<xp:panel styleClass="sbo-object-card-fields-container">
 					<xp:repeat id="repeat5" var="field1">
 						<xp:this.value>
 							<!-- Change to preview attribute list getPreviewAttribteList() -->
-							<![CDATA[#{javascript:var map:java.util.HashMap = peerObject.getAttribteList1(); return map.entrySet();}]]>
+							<![CDATA[#{javascript:var map:java.util.HashMap = adjacentNode.getAttribteList1(); return map.entrySet();}]]>
 						</xp:this.value>
 						<div class="sbo-keyvaluepair">
 							<xp:label value="#{javascript:field1.getKey() + ': '}" id="label1"></xp:label>

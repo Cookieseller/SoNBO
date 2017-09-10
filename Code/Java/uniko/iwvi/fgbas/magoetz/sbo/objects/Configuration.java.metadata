@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.0" replicaid="C125817D00447BEE" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="1a2" sequence="66" unid="F0A805AF8A0B1970C125816800342C70">
+<created><datetime dst="true">20170725T112952,48+02</datetime></created>
+<modified><datetime dst="true">20170910T111930,69+02</datetime></modified>
+<revised><datetime dst="true">20170910T111930,68+02</datetime></revised>
+<lastaccessed><datetime dst="true">20170910T111930,69+02</datetime></lastaccessed>
+<addedtofile><datetime dst="true">20170815T142817,32+02</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></updatedby>
+<wassignedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></wassignedby>
+<item name="$Flags"><text>34567Cg~[</text></item>
+
+
+
+
+
+<item name="$TITLE"><text>uniko/iwvi/fgbas/magoetz/sbo/objects/Configuration.java</text></item>
+<item name="$DesignerVersion"><text>8.5.3</text></item>
+
+
+<item name="$FileNames" sign="true"><text>uniko/iwvi/fgbas/magoetz/sbo/objects/Configuration.java</text></item></note>

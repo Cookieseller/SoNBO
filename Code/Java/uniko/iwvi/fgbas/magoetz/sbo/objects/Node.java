@@ -9,27 +9,27 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
 
-public class BusinessObject implements Serializable {
+public class Node implements Serializable {
 	
 	private static final long serialVersionUID = 805731509510272843L;
 	
-	private String objectId;
+	private String id;
 	
-	private String objectName;
+	private String nodeType;
 	
-	private String objectClass;
+	private String nodeTypeCategory;
 	
-	private String objectTitle;
+	private String nodeTitle;
 
-	private List<BusinessObject> allPeerObjectList;
+	private List<Node> allAdjacentNodeList;
 	
-	private List<BusinessObject> peerObjectList;
+	private List<Node> adjacentNodeList;
 	
-	private List<BusinessObject> filteredPeerObjectList;
+	private List<Node> filteredAdjacentNodeList;
 	
-	private List<String> objectRelationships;
+	private List<String> nodeAdjacencies;
 	
-	private String objectImage;
+	private String nodeImage;
 	
 	// String arrays containing attribute names for displaying in respective field
 	// TODO: Maybe change to separate lists for fields and single list for attributes?
@@ -154,75 +154,75 @@ public class BusinessObject implements Serializable {
 		return containsKeyValue;
 	}
 
-	public void setObjectId(String objectId) {
-		this.objectId = objectId;
+	public void setId(String id) {
+		this.id = id;
 	}
 
-	public String getObjectId() {
-		return objectId;
+	public String getId() {
+		return id;
 	}
 
-	public String getObjectName() {
-		return objectName;
+	public String getNodeType() {
+		return nodeType;
 	}
 
-	public void setObjectName(String objectType) {
-		this.objectName = objectType;
+	public void setNodeType(String nodeType) {
+		this.nodeType = nodeType;
 	}
 
-	public String getObjectTitle() {
-		return objectTitle;
+	public String getNodeTitle() {
+		return nodeTitle;
 	}
 
-	public void setObjectTitle(String objectTitle) {
-		this.objectTitle = objectTitle;
+	public void setNodeTitle(String nodeTitle) {
+		this.nodeTitle = nodeTitle;
 	}
 
-	public void setAllPeerObjectList(List<BusinessObject> allPeerObjectList) {
-		this.allPeerObjectList = allPeerObjectList;
+	public void setAllAdjacentNodeList(List<Node> allAdjacentNodeList) {
+		this.allAdjacentNodeList = allAdjacentNodeList;
 	}
 
-	public List<BusinessObject> getAllPeerObjectList() {
-		return allPeerObjectList;
+	public List<Node> getAllAdjacentNodeList() {
+		return allAdjacentNodeList;
 	}
 
-	public void setPeerObjectList(List<BusinessObject> peerObjectList) {
-		this.peerObjectList = peerObjectList;
+	public void setAdjacentNodeList(List<Node> adjacentNodeList) {
+		this.adjacentNodeList = adjacentNodeList;
 	}
 
-	public List<BusinessObject> getPeerObjectList() {
-		return peerObjectList;
+	public List<Node> getAdjacentNodeList() {
+		return adjacentNodeList;
 	}
 
-	public void setFilteredPeerObjectList(List<BusinessObject> filteredPeerObjectList) {
-		this.filteredPeerObjectList = filteredPeerObjectList;
+	public void setFilteredAdjacentNodeList(List<Node> filteredAdjacentNodeList) {
+		this.filteredAdjacentNodeList = filteredAdjacentNodeList;
 	}
 
-	public List<BusinessObject> getFilteredPeerObjectList() {
-		return filteredPeerObjectList;
+	public List<Node> getFilteredAdjacentNodeList() {
+		return filteredAdjacentNodeList;
 	}
 
-	public List<String> getObjectRelationships() {
-		return objectRelationships;
+	public List<String> getNodeAdjacencies() {
+		return nodeAdjacencies;
 	}
 
-	public void setObjectRelationships(List<String> objectRelationships) {
-		this.objectRelationships = objectRelationships;
+	public void setNodeAdjacencies(List<String> nodeAdjacencies) {
+		this.nodeAdjacencies = nodeAdjacencies;
 	}
 
-	public String getObjectClass() {
-		return objectClass;
+	public String getNodeTypeCategory() {
+		return nodeTypeCategory;
 	}
 
-	public void setObjectClass(String objectClass) {
-		this.objectClass = objectClass;
+	public void setNodeTypeCategory(String nodeTypeCategory) {
+		this.nodeTypeCategory = nodeTypeCategory;
 	}
 
-	public void setObjectImage(String objectImage) {
-		this.objectImage = objectImage;
+	public void setNodeImage(String nodeImage) {
+		this.nodeImage = nodeImage;
 	}
 
-	public String getObjectImage() {
-		return objectImage;
+	public String getNodeImage() {
+		return nodeImage;
 	}
 }

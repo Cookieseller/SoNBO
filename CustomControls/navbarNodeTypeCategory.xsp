@@ -11,7 +11,7 @@
 					<xp:this.text>#{peer}</xp:this.text>
 					<xp:this.value><![CDATA[#{javascript: return "main.xsp?id=" + param.get('id') + "&nodeTypeCategory=" + peer;}]]></xp:this.value>
 					<xp:label
-						value="#{javascript: sboManager.businessObject.getPeerObjectList().size().toString()}"
+						value="#{javascript: soNBOManager.businessObject.getAdjacentNodeList().size().toString()}"
 						id="label4" style="margin-right: 3px;"
 						styleClass="badge sbo-badge"
 						rendered="#{javascript: param.get('nodeTypeCategory') == peer}" />

@@ -3,9 +3,9 @@
 	xmlns:xc="http://www.ibm.com/xsp/custom">
 	<xp:panel styleClass="sbo-object-preview-container">
 		<!-- List peer objects filtered by certain criteria (relationship, filter) -->
-		<xp:repeat id="repeat1" var="peerObject">
-			<xp:this.value><![CDATA[#{javascript:sboManager.businessObject.getFilteredPeerObjectList();}]]></xp:this.value>
-			<!--  <xp:this.value><![CDATA[#{javascript:sboManager.businessObject.getPeerObjectList();}]]></xp:this.value> -->
+		<xp:repeat id="repeat1" var="adjacentNode">
+			<xp:this.value><![CDATA[#{javascript:soNBOManager.businessObject.getFilteredAdjacentNodeList();}]]></xp:this.value>
+			<!--  <xp:this.value><![CDATA[#{javascript:soNBOManager.businessObject.getPeerObjectList();}]]></xp:this.value> -->
 			<xc:nodePreview/>
 		</xp:repeat>
 		<!-- Test -->

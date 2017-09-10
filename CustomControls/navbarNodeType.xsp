@@ -3,12 +3,12 @@
 	xmlns:xe="http://www.ibm.com/xsp/coreex">
 	<xe:navbar id="navbarRelations">
 	<xp:repeat id="repeat1" var="relation">
-		<xp:this.value><![CDATA[#{javascript:var relationships = sboManager.businessObject.getObjectRelationships(); relationships.unshift("all"); return relationships;}]]></xp:this.value>
+		<xp:this.value><![CDATA[#{javascript:var relationships = soNBOManager.businessObject.getNodeAdjacencies(); relationships.unshift("all"); return relationships;}]]></xp:this.value>
 		<xp:panel styleClass="sbo-navbar-link-wrapper">
 			<xp:link id="label2" styleClass="sbo-navbar-link #{javascript: return param.get('nodeType') == relation || param.get('nodeType') == null &amp;&amp; relation == 'all' ? 'sbo-navbar-selected' : '';}">
 				<xp:this.text>#{relation}</xp:this.text>
 				<xp:this.value><![CDATA[#{javascript: return "main.xsp?id=" + param.get('id') + "&nodeTypeCategory=" + param.get('nodeTypeCategory') + "&nodeType=" + relation;}]]></xp:this.value>
-				<xp:label value="#{javascript: sboManager.businessObject.getFilteredPeerObjectList().size().toString()}" id="label4" style="margin-right: 3px;" styleClass="badge sbo-badge" rendered="#{javascript: (param.get('nodeType') == relation) || (param.get('nodeType') == null &amp;&amp; relation == 'all')}"/>
+				<xp:label value="#{javascript: soNBOManager.businessObject.getFilteredAdjacentNodeList().size().toString()}" id="label4" style="margin-right: 3px;" styleClass="badge sbo-badge" rendered="#{javascript: (param.get('nodeType') == relation) || (param.get('nodeType') == null &amp;&amp; relation == 'all')}"/>
 			</xp:link>
 		</xp:panel>
 	</xp:repeat>

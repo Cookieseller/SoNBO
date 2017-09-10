@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xp:view xmlns:xp="http://www.ibm.com/xsp/core" xmlns:xc="http://www.ibm.com/xsp/custom">
 	<xp:this.beforePageLoad>
-		<![CDATA[#{javascript:sboManager.init()}]]>
+		<![CDATA[#{javascript:soNBOManager.init()}]]>
 	</xp:this.beforePageLoad>
 	<xp:this.resources>
 		<xp:styleSheet href="/main.css"/>
@@ -9,7 +9,7 @@
 	<xp:panel>
 		<!-- TODO: Mixed js + notes -> Get notificationCodeList, retrieve notification String from DB (@Formula) and display --> 
  		<xp:repeat id="repeat1" var="notificationCode">
-		<xp:this.value><![CDATA[${javascript:sboManager.getNotificationCodeList();}]]></xp:this.value>
+		<xp:this.value><![CDATA[${javascript:soNBOManager.getNotificationCodeList();}]]></xp:this.value>
 		<xp:label id="label2">
 			<xp:this.value><![CDATA[#{javascript: return notificationCode + ": " + @DbLookup("", "notifications", notificationCode, 2)}]]></xp:this.value>
 		</xp:label>

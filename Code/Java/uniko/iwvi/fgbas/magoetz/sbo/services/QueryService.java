@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import org.openntf.Utils;
 
-import uniko.iwvi.fgbas.magoetz.sbo.objects.QueryObject;
-import uniko.iwvi.fgbas.magoetz.sbo.util.QueryResult;
+import uniko.iwvi.fgbas.magoetz.sbo.objects.Query;
+import uniko.iwvi.fgbas.magoetz.sbo.objects.QueryResult;
 import uniko.iwvi.fgbas.magoetz.sbo.util.Utilities;
 import lotus.domino.Database;
 import lotus.domino.Document;
@@ -182,7 +182,7 @@ public class QueryService implements Serializable {
 	}
 	
 	// TODO: write wrapper function for various query types
-	public DocumentCollection executeQueryFTSearch(JsonObject jsonDatasourceObject, QueryObject queryObject) {
+	public DocumentCollection executeQueryFTSearch(JsonObject jsonDatasourceObject, Query queryObject) {
 		
 		JsonElement jsonFirstSourceElement = jsonDatasourceObject.get("datasource");
 		JsonObject jsonFirstSourceObject = jsonFirstSourceElement.getAsJsonObject();
@@ -200,7 +200,7 @@ public class QueryService implements Serializable {
 		return resultCollection;
 	}
 	
-	public JsonObject executeQuery(JsonObject jsonDatasourceObject, QueryObject queryObject, String objectId) {
+	public JsonObject executeQuery(JsonObject jsonDatasourceObject, Query queryObject, String objectId) {
 	
 		JsonElement jsonFirstSourceElement = jsonDatasourceObject.get("datasource");
 		JsonObject jsonFirstSourceObject = jsonFirstSourceElement.getAsJsonObject();

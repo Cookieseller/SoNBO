@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import com.google.gson.Gson;
 
-import uniko.iwvi.fgbas.magoetz.sbo.objects.ClassObject;
+import uniko.iwvi.fgbas.magoetz.sbo.objects.NodeTypeCategory;
 import uniko.iwvi.fgbas.magoetz.sbo.services.QueryService;
 
 public class Test {
@@ -14,25 +14,25 @@ public class Test {
 	public void javaToJson() {
 		
 		// create java object
-		ClassObject classObject = new ClassObject();
-		classObject.setClassMainDatasource("devil");
-		classObject.setClassMainQuery("getPeople");
-		classObject.setClassName("person");
+		NodeTypeCategory classObject = new NodeTypeCategory();
+		classObject.setMainDatasource("devil");
+		classObject.setMainQuery("getPeople");
+		classObject.setName("person");
 		ArrayList<String> classPeers = new ArrayList<String>();
 		classPeers.add("person");
 		classPeers.add("teaching");
-		classObject.setClassPeers(classPeers);
-		classObject.setClassRelationships("role");
+		classObject.setAdjacentNodeTypeCategories(classPeers);
+		classObject.setAdjacencies("role");
 		
 		// convert java object to json
 		Gson gson = new Gson();
-		String json = gson.toJson(classObject, ClassObject.class);
+		String json = gson.toJson(classObject, NodeTypeCategory.class);
 		System.out.println("GSON: " + json);
 		
 		// get json from db and convert to java object
 		String jsonFromDb = queryService.getFieldValue("classes", "person", "classJSON");
-		ClassObject classObjectFromDb = gson.fromJson(jsonFromDb, ClassObject.class);
+		NodeTypeCategory classObjectFromDb = gson.fromJson(jsonFromDb, NodeTypeCategory.class);
 		System.out.println("Java object classObject from json:");
-		System.out.println("Class name: " + classObjectFromDb.getClassName());		
+		System.out.println("Class name: " + classObjectFromDb.getName());		
 	}
 }

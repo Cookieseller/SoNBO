@@ -8,8 +8,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.faces.context.FacesContext;
-import uniko.iwvi.fgbas.magoetz.sbo.objects.BusinessObject;
-import uniko.iwvi.fgbas.magoetz.sbo.objects.ClassObject;
+import uniko.iwvi.fgbas.magoetz.sbo.objects.Node;
+import uniko.iwvi.fgbas.magoetz.sbo.objects.NodeTypeCategory;
 import uniko.iwvi.fgbas.magoetz.sbo.services.ConfigService;
 import uniko.iwvi.fgbas.magoetz.sbo.services.ObjectService;
 import uniko.iwvi.fgbas.magoetz.sbo.util.Utilities;
@@ -18,7 +18,7 @@ import uniko.iwvi.fgbas.magoetz.sbo.util.Utilities;
  * @author Flemming
  *
  */
-public class SboManager implements Serializable {
+public class SoNBOManager implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -30,7 +30,7 @@ public class SboManager implements Serializable {
 	
 	private ArrayList<String> notificationCodeList = new ArrayList<String>();
 	
-	public BusinessObject businessObject;
+	public Node businessObject;
 	
 	private ObjectService objectService = new ObjectService();
 	
@@ -44,34 +44,34 @@ public class SboManager implements Serializable {
 			// TODO reload peer object list if other objectPeer was chosen
 			// get list of peer objects (all)
 			ConfigService configService = new ConfigService();
-			ClassObject classObject = configService.getClassObject(businessObject.getObjectClass());
-			//List<BusinessObject> allPeerObjectList = new ArrayList<BusinessObject>();
-			List<BusinessObject> peerObjectList = new ArrayList<BusinessObject>();
+			NodeTypeCategory classObject = configService.getNodeTypeCategory(businessObject.getNodeTypeCategory());
+			//List<Node> allPeerObjectList = new ArrayList<Node>();
+			List<Node> peerObjectList = new ArrayList<Node>();
 			
 			HashSet<String> objectRelationships = new HashSet<String>();
-			//List<BusinessObject> filteredPeerObjectList = new ArrayList<BusinessObject>();
-			HashSet<BusinessObject> filteredPeerObjectList = new HashSet<BusinessObject>();
+			//List<Node> filteredPeerObjectList = new ArrayList<Node>();
+			HashSet<Node> filteredPeerObjectList = new HashSet<Node>();
 			
-			for(String peers : classObject.getClassPeers())  {
-				List<BusinessObject> objects = objectService.getPeerObjects(businessObject, peers);
+			for(String peers : classObject.getAdjacentNodeTypeCategories())  {
+				List<Node> objects = objectService.getAdjacentNodes(businessObject, peers);
 				//allPeerObjectList.addAll(objects);
 				if(this.nodeTypeCategory.equals(peers) || this.nodeTypeCategory.equals("all")) {
 					peerObjectList.addAll(objects);
 				}
-				this.businessObject.setPeerObjectList(peerObjectList);
-				objectRelationships.addAll(objectService.getObjectRelationships(peers));
-				filteredPeerObjectList.addAll(objectService.getFilteredBusinessObjects(businessObject, nodeType, peers));
+				this.businessObject.setAdjacentNodeList(peerObjectList);
+				objectRelationships.addAll(objectService.getAdjacentNodeTypes(peers));
+				filteredPeerObjectList.addAll(objectService.getFilteredResultList(businessObject, nodeType, peers));
 			}
 			List<String> relationshipList = new ArrayList<String>();
 			for(String relationship : objectRelationships) {
 				relationshipList.add(relationship);
 			}
-			List<BusinessObject> peerList = new ArrayList<BusinessObject>();
-			for(BusinessObject filteredPeerObject : filteredPeerObjectList) {
+			List<Node> peerList = new ArrayList<Node>();
+			for(Node filteredPeerObject : filteredPeerObjectList) {
 				peerList.add(filteredPeerObject);
 			}
-			this.businessObject.setObjectRelationships(relationshipList);
-			this.businessObject.setFilteredPeerObjectList(peerList);
+			this.businessObject.setNodeAdjacencies(relationshipList);
+			this.businessObject.setFilteredAdjacentNodeList(peerList);
 
 			// TODO: execute tests if necessary
 			Test test = new Test();

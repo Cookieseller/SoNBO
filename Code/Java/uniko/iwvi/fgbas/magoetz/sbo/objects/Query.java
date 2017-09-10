@@ -2,7 +2,7 @@ package uniko.iwvi.fgbas.magoetz.sbo.objects;
 
 import java.util.List;
 
-public class QueryObject {
+public class Query {
 
 	private String name;
 	

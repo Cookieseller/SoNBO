@@ -1,4 +1,4 @@
-package uniko.iwvi.fgbas.magoetz.sbo.util;
+package uniko.iwvi.fgbas.magoetz.sbo.objects;
 
 import java.io.Serializable;
 
