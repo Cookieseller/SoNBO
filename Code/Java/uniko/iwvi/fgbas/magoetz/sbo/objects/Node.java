@@ -31,129 +31,55 @@ public class Node implements Serializable {
 	
 	private String nodeImage;
 	
-	// String arrays containing attribute names for displaying in respective field
-	// TODO: Maybe change to separate lists for fields and single list for attributes?
-	private HashMap<String, String> attribteList1 = new HashMap<String, String>();
-	private HashMap<String, String> attribteList2 = new HashMap<String, String>();
-	private HashMap<String, String> attribteList3 = new HashMap<String, String>();
-	private HashMap<String, String> attribteList4 = new HashMap<String, String>();
+	private List<NodeTypeAttribute> attributeList = new ArrayList<NodeTypeAttribute>();
 	
-	public HashMap<String, String> getAttribteList1() {
-		return attribteList1;
-	}
-
-	public void setAttribteList1(HashMap<String, String> attribteList1) {
-		this.attribteList1 = attribteList1;
-	}
-
-	public HashMap<String, String> getAttribteList2() {
-		return attribteList2;
-	}
-
-	public void setAttribteList2(HashMap<String, String> attribteList2) {
-		this.attribteList2 = attribteList2;
-	}
-
-	public HashMap<String, String> getAttribteList3() {
-		return attribteList3;
-	}
-
-	public void setAttribteList3(HashMap<String, String> attribteList3) {
-		this.attribteList3 = attribteList3;
-	}
-
-	public HashMap<String, String> getAttribteList4() {
-		return attribteList4;
-	}
-
-	public void setAttribteList4(HashMap<String, String> attribteList4) {
-		this.attribteList4 = attribteList4;
-	}
-
-	public void addKeyValuePair(String key, String value, int displayfield) {
-		
-		switch(displayfield) {
-			case 1:
-				this.attribteList1.put(key, value);
-			break;
-			case 2:
-				this.attribteList2.put(key, value);
-			break;
-			case 3:
-				this.attribteList3.put(key, value);
-			break;
-			case 4:
-				this.attribteList4.put(key, value);
-			break;
-		}
-	}
-	
-	public String getAttributeValue(String key) {
-		String attributeValue = this.attribteList1.get(key);
-		if(attributeValue == null) {
-			attributeValue = this.attribteList2.get(key);
-			if(attributeValue == null) {
-				attributeValue = this.attribteList3.get(key);
-				if(attributeValue == null) {
-					attributeValue = this.attribteList4.get(key);
-				}
+	/*
+	 * returns key value pairs for displayfield
+	 */
+	public HashMap<String, String> getAttributeListForDisplayfield(int displayfieldnumber) {
+		HashMap<String, String> attributeListForDisplayfield = new HashMap<String, String>();
+		for(NodeTypeAttribute nodeTypeAttribute : attributeList) {
+			if(nodeTypeAttribute.getDisplayfield() == displayfieldnumber) {
+				String attributeName = nodeTypeAttribute.getName();
+				String attributeValue = nodeTypeAttribute.getValueAsString();
+				attributeListForDisplayfield.put(attributeName, attributeValue);
 			}
 		}
-		return attributeValue;
+		return attributeListForDisplayfield;
 	}
 	
-/*
+	public <T> T getAttributeValue(String key) {
+		Object value = null;
+		for(NodeTypeAttribute nodeTypeAttribute : attributeList) {
+			if(nodeTypeAttribute.getName().equals(key)) {
+				// TODO change to getValue if it must not be a String
+				value = nodeTypeAttribute.getValue();
+			}
+		}
+		return (T) value;
+	}
+	
+	public <T> T getAttributeValueAsString(String key) {
+		Object value = null;
+		for(NodeTypeAttribute nodeTypeAttribute : attributeList) {
+			if(nodeTypeAttribute.getName().equals(key)) {
+				// TODO change to getValue if it must not be a String
+				value = nodeTypeAttribute.getValueAsString();
+			}
+		}
+		return (T) value;
+	}
+
 	public boolean containsAttribute(String key, String value) {
-		String attributeValue = this.attribteList1.get(key);
-		if(attributeValue == null) {
-			attributeValue = this.attribteList2.get(key);
-			if(attributeValue == null) {
-				attributeValue = this.attribteList3.get(key);
-				if(attributeValue == null) {
-					attributeValue = this.attribteList4.get(key);
-				}
+		for(NodeTypeAttribute nodeTypeAttribute : attributeList) {
+			// TODO String ist expected (change to getValue)
+			if(nodeTypeAttribute.getName().equals(key) && nodeTypeAttribute.getValueAsString().equals(value)) {
+				return true;
 			}
 		}
-		return attributeValue.equals(value) ? true : false;
+		return false;
 	}
 	
-*/
-	public boolean containsAttribute(String key, String value) {
-		boolean containsKeyValue = this.containsAttrSubstring(key, value, this.attribteList1);
-		if(!containsKeyValue) {
-			containsKeyValue = this.containsAttrSubstring(key, value, this.attribteList2);
-			if(!containsKeyValue) {
-				containsKeyValue = this.containsAttrSubstring(key, value, this.attribteList3);
-				if(!containsKeyValue) {
-					containsKeyValue = this.containsAttrSubstring(key, value, this.attribteList4);
-				}
-			}
-		}
-		return containsKeyValue;
-	}
-	
-	// helper function - temporary TODO
-	public boolean containsAttrSubstring(String key, String value, HashMap<String, String> hashMap) {
-		boolean containsKeyValue = false;
-		// prevent to work on the same hash map (undefined behaviour)
-		HashMap anotherHashMap = (HashMap) hashMap.clone();
-	    Iterator it = anotherHashMap.entrySet().iterator();
-	    while (it.hasNext()) {
-	        Map.Entry<String, String> pair = (Map.Entry)it.next();
-	        boolean containsValue = pair.getValue().contains(value);
-	        boolean containsKey = false;
-	        if(containsValue) {
-	        	containsKey = pair.getKey().equals(key);
-	        	if(containsKey && containsValue) {
-	        		containsKeyValue = true;
-	        		break;
-	        	}
-	        }
-	        it.remove(); // avoids a ConcurrentModificationException
-	    }
-		return containsKeyValue;
-	}
-
 	public void setId(String id) {
 		this.id = id;
 	}
@@ -224,5 +150,17 @@ public class Node implements Serializable {
 
 	public String getNodeImage() {
 		return nodeImage;
+	}
+
+	public void setAttributeList(List<NodeTypeAttribute> attributeList) {
+		this.attributeList = attributeList;
+	}
+
+	public List<NodeTypeAttribute> getAttributeList() {
+		return attributeList;
+	}
+	
+	public void addAttribute(NodeTypeAttribute nodeTypeAttribute) {
+		this.attributeList.add(nodeTypeAttribute);
 	}
 }

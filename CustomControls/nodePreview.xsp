@@ -12,7 +12,7 @@
 					<xp:repeat id="repeat5" var="field1">
 						<xp:this.value>
 							<!-- Change to preview attribute list getPreviewAttribteList() -->
-							<![CDATA[#{javascript:var map:java.util.HashMap = adjacentNode.getAttribteList1(); return map.entrySet();}]]>
+							<![CDATA[#{javascript:var map:java.util.HashMap = adjacentNode.getAttributeListForDisplayfield(1); return map.entrySet();}]]>
 						</xp:this.value>
 						<div class="sbo-keyvaluepair">
 							<xp:label value="#{javascript:field1.getKey() + ': '}" id="label1"></xp:label>

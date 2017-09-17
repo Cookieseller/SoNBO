@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 public class Utilities {
@@ -23,7 +24,7 @@ public class Utilities {
 	 * Thanks to
 	 * https://stackoverflow.com/questions/959731/how-to-replace-a-set-of-tokens-in-a-java-string
 	 */
-	public String replaceTokens(String text, Map<String, String> replacements) {
+	public static String replaceTokens(String text, Map<String, String> replacements) {
 		Pattern pattern = Pattern.compile("\\[(.+?)\\]");
 		Matcher matcher = pattern.matcher(text);
 		StringBuffer buffer = new StringBuffer();

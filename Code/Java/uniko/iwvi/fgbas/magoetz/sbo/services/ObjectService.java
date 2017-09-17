@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Vector;
+
 import lotus.domino.Document;
 import lotus.domino.DocumentCollection;
 import lotus.domino.NotesException;
@@ -116,7 +118,7 @@ public class ObjectService implements Serializable {
 	
 	private Node loadAttributes(Node businessObject, NodeType configuration, ArrayList<QueryResult> queryResultList, boolean nodePreview) {
 
-		// TODO
+		// TODO: all attributes should be loaded, but only the preview ones displayed
 		// if it is an object preview only process preview attributes otherwise all defined
 		List<NodeTypeAttribute> configurationNodeAttributes =  new ArrayList<NodeTypeAttribute>();
 		if(nodePreview){
@@ -137,15 +139,16 @@ public class ObjectService implements Serializable {
 			// extract value from query result
 			JsonElement jsonFirstQueryResultElement = jsonQueryResultObject.get(businessObject.getId());
 			JsonObject jsonFirstQueryResultObject = jsonFirstQueryResultElement.getAsJsonObject();
-			String value = jsonFirstQueryResultObject.get(fieldname).getAsString();
+			JsonElement value = jsonFirstQueryResultObject.get(fieldname);
+			nodeTypeAttribute.setValue(value);
 			int displayfield = nodeTypeAttribute.getDisplayfield();
-			
-			businessObject.addKeyValuePair(name, value, displayfield);
+			// add whole nodeTypeAttribute Object with updated value
+			businessObject.addAttribute(nodeTypeAttribute);
 			//set business object title if attribute is configured as title
 			String titleAttribute = configuration.getNodeTypeTitle();
 			if(titleAttribute.equals(name)) {
-				businessObject.setNodeTitle(value);
-			}
+				businessObject.setNodeTitle(value.getAsString());
+			} 
 		}
 		
 		return businessObject;
@@ -222,17 +225,16 @@ public class ObjectService implements Serializable {
 			Datasource datasourceObject = gson.fromJson(jsonDatasourceObject, Datasource.class);
 			Query queryObject = gson.fromJson(jsonQueryObject, Query.class);
 			String string = queryObject.getString();
-			Utilities utilities = new Utilities();
 			// create map with replacements
-			ArrayList<String> replaceAttributesList = utilities.getTokens(string);
+			ArrayList<String> replaceAttributesList = Utilities.getTokens(string);
 			Map<String, String> replaceAttributesMap = new HashMap<String, String>();
 			for(String replaceAttributeKey : replaceAttributesList) {
 				// get attribute value from business object
-				String replaceAttributeValue = businessObject.getAttributeValue(replaceAttributeKey);
+				String replaceAttributeValue = businessObject.getAttributeValueAsString(replaceAttributeKey);
 				replaceAttributesMap.put(replaceAttributeKey, replaceAttributeValue);
 			}
 			// replace [key] in string with variable values
-			string = utilities.replaceTokens(string, replaceAttributesMap);
+			string = Utilities.replaceTokens(string, replaceAttributesMap);
 			System.out.println("QueryString after replacements: " + string);
 			// replace query string
 			queryObject.setString(string);
@@ -243,7 +245,6 @@ public class ObjectService implements Serializable {
 				System.out.println("targetNodeIdKey: " + targetNodeIdKey);
 				System.out.println("targetNodeIdKey: " + sourceNodeId);
 			
-			// TODO: 2. change paramter to query object, 3. in method extract keys as targetObjectIDs
 			ArrayList<String> resultAdjacentNodeIDs = this.getAdjacentNodeIDs(datasourceObject, queryObject, sourceNodeId);
 			// test
 			for(String nodeId : resultAdjacentNodeIDs) {
@@ -293,10 +294,13 @@ public class ObjectService implements Serializable {
 					Document doc = resultCollectionAdjacentNodesIDs.getNthDocument(i);
 					System.out.println(doc.generateXML());
 					for(String targetNodeIdKey : targetNodeIdKeys) {
-						String nodeId = doc.getItemValueString(targetNodeIdKey);
-						// add to peer object id list if it is not the object id itself
-						if(!nodeId.equals(sourceNodeId)) {
-							adjacentNodeIds.add(nodeId);
+						// expect multiple values
+						Vector<String> nodeIds = doc.getItemValue(targetNodeIdKey);
+						for(String nodeId : nodeIds) {
+							// add to peer object id list if it is not the object id itself
+							if(!nodeId.equals(sourceNodeId)) {
+								adjacentNodeIds.add(nodeId);
+							}
 						}
 					}
 				}
