@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
-import uniko.iwvi.fgbas.magoetz.sbo.objects.Attribute;
+import uniko.iwvi.fgbas.magoetz.sbo.objects.NodeTypeAttribute;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.Datasource;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.NodeTypeCategory;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.NodeType;
@@ -39,7 +39,7 @@ public class ConfigService implements Serializable {
 		ArrayList<JsonObject> jsonNodeAttributeList = queryService.getJsonObjects("nodeTypeAttributes", nodeTypeName, "attributeJSON");
 		
 		for(JsonObject jsonNodeAttribute : jsonNodeAttributeList) {
-			Attribute attribute = gson.fromJson(jsonNodeAttribute, Attribute.class);
+			NodeTypeAttribute attribute = gson.fromJson(jsonNodeAttribute, NodeTypeAttribute.class);
 			nodeType.addConfigurationNodeAttribute(attribute);
 		}
 		

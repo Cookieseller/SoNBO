@@ -8,13 +8,13 @@ import java.util.Map;
 import lotus.domino.Document;
 import lotus.domino.DocumentCollection;
 import lotus.domino.NotesException;
-import uniko.iwvi.fgbas.magoetz.sbo.objects.Attribute;
+import uniko.iwvi.fgbas.magoetz.sbo.objects.NodeTypeAttribute;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.Datasource;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.Node;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.NodeTypeCategory;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.NodeType;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.Query;
-import uniko.iwvi.fgbas.magoetz.sbo.objects.AdjacencyQuery;
+import uniko.iwvi.fgbas.magoetz.sbo.objects.NoteTypeAdjacency;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.QueryResult;
 import uniko.iwvi.fgbas.magoetz.sbo.util.Utilities;
 import com.google.gson.Gson;
@@ -72,7 +72,7 @@ public class ObjectService implements Serializable {
 		ArrayList<QueryResult> queryResultList = new ArrayList<QueryResult>();
 		
 		// if it is an object preview only get preview attributes otherwise all defined
-		List<Attribute> nodeTypeAttributes =  new ArrayList<Attribute>();
+		List<NodeTypeAttribute> nodeTypeAttributes =  new ArrayList<NodeTypeAttribute>();
 		if(nodePreview){
 			nodeTypeAttributes =  config.getPreviewConfigurationNodeAttributes();
 		}else {
@@ -80,7 +80,7 @@ public class ObjectService implements Serializable {
 		}
 		
 		// get value for each object attribute
-		for(Attribute nodeTypeAttribute : nodeTypeAttributes) {
+		for(NodeTypeAttribute nodeTypeAttribute : nodeTypeAttributes) {
 
 			String datasource = nodeTypeAttribute.getDatasource();
 			String query = nodeTypeAttribute.getQuery();
@@ -118,14 +118,14 @@ public class ObjectService implements Serializable {
 
 		// TODO
 		// if it is an object preview only process preview attributes otherwise all defined
-		List<Attribute> configurationNodeAttributes =  new ArrayList<Attribute>();
+		List<NodeTypeAttribute> configurationNodeAttributes =  new ArrayList<NodeTypeAttribute>();
 		if(nodePreview){
 			configurationNodeAttributes =  configuration.getPreviewConfigurationNodeAttributes();
 		}else {
 			configurationNodeAttributes =  configuration.getNodeTypeAttributes();
 		}
 		
-		for(Attribute nodeTypeAttribute : configuration.getNodeTypeAttributes()) {
+		for(NodeTypeAttribute nodeTypeAttribute : configuration.getNodeTypeAttributes()) {
 			// get name and fieldname of attribute
 			String name = nodeTypeAttribute.getName();
 			String fieldname = nodeTypeAttribute.getFieldname();
@@ -188,7 +188,7 @@ public class ObjectService implements Serializable {
 		DocumentCollection resultCollectionAdjacenyQueryList = queryService.ftSearchView("", adjacencyQueryString, "nodeTypeAdjacencies");
 		
 		//execute query for getting object relationships
-		ArrayList<AdjacencyQuery> adjacencyQueryList = new ArrayList<AdjacencyQuery>();
+		ArrayList<NoteTypeAdjacency> adjacencyQueryList = new ArrayList<NoteTypeAdjacency>();
 		try {
 			if(resultCollectionAdjacenyQueryList != null) {
 				Gson gson = new Gson();
@@ -197,7 +197,7 @@ public class ObjectService implements Serializable {
 					String adjacencyName = doc.getItemValueString("adjacencyName");
 					String adjacencyQueryJSON = queryService.getFieldValue("nodeTypeAdjacencies", adjacencyName, "adjacencyQueryJSON");					
 					// retrieve query and database
-					AdjacencyQuery adjacencyQuery = gson.fromJson(adjacencyQueryJSON, AdjacencyQuery.class);
+					NoteTypeAdjacency adjacencyQuery = gson.fromJson(adjacencyQueryJSON, NoteTypeAdjacency.class);
 					adjacencyQueryList.add(adjacencyQuery);
 					// test print out
 					System.out.println("adjacencyQuery: " + adjacencyQuery.getQuery());
@@ -212,7 +212,7 @@ public class ObjectService implements Serializable {
 		
 		// execute queries for getting peer object IDs
 		ArrayList<String> adjacentNodeIDs = new ArrayList<String>();
-		for(AdjacencyQuery adjacencyQuery : adjacencyQueryList) {
+		for(NoteTypeAdjacency adjacencyQuery : adjacencyQueryList) {
 		
 			// get datasource and query for peer query
 			JsonObject jsonDatasourceObject = queryService.getJsonObject("datasources", adjacencyQuery.getDatasource(), "datasourceJSON");				

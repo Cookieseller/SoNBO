@@ -1,6 +1,6 @@
 package uniko.iwvi.fgbas.magoetz.sbo.objects;
 
-public class Attribute {
+public class NodeTypeAttribute {
 	
 	private String name;
 	
@@ -14,7 +14,7 @@ public class Attribute {
 	
 	private boolean preview;
 	
-	private Attribute() {
+	private NodeTypeAttribute() {
 	}
 	
 	public String getName() {

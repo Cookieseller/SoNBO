@@ -15,10 +15,10 @@ public class NodeType {
 	
 	private String adjacencies;
 	
-	private List<Attribute> nodeTypeAttributes;
+	private List<NodeTypeAttribute> nodeTypeAttributes;
 	
 	public NodeType() {
-		this.nodeTypeAttributes = new ArrayList<Attribute>();
+		this.nodeTypeAttributes = new ArrayList<NodeTypeAttribute>();
 	}
 	
 	public void setNodeTypeName(String nodeTypeName) {
@@ -53,13 +53,13 @@ public class NodeType {
 		return adjacencies;
 	}
 
-	public List<Attribute> getNodeTypeAttributes() {
+	public List<NodeTypeAttribute> getNodeTypeAttributes() {
 		return this.nodeTypeAttributes;
 	}
 	
-	public List<Attribute> getPreviewConfigurationNodeAttributes() {
-		List<Attribute> previewConfigNodeAttrList = new ArrayList<Attribute>();
-		for(Attribute configNodeAttr : this.getNodeTypeAttributes()) {
+	public List<NodeTypeAttribute> getPreviewConfigurationNodeAttributes() {
+		List<NodeTypeAttribute> previewConfigNodeAttrList = new ArrayList<NodeTypeAttribute>();
+		for(NodeTypeAttribute configNodeAttr : this.getNodeTypeAttributes()) {
 			if(configNodeAttr.isPreview()) {
 				previewConfigNodeAttrList.add(configNodeAttr);
 			}
@@ -67,11 +67,11 @@ public class NodeType {
 		return previewConfigNodeAttrList;
 	}
 
-	public void setConfigurationNodeAttributes(List<Attribute> attributes){
+	public void setConfigurationNodeAttributes(List<NodeTypeAttribute> attributes){
 		this.nodeTypeAttributes = attributes;
 	}
 	
-	public void addConfigurationNodeAttribute(Attribute attribute) {
+	public void addConfigurationNodeAttribute(NodeTypeAttribute attribute) {
 		this.nodeTypeAttributes.add(attribute);
 	}
 
