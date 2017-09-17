@@ -185,7 +185,7 @@ public class ObjectService implements Serializable {
 			}
 		}
 		System.out.println("adjacencyQueryString: " + adjacencyQueryString);
-		DocumentCollection resultCollectionAdjacenyQueryList = queryService.ftSearchView("", adjacencyQueryString, "adjacencies");
+		DocumentCollection resultCollectionAdjacenyQueryList = queryService.ftSearchView("", adjacencyQueryString, "nodeTypeAdjacencies");
 		
 		//execute query for getting object relationships
 		ArrayList<AdjacencyQuery> adjacencyQueryList = new ArrayList<AdjacencyQuery>();
@@ -195,7 +195,7 @@ public class ObjectService implements Serializable {
 				for(int i=1; i<=resultCollectionAdjacenyQueryList.getCount(); i++) {
 					Document doc = resultCollectionAdjacenyQueryList.getNthDocument(i);
 					String adjacencyName = doc.getItemValueString("adjacencyName");
-					String adjacencyQueryJSON = queryService.getFieldValue("adjacencies", adjacencyName, "adjacencyQueryJSON");					
+					String adjacencyQueryJSON = queryService.getFieldValue("nodeTypeAdjacencies", adjacencyName, "adjacencyQueryJSON");					
 					// retrieve query and database
 					AdjacencyQuery adjacencyQuery = gson.fromJson(adjacencyQueryJSON, AdjacencyQuery.class);
 					adjacencyQueryList.add(adjacencyQuery);

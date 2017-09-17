@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note class='form' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.0'
  replicaid='C125817D00447BEE'>
-<noteinfo noteid='172' unid='28DC4C001A851C32C12581640041B7A8' sequence='20'>
+<noteinfo noteid='172' unid='28DC4C001A851C32C12581640041B7A8' sequence='21'>
 <created><datetime dst='true'>20170721T135748,56+02</datetime></created>
-<modified><datetime dst='true'>20170906T181052,54+02</datetime></modified>
-<revised><datetime dst='true'>20170906T181052,53+02</datetime></revised>
-<lastaccessed><datetime dst='true'>20170906T181052,54+02</datetime></lastaccessed>
+<modified><datetime dst='true'>20170917T220340,31+02</datetime></modified>
+<revised><datetime dst='true'>20170917T220340,30+02</datetime></revised>
+<lastaccessed><datetime dst='true'>20170917T220340,31+02</datetime></lastaccessed>
 <addedtofile><datetime dst='true'>20170815T142815,85+02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></updatedby>
 <wassignedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></wassignedby>
@@ -19,7 +19,7 @@ X/8QAAIADwAHAAAAAAAAAA==
 <rawitemdata type='1'>
 hhgBAIAAAAAAgAAAAQABAP///wAQAAAA
 </rawitemdata></item>
-<item name='$WindowTitle' sign='true'><formula>"Configure query"</formula></item>
+<item name='$WindowTitle' sign='true'><formula>"Query config"</formula></item>
 <item name='$Flags'><text/></item>
 <item name='$DesignerVersion'><text>8.5.3</text></item>
 <item name='$$ScriptName' summary='false' sign='true'><text>configQueries</text></item>

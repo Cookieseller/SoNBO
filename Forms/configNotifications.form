@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note class='form' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.0'
  replicaid='C125817D00447BEE'>
-<noteinfo noteid='17e' unid='EBDC42995FDE4F03C125816C0030779E' sequence='8'>
+<noteinfo noteid='17e' unid='EBDC42995FDE4F03C125816C0030779E' sequence='9'>
 <created><datetime dst='true'>20170729T104923,50+02</datetime></created>
-<modified><datetime dst='true'>20170901T005342,91+02</datetime></modified>
-<revised><datetime dst='true'>20170901T005342,90+02</datetime></revised>
-<lastaccessed><datetime dst='true'>20170901T005342,91+02</datetime></lastaccessed>
+<modified><datetime dst='true'>20170917T220330,48+02</datetime></modified>
+<revised><datetime dst='true'>20170917T220330,47+02</datetime></revised>
+<lastaccessed><datetime dst='true'>20170917T220330,48+02</datetime></lastaccessed>
 <addedtofile><datetime dst='true'>20170815T142816,03+02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></updatedby>
 <wassignedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></wassignedby>
@@ -19,7 +19,7 @@ X/8QAAIADwAHAAAAAAAAAA==
 <rawitemdata type='1'>
 hhgBAIAAAAAAgAAAAQABAP///wAQAAAA
 </rawitemdata></item>
-<item name='$WindowTitle' sign='true'><formula>"Configure notification"</formula></item>
+<item name='$WindowTitle' sign='true'><formula>"Notification config"</formula></item>
 <item name='$Flags'><text/></item>
 <item name='$DesignerVersion'><text>8.5.3</text></item>
 <item name='$$ScriptName' summary='false' sign='true'><text>configNotifications</text></item>

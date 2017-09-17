@@ -36,7 +36,7 @@ public class ConfigService implements Serializable {
 		NodeType nodeType = gson.fromJson(jsonNodeType, NodeType.class);
 		
 		// attributes
-		ArrayList<JsonObject> jsonNodeAttributeList = queryService.getJsonObjects("attributes", nodeTypeName, "attributeJSON");
+		ArrayList<JsonObject> jsonNodeAttributeList = queryService.getJsonObjects("nodeTypeAttributes", nodeTypeName, "attributeJSON");
 		
 		for(JsonObject jsonNodeAttribute : jsonNodeAttributeList) {
 			Attribute attribute = gson.fromJson(jsonNodeAttribute, Attribute.class);
