@@ -47,6 +47,9 @@ public class SoNBOManager implements Serializable {
 			// TODO reload peer object list if other objectPeer was chosen
 			// get list of peer objects (all)
 			ConfigService configService = new ConfigService();
+			if(this.nodeTypeCategoryName == null) {
+				this.nodeTypeCategoryName = "all";
+			}
 			this.nodeTypeCategory = configService.getNodeTypeCategory(businessObject.getNodeTypeCategory());
 			//List<Node> allPeerObjectList = new ArrayList<Node>();
 			List<Node> adjacentNodeList = new ArrayList<Node>();
