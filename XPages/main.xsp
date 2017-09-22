@@ -1,21 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xp:view xmlns:xp="http://www.ibm.com/xsp/core" xmlns:xc="http://www.ibm.com/xsp/custom">
 	<xp:this.beforePageLoad>
-		<![CDATA[#{javascript:soNBOManager.init()}]]>
+		<![CDATA[#{javascript: var nodeIdSet = param.get('id')==null ? false : true; if(nodeIdSet) {soNBOManager.init();}}]]>
 	</xp:this.beforePageLoad>
 	<xp:this.resources>
 		<xp:styleSheet href="/main.css"/>
 	</xp:this.resources>
-	<xp:panel>
-		<!-- TODO: Mixed js + notes -> Get notificationCodeList, retrieve notification String from DB (@Formula) and display --> 
- 		<xp:repeat id="repeat1" var="notificationCode">
-		<xp:this.value><![CDATA[${javascript:soNBOManager.getNotificationCodeList();}]]></xp:this.value>
-		<xp:label id="label2">
-			<xp:this.value><![CDATA[#{javascript: return notificationCode + ": " + @DbLookup("", "notifications", notificationCode, 2)}]]></xp:this.value>
-		</xp:label>
-		</xp:repeat>
-	</xp:panel>
-	<xc:mainLayout>
+	<xc:mainLayout loaded="${javascript:nodeIdSet}" >
 		<xp:this.facets>
 			<xp:label value="Filter area" id="label1" xp:key="facetLeft"></xp:label>
 			<xp:panel xp:key="facetMiddle">
@@ -24,7 +15,10 @@
 				<xc:navbarNodeType/>
 				<xc:resultList/>
 			</xp:panel>
-			<xp:label value="Stream area" id="label3" xp:key="facetRight"></xp:label>
+			<xp:label value="Stream area" id="label4" xp:key="facetRight"></xp:label>
 		</xp:this.facets>
 	</xc:mainLayout>
+	<xp:label id="label3"  loaded="${javascript:!nodeIdSet}">
+		<xp:this.value>Page not loaded - missing id parameter in URL</xp:this.value>
+	</xp:label>
 </xp:view>

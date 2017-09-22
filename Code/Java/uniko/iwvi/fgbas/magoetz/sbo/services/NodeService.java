@@ -23,7 +23,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-public class ObjectService implements Serializable {
+public class NodeService implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
