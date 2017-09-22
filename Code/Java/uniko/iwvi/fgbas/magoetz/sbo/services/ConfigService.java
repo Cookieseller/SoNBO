@@ -45,6 +45,10 @@ public class ConfigService implements Serializable {
 		
 		return nodeType;
 	}
+	
+	public List<String> getAllNodeTypeCategoryNames() {
+		return queryService.getColumnValues("nodeTypeCategories", 0);
+	} 
 
 	public NodeTypeCategory getNodeTypeCategory(String nodeTypeCategory) {
 		
@@ -57,37 +61,27 @@ public class ConfigService implements Serializable {
 		
 		NodeType resultNodeType =  null;
 		
-		// get all configuration documents
+		//get all node type definitions
 		ArrayList<String> nodeTypes = queryService.getColumnValues("nodeTypes", 0);
-		ArrayList<NodeType> configList = new ArrayList<NodeType>();
+		ArrayList<NodeType> nodeTypeList = new ArrayList<NodeType>();
 		for(String nodeType : nodeTypes) {
-			configList.add(this.getNodeType(nodeType));
+			nodeTypeList.add(this.getNodeType(nodeType));
 		}
-		// search main datasource query for json containing object name
-		for(NodeType config : configList) {
-			
-			// TODO: change to object individual source and query
-			NodeTypeCategory nodeTypeCategory = this.getNodeTypeCategory(config.getNodeTypeCategory());
-			String mainSource = nodeTypeCategory.getMainDatasource();
-			String mainQuery = nodeTypeCategory.getMainQuery();
-			System.out.println("mainSource: " + mainSource + " mainQuery: " + mainQuery);
-			JsonObject datasourceJSON = queryService.getJsonObject("datasources", mainSource, "datasourceJSON");
-			JsonObject queryJSON = queryService.getJsonObject("queries", mainQuery, "queryJSON");
+		// search for node with id and return node type
+		for(NodeType nodeType : nodeTypeList) {
+			// get datasource and query of id attribute
+			NodeTypeAttribute nodeTypeAttribute = nodeType.getNodeTypeIdAttribute();
+			JsonObject jsonDatasourceObject = queryService.getJsonObject("datasources", nodeTypeAttribute.getDatasource(), "datasourceJSON");				
+			JsonObject jsonQueryObject = queryService.getJsonObject("queries", nodeTypeAttribute.getQuery(), "queryJSON");
+			//replace attributes in query string with variable values
 			Gson gson = new Gson();
-			Datasource datasourceObject = gson.fromJson(datasourceJSON, Datasource.class);
-			Query queryObject = gson.fromJson(queryJSON, Query.class);
-			JsonObject adjacentNodeJSON = queryService.executeQuery(datasourceObject, queryObject, id); 
-			if(adjacentNodeJSON != null) {
-				// get object type
-				// TODO revise
-				JsonElement jsonFirstQueryElement = adjacentNodeJSON.get(id);
-				JsonObject jsonFirstQueryObject = jsonFirstQueryElement.getAsJsonObject();
-				String nodeType = jsonFirstQueryObject.get("objectType").getAsString();
-				resultNodeType = this.getNodeType(nodeType);
-				break;
+			Datasource datasourceObject = gson.fromJson(jsonDatasourceObject, Datasource.class);
+			Query queryObject = gson.fromJson(jsonQueryObject, Query.class);
+			JsonObject json = queryService.executeQuery(datasourceObject, queryObject, id);
+			if(json != null) {
+				return nodeType;
 			}
 		}
-		
 		return resultNodeType;
 	}
 }

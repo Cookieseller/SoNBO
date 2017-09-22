@@ -36,6 +36,15 @@ public class NodeType {
 	public String getNodeTypeId() {
 		return nodeTypeId;
 	}
+	
+	public NodeTypeAttribute getNodeTypeIdAttribute() {
+		for(NodeTypeAttribute nodeTypeAttribute : this.nodeTypeAttributes) {
+			if(nodeTypeAttribute.getName().equals(this.nodeTypeId)) {
+				return nodeTypeAttribute;
+			}
+		}
+		return null;
+	}
 
 	public String getNodeTypeCategory() {
 		return nodeTypeCategory;

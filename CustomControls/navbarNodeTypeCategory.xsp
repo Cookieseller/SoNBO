@@ -4,7 +4,7 @@
 	<xe:navbar id="navbarPeers" headingText="Category">
 		<xp:repeat id="repeat1" var="peer">
 			<!-- <xp:this.value><![CDATA[#{javascript: var peers = param.get('nodeTypeCategory') == 'all' ? 'person' : param.get('nodeTypeCategory'); var classPeers = @DbLookup("", "classes", peers, "classPeers"); classPeers.unshift("all"); return classPeers;}]]></xp:this.value> -->
-			<xp:this.value><![CDATA[#{javascript: var adjacentNodeTypeCategories = soNBOManager.nodeTypeCategory.getAdjacentNodeTypeCategories(); adjacentNodeTypeCategories.unshift("all"); return adjacentNodeTypeCategories;}]]></xp:this.value>
+			<xp:this.value><![CDATA[#{javascript: var adjacentNodeTypeCategories = soNBOManager.configService.getAllNodeTypeCategoryNames(); adjacentNodeTypeCategories.unshift("all"); return adjacentNodeTypeCategories;}]]></xp:this.value>
 			<xp:panel styleClass="sbo-navbar-link-wrapper">
 				<xp:link id="label2"
 					styleClass="sbo-navbar-link #{javascript: return param.get('nodeTypeCategory') == peer || param.get('nodeTypeCategory') == null &amp;&amp; peer == 'all' ? 'sbo-navbar-selected' : '';}">

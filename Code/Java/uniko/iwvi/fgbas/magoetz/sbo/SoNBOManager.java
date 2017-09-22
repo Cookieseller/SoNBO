@@ -30,11 +30,9 @@ public class SoNBOManager implements Serializable {
 	
 	public Node businessObject;
 	
-	public NodeTypeCategory nodeTypeCategory;
-	
 	private NodeService nodeService = new NodeService();
 	
-	private ConfigService configService = new ConfigService();
+	public ConfigService configService = new ConfigService();
 	
 	public void init(){
 			
@@ -55,9 +53,9 @@ public class SoNBOManager implements Serializable {
 		}
 		
 		// set node type category
-		this.nodeTypeCategory = this.configService.getNodeTypeCategory(businessObject.getNodeTypeCategory());
-		
-		for(String adjacentNodeTypeCategory : this.nodeTypeCategory.getAdjacentNodeTypeCategories())  {
+		List<String> nodeTypeCategoryNames = configService.getAllNodeTypeCategoryNames();
+		for(String adjacentNodeTypeCategory : nodeTypeCategoryNames) {
+		//for(String adjacentNodeTypeCategory : this.nodeTypeCategory.getAdjacentNodeTypeCategories())  {
 			System.out.println("AdjacentNodeTypeCategory: " + adjacentNodeTypeCategory);
 			List<Node> objects = nodeService.getAdjacentNodes(businessObject, adjacentNodeTypeCategory);
 			//allPeerObjectList.addAll(objects);
