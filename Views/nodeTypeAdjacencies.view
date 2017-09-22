@@ -1,35 +1,36 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note class='view' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.0'
  replicaid='C125817D00447BEE'>
-<noteinfo noteid='536' unid='2AD2D4A8B8598D58C125818D007BAF8B' sequence='34'>
-<created><datetime dst='true'>20170901T003058,67+02</datetime></created>
-<modified><datetime dst='true'>20170922T202821,30+02</datetime></modified>
-<revised><datetime dst='true'>20170922T202821,29+02</datetime></revised>
-<lastaccessed><datetime dst='true'>20170922T202821,30+02</datetime></lastaccessed>
-<addedtofile><datetime dst='true'>20170901T003058,71+02</datetime></addedtofile></noteinfo>
-<updatedby><name>CN=Flemming Goetz/O=uniko/C=DE</name><name>CN=Flemming Goetz/O=uniko/C=de</name></updatedby>
+<noteinfo noteid='5aa' unid='43213E8DD10D4BDDC12581A3006C56AC' sequence='4'>
+<created><datetime dst='true'>20170922T214320,76+02</datetime></created>
+<modified><datetime dst='true'>20170922T214719,04+02</datetime></modified>
+<revised><datetime dst='true'>20170922T214719,03+02</datetime></revised>
+<lastaccessed><datetime dst='true'>20170922T214719,04+02</datetime></lastaccessed>
+<addedtofile><datetime dst='true'>20170922T214320,80+02</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Flemming Goetz/O=uniko/C=de</name></updatedby>
 <wassignedby><name>CN=Flemming Goetz/O=uniko/C=de</name></wassignedby>
 <item name='$FormatNote' summary='true' sign='true'>
 <rawitemdata type='4'>
-AQB/ohaee+7K8eIPRADjgCXB
+AQBYjVm4qNTSKouvewCNgSXB
 </rawitemdata></item>
-<item name='$FormulaClass' sign='true'><text>1</text></item>
 <item name='$Index' sign='true'><text/></item>
 <item name='$Formula' summary='true' sign='true'><formula compiled='true'>
-hgECAM4AAwAkMTcAAQAQAHsAInNvdXJjZU5vZGUiOiIFABMAYWRqYWNlbmN5U291cmNlTm9kZQAi
+jgECAM4AAwAkMTcAAQAQAHsAInNvdXJjZU5vZGUiOiIFABMAYWRqYWNlbmN5U291cmNlTm9kZQAi
 AgEAEQAiLAAidGFyZ2V0Tm9kZSI6IgAiAgUAEwBhZGphY2VuY3lUYXJnZXROb2RlACICAQARACIs
 ACJkYXRhc291cmNlIjoiACICBQATAGFkamFjZW5jeURhdGFzb3VyY2UAIgIBAAwAIiwAInF1ZXJ5
 IjoiIgIFAA4AYWRqYWNlbmN5UXVlcnkiAgEAAwAiAH0AIgIDAAUAfAB4AAgADQATABMAEwAOAAMA
 CQAEAGFkamFjZW5jeU5hbWVhZGphY2VuY3lTb3VyY2VOb2RlYWRqYWNlbmN5VGFyZ2V0Tm9kZWFk
-amFjZW5jeURhdGFzb3VyY2VhZGphY2VuY3lRdWVyeSQxNyRDb25mbGljdCRSRUYEAAQAAAAoAAUA
-BABGb3JtAQAPAGNvbmZpZ0FkamFjZW5jeQAKAgQABAADAAcADgAIAAlMMVM0UzVT
+amFjZW5jeURhdGFzb3VyY2VhZGphY2VuY3lRdWVyeSQxNyRDb25mbGljdCRSRUYEAAQAAAAwAAUA
+BABGb3JtAQAXAGNvbmZpZ05vZGVUeXBlQWRqYWNlbmN5AAoCBAAEAAMABwAOAAgACUwxUzRTNVM=
 </formula></item>
+<item name='$FormulaClass' sign='true'><text>1</text></item>
 <item name='$Collation' summary='true'>
 <rawitemdata type='2'>
 NAACAABEgGYAAAANAIBmAA0AEwBhZGphY2VuY3lOYW1lYWRqYWNlbmN5U291cmNlTm9kZQ==
 </rawitemdata></item>
 <item name='$Comment' sign='true'><text/></item>
 <item name='$Flags'><text>PY</text></item>
+<item name='$ViewInheritedFrom' sign='true'><text>nodeTypeAdjacencies</text></item>
 <item name='$ViewFormat' sign='true'>
 <rawitemdata type='5'>
 AQAGABMACAAAAFZDAQANAA0AAAAAAFAAAQAACgAAAAAAAAAAAAICAAAAVkMBABMAEwAAAAAAUAAB

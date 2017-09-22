@@ -226,7 +226,7 @@ public class NodeService implements Serializable {
 		String adjacencyQueryString = "";
 		for(int i=0; i<adjacentNodeTypes.size(); i++) {
 			System.out.println("Result string adjacent node name: " + adjacentNodeTypes.get(i));
-			adjacencyQueryString += "[adjacencySourceObject] = " + sourceNodeType + " AND [adjacencyTargetObject] = " + adjacentNodeTypes.get(i);
+			adjacencyQueryString += "[adjacencySourceNode] = " + sourceNodeType + " AND [adjacencyTargetNode] = " + adjacentNodeTypes.get(i);
 			if(i < adjacentNodeTypes.size() - 1) {
 				adjacencyQueryString += " OR ";
 			}
