@@ -44,25 +44,28 @@ public class NodeService implements Serializable {
 
 		//NodeType configObject = configService.getConfigurationObject(objectName);
 		NodeType configObject = configService.getNodeTypeById(id);
-		node.setNodeType(configObject.getNodeTypeName());
+		if(configObject != null) {
+			node.setNodeType(configObject.getNodeTypeName());
+			
+			// 3. RETRIEVE ATTRIBUTES OF BUSINESS OBJECT
+			
+			// set object class
+			node.setNodeTypeCategory(configObject.getNodeTypeCategory());
+			
+			// set object image
+			// TODO: set individual image if available
+			NodeTypeCategory nodeTypeCategory = configService.getNodeTypeCategory(node.getNodeTypeCategory());
+			node.setNodeImage(nodeTypeCategory.getDefaultImage());
+			
+			// get business object attributes
+			ArrayList<QueryResult> queryResultList = this.getNodeAttributes(configObject, id, nodePreview);
+			
+			// load attribute key and value into business object
+			node = loadAttributes(node, configObject, queryResultList, nodePreview);
 		
-		// 3. RETRIEVE ATTRIBUTES OF BUSINESS OBJECT
-		
-		// set object class
-		node.setNodeTypeCategory(configObject.getNodeTypeCategory());
-		
-		// set object image
-		// TODO: set individual image if available
-		NodeTypeCategory nodeTypeCategory = configService.getNodeTypeCategory(node.getNodeTypeCategory());
-		node.setNodeImage(nodeTypeCategory.getDefaultImage());
-		
-		// get business object attributes
-		ArrayList<QueryResult> queryResultList = this.getNodeAttributes(configObject, id, nodePreview);
-		
-		// load attribute key and value into business object
-		node = loadAttributes(node, configObject, queryResultList, nodePreview);
-	
-		return node;
+			return node;
+		}
+		return null;
 	}
 	
 	/*
@@ -174,14 +177,17 @@ public class NodeService implements Serializable {
 		// get peer queries for source object <-> target objects
 		String adjacencyQueryString = this.buildAdjacentNodesQueryString(adjacentNodeTypes, sourceNodeType);
 		
-		//execute query for getting object relationships
+		//execute query for getting node relationships
 		ArrayList<NoteTypeAdjacency> adjacencyQueryList = getAdjacencyQueries(adjacencyQueryString);
 
 		// execute queries for getting peer object IDs
 		ArrayList<String> adjacentNodeIDs = this.getAdjacentNodeIDs(businessObject, adjacencyQueryList);
 		
 		for(String adjacentNodeId : adjacentNodeIDs) {
-			adjacentNodesList.add(this.getNode(adjacentNodeId, true));
+			Node adjacentNode = this.getNode(adjacentNodeId, true);
+			if(adjacentNode != null) {
+				adjacentNodesList.add(adjacentNode);
+			}
 		}
 		return adjacentNodesList;
 	}
