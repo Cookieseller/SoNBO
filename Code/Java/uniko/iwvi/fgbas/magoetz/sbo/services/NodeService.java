@@ -156,12 +156,8 @@ public class NodeService implements Serializable {
 
 	public List<Node> getAdjacentNodes(Node businessObject, String nodeTypeCategoryName) {
 		
-		// TODO: refactor method (too big!)
-		
 		System.out.println("Adjacent nodes");
 		System.out.println("==============");
-		// TODO: Only implemented for object person (main source / query)
-		// TODO: Define queries person -> teaching, teaching -> person.... // only one def needed because bidirectional -> Class
 		
 		List<Node> adjacentNodesList = new ArrayList<Node>();
 		// get peer query for object type
@@ -171,27 +167,31 @@ public class NodeService implements Serializable {
 		// determine peer query by source and target object type
 		String sourceNodeType = businessObject.getNodeType();
 				System.out.println("sourceNodeType: " + sourceNodeType);
-		String sourceNodeId = businessObject.getId();
-				System.out.println("sourceNodeId: " + sourceNodeId);
 	
 		// Get children of class objectPeers ( = target object names) e.g. person -> employee, student etc.
 		ArrayList<String> adjacentNodeTypes = this.getChildrenNodeTypes(nodeTypeCategoryName);
 		
 		// get peer queries for source object <-> target objects
-		// build query string for getting object relationships
-		String adjacencyQueryString = "";
-		for(int i=0; i<adjacentNodeTypes.size(); i++) {
-			System.out.println("Result string adjacent node name: " + adjacentNodeTypes.get(i));
-			adjacencyQueryString += "[adjacencySourceObject] = " + sourceNodeType + " AND [adjacencyTargetObject] = " + adjacentNodeTypes.get(i);
-			if(i < adjacentNodeTypes.size() - 1) {
-				adjacencyQueryString += " OR ";
-			}
-		}
-		System.out.println("adjacencyQueryString: " + adjacencyQueryString);
-		DocumentCollection resultCollectionAdjacenyQueryList = queryService.ftSearchView("", adjacencyQueryString, "nodeTypeAdjacencies");
+		String adjacencyQueryString = this.buildAdjacentNodesQueryString(adjacentNodeTypes, sourceNodeType);
 		
 		//execute query for getting object relationships
+		ArrayList<NoteTypeAdjacency> adjacencyQueryList = getAdjacencyQueries(adjacencyQueryString);
+
+		// execute queries for getting peer object IDs
+		ArrayList<String> adjacentNodeIDs = this.getAdjacentNodeIDs(businessObject, adjacencyQueryList);
+		
+		for(String adjacentNodeId : adjacentNodeIDs) {
+			adjacentNodesList.add(this.getNode(adjacentNodeId, true));
+		}
+		return adjacentNodesList;
+	}
+	
+	private ArrayList<NoteTypeAdjacency> getAdjacencyQueries(String adjacencyQueryString) {
+		
+		DocumentCollection resultCollectionAdjacenyQueryList = queryService.ftSearchView("", adjacencyQueryString, "nodeTypeAdjacencies");
+		
 		ArrayList<NoteTypeAdjacency> adjacencyQueryList = new ArrayList<NoteTypeAdjacency>();
+		
 		try {
 			if(resultCollectionAdjacenyQueryList != null) {
 				Gson gson = new Gson();
@@ -211,8 +211,25 @@ public class NodeService implements Serializable {
 		} catch (NotesException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}		
 		
+		return adjacencyQueryList;		
+	}
+	
+	private String buildAdjacentNodesQueryString(ArrayList<String> adjacentNodeTypes, String sourceNodeType) {
+		String adjacencyQueryString = "";
+		for(int i=0; i<adjacentNodeTypes.size(); i++) {
+			System.out.println("Result string adjacent node name: " + adjacentNodeTypes.get(i));
+			adjacencyQueryString += "[adjacencySourceObject] = " + sourceNodeType + " AND [adjacencyTargetObject] = " + adjacentNodeTypes.get(i);
+			if(i < adjacentNodeTypes.size() - 1) {
+				adjacencyQueryString += " OR ";
+			}
+		}
+		System.out.println("adjacencyQueryString: " + adjacencyQueryString);
+		return adjacencyQueryString;
+	}
+	
+	private ArrayList<String> getAdjacentNodeIDs(Node businessObject, ArrayList<NoteTypeAdjacency> adjacencyQueryList) {
 		// execute queries for getting peer object IDs
 		ArrayList<String> adjacentNodeIDs = new ArrayList<String>();
 		for(NoteTypeAdjacency adjacencyQuery : adjacencyQueryList) {
@@ -241,8 +258,8 @@ public class NodeService implements Serializable {
 			
 			String targetNodeName = adjacencyQuery.getTargetNode();
 			String targetNodeIdKey = queryService.getFieldValue("nodeTypes", targetNodeName, "nodeTypeId");
-			
 				System.out.println("targetNodeIdKey: " + targetNodeIdKey);
+			String sourceNodeId = businessObject.getId();
 				System.out.println("targetNodeIdKey: " + sourceNodeId);
 			
 			ArrayList<String> resultAdjacentNodeIDs = this.getAdjacentNodeIDs(datasourceObject, queryObject, sourceNodeId);
@@ -252,11 +269,7 @@ public class NodeService implements Serializable {
 			}
 			adjacentNodeIDs.addAll(resultAdjacentNodeIDs);
 		}
-		
-		for(String adjacentNodeId : adjacentNodeIDs) {
-			adjacentNodesList.add(this.getNode(adjacentNodeId, true));
-		}
-		return adjacentNodesList;
+		return adjacentNodeIDs;
 	}
 	
 	private ArrayList<String> getChildrenNodeTypes(String nodeTypeCategoryName) {

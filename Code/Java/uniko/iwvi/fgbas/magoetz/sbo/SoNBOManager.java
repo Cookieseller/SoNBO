@@ -32,49 +32,53 @@ public class SoNBOManager implements Serializable {
 	
 	public NodeTypeCategory nodeTypeCategory;
 	
-	private NodeService objectService = new NodeService();
+	private NodeService nodeService = new NodeService();
+	
+	private ConfigService configService = new ConfigService();
 	
 	public void init(){
 			
 		System.out.println("NEW REQUEST FOR BUSINESS OBJECT");
 		System.out.println("===============================");
-		// get business objects
-		this.businessObject = objectService.getNode(objectId, false);
-		// TODO reload peer object list if other objectPeer was chosen
+
+		// get business object
+		this.businessObject = this.nodeService.getNode(objectId, false);
+		
 		// get list of peer objects (all)
-		ConfigService configService = new ConfigService();
+		List<Node> adjacentNodeList = new ArrayList<Node>();
+		HashSet<String> objectRelationships = new HashSet<String>();
+		HashSet<Node> filteredPeerObjectList = new HashSet<Node>();
+		
+		// if parameter nodeTypeCategoryName was not set get all 
 		if(this.nodeTypeCategoryName == null) {
 			this.nodeTypeCategoryName = "all";
 		}
-		this.nodeTypeCategory = configService.getNodeTypeCategory(businessObject.getNodeTypeCategory());
-		//List<Node> allPeerObjectList = new ArrayList<Node>();
-		List<Node> adjacentNodeList = new ArrayList<Node>();
 		
-		HashSet<String> objectRelationships = new HashSet<String>();
-		//List<Node> filteredPeerObjectList = new ArrayList<Node>();
-		HashSet<Node> filteredPeerObjectList = new HashSet<Node>();
+		// set node type category
+		this.nodeTypeCategory = this.configService.getNodeTypeCategory(businessObject.getNodeTypeCategory());
 		
 		for(String adjacentNodeTypeCategory : this.nodeTypeCategory.getAdjacentNodeTypeCategories())  {
 			System.out.println("AdjacentNodeTypeCategory: " + adjacentNodeTypeCategory);
-			List<Node> objects = objectService.getAdjacentNodes(businessObject, adjacentNodeTypeCategory);
+			List<Node> objects = nodeService.getAdjacentNodes(businessObject, adjacentNodeTypeCategory);
 			//allPeerObjectList.addAll(objects);
 			if(this.nodeTypeCategoryName.equals(adjacentNodeTypeCategory) || this.nodeTypeCategoryName.equals("all")) {
 				adjacentNodeList.addAll(objects);
 			}
 			this.businessObject.setAdjacentNodeList(adjacentNodeList);
-			objectRelationships.addAll(objectService.getAdjacentNodeTypes(adjacentNodeTypeCategory));
-			filteredPeerObjectList.addAll(objectService.getFilteredResultList(businessObject, nodeType, adjacentNodeTypeCategory));
+			objectRelationships.addAll(nodeService.getAdjacentNodeTypes(adjacentNodeTypeCategory));
+			filteredPeerObjectList.addAll(nodeService.getFilteredResultList(businessObject, nodeType, adjacentNodeTypeCategory));
 		}
 		List<String> relationshipList = new ArrayList<String>();
 		for(String relationship : objectRelationships) {
 			relationshipList.add(relationship);
 		}
-		List<Node> peerList = new ArrayList<Node>();
+		List<Node> adjacencyList = new ArrayList<Node>();
 		for(Node filteredPeerObject : filteredPeerObjectList) {
-			peerList.add(filteredPeerObject);
+			adjacencyList.add(filteredPeerObject);
 		}
+		
 		this.businessObject.setNodeAdjacencies(relationshipList);
-		this.businessObject.setFilteredAdjacentNodeList(peerList);
+		this.businessObject.setFilteredAdjacentNodeList(adjacencyList);
 
 		// TODO: execute tests if necessary
 		Test test = new Test();
