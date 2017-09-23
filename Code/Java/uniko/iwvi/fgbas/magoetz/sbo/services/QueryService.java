@@ -145,7 +145,8 @@ public class QueryService implements Serializable {
 		// convert query results to json objects
 		ArrayList<JsonObject> jsonObjects = new ArrayList<JsonObject>();
 		
-		for(String s : queryResults) {			
+		for(String s : queryResults) {
+			System.out.println(s);
 			JsonObject o = new JsonParser().parse(s).getAsJsonObject();
 			jsonObjects.add(o);
 		}
