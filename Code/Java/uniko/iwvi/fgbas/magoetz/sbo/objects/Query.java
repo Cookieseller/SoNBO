@@ -18,6 +18,8 @@ public class Query {
 	
 	private List<String> key;
 	
+	private String keyValueReturnType;
+	
 	private String fieldname;
 	
 	private String string;
@@ -76,6 +78,14 @@ public class Query {
 
 	public void setKey(List<String> key) {
 		this.key = key;
+	}
+
+	public void setKeyValueReturnType(String keyValueReturnType) {
+		this.keyValueReturnType = keyValueReturnType;
+	}
+
+	public String getKeyValueReturnType() {
+		return keyValueReturnType;
 	}
 
 	public String getFieldname() {

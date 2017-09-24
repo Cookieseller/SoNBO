@@ -3,6 +3,8 @@ package uniko.iwvi.fgbas.magoetz.sbo.objects;
 import java.io.Serializable;
 import java.util.Iterator;
 
+import uniko.iwvi.fgbas.magoetz.sbo.services.QueryService;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 
@@ -25,6 +27,8 @@ public class NodeTypeAttribute implements Serializable {
 	private boolean preview;
 	
 	private transient JsonElement value;
+	
+	private QueryService queryService = new QueryService();
 	
 	private NodeTypeAttribute() {
 	}
@@ -98,8 +102,9 @@ public class NodeTypeAttribute implements Serializable {
 			return (T) this.value.getAsBigInteger();
 		}else if(this.datatype.equals("Array(String)")) {
 			return (T) this.value.getAsJsonArray();
-		}
-		
+		}else if(this.datatype.equals("NotesUsername")) {
+			return (T) this.value.getAsString();
+		}	
 		return (T) value;
 	}
 	
@@ -120,6 +125,8 @@ public class NodeTypeAttribute implements Serializable {
 				}
 			}
 			return stringValue;
+		}else if(this.datatype.equals("NotesUsername")) {
+			return queryService.getEmailByNotesUsername(this.value.getAsString());
 		}
 		return this.value.toString();
 	}

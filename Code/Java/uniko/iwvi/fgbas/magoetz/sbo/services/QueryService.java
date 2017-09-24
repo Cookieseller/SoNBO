@@ -2,6 +2,8 @@ package uniko.iwvi.fgbas.magoetz.sbo.services;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Vector;
+
 import org.openntf.Utils;
 
 import uniko.iwvi.fgbas.magoetz.sbo.objects.Datasource;
@@ -9,9 +11,12 @@ import uniko.iwvi.fgbas.magoetz.sbo.objects.Query;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.QueryResult;
 import uniko.iwvi.fgbas.magoetz.sbo.util.Utilities;
 import lotus.domino.Database;
+import lotus.domino.Directory;
+import lotus.domino.DirectoryNavigator;
 import lotus.domino.Document;
 import lotus.domino.DocumentCollection;
 import lotus.domino.NotesException;
+import lotus.domino.Session;
 import lotus.domino.View;
 
 import com.google.gson.Gson;
@@ -265,5 +270,60 @@ public class QueryService implements Serializable {
 			}
 		}
 		return jsonObject;
+	}
+	
+	public String getEmailByNotesUsername(String notesUsername) {
+		
+		Session session = DominoUtils.getCurrentSession();
+		try {
+			Directory dir = session.getDirectory();
+			// TODO local version
+			DirectoryNavigator dirnav = dir.lookupNames("($Users)", notesUsername, "InternetAddress");
+			dirnav.findFirstName();
+			if(dirnav.getCurrentMatches() > 0) {
+				Vector dirent = dirnav.getFirstItemValue();
+				for(Object obj : dirent) {
+					return obj.toString();
+				}
+			}			
+		} catch (NotesException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "n/a";
+	}
+	
+	public String getNotesUsernameByEmail(String email) {
+		String notesUsername = "not found";
+		DocumentCollection resultCollection = this.ftSearchView("names.nsf", email, "($Users)");
+		try {
+			Document doc = resultCollection.getFirstDocument();
+			notesUsername = doc.getItemValueString("MailAddress");
+		} catch (NotesException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return notesUsername;
+		
+		/*
+		Session session = DominoUtils.getCurrentSession();
+		try {
+			Directory dir = session.getDirectory();
+			// TODO local version
+			DirectoryNavigator dirnav = dir.lookupNames("($Users)", email, "InternetAddress");
+			dirnav.findFirstName();
+			if(dirnav.getCurrentMatches() > 0) {
+				Vector dirent = dirnav.getFirstItemValue();
+				for(Object obj : dirent) {
+					System.out.println(obj.toString());
+					//return obj.toString();
+				}
+			}			
+		} catch (NotesException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "n/a";
+		*/
 	}
 }

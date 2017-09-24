@@ -254,6 +254,12 @@ public class NodeService implements Serializable {
 			for(String replaceAttributeKey : replaceAttributesList) {
 				// get attribute value from business object
 				String replaceAttributeValue = businessObject.getAttributeValueAsString(replaceAttributeKey);
+				//convert email to notes username
+				System.out.println("Attribute Valueeeeeeee " + replaceAttributeValue);
+				if(queryObject.getKeyValueReturnType().equals("getEmailAsNotesUsername")) {
+					replaceAttributeValue = this.queryService.getNotesUsernameByEmail(replaceAttributeValue);
+				}
+				System.out.println("Attribute Valueeeeeeee " + replaceAttributeValue);
 				replaceAttributesMap.put(replaceAttributeKey, replaceAttributeValue);
 			}
 			// replace [key] in string with variable values
@@ -266,9 +272,9 @@ public class NodeService implements Serializable {
 			String targetNodeIdKey = queryService.getFieldValue("nodeTypes", targetNodeName, "nodeTypeId");
 				System.out.println("targetNodeIdKey: " + targetNodeIdKey);
 			String sourceNodeId = businessObject.getId();
-				System.out.println("targetNodeIdKey: " + sourceNodeId);
+				System.out.println("sourceNodeIdKey: " + sourceNodeId);
 			
-			ArrayList<String> resultAdjacentNodeIDs = this.getAdjacentNodeIDs(datasourceObject, queryObject, sourceNodeId);
+			ArrayList<String> resultAdjacentNodeIDs = this.retrieveAdjacentNodeIDs(datasourceObject, queryObject, sourceNodeId);
 			// test
 			for(String nodeId : resultAdjacentNodeIDs) {
 				System.out.println("AdjacentNodeID: " + nodeId);
@@ -300,7 +306,7 @@ public class NodeService implements Serializable {
 		return adjacentNodeTypes;
 	}
 	
-	private ArrayList<String> getAdjacentNodeIDs(Datasource datasourceObject, Query queryObject, String sourceNodeId) {
+	private ArrayList<String> retrieveAdjacentNodeIDs(Datasource datasourceObject, Query queryObject, String sourceNodeId) {
 		
 		DocumentCollection resultCollectionAdjacentNodesIDs = queryService.executeQueryFTSearch(datasourceObject, queryObject); 
 		// get targetObjectIdKeys
