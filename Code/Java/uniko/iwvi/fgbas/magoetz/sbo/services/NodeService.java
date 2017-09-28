@@ -203,8 +203,8 @@ public class NodeService implements Serializable {
 				Gson gson = new Gson();
 				for(int i=1; i<=resultCollectionAdjacenyQueryList.getCount(); i++) {
 					Document doc = resultCollectionAdjacenyQueryList.getNthDocument(i);
-					String adjacencyName = doc.getItemValueString("adjacencyName");
-					String adjacencyQueryJSON = queryService.getFieldValue("nodeTypeAdjacencies", adjacencyName, "adjacencyQueryJSON");					
+					String adjacencyId = doc.getItemValueString("adjacencyId");
+					String adjacencyQueryJSON = queryService.getFieldValue("nodeTypeAdjacencies", adjacencyId, "adjacencyQueryJSON");					
 					// retrieve query and database
 					NoteTypeAdjacency adjacencyQuery = gson.fromJson(adjacencyQueryJSON, NoteTypeAdjacency.class);
 					adjacencyQueryList.add(adjacencyQuery);
