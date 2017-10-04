@@ -190,7 +190,7 @@ public class QueryService implements Serializable {
 	
 	// TODO: write wrapper function for various query types
 	public DocumentCollection executeQueryFTSearch(Datasource datasourceObject, Query queryObject) {
-				
+		
 		// TODO: Evaluate whole query and change to dynamic execution for all query types (currently only IBM Domino supported)
 		String type = datasourceObject.getType();
 		String hostname = datasourceObject.getHostname();
@@ -198,9 +198,22 @@ public class QueryService implements Serializable {
 		
 		// TODO: queryType was added and has to be processed (e.g. "IBM Domino") 
 		String queryString = queryObject.getString();
+		String viewName = queryObject.getView();
 		
-		DocumentCollection resultCollection = this.ftSearch(database, queryString);
-		
+		Database notesDB = DominoUtils.getCurrentDatabase();
+		DocumentCollection resultCollection = null;
+		try {
+			resultCollection = notesDB.createDocumentCollection();
+			if(viewName.equals("")) {
+				resultCollection = this.ftSearch(database, queryString);
+			}else {
+				resultCollection = this.ftSearchView(database, queryString, viewName);
+			}
+			
+		} catch (NotesException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return resultCollection;
 	}
 	
