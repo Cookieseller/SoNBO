@@ -9,6 +9,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
 
+import uniko.iwvi.fgbas.magoetz.sbo.services.ConfigService;
+
 public class Node implements Serializable {
 	
 	private static final long serialVersionUID = 805731509510272843L;
@@ -19,19 +21,17 @@ public class Node implements Serializable {
 	
 	private String nodeTypeCategory;
 	
+	private List<String> nodeTypeCategories;
+	
 	private String nodeTitle;
-
-	private List<Node> allAdjacentNodeList;
 	
 	private List<Node> adjacentNodeList;
-	
-	private List<Node> filteredAdjacentNodeList;
-	
-	private List<String> nodeAdjacencies;
 	
 	private String nodeImage;
 	
 	private List<NodeTypeAttribute> attributeList = new ArrayList<NodeTypeAttribute>();
+	
+	private ConfigService configService = new ConfigService();
 	
 	/*
 	 * returns key value pairs for displayfield
@@ -104,14 +104,6 @@ public class Node implements Serializable {
 		this.nodeTitle = nodeTitle;
 	}
 
-	public void setAllAdjacentNodeList(List<Node> allAdjacentNodeList) {
-		this.allAdjacentNodeList = allAdjacentNodeList;
-	}
-
-	public List<Node> getAllAdjacentNodeList() {
-		return allAdjacentNodeList;
-	}
-
 	public void setAdjacentNodeList(List<Node> adjacentNodeList) {
 		this.adjacentNodeList = adjacentNodeList;
 	}
@@ -119,21 +111,82 @@ public class Node implements Serializable {
 	public List<Node> getAdjacentNodeList() {
 		return adjacentNodeList;
 	}
-
-	public void setFilteredAdjacentNodeList(List<Node> filteredAdjacentNodeList) {
-		this.filteredAdjacentNodeList = filteredAdjacentNodeList;
+	
+	/*
+	 * filtered by NodeTypeCategory
+	 */
+	public List<Node> getAdjacentNodeListFilteredByCategory(String nodeTypeCategory) {
+		
+		List<Node> adjacentNodeListFilteredByCategory = new ArrayList<Node>();
+		
+		if(nodeTypeCategory.equals("all") || nodeTypeCategory.equals("")) {
+			return this.adjacentNodeList;
+		}else {
+			for(Node adjacentNode : adjacentNodeList) {
+				if(adjacentNode.getNodeTypeCategory().equals(nodeTypeCategory)) {
+					adjacentNodeListFilteredByCategory.add(adjacentNode);
+				}
+			}
+		}
+		return adjacentNodeListFilteredByCategory;
 	}
 
-	public List<Node> getFilteredAdjacentNodeList() {
-		return filteredAdjacentNodeList;
+	/*
+	 * filtered by NodeType
+	 */
+	public List<Node> getAdjacentNodeListFilteredByNodeType(String nodeTypeCategory, String nodeType) {
+		
+		List<Node> adjacentNodeListFilteredByNodeType = new ArrayList<Node>();		
+		
+		if((nodeTypeCategory.equals("all") || nodeTypeCategory.equals(""))) {
+			// category all and nodeType all
+			if(nodeType.equals("all") || nodeType.equals("")) {
+				return this.adjacentNodeList;
+			// category all and specific nodeType
+			}else {
+				for(Node adjacentNode : adjacentNodeList) {
+					if(adjacentNode.getNodeType().equals(nodeType)) {
+						adjacentNodeListFilteredByNodeType.add(adjacentNode);
+					}
+				}
+			}
+		}else {
+			// category specific and nodeType all
+			if(nodeType.equals("all") || nodeType.equals("")) {
+				List<String> nodeTypes = this.configService.getAllNodeTypeNamesByCategory(nodeTypeCategory);
+				
+				for(String nodeTypeName : nodeTypes) {
+					for(Node adjacentNode : adjacentNodeList) {
+						if(adjacentNode.getNodeType().equals(nodeTypeName)) {
+							adjacentNodeListFilteredByNodeType.add(adjacentNode);
+						}
+					}
+				}
+			// category specific and nodeType specific
+			}else {
+				for(Node adjacentNode : adjacentNodeList) {
+					if(adjacentNode.getNodeType().equals(nodeType)) {
+						adjacentNodeListFilteredByNodeType.add(adjacentNode);
+					}
+				}
+			}
+		}
+		
+		return adjacentNodeListFilteredByNodeType;
 	}
-
-	public List<String> getNodeAdjacencies() {
+	
+	public List<String> getNodeAdjacencyNamesByCategory(String nodeTypeCategory) {
+		List<String> nodeAdjacencies = new ArrayList<String>();
+		if((nodeTypeCategory.equals("all") || nodeTypeCategory.equals(""))) {
+			for(String nodeTypeCategoryName : this.nodeTypeCategories) {
+				List<String> nodeTypes = this.configService.getAllNodeTypeNamesByCategory(nodeTypeCategoryName);
+				nodeAdjacencies.addAll(nodeTypes);
+			}
+		}else {
+			nodeAdjacencies = this.configService.getAllNodeTypeNamesByCategory(nodeTypeCategory);
+		}
+		
 		return nodeAdjacencies;
-	}
-
-	public void setNodeAdjacencies(List<String> nodeAdjacencies) {
-		this.nodeAdjacencies = nodeAdjacencies;
 	}
 
 	public String getNodeTypeCategory() {
@@ -142,6 +195,14 @@ public class Node implements Serializable {
 
 	public void setNodeTypeCategory(String nodeTypeCategory) {
 		this.nodeTypeCategory = nodeTypeCategory;
+	}
+
+	public void setNodeTypeCategories(List<String> nodeTypeCategories) {
+		this.nodeTypeCategories = nodeTypeCategories;
+	}
+
+	public List<String> getNodeTypeCategories() {
+		return nodeTypeCategories;
 	}
 
 	public void setNodeImage(String nodeImage) {

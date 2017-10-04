@@ -39,49 +39,26 @@ public class SoNBOManager implements Serializable {
 		System.out.println("NEW REQUEST FOR BUSINESS OBJECT");
 		System.out.println("===============================");
 
-		// get business object
-		this.businessObject = this.nodeService.getNode(objectId, false);
-		
-		// get list of peer objects (all)
-		List<Node> adjacentNodeCategoryList = new ArrayList<Node>();
-		HashSet<String> adjacentNodeTypeList = new HashSet<String>();
-		HashSet<Node> filteredPeerObjectList = new HashSet<Node>();
-		
 		// if parameter nodeTypeCategoryName was not set get all 
 		if(this.nodeTypeCategoryName == null) {
 			this.nodeTypeCategoryName = "all";
 		}
 		
-		// set node type category
-		if(this.nodeTypeCategoryName.equals("all")) {
-			List<String> nodeTypeCategoryNames = configService.getAllNodeTypeCategoryNames();
-			for(String adjacentNodeTypeCategory : nodeTypeCategoryNames) {
-				List<Node> objects = nodeService.getAdjacentNodes(businessObject, adjacentNodeTypeCategory);
-				adjacentNodeCategoryList.addAll(objects);
-				this.businessObject.setAdjacentNodeList(adjacentNodeCategoryList);
-				adjacentNodeTypeList.addAll(nodeService.getAdjacentNodeTypes(adjacentNodeTypeCategory));
-				filteredPeerObjectList.addAll(nodeService.getFilteredResultList(businessObject, nodeType, adjacentNodeTypeCategory));
-			}
-		}else {
-			List<Node> objects = nodeService.getAdjacentNodes(businessObject, this.nodeTypeCategoryName);
+		// get business object
+		this.businessObject = this.nodeService.getNode(objectId, false);
+		
+		// get list of peer objects (all)
+		/*
+		List<Node> adjacentNodeCategoryList = new ArrayList<Node>();
+		
+
+		List<String> nodeTypeCategoryNames = configService.getAllNodeTypeCategoryNames();
+		for(String adjacentNodeTypeCategory : nodeTypeCategoryNames) {
+			List<Node> objects = nodeService.getAdjacentNodes(businessObject, adjacentNodeTypeCategory);
 			adjacentNodeCategoryList.addAll(objects);
 			this.businessObject.setAdjacentNodeList(adjacentNodeCategoryList);
-			adjacentNodeTypeList.addAll(nodeService.getAdjacentNodeTypes(this.nodeTypeCategoryName));
-			filteredPeerObjectList.addAll(nodeService.getFilteredResultList(businessObject, nodeType, this.nodeTypeCategoryName));
 		}
-
-		List<String> relationshipList = new ArrayList<String>();
-		for(String relationship : adjacentNodeTypeList) {
-			relationshipList.add(relationship);
-		}
-		List<Node> adjacencyList = new ArrayList<Node>();
-		for(Node filteredPeerObject : filteredPeerObjectList) {
-			adjacencyList.add(filteredPeerObject);
-		}
-		
-		this.businessObject.setNodeAdjacencies(relationshipList);
-		this.businessObject.setFilteredAdjacentNodeList(adjacencyList);
-
+		*/
 		// TODO: execute tests if necessary
 		Test test = new Test();
 		//test.javaToJson();

@@ -38,7 +38,9 @@ public class NodeService implements Serializable {
 	
 		// set object id and name
 		node.setId(id);
-		//businessObject.setObjectName(objectName);
+		//set node type categories
+		List<String> nodeTypeCategories = configService.getAllNodeTypeCategoryNames();
+		node.setNodeTypeCategories(nodeTypeCategories);
 		
 		// 2. GET CONFIGURATION DOCUMENT FOR OBJECT TYPE
 
@@ -62,6 +64,19 @@ public class NodeService implements Serializable {
 			
 			// load attribute key and value into business object
 			node = loadAttributes(node, configObject, queryResultList, nodePreview);
+			
+			if(!nodePreview) {
+				// 4. RETRIEVE ADJACENT NODES
+				// get list of peer objects (all)
+				List<Node> adjacentNodeCategoryList = new ArrayList<Node>();
+	
+				List<String> nodeTypeCategoryNames = configService.getAllNodeTypeCategoryNames();
+				for(String adjacentNodeTypeCategory : nodeTypeCategoryNames) {
+					List<Node> objects = this.getAdjacentNodes(node, adjacentNodeTypeCategory);
+					adjacentNodeCategoryList.addAll(objects);
+					node.setAdjacentNodeList(adjacentNodeCategoryList);
+				}
+			}
 		
 			return node;
 		}
@@ -172,7 +187,7 @@ public class NodeService implements Serializable {
 				System.out.println("sourceNodeType: " + sourceNodeType);
 	
 		// Get children of class objectPeers ( = target object names) e.g. person -> employee, student etc.
-		ArrayList<String> adjacentNodeTypes = this.getChildrenNodeTypes(nodeTypeCategoryName);
+		ArrayList<String> adjacentNodeTypes = configService.getAllNodeTypeNamesByCategory(nodeTypeCategoryName);
 		
 		// get peer queries for source object <-> target objects
 		String adjacencyQueryString = this.buildAdjacentNodesQueryString(adjacentNodeTypes, sourceNodeType);
@@ -284,28 +299,6 @@ public class NodeService implements Serializable {
 		return adjacentNodeIDs;
 	}
 	
-	private ArrayList<String> getChildrenNodeTypes(String nodeTypeCategoryName) {
-		ArrayList<String> adjacentNodeTypes = new ArrayList<String>();
-		String queryStringNodeTypes = "FIELD nodeTypeCategory = " + nodeTypeCategoryName;
-		DocumentCollection resultCollectionNodeTypes = queryService.ftSearchView("", queryStringNodeTypes, "nodeTypes");
-		try {
-			if(resultCollectionNodeTypes != null) {
-				for(int i=1; i<=resultCollectionNodeTypes.getCount(); i++) {
-					Document doc = resultCollectionNodeTypes.getNthDocument(i);
-					String nodeType = doc.getItemValueString("nodeTypeName");
-							System.out.println("childObjectName: " + nodeType);
-					adjacentNodeTypes.add(nodeType);
-				}
-			}else {
-				System.out.println("Result of query " + queryStringNodeTypes + " is null.");
-			}
-		} catch (NotesException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return adjacentNodeTypes;
-	}
-	
 	private ArrayList<String> retrieveAdjacentNodeIDs(Datasource datasourceObject, Query queryObject, String sourceNodeId) {
 		
 		DocumentCollection resultCollectionAdjacentNodesIDs = queryService.executeQueryFTSearch(datasourceObject, queryObject); 
@@ -352,16 +345,5 @@ public class NodeService implements Serializable {
 			filteredAdjacentNodeList = businessObject.getAdjacentNodeList();
 		}
 		return filteredAdjacentNodeList;
-	}
-
-	public List<String> getAdjacentNodeTypes(String nodeTypeCategoryName) {	
-		// get class object -> relationship attribute
-		NodeTypeCategory nodeTypeCategory = configService.getNodeTypeCategory(nodeTypeCategoryName);
-		// TODO remove class property (not needed anymore)
-		//String nodeAdjacency = nodeTypeCategory.getAdjacencies();
-		// get all children node types
-		ArrayList<String> adjacentNodeTypes = getChildrenNodeTypes(nodeTypeCategoryName);
-		
-		return adjacentNodeTypes;
 	}
 }

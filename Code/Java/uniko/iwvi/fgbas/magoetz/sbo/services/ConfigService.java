@@ -6,6 +6,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
+import lotus.domino.Document;
+import lotus.domino.DocumentCollection;
+import lotus.domino.NotesException;
+
 import uniko.iwvi.fgbas.magoetz.sbo.objects.NodeTypeAttribute;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.Datasource;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.NodeTypeCategory;
@@ -49,6 +53,28 @@ public class ConfigService implements Serializable {
 	public List<String> getAllNodeTypeCategoryNames() {
 		return queryService.getColumnValues("nodeTypeCategories", 0);
 	} 
+	
+	public ArrayList<String> getAllNodeTypeNamesByCategory(String nodeTypeCategoryName) {
+		ArrayList<String> adjacentNodeTypes = new ArrayList<String>();
+		String queryStringNodeTypes = "FIELD nodeTypeCategory = " + nodeTypeCategoryName;
+		DocumentCollection resultCollectionNodeTypes = queryService.ftSearchView("", queryStringNodeTypes, "nodeTypes");
+		try {
+			if(resultCollectionNodeTypes != null) {
+				for(int i=1; i<=resultCollectionNodeTypes.getCount(); i++) {
+					Document doc = resultCollectionNodeTypes.getNthDocument(i);
+					String nodeType = doc.getItemValueString("nodeTypeName");
+							System.out.println("childObjectName: " + nodeType);
+					adjacentNodeTypes.add(nodeType);
+				}
+			}else {
+				System.out.println("Result of query " + queryStringNodeTypes + " is null.");
+			}
+		} catch (NotesException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return adjacentNodeTypes;
+	}
 
 	public NodeTypeCategory getNodeTypeCategory(String nodeTypeCategory) {
 		
