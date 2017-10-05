@@ -38,6 +38,7 @@ public class NodeService implements Serializable {
 	
 		// set object id and name
 		node.setId(id);
+			System.out.println("NodeId " + id);
 		//set node type categories
 		List<String> nodeTypeCategories = configService.getAllNodeTypeCategoryNames();
 		node.setNodeTypeCategories(nodeTypeCategories);
@@ -79,6 +80,8 @@ public class NodeService implements Serializable {
 			}
 		
 			return node;
+		}else {
+			System.out.println("No configuration document found for id: " + id);
 		}
 		return null;
 	}
@@ -153,7 +156,8 @@ public class NodeService implements Serializable {
 			String datasource = nodeTypeAttribute.getDatasource();
 			String query = nodeTypeAttribute.getQuery();
 			QueryResult queryResult = new QueryResult(datasource, query);
-			JsonObject jsonQueryResultObject = queryService.getQueryResult(queryResultList, queryResult);
+			try {
+				JsonObject jsonQueryResultObject = queryService.getQueryResult(queryResultList, queryResult);
 			// extract value from query result
 			JsonElement jsonFirstQueryResultElement = jsonQueryResultObject.get(businessObject.getId());
 			JsonObject jsonFirstQueryResultObject = jsonFirstQueryResultElement.getAsJsonObject();
@@ -167,6 +171,9 @@ public class NodeService implements Serializable {
 			if(titleAttribute.equals(name)) {
 				businessObject.setNodeTitle(value.getAsString());
 			} 
+			}catch(NullPointerException npe) {
+				System.out.println("Failed loading attribute: " + name + " from field: " + fieldname);
+			}
 		}
 		
 		return businessObject;

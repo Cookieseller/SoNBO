@@ -110,6 +110,7 @@ public class NodeTypeAttribute implements Serializable {
 	
 	public String getValueAsString() {
 		//TODO support arrays etc.
+		try{
 		if(this.datatype.equals("String")) {
 			return this.value.getAsString();
 		}else if(this.datatype.equals("Integer")) {
@@ -128,6 +129,9 @@ public class NodeTypeAttribute implements Serializable {
 		}else if(this.datatype.equals("NotesUsername")) {
 			return queryService.getEmailByNotesUsername(this.value.getAsString());
 		}
-		return this.value.toString();
+		}catch(NullPointerException npe) {
+			System.out.println("NullPointerException for datatype: " + this.datatype);
+		}
+		return "";
 	}
 }

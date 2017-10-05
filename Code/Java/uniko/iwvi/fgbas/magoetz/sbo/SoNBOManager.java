@@ -35,7 +35,6 @@ public class SoNBOManager implements Serializable {
 	public ConfigService configService = new ConfigService();
 	
 	public void init(){
-			
 		System.out.println("NEW REQUEST FOR BUSINESS OBJECT");
 		System.out.println("===============================");
 

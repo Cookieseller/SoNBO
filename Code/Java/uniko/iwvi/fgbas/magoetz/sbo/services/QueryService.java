@@ -156,7 +156,12 @@ public class QueryService implements Serializable {
 			jsonObjects.add(o);
 		}
 		
-		JsonObject jsonObject = jsonObjects.get(0);
+		JsonObject jsonObject = null;
+		try {
+			jsonObject = jsonObjects.get(0);
+		}catch(IndexOutOfBoundsException ex) {
+			System.out.println("No JSON object found in view: " + view + " with key " + key + " and returnField " + returnField);
+		}
 		
 		return jsonObject;
 	}

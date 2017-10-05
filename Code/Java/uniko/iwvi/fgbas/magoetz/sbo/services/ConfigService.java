@@ -105,6 +105,7 @@ public class ConfigService implements Serializable {
 			Query queryObject = gson.fromJson(jsonQueryObject, Query.class);
 			JsonObject json = queryService.executeQuery(datasourceObject, queryObject, id);
 			if(json != null) {
+				System.out.println("Determined that Id is of the following nodeType: " + nodeType.getNodeTypeName());
 				return nodeType;
 			}
 		}

@@ -12,9 +12,17 @@
 					<xp:label
 						value="#{javascript: soNBOManager.businessObject.getAdjacentNodeListFilteredByNodeType(param.get('nodeTypeCategory'), relation).size().toString()}"
 						id="label4" style="margin-right: 3px;"
-						styleClass="badge sbo-badge"
-						/>
-						<!--  rendered="#{javascript: (param.get('nodeType') == relation) || (param.get('nodeType') == null &amp;&amp; relation == 'all')}" --> 
+						styleClass="badge sbo-badge" />
+					<!-- 
+					<xp:eventHandler event="onclick" submit="true"
+						refreshMode="partial" refreshId="resultList">
+						<xp:this.action><![CDATA[#{javascript:
+						viewScope.put("nodeType", relation);
+					}]]>
+						</xp:this.action>
+					</xp:eventHandler>
+					
+					-->
 				</xp:link>
 			</xp:panel>
 		</xp:repeat>

@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xp:view xmlns:xp="http://www.ibm.com/xsp/core"
 	xmlns:xc="http://www.ibm.com/xsp/custom">
-	<xp:panel styleClass="sbo-object-preview-container">
+	<xp:panel styleClass="sbo-object-preview-container"
+		id="resultList">
 		<!-- List peer objects filtered by certain criteria (relationship, filter) -->
 		<xp:repeat id="repeat1" var="adjacentNode">
 			<xp:this.value><![CDATA[#{javascript:soNBOManager.businessObject.getAdjacentNodeListFilteredByNodeType(param.get('nodeTypeCategory') == null ? 'all' : param.get('nodeTypeCategory'), param.get('nodeType') == null ? 'all' : param.get('nodeType'));}]]></xp:this.value>
-			<!--  <xp:this.value><![CDATA[#{javascript:soNBOManager.businessObject.getPeerObjectList();}]]></xp:this.value> -->
-			<xc:nodePreview/>
+			<xc:nodePreview />
 		</xp:repeat>
-		<!-- Test -->
-		<!-- <xc:objectCard/> -->
 	</xp:panel>
 </xp:view>
