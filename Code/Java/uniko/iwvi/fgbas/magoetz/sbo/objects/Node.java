@@ -43,7 +43,15 @@ public class Node implements Serializable {
 				String attributeName = nodeTypeAttribute.getName();
 				String attributeValue = nodeTypeAttribute.getValueAsString();
 				attributeListForDisplayfield.put(attributeName, attributeValue);
-			}else if(displayfieldnumber == 0 && nodeTypeAttribute.isPreview()) {
+			}
+		}
+		return attributeListForDisplayfield;
+	}
+	
+	public HashMap<String, String> getAttributeListForPreview() {
+		HashMap<String, String> attributeListForDisplayfield = new HashMap<String, String>();
+		for(NodeTypeAttribute nodeTypeAttribute : attributeList) {
+			if(nodeTypeAttribute.isPreview()) {
 				String attributeName = nodeTypeAttribute.getName();
 				String attributeValue = nodeTypeAttribute.getValueAsString();
 				attributeListForDisplayfield.put(attributeName, attributeValue);

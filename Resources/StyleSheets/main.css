@@ -65,6 +65,7 @@
 .sbo-object-field1 {
 	display: inline-block;
 	margin-right: 2%;
+	margin-bottom: 2%;
 	width: 47%;
 	height: 47%;
 }
@@ -72,6 +73,7 @@
 .sbo-object-field2 {
 	display: inline-block;
 	vertical-align: top;
+	margin-bottom: 2%;
 	width: 47%;
 	height: 47%;
 }

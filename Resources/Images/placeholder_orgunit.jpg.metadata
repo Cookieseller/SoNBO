@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.0" replicaid="C125817D00447BEE" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="5ba" sequence="1" unid="F1BABFF86FD49683C12581C2007BE697">
+<created><datetime dst="true">20171024T003319,59+02</datetime></created>
+<modified><datetime dst="true">20171024T003319,82+02</datetime></modified>
+<revised><datetime dst="true">20171024T003319,81+02</datetime></revised>
+<lastaccessed><datetime dst="true">20171024T003319,82+02</datetime></lastaccessed>
+<addedtofile><datetime dst="true">20171024T003319,82+02</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Flemming Goetz/O=uniko/C=de</name></updatedby>
+<wassignedby><name>CN=Flemming Goetz/O=uniko/C=de</name></wassignedby>
+<item name="$TITLE"><text>placeholder_orgunit.jpg</text></item>
+<item name="$Flags"><text>34CiQ</text></item>
+<item name="$FlagsExt"><text>D</text></item>
+<item name="$ImagesWide" sign="true"><number>1</number></item>
+<item name="$ImagesHigh" sign="true"><number>1</number></item>
+<item name="$ImagesColorize" sign="true"><number>0</number></item>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<item name="$MimeType" sign="true"><text>image/jpeg</text></item>
+<item name="$FileModDT" sign="true"><datetime dst="true">20171024T001419,89+02</datetime></item>
+<item name="$ImageNames" sign="true"><text>placeholder_orgunit.jpg</text></item>
+<item name="$DesignerVersion"><text>8.5.3</text></item></note>
