@@ -8,7 +8,6 @@
 <lastaccessed><datetime dst='true'>20170922T202821,36+02</datetime></lastaccessed>
 <addedtofile><datetime dst='true'>20170815T142815,39+02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Flemming Goetz/O=uniko/C=DE</name><name>CN=Flemming Goetz/O=uniko/C=de</name></updatedby>
-<wassignedby><name>CN=Flemming Goetz/O=uniko/C=de</name></wassignedby>
 <item name='$FormulaClass' sign='true'><text>1</text></item>
 <item name='$TITLE' sign='true'><text>nodeTypes</text></item>
 <item name='$Index' sign='true'><text/></item>
