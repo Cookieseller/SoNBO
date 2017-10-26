@@ -1,13 +1,13 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note default='true' class='icon' xmlns='http://www.lotus.com/dxl' version='9.0'
- maintenanceversion='1.0' replicaid='C12581600034AF94'>
-<noteinfo noteid='11e' unid='A979BFB0A181870CC125813E00442336' sequence='11'>
-<created><datetime dst='true'>20170613T142414,62+02</datetime></created>
-<modified><datetime dst='true'>20170717T113809,23+02</datetime></modified>
-<revised><datetime dst='true'>20170717T113809,22+02</datetime></revised>
-<lastaccessed><datetime dst='true'>20170717T113809,23+02</datetime></lastaccessed>
-<addedtofile><datetime dst='true'>20170717T113528,36+02</datetime></addedtofile></noteinfo>
-<updatedby><name>CN=Flemming Goetz/O=uniko/C=DE</name><name>CN=Flemming Goetz/O=uniko/C=de</name></updatedby>
+ maintenanceversion='1.0' replicaid='C125817D00447BEE'>
+<noteinfo noteid='11a' unid='FE662AEB349786ADC125817D00447BFB' sequence='8'>
+<created><datetime dst='true'>20170815T142801,87+02</datetime></created>
+<modified><datetime dst='true'>20170815T142825,77+02</datetime></modified>
+<revised><datetime dst='true'>20170815T142825,76+02</datetime></revised>
+<lastaccessed><datetime dst='true'>20170815T142825,77+02</datetime></lastaccessed>
+<addedtofile><datetime dst='true'>20170815T142801,91+02</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></updatedby>
 <wassignedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></wassignedby>
 <item name='IconBitmap' summary='true'>
 <rawitemdata type='6'>
@@ -24,9 +24,8 @@ d30fAAAAAPHXd33Xd3d913d9HwAAAADx13d913d3fdd3fR8AAAAA8R3d0dd3d30d3dEfAAAAAA8R
 EREdd3fRERER8AAAAAAA////Ed3dEf///wAAAAAAAAAAAPERER8AAAAAAAAAAAAAAAAP///wAAAA
 AAAAUEECICABAAD/////+A4DgA==
 </rawitemdata></item>
-<item name='$FlagsNoRefresh'><text>rv</text></item>
-<item name='$Flags'><text>J</text></item>
 <item name='$Daos'><text>0</text></item>
-<item name='$TITLE'><text>SoNBO
-</text></item></note>
+<item name='$TITLE'><text>SoNBO</text></item>
+<item name='$Flags'><text>J</text></item>
+<item name='$FlagsNoRefresh'><text>rv</text></item></note>
 

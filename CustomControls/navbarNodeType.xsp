@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core"
+	xmlns:xe="http://www.ibm.com/xsp/coreex">
+	<xe:navbar id="navbarRelations" headingText="NodeType">
+		<xp:repeat id="repeat1" var="relation">
+			<xp:this.value><![CDATA[#{javascript:var relationships = soNBOManager.businessObject.getNodeAdjacencyNamesByCategory(param.get('nodeTypeCategory')); relationships.unshift("all"); return relationships;}]]></xp:this.value>
+			<xp:panel styleClass="sbo-navbar-link-wrapper">
+				<xp:link id="label2"
+					styleClass="sbo-navbar-link #{javascript: return param.get('nodeType') == relation || param.get('nodeType') == null &amp;&amp; relation == 'all' ? 'sbo-navbar-selected' : '';}">
+					<xp:this.text>#{relation}</xp:this.text>
+					<xp:this.value><![CDATA[#{javascript: return "main.xsp?id=" + param.get('id') + "&nodeTypeCategory=" + param.get('nodeTypeCategory') + "&nodeType=" + relation;}]]></xp:this.value>
+					<xp:label
+						value="#{javascript: soNBOManager.businessObject.getAdjacentNodeListFilteredByNodeType(param.get('nodeTypeCategory'), relation).size().toString()}"
+						id="label4" style="margin-right: 3px;"
+						styleClass="badge sbo-badge" />
+					<!-- 
+					<xp:eventHandler event="onclick" submit="true"
+						refreshMode="partial" refreshId="resultList">
+						<xp:this.action><![CDATA[#{javascript:
+						viewScope.put("nodeType", relation);
+					}]]>
+						</xp:this.action>
+					</xp:eventHandler>
+					
+					-->
+				</xp:link>
+			</xp:panel>
+		</xp:repeat>
+	</xe:navbar>
+</xp:view>

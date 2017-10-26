@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<xp:view xmlns:xp="http://www.ibm.com/xsp/core">
-		<xp:panel styleClass="sbo-object-card">Business Object Preview</xp:panel>
-</xp:view>
