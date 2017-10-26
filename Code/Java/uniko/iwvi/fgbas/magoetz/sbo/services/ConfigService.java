@@ -46,7 +46,6 @@ public class ConfigService implements Serializable {
 			NodeTypeAttribute attribute = gson.fromJson(jsonNodeAttribute, NodeTypeAttribute.class);
 			nodeType.addConfigurationNodeAttribute(attribute);
 		}
-		
 		return nodeType;
 	}
 	
