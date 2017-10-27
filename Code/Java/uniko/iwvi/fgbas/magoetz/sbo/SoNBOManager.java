@@ -42,22 +42,14 @@ public class SoNBOManager implements Serializable {
 		if(this.nodeTypeCategoryName == null) {
 			this.nodeTypeCategoryName = "all";
 		}
+		// if parameter nodeType was not set get all 
+		if(this.nodeType == null) {
+			this.nodeType = "all";
+		}
 		
 		// get business object
 		this.businessObject = this.nodeService.getNode(objectId, false);
 		
-		// get list of peer objects (all)
-		/*
-		List<Node> adjacentNodeCategoryList = new ArrayList<Node>();
-		
-
-		List<String> nodeTypeCategoryNames = configService.getAllNodeTypeCategoryNames();
-		for(String adjacentNodeTypeCategory : nodeTypeCategoryNames) {
-			List<Node> objects = nodeService.getAdjacentNodes(businessObject, adjacentNodeTypeCategory);
-			adjacentNodeCategoryList.addAll(objects);
-			this.businessObject.setAdjacentNodeList(adjacentNodeCategoryList);
-		}
-		*/
 		// TODO: execute tests if necessary
 		Test test = new Test();
 		//test.javaToJson();

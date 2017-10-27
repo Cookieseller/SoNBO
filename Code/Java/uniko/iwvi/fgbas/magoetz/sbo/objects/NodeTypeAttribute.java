@@ -5,8 +5,11 @@ import java.util.Iterator;
 
 import uniko.iwvi.fgbas.magoetz.sbo.services.QueryService;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonSerializationContext;
 
 public class NodeTypeAttribute implements Serializable {
 	
@@ -26,7 +29,7 @@ public class NodeTypeAttribute implements Serializable {
 	
 	private boolean preview;
 	
-	private transient JsonElement value;
+	private String value;
 	
 	private QueryService queryService = new QueryService();
 	
@@ -89,34 +92,38 @@ public class NodeTypeAttribute implements Serializable {
 		return preview;
 	}
 
-	public void setValue(JsonElement value) {
+	public void setValue(String value) {
 		this.value = value;
 	}
 
 	@SuppressWarnings("unchecked")
 	public <T> T getValue() {
 		// TODO add all datatypes
+		Gson gson = new Gson();
+		JsonElement value = gson.fromJson(this.value, JsonElement.class);
 		if(this.datatype.equals("String")) {
-			return (T) this.value.getAsString();
+			return (T) value.getAsString();
 		}else if(this.datatype.equals("Integer")) {
-			return (T) this.value.getAsBigInteger();
+			return (T) value.getAsBigInteger();
 		}else if(this.datatype.equals("Array(String)")) {
-			return (T) this.value.getAsJsonArray();
+			return (T) value.getAsJsonArray();
 		}else if(this.datatype.equals("NotesUsername")) {
-			return (T) this.value.getAsString();
+			return (T) value.getAsString();
 		}	
 		return (T) value;
 	}
 	
 	public String getValueAsString() {
+		Gson gson = new Gson();
+		JsonElement value = gson.fromJson(this.value, JsonElement.class);
 		//TODO support arrays etc.
 		try{
 		if(this.datatype.equals("String")) {
-			return this.value.getAsString();
+			return value.getAsString();
 		}else if(this.datatype.equals("Integer")) {
-			return String.valueOf(this.value.getAsInt());
+			return String.valueOf(value.getAsInt());
 		}else if(this.datatype.equals("Array(String)")) {
-			JsonArray jsonArray = this.value.getAsJsonArray();
+			JsonArray jsonArray = value.getAsJsonArray();
 			String stringValue = "";
 			Iterator<JsonElement> it = jsonArray.iterator();
 			while(it.hasNext()) {
@@ -127,7 +134,7 @@ public class NodeTypeAttribute implements Serializable {
 			}
 			return stringValue;
 		}else if(this.datatype.equals("NotesUsername")) {
-			return queryService.getEmailByNotesUsername(this.value.getAsString());
+			return queryService.getEmailByNotesUsername(value.getAsString());
 		}
 		}catch(NullPointerException npe) {
 			System.out.println("NullPointerException for datatype: " + this.datatype);

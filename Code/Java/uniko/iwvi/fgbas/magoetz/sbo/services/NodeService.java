@@ -162,7 +162,9 @@ public class NodeService implements Serializable {
 			JsonElement jsonFirstQueryResultElement = jsonQueryResultObject.get(businessObject.getId());
 			JsonObject jsonFirstQueryResultObject = jsonFirstQueryResultElement.getAsJsonObject();
 			JsonElement value = jsonFirstQueryResultObject.get(fieldname);
-			nodeTypeAttribute.setValue(value);
+			Gson gson = new Gson();
+			String valueJson = gson.toJson(value);
+			nodeTypeAttribute.setValue(valueJson);
 			int displayfield = nodeTypeAttribute.getDisplayfield();
 			// add whole nodeTypeAttribute Object with updated value
 			businessObject.addAttribute(nodeTypeAttribute);

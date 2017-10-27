@@ -5,7 +5,10 @@
 		id="resultList">
 		<!-- List peer objects filtered by certain criteria (relationship, filter) -->
 		<xp:repeat id="repeat1" var="adjacentNode">
-			<xp:this.value><![CDATA[#{javascript:soNBOManager.businessObject.getAdjacentNodeListFilteredByNodeType(param.get('nodeTypeCategory') == null ? 'all' : param.get('nodeTypeCategory'), param.get('nodeType') == null ? 'all' : param.get('nodeType'));}]]></xp:this.value>
+			<xp:this.value><![CDATA[#{javascript:
+			var nodeType = viewScope.get('nodeType');
+			var nodeTypeCategory = viewScope.get('nodeTypeCategory');
+			soNBOManager.businessObject.getAdjacentNodeListFilteredByNodeType(nodeTypeCategory == null ? 'all' : nodeTypeCategory, nodeType == null ? 'all' : nodeType);}]]></xp:this.value>
 			<xc:nodePreview />
 		</xp:repeat>
 	</xp:panel>

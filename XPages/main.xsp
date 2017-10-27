@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xp:view xmlns:xp="http://www.ibm.com/xsp/core" xmlns:xc="http://www.ibm.com/xsp/custom">
 	<xp:this.beforePageLoad>
-		<![CDATA[#{javascript: var nodeIdSet = param.get('id')==null ? false : true; if(nodeIdSet) {soNBOManager.init();}}]]>
+		<![CDATA[#{javascript: 
+		viewScope.put("nodeType", "all");
+		viewScope.put("nodeTypeCategory", "all");
+		var nodeIdSet = param.get('id')==null ? false : true; if(nodeIdSet) {soNBOManager.init();}}]]>
 	</xp:this.beforePageLoad>
 	<xp:this.resources>
 		<xp:styleSheet href="/main.css"/>
@@ -9,7 +12,7 @@
 	<xc:mainLayout loaded="${javascript:nodeIdSet}" >
 		<xp:this.facets>
 			<xp:label value="Filter area" id="label1" xp:key="facetLeft"></xp:label>
-			<xp:panel xp:key="facetMiddle">
+			<xp:panel xp:key="facetMiddle" id="content">
 				<xc:node/>
 				<xc:navbarNodeTypeCategory/>
 				<xc:navbarNodeType/>
