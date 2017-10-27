@@ -1,13 +1,14 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note class='view' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.0'
- replicaid='C125817D00447BEE'>
-<noteinfo noteid='5aa' unid='43213E8DD10D4BDDC12581A3006C56AC' sequence='14'>
+ replicaid='C12581C5006D51E8'>
+<noteinfo noteid='4ae' unid='43213E8DD10D4BDDC12581A3006C56AC' sequence='3'>
 <created><datetime dst='true'>20170922T214320,76+02</datetime></created>
-<modified><datetime dst='true'>20170928T165700,83+02</datetime></modified>
-<revised><datetime dst='true'>20170928T165700,82+02</datetime></revised>
-<lastaccessed><datetime dst='true'>20170928T165700,83+02</datetime></lastaccessed>
-<addedtofile><datetime dst='true'>20170922T214320,80+02</datetime></addedtofile></noteinfo>
+<modified><datetime dst='true'>20171026T222635,32+02</datetime></modified>
+<revised><datetime dst='true'>20171026T222635,31+02</datetime></revised>
+<lastaccessed><datetime dst='true'>20171026T222635,32+02</datetime></lastaccessed>
+<addedtofile><datetime dst='true'>20171026T221703,60+02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Flemming Goetz/O=uniko/C=de</name></updatedby>
+<wassignedby><name>CN=Flemming Goetz/O=uniko/C=de</name></wassignedby>
 <item name='$FormatNote' summary='true' sign='true'>
 <rawitemdata type='4'>
 AQBYjVm4qNTSKouvewCNgSXB

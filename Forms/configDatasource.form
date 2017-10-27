@@ -1,13 +1,13 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note class='form' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.0'
- replicaid='C125817D00447BEE'>
-<noteinfo noteid='182' unid='1DCC1AB684C77D6DC1258164004178AB' sequence='10'>
+ replicaid='C12581C5006D51E8'>
+<noteinfo noteid='172' unid='1DCC1AB684C77D6DC1258164004178AB' sequence='6'>
 <created><datetime dst='true'>20170721T135507,31+02</datetime></created>
-<modified><datetime dst='true'>20170922T202820,97+02</datetime></modified>
-<revised><datetime dst='true'>20170922T202820,96+02</datetime></revised>
-<lastaccessed><datetime dst='true'>20170922T202820,97+02</datetime></lastaccessed>
-<addedtofile><datetime dst='true'>20170815T142816,46+02</datetime></addedtofile></noteinfo>
-<updatedby><name>CN=Flemming Goetz/O=uniko/C=DE</name><name>CN=Flemming Goetz/O=uniko/C=de</name></updatedby>
+<modified><datetime dst='true'>20171027T224138,81+02</datetime></modified>
+<revised><datetime dst='true'>20171027T224138,80+02</datetime></revised>
+<lastaccessed><datetime dst='true'>20171027T224138,81+02</datetime></lastaccessed>
+<addedtofile><datetime dst='true'>20171026T215422,21+02</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Flemming Goetz/O=uniko/C=de</name></updatedby>
 <wassignedby><name>CN=Flemming Goetz/O=uniko/C=de</name></wassignedby>
 <item name='$Comment' sign='true'><text/></item>
 <item name='$HTMLCode' sign='true'>
@@ -70,7 +70,7 @@ EQEBAACBAoMEAwCF/wgAAQAACt0GAACt/6n/PgAWAAQAAAAyAFNlbGVjdCBvbmUgYW1vbmcgdGhl
 IHByZWRlZmluZWQgZGF0YXNvdXJjZSB0eXBlcy4Ahf8NAAEAAApUeXBlOgCqAt4GAACuAIX/CAAB
 AAAKpBIBAbMPRioAAFUCEREBAQAAgQKDBAQAhf8IAAEAAArdBgAA9//3/yQAAQAAgAAAoAVoAQAA
 AAAAAAAAZAAAAAAAAAAAAAAAAAD+/1AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAB4AHgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAALD/FAAAAARAgAAAAAAA
+AAB4AHgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAALD/FAAAAARAgQAAAAAA
 AAAAAAAAiv9AAIoCAAUAIAIAAAAAAAACAQAACgAAAAAAAAAADgAAAA4AZGF0YXNvdXJjZVR5cGUB
 AAoASUJNIERvbWlub9IIAQAAAAAA0ggJAP///wDeBgAA9/+F/wgAAQAACqQSAgCgBbMPAABVAhER
 AQEAAIECgwQDAIX/CAABAAAK3QYAAK3/qf9tABYABAAAAGEARW50ZXIgYSBob3N0bmFtZSBmb3Ig

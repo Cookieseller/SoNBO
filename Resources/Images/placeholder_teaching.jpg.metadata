@@ -1,21 +1,20 @@
-<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.0" replicaid="C125817D00447BEE" version="9.0" xmlns="http://www.lotus.com/dxl">
-<noteinfo noteid="52e" sequence="1" unid="5CF258ADD0DD3E66C125818D003CD54D">
+<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.0" replicaid="C12581C5006D51E8" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="4b2" sequence="4" unid="5CF258ADD0DD3E66C125818D003CD54D">
 <created><datetime dst="true">20170831T130427,65+02</datetime></created>
-<modified><datetime dst="true">20170831T130427,70+02</datetime></modified>
-<revised><datetime dst="true">20170831T130427,69+02</datetime></revised>
-<lastaccessed><datetime dst="true">20170831T130427,70+02</datetime></lastaccessed>
-<addedtofile><datetime dst="true">20170831T130427,70+02</datetime></addedtofile></noteinfo>
-<updatedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></updatedby>
-<wassignedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></wassignedby>
+<modified><datetime dst="true">20171026T222635,50+02</datetime></modified>
+<revised><datetime dst="true">20171026T222635,49+02</datetime></revised>
+<lastaccessed><datetime dst="true">20171026T222635,50+02</datetime></lastaccessed>
+<addedtofile><datetime dst="true">20171026T221703,64+02</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Flemming Goetz/O=uniko/C=de</name></updatedby>
+<wassignedby><name>CN=Flemming Goetz/O=uniko/C=de</name></wassignedby>
 <item name="$TITLE"><text>placeholder_teaching.jpg</text></item>
 <item name="$Flags"><text>34CiQ</text></item>
 <item name="$FlagsExt"><text>D</text></item>
 <item name="$ImagesWide" sign="true"><number>1</number></item>
 <item name="$ImagesHigh" sign="true"><number>1</number></item>
 <item name="$ImagesColorize" sign="true"><number>0</number></item>
-
-
-<item name="$MimeType" sign="true"><text>image/jpeg</text></item>
 <item name="$FileModDT" sign="true"><datetime dst="true">20170831T130348,20+02</datetime></item>
 <item name="$ImageNames" sign="true"><text>placeholder_teaching.jpg</text></item>
-<item name="$DesignerVersion"><text>8.5.3</text></item></note>
+<item name="$DesignerVersion"><text>8.5.3</text></item>
+
+</note>
