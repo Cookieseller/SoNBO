@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core">
+	<xp:this.dataContexts>
+		<xp:dataContext var="adjacentNodeKeyMap">
+			<xp:this.value><![CDATA[#{javascript: var map:java.util.HashMap = soNBOManager.businessObject.getAttributeKeyObjectnameAdjacentNodes(); return map;}]]></xp:this.value>
+		</xp:dataContext>
+	</xp:this.dataContexts>
+	<xp:panel id="activefilters">
+		<xp:label value="Active filters" id="label1"></xp:label>
+	</xp:panel>
+	<xp:panel id="addfilter">
+		<xp:label value="Add filter" id="label2"></xp:label>
+		<xp:comboBox id="comboBoxKeys">
+			<xp:selectItems
+				value="#{javascript:var list:java.util.List = new java.util.ArrayList(); var map:java.util.HashMap = adjacentNodeKeyMap; list.addAll(map.keySet()); return list;}">
+			</xp:selectItems>
+		</xp:comboBox>
+		<xp:comboBox id="comboBoxValues">
+			<xp:selectItems
+				value="#{javascript:var list:java.util.List = new java.util.ArrayList(); var map:java.util.HashMap = adjacentNodeKeyMap; list.addAll(map.keySet()); return list;}">
+			</xp:selectItems>
+		</xp:comboBox>
+		<xp:button id="add_filter" value="add" />
+	</xp:panel>
+</xp:view>

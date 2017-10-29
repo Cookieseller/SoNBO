@@ -60,6 +60,21 @@ public class Node implements Serializable {
 		return attributeListForDisplayfield;
 	}
 	
+	/*
+	 * returns map<key, objectname> of adjacent nodes attributes
+	 */
+	public HashMap<String, String> getAttributeKeyObjectnameAdjacentNodes() {
+		HashMap<String, String> keyObjectnameMap = new HashMap<String, String>();
+		for(Node adjacentNode : this.adjacentNodeList) {
+			List<NodeTypeAttribute> adjacentNodeAttributeList = adjacentNode.getAttributeList();
+			for(NodeTypeAttribute adjacentNodeTypeAttribute : adjacentNodeAttributeList) {
+				keyObjectnameMap.put(adjacentNodeTypeAttribute.getName(), adjacentNode.getNodeType());
+			}
+			keyObjectnameMap.put("key", "value");
+		}
+		return keyObjectnameMap;
+	}
+	
 	public <T> T getAttributeValue(String key) {
 		Object value = null;
 		for(NodeTypeAttribute nodeTypeAttribute : attributeList) {

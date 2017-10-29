@@ -11,7 +11,9 @@
 	</xp:this.resources>
 	<xc:mainLayout loaded="${javascript:nodeIdSet}" >
 		<xp:this.facets>
-			<xp:label value="Filter area" id="label1" xp:key="facetLeft"></xp:label>
+			<xp:panel xp:key="facetLeft" id="filter">
+				<xc:filter/>
+			</xp:panel>
 			<xp:panel xp:key="facetMiddle" id="content">
 				<xc:node/>
 				<xc:navbarNodeTypeCategory/>
