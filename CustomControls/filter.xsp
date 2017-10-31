@@ -1,25 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xp:view xmlns:xp="http://www.ibm.com/xsp/core">
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core"
+	xmlns:xp_1="http://www.ibm.com/xsp/coreex">
+	<xp:this.resources>
+		<!-- <xp:script type="text/javascript">/utils</xp:script> -->
+	</xp:this.resources>
 	<xp:this.dataContexts>
 		<xp:dataContext var="adjacentNodeKeyMap">
-			<xp:this.value><![CDATA[#{javascript: var map:java.util.HashMap = soNBOManager.businessObject.getAttributeKeyObjectnameAdjacentNodes(); return map;}]]></xp:this.value>
+			<xp:this.value><![CDATA[#{javascript:var list:java.util.List = soNBOManager.businessObject.getAdjacentNodeAttributeNamez(); return list;}]]></xp:this.value>
+		</xp:dataContext>
+		<xp:dataContext var="adjacentNodeKeyItems">
+			<xp:this.value><![CDATA[#{javascript:
+				var list:java.util.List = adjacentNodeKeyMap;
+				var itemList:java.util.List = new java.util.ArrayList();
+				for(var i=0;i<list.size();i++) {
+				var vItem:java.util.Vector = list.get(i);
+				var string = vItem.get(0) + " - " + vItem.get(1);
+				itemList.add(string);
+				}
+				return itemList;
+			}]]></xp:this.value>
 		</xp:dataContext>
 	</xp:this.dataContexts>
+	<h4><xp:label value="Filters" id="label5"></xp:label></h4>
 	<xp:panel id="activefilters">
-		<xp:label value="Active filters" id="label1"></xp:label>
+		<div>
+		<xp:label value="Active filters" id="label1" styleClass="sbo-heading-4"></xp:label>
+		</div>
+		<xp:panel id="activefilterarea" styleClass="sbo-filter-activefilterarea">
+		</xp:panel>
 	</xp:panel>
 	<xp:panel id="addfilter">
-		<xp:label value="Add filter" id="label2"></xp:label>
+		<div>
+		<xp:label value="Add filter" id="label2" styleClass="sbo-heading-4"></xp:label>
+		</div>
+		<xp:label value="Attribute keys" id="label3" for="comboBoxKeys"/>
 		<xp:comboBox id="comboBoxKeys">
-			<xp:selectItems
-				value="#{javascript:var list:java.util.List = new java.util.ArrayList(); var map:java.util.HashMap = adjacentNodeKeyMap; list.addAll(map.keySet()); return list;}">
-			</xp:selectItems>
+				<xp:selectItems id="comboBoxKeysValue">
+				<xp:this.value><![CDATA[#{javascript:adjacentNodeKeyItems}]]></xp:this.value>
+				</xp:selectItems>
+			<xp:eventHandler event="onchange" submit="true"
+				refreshMode="partial" refreshId="comboBoxValues">
+			</xp:eventHandler>
 		</xp:comboBox>
+		<xp:label value="Attribute values" id="label4" for="comboBoxValues"/>
 		<xp:comboBox id="comboBoxValues">
-			<xp:selectItems
-				value="#{javascript:var list:java.util.List = new java.util.ArrayList(); var map:java.util.HashMap = adjacentNodeKeyMap; list.addAll(map.keySet()); return list;}">
+			<xp:selectItems>
+				<xp:this.value><![CDATA[#{javascript:
+				var list:java.util.List = adjacentNodeKeyMap;
+				var listItems:java.util.List = adjacentNodeKeyItems;
+				var curValue = getComponent("comboBoxKeys").getValue();
+				var pos = curValue == null ? 0 : listItems.indexOf(curValue);
+				var vItem:java.util.Vector = list.get(pos);
+				var resultList:java.util.List = soNBOManager.businessObject.getAdjacentNodeAttributeValues(vItem.get(0), vItem.get(1));
+				return resultList;
+				}]]></xp:this.value>
 			</xp:selectItems>
 		</xp:comboBox>
-		<xp:button id="add_filter" value="add" />
+		<xp:button id="add_filter" value="Add filter" />
 	</xp:panel>
 </xp:view>

@@ -3,11 +3,8 @@ package uniko.iwvi.fgbas.magoetz.sbo.objects;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.Map.Entry;
+import java.util.Vector;
 
 import uniko.iwvi.fgbas.magoetz.sbo.services.ConfigService;
 
@@ -61,18 +58,41 @@ public class Node implements Serializable {
 	}
 	
 	/*
-	 * returns map<key, objectname> of adjacent nodes attributes
+	 * returns list of adjacent nodes attribute names
 	 */
-	public HashMap<String, String> getAttributeKeyObjectnameAdjacentNodes() {
-		HashMap<String, String> keyObjectnameMap = new HashMap<String, String>();
+	public List<String> getAdjacentNodeAttributeNames() {
+		List<String> adjacentNodeAttributeNames = new ArrayList<String>();
 		for(Node adjacentNode : this.adjacentNodeList) {
 			List<NodeTypeAttribute> adjacentNodeAttributeList = adjacentNode.getAttributeList();
 			for(NodeTypeAttribute adjacentNodeTypeAttribute : adjacentNodeAttributeList) {
-				keyObjectnameMap.put(adjacentNodeTypeAttribute.getName(), adjacentNode.getNodeType());
+				adjacentNodeAttributeNames.add(adjacentNode.getNodeType() + "-" + adjacentNodeTypeAttribute.getName());
 			}
-			keyObjectnameMap.put("key", "value");
 		}
-		return keyObjectnameMap;
+		return adjacentNodeAttributeNames;
+	}
+	
+	public List<Vector<String>> getAdjacentNodeAttributeNamez() {
+		List<Vector<String>> adjacentNodeAttributeNames = new ArrayList<Vector<String>>();
+		for(Node adjacentNode : this.adjacentNodeList) {
+			List<NodeTypeAttribute> adjacentNodeAttributeList = adjacentNode.getAttributeList();
+			for(NodeTypeAttribute adjacentNodeTypeAttribute : adjacentNodeAttributeList) {
+				Vector<String> v = new Vector<String>();
+				v.add(adjacentNode.getNodeType());
+				v.add(adjacentNodeTypeAttribute.getName());
+				adjacentNodeAttributeNames.add(v);
+			}
+		}
+		return adjacentNodeAttributeNames;
+	}
+	
+	public List<String> getAdjacentNodeAttributeValues(String nodeTypeName, String attributeName) {
+		List<String> attributeValues = new ArrayList<String>();
+		for(Node adjacentNode : this.adjacentNodeList) {
+			if(adjacentNode.getNodeType().equals(nodeTypeName)) {
+				attributeValues.add(adjacentNode.getAttributeValueAsString(attributeName));
+			}
+		}
+		return attributeValues;
 	}
 	
 	public <T> T getAttributeValue(String key) {
@@ -86,15 +106,15 @@ public class Node implements Serializable {
 		return (T) value;
 	}
 	
-	public <T> T getAttributeValueAsString(String key) {
-		Object value = null;
+	public String getAttributeValueAsString(String key) {
+		String value = null;
 		for(NodeTypeAttribute nodeTypeAttribute : attributeList) {
 			if(nodeTypeAttribute.getName().equals(key)) {
 				// TODO change to getValue if it must not be a String
 				value = nodeTypeAttribute.getValueAsString();
 			}
 		}
-		return (T) value;
+		return value;
 	}
 
 	public boolean containsAttribute(String key, String value) {
