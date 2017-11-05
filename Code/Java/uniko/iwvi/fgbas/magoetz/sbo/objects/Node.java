@@ -3,7 +3,9 @@ package uniko.iwvi.fgbas.magoetz.sbo.objects;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.Vector;
 
 import uniko.iwvi.fgbas.magoetz.sbo.services.ConfigService;
@@ -58,41 +60,33 @@ public class Node implements Serializable {
 	}
 	
 	/*
-	 * returns list of adjacent nodes attribute names
-	 */
-	public List<String> getAdjacentNodeAttributeNames() {
-		List<String> adjacentNodeAttributeNames = new ArrayList<String>();
-		for(Node adjacentNode : this.adjacentNodeList) {
-			List<NodeTypeAttribute> adjacentNodeAttributeList = adjacentNode.getAttributeList();
-			for(NodeTypeAttribute adjacentNodeTypeAttribute : adjacentNodeAttributeList) {
-				adjacentNodeAttributeNames.add(adjacentNode.getNodeType() + "-" + adjacentNodeTypeAttribute.getName());
-			}
-		}
-		return adjacentNodeAttributeNames;
-	}
-	
-	public List<Vector<String>> getAdjacentNodeAttributeNamez() {
-		List<Vector<String>> adjacentNodeAttributeNames = new ArrayList<Vector<String>>();
+	 * returns vector list of (unique) adjacent nodes attributes (name and datatype)
+	 */	
+	public List<Vector<String>> getAdjacentNodeAttributes() {
+		Set<Vector<String>> adjacentNodeAttributeNames = new HashSet<Vector<String>>();
 		for(Node adjacentNode : this.adjacentNodeList) {
 			List<NodeTypeAttribute> adjacentNodeAttributeList = adjacentNode.getAttributeList();
 			for(NodeTypeAttribute adjacentNodeTypeAttribute : adjacentNodeAttributeList) {
 				Vector<String> v = new Vector<String>();
-				v.add(adjacentNode.getNodeType());
 				v.add(adjacentNodeTypeAttribute.getName());
+				v.add(adjacentNodeTypeAttribute.getDatatype());
 				adjacentNodeAttributeNames.add(v);
 			}
 		}
-		return adjacentNodeAttributeNames;
+		return new ArrayList<Vector<String>>(adjacentNodeAttributeNames);
 	}
 	
-	public List<String> getAdjacentNodeAttributeValues(String nodeTypeName, String attributeName) {
-		List<String> attributeValues = new ArrayList<String>();
+	/*
+	 * returns vector list of (unique) adjacent nodes attribute values of type string
+	 */	
+	public List<String> getAdjacentNodeAttributeValues(String attributeName, String attributDatatype) {
+		Set<String> attributeValues = new HashSet<String>();
 		for(Node adjacentNode : this.adjacentNodeList) {
-			if(adjacentNode.getNodeType().equals(nodeTypeName)) {
+			if(adjacentNode.containsAttributeOfType(attributeName, attributDatatype)) {
 				attributeValues.add(adjacentNode.getAttributeValueAsString(attributeName));
 			}
 		}
-		return attributeValues;
+		return new ArrayList<String>(attributeValues);
 	}
 	
 	public <T> T getAttributeValue(String key) {
@@ -121,6 +115,25 @@ public class Node implements Serializable {
 		for(NodeTypeAttribute nodeTypeAttribute : attributeList) {
 			// TODO String ist expected (change to getValue)
 			if(nodeTypeAttribute.getName().equals(key) && nodeTypeAttribute.getValueAsString().equals(value)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean containsAttributeOfType(String key, String datatype) {
+		for(NodeTypeAttribute nodeTypeAttribute : attributeList) {
+			// TODO String is expected (change to getValue)
+			if(nodeTypeAttribute.getName().equals(key) && nodeTypeAttribute.getDatatype().equals(datatype)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean containsAttributeOfTypeWithValue(String key, String datatype, Object value) {
+		for(NodeTypeAttribute nodeTypeAttribute : attributeList) {
+			if(nodeTypeAttribute.getName().equals(key) && nodeTypeAttribute.getDatatype().equals(datatype) && nodeTypeAttribute.getValue().equals(value)) {
 				return true;
 			}
 		}
@@ -188,7 +201,7 @@ public class Node implements Serializable {
 		if((nodeTypeCategory.equals("all") || nodeTypeCategory.equals(""))) {
 			// category all and nodeType all
 			if(nodeType.equals("all") || nodeType.equals("")) {
-				return this.adjacentNodeList;
+				adjacentNodeListFilteredByNodeType = this.adjacentNodeList;
 			// category all and specific nodeType
 			}else {
 				for(Node adjacentNode : adjacentNodeList) {
@@ -218,8 +231,47 @@ public class Node implements Serializable {
 				}
 			}
 		}
-		
 		return adjacentNodeListFilteredByNodeType;
+	}
+	
+	public List<Node> filterNodeList(List<Node> nodeList, List<Filter> filterList) {
+		
+		if(filterList.size() > 0) {
+		Set<Node> filteredNodeSet = new HashSet<Node>();
+		Set<Node> excludedNodeSet = new HashSet<Node>();
+		for(Filter filter : filterList){
+			List<String> attributeList = filter.getAttributeList();
+			for(Node node : nodeList) {
+				if(attributeList.size() > 0) {
+					for(String attributeValue : attributeList) {
+						if(node.containsAttributeOfTypeWithValue(filter.getAttributeName(), filter.getAttributeDatatype(), attributeValue)) {
+							if(filter.isFilterType()) {
+								filteredNodeSet.add(node);
+							}else {
+								excludedNodeSet.add(node);
+							}
+						}else if(!filter.isFilterType()){
+							filteredNodeSet.add(node);
+						}
+					}
+				}else {
+					if(node.containsAttributeOfType(filter.getAttributeName(), filter.getAttributeDatatype())) {
+						if(filter.isFilterType()) {
+							filteredNodeSet.add(node);
+						}else {
+							excludedNodeSet.add(node);
+						}
+					}else if(!filter.isFilterType()){
+						filteredNodeSet.add(node);
+					}
+				}
+			}
+		}
+		filteredNodeSet.removeAll(excludedNodeSet);
+		return new ArrayList<Node>(filteredNodeSet);
+		}else {
+			return nodeList;
+		}
 	}
 	
 	public List<String> getNodeAdjacencyNamesByCategory(String nodeTypeCategory) {

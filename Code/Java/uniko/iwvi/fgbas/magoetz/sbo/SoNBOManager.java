@@ -1,13 +1,17 @@
 package uniko.iwvi.fgbas.magoetz.sbo;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.concurrent.atomic.AtomicLong;
 
 import javax.faces.context.FacesContext;
+
+import uniko.iwvi.fgbas.magoetz.sbo.objects.Filter;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.Node;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.NodeTypeCategory;
 import uniko.iwvi.fgbas.magoetz.sbo.services.ConfigService;
@@ -30,9 +34,13 @@ public class SoNBOManager implements Serializable {
 	
 	public Node businessObject;
 	
+	public List<Filter> filters = new ArrayList<Filter>();
+	
 	private NodeService nodeService = new NodeService();
 	
 	public ConfigService configService = new ConfigService();
+	
+	private static AtomicLong idCounter = new AtomicLong();
 	
 	public void init(){
 		System.out.println("NEW REQUEST FOR BUSINESS OBJECT");
@@ -53,5 +61,43 @@ public class SoNBOManager implements Serializable {
 		// TODO: execute tests if necessary
 		Test test = new Test();
 		//test.javaToJson();
+	}
+	
+	public void addFilter(String filterType, String attributeName, String attributeDatatype, List<String> attributeList) {
+		String filterId = String.valueOf(this.idCounter.getAndIncrement());
+		Filter filter = new Filter(filterId);
+		filter.setFilterType(Boolean.valueOf(filterType));
+		filter.setAttributeName(attributeName);
+		filter.setAttributeDatatype(attributeDatatype);
+		filter.setAttributeList(attributeList);
+		this.filters.add(filter);
+	}
+	
+	public HashMap<String, String> getFilterList() {
+		HashMap<String, String> filterList = new HashMap<String, String>();
+		for(Filter filter : this.filters) {
+			filterList.put(filter.getId(), filter.toString());
+		}
+		return filterList;
+	}
+	
+	public void removeFilter(String id) {
+		Filter filterToRemove = null;
+		for(Filter filter : this.filters) {
+			if(filter.getId().equals(id)) {
+				filterToRemove = filter;
+			}
+		}
+		if(filterToRemove != null) {
+			this.filters.remove(filterToRemove);
+		}
+	}
+
+	public List<Filter> getFilters() {
+		return filters;
+	}
+
+	public void setFilters(List<Filter> filters) {
+		this.filters = filters;
 	}
 }

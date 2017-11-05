@@ -24,6 +24,10 @@ select.form-control {
     margin-bottom: 2em;
 }
 
+.sbo-filter-link {
+	margin-left: 0.3em;
+}
+
 .sbo-heading-4 {
 	font-size: 1.2em;
 	line-height: 2em;
