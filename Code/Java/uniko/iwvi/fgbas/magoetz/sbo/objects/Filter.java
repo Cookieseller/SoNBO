@@ -25,7 +25,7 @@ public class Filter implements Serializable {
 	
 	public String toString() {
 		String type = filterType ? "" : "! ";
-		String attributeMeta = attributeName + " - " + attributeDatatype + " - ";
+		String attributeMeta = attributeName + " (" + attributeDatatype + "): ";
 		String attributes = "";
 		for(int i = 0; i < this.attributeList.size(); i++) {
 			if(i < this.attributeList.size() - 1) {
@@ -34,7 +34,7 @@ public class Filter implements Serializable {
 				attributes += this.attributeList.get(i);
 			}
 		}
-		return type + attributeMeta + attributeList;	
+		return type + attributeMeta + attributes;	
 	}
 
 	public String getId() {
