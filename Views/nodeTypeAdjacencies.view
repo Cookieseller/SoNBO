@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note class='view' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.0'
  replicaid='C12581C5006D51E8'>
-<noteinfo noteid='4ae' unid='43213E8DD10D4BDDC12581A3006C56AC' sequence='3'>
+<noteinfo noteid='4ae' unid='43213E8DD10D4BDDC12581A3006C56AC' sequence='5'>
 <created><datetime dst='true'>20170922T214320,76+02</datetime></created>
-<modified><datetime dst='true'>20171026T222635,32+02</datetime></modified>
-<revised><datetime dst='true'>20171026T222635,31+02</datetime></revised>
-<lastaccessed><datetime dst='true'>20171026T222635,32+02</datetime></lastaccessed>
+<modified><datetime>20171109T120945,57+01</datetime></modified>
+<revised><datetime>20171109T120945,56+01</datetime></revised>
+<lastaccessed><datetime>20171109T120945,57+01</datetime></lastaccessed>
 <addedtofile><datetime dst='true'>20171026T221703,60+02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Flemming Goetz/O=uniko/C=de</name></updatedby>
 <wassignedby><name>CN=Flemming Goetz/O=uniko/C=de</name></wassignedby>
@@ -55,5 +55,14 @@ AAAAAAAAAAAAV0MBAQAJAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAA//8AAAAAAAAAAAAAAAAAAFdD
 AQEACQAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAP//AAAAAAAAAAAAAAAAAABXQwEBAAkAAAAAAAAA
 AAAAAAAAAAAAAAAEAAAAAAD//wAAAAAAAAAAAAAAAAAAQgAQAAAAAQD///8ABQD///8AAQAAAAAA
 AAAAAAAAAAABAP///wABAP///wAAAAEAAAAAAAEAAAAAAAEAAAAAAAAACAAAAAAAAQA=
+</rawitemdata></item>
+<item name='$V5ACTIONS' sign='true'>
+<rawitemdata type='1'>
+vRw/AAAAAQABAAAAAQAAAAAAAAAAAAAACAACAHn/bAABAPDw8AABAAAAAAAJAAAAAAABAPDw8AAA
+AB8AAAAAAAAAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAPz/OgAAAAAAAQAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAEAAAAAAAAAAAAAAAAAAAC+/3AAAAABAB4AnwEAABoAAAAAAAAAQ3JlYXRlIE5vZGUg
+VHlwZSBBZGphY2VuY3lAAAAAMgACAOgDAAAAAAAAAQAAAAEAFwBjb25maWdOb2RlVHlwZUFkamFj
+ZW5jeQDtAwMABwAMAAUACTRTNlMA
 </rawitemdata></item></note>
 

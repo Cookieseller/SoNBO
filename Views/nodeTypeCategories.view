@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note class='view' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.0'
  replicaid='C12581C5006D51E8'>
-<noteinfo noteid='4a6' unid='E1F780E631D96638C1258185003576B3' sequence='3'>
+<noteinfo noteid='4a6' unid='E1F780E631D96638C1258185003576B3' sequence='6'>
 <created><datetime dst='true'>20170823T114357,95+02</datetime></created>
-<modified><datetime dst='true'>20171026T222635,36+02</datetime></modified>
-<revised><datetime dst='true'>20171026T222635,35+02</datetime></revised>
-<lastaccessed><datetime dst='true'>20171026T222635,36+02</datetime></lastaccessed>
+<modified><datetime>20171109T120804,94+01</datetime></modified>
+<revised><datetime>20171109T120804,93+01</datetime></revised>
+<lastaccessed><datetime>20171109T120804,94+01</datetime></lastaccessed>
 <addedtofile><datetime dst='true'>20171026T221703,52+02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Flemming Goetz/O=uniko/C=de</name></updatedby>
 <wassignedby><name>CN=Flemming Goetz/O=uniko/C=de</name></wassignedby>
@@ -54,5 +54,14 @@ AAAAAAABAA==
 </rawitemdata></item>
 <item name='$Comment' sign='true'><text/></item>
 <item name='$Flags'><text>PY</text></item>
-<item name='$DesignerVersion'><text>8.5.3</text></item></note>
+<item name='$DesignerVersion'><text>8.5.3</text></item>
+<item name='$V5ACTIONS' sign='true'>
+<rawitemdata type='1'>
+vRw/AAAAAQABAAAAAQAAAAAAAAAAAAAACAACAHn/bAABAPDw8AABAAAAAAAJAAAAAAABAPDw8AAA
+AB8AAAAAAAAAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAPz/OgAAAAAAAQAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAEAAAAAAAAAAAAAAAAAAAC+/24AAAABAB4AnwEAABkAAAAAAAAAQ3JlYXRlIE5vZGUg
+VHlwZSBDYXRlZ29yeQI+AAAAMAACAOgDAAAAAAAAAQAAAAEAFgBjb25maWdOb2RlVHlwZUNhdGVn
+b3J57QMDAAcADAAFAAk0UzZTAA==
+</rawitemdata></item></note>
 
