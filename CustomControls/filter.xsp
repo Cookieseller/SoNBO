@@ -11,7 +11,7 @@
 				var itemList:java.util.List = new java.util.ArrayList();
 				for(var i=0;i<list.size();i++) {
 				var vItem:java.util.Vector = list.get(i);
-				var string = vItem.get(0) + " - " + vItem.get(1);
+				var string = vItem.get(0) + " (" + vItem.get(1) + ")";
 				itemList.add(string);
 				}
 				return itemList;
@@ -114,12 +114,6 @@ soNBOManager.removeFilter(attr.getValue());												}]]>
     </script>
 </div>
 <p><input type="text" id="sliderValue" class="form-control" disabled="true"/></p>
-		<!-- 
-			<div id="rangeSlider"></div>
-			<p>
-			<input type="text" id="sliderValue" class="form-control" disabled="true"/>
-			</p>
-		-->
 		<xp:button id="add_filter" value="Add filter" execMode="full"
 			refreshId="activefilterarea">
 			<xp:eventHandler event="onclick" submit="true"
@@ -147,25 +141,4 @@ soNBOManager.addFilter(filterType, vItemKey.get(0), vItemKey.get(1), valueItemLi
 			</xp:eventHandler>
 		</xp:button>
 	</xp:panel>
-	<!--
-		<script>
-		dojo.require("dojox.form.RangeSlider");
-		
-		dojo.ready(function(){
-		
-		var rangeSlider = new dojox.form.HorizontalRangeSlider({
-		name: "rangeSlider",
-		value: [2,6],
-		minimum: -10,
-		maximum: 10,
-		showButtons: true,
-		intermediateChanges: true,
-		discreteValues: 20,
-		onChange: function(value){
-		dojo.byId("sliderValue").value = value;
-		}
-		}, "rangeSlider");
-		});
-		</script>
-	-->
 </xp:view>
