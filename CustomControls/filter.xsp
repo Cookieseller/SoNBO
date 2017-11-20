@@ -17,6 +17,26 @@
 				return itemList;
 			}]]></xp:this.value>
 		</xp:dataContext>
+		<xp:dataContext var="adjacentNodeKeyItemsSorted">
+			<xp:this.value><![CDATA[#{javascript:var nodeKeyItems:java.util.List = adjacentNodeKeyItems; nodeKeyItems.toArray().sort()}]]></xp:this.value>
+		</xp:dataContext>
+		<xp:dataContext var="adjacentNodeValueInteger">
+			<xp:this.value><![CDATA[#{javascript:var curItemKeyValue = getComponent("comboBoxKeys");
+var listUnsorted:java.util.List = adjacentNodeKeyItems;
+var list:java.util.List = adjacentNodeKeyMap;
+
+if(typeof curItemKeyValue == 'undefined' || curValue == null) {
+	var arSorted:java.lang.reflect.Array = adjacentNodeKeyItemsSorted;
+	var firstItem = arSorted[0];
+	var pos = listUnsorted.indexOf(firstItem);
+	var vItem:java.util.Vector = list.get(pos);
+	return vItem.get(1) == "Integer" ? true : false;
+}else {
+	var curValue = curItemKeyValue.getValue();
+	var pos = listUnsorted.indexOf(curValue);
+	var vItem:java.util.Vector = list.get(pos);
+	return vItem.get(1) == "Integer" ? true : false;}}]]></xp:this.value>
+		</xp:dataContext>
 	</xp:this.dataContexts>
 	<xp:this.resources>
 		<xp:dojoModule name="dojox.form.RangeSlider"></xp:dojoModule>
@@ -80,15 +100,16 @@ soNBOManager.removeFilter(attr.getValue());												}]]>
 		<xp:label value="Attribute keys" id="label3" for="comboBoxKeys" />
 		<xp:comboBox id="comboBoxKeys">
 			<xp:selectItems id="comboBoxKeysValue">
-				<xp:this.value><![CDATA[#{javascript:var nodeKeyItems:java.util.List = adjacentNodeKeyItems; nodeKeyItems.toArray().sort()}]]></xp:this.value>
+				<xp:this.value><![CDATA[#{javascript:adjacentNodeKeyItemsSorted}]]></xp:this.value>
 			</xp:selectItems>
 			<xp:eventHandler event="onchange" submit="true"
 				refreshMode="partial" refreshId="listBoxValues">
 			</xp:eventHandler>
 		</xp:comboBox>
 		<xp:label value="Attribute values (optional)" id="label4"
-			for="comboBoxValues" />
-		<xp:listBox id="listBoxValues" multiple="true">
+			for="listBoxValues" />
+		<xp:listBox id="listBoxValues" multiple="true"
+			rendered="#{javascript:!adjacentNodeValueInteger}" size="5">
 			<xp:selectItems>
 				<xp:this.value><![CDATA[#{javascript:
 				var list:java.util.List = adjacentNodeKeyMap;
@@ -107,13 +128,17 @@ soNBOManager.removeFilter(attr.getValue());												}]]>
 				}]]></xp:this.value>
 			</xp:selectItems>
 		</xp:listBox>
-		<div id="rangeSlider" data-dojo-type="dojox.form.HorizontalRangeSlider"
-    data-dojo-props="value:[2,6], minimum:0, maximum:20, showButtons: true, intermediateChanges:true, discreteValues: 21">
-    <script type="dojo/method" data-dojo-event="onChange" data-dojo-args="value">
-        dojo.byId("sliderValue").value = value;
-    </script>
-</div>
-<p><input type="text" id="sliderValue" class="form-control" disabled="true"/></p>
+		<xp:panel id="rangeSliderSection" rendered="#{javascript:adjacentNodeValueInteger}">
+			<div id="rangeSlider"
+				data-dojo-type="dojox.form.HorizontalRangeSlider"
+				data-dojo-props="value:[2,6], minimum:0, maximum:20, showButtons: true, intermediateChanges:true, discreteValues: 21">
+				<script type="dojo/method" data-dojo-event="onChange"
+					data-dojo-args="value">
+					dojo.byId("sliderValue").value = value;
+				</script>
+			</div>
+		<p><input type="text" id="sliderValue" class="form-control" disabled="true"/></p>
+		</xp:panel>
 		<xp:button id="add_filter" value="Add filter" execMode="full"
 			refreshId="activefilterarea">
 			<xp:eventHandler event="onclick" submit="true"
