@@ -65,19 +65,6 @@ public class NodeService implements Serializable {
 			
 			// load attribute key and value into business object
 			node = loadAttributes(node, configObject, queryResultList, nodePreview);
-			
-			if(!nodePreview) {
-				// 4. RETRIEVE ADJACENT NODES
-				// get list of peer objects (all)
-				List<Node> adjacentNodeCategoryList = new ArrayList<Node>();
-	
-				List<String> nodeTypeCategoryNames = configService.getAllNodeTypeCategoryNames();
-				for(String adjacentNodeTypeCategory : nodeTypeCategoryNames) {
-					List<Node> objects = this.getAdjacentNodes(node, adjacentNodeTypeCategory);
-					adjacentNodeCategoryList.addAll(objects);
-					node.setAdjacentNodeList(adjacentNodeCategoryList);
-				}
-			}
 		
 			return node;
 		}else {
@@ -341,6 +328,7 @@ public class NodeService implements Serializable {
 		return adjacentNodeIds;
 	}
 
+	/*
 	public List<Node> getFilteredResultList(Node businessObject, String peerNodeType, String nodeTypeCategoryName) {
 		
 		List<Node> filteredAdjacentNodeList = new ArrayList<Node>();
@@ -355,4 +343,5 @@ public class NodeService implements Serializable {
 		}
 		return filteredAdjacentNodeList;
 	}
+	*/
 }

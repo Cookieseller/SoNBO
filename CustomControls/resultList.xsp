@@ -5,16 +5,16 @@
 		<xp:dataContext var="nodeListFilteredByNodeType">
 			<xp:this.value><![CDATA[#{javascript:var nodeType = viewScope.get('nodeType');
 var nodeTypeCategory = viewScope.get('nodeTypeCategory');
-soNBOManager.businessObject.getAdjacentNodeListFilteredByNodeType(nodeTypeCategory == null ? 'all' : nodeTypeCategory, nodeType == null ? 'all' : nodeType);}]]></xp:this.value>
+soNBOManager.getAdjacentNodeListFilteredByNodeType(nodeTypeCategory == null ? 'all' : nodeTypeCategory, nodeType == null ? 'all' : nodeType);}]]></xp:this.value>
 		</xp:dataContext>
 		<xp:dataContext var="filteredNodeList">
-			<xp:this.value><![CDATA[#{javascript:soNBOManager.businessObject.getfilterAndOrderedNodeList(nodeListFilteredByNodeType);}]]></xp:this.value>
+			<xp:this.value><![CDATA[#{javascript:soNBOManager.getfilterAndOrderedNodeList(nodeListFilteredByNodeType);}]]></xp:this.value>
 		</xp:dataContext>
 	</xp:this.dataContexts>
 	<xp:panel styleClass="sbo-object-preview-container"
 		id="resultList">
 		<xp:label value="#{javascript: '(Filters applied: ' + filteredNodeList.size() + ' from ' + nodeListFilteredByNodeType.size() + ' results)'}" id="label1">
-			<xp:this.rendered><![CDATA[#{javascript:soNBOManager.businessObject.getFilters().size() > 0;}]]></xp:this.rendered>
+			<xp:this.rendered><![CDATA[#{javascript:soNBOManager.getFilters().size() > 0;}]]></xp:this.rendered>
 		</xp:label>
 		<!-- List peer objects filtered by certain criteria (relationship, filter) -->
 		<xp:repeat id="repeat1" var="adjacentNode" value="#{filteredNodeList}">

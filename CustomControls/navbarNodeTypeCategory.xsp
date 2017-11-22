@@ -9,7 +9,7 @@
 					styleClass="sbo-navbar-link #{javascript: return viewScope.get('nodeTypeCategory') == peer || viewScope.get('nodeTypeCategory') == null &amp;&amp; peer == 'all' ? 'sbo-navbar-selected' : '';}">
 					<xp:this.text>#{peer}</xp:this.text>
 					<xp:label
-						value="#{javascript: soNBOManager.businessObject.getAdjacentNodeListFilteredByCategory(peer).size().toString()}"
+						value="#{javascript: soNBOManager.getAdjacentNodeListFilteredByCategory(peer).size().toString()}"
 						id="label4" style="margin-right: 3px;"
 						styleClass="badge sbo-badge" />
 					<xp:eventHandler event="onclick" submit="true"

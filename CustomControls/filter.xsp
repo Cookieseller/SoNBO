@@ -3,7 +3,7 @@
 	xmlns:xp_1="http://www.ibm.com/xsp/coreex">
 	<xp:this.dataContexts>
 		<xp:dataContext var="adjacentNodeKeyMap">
-			<xp:this.value><![CDATA[#{javascript:var list:java.util.List = soNBOManager.businessObject.getAdjacentNodeAttributes(); return list;}]]></xp:this.value>
+			<xp:this.value><![CDATA[#{javascript:var list:java.util.List = soNBOManager.getAdjacentNodeAttributes(); return list;}]]></xp:this.value>
 		</xp:dataContext>
 		<xp:dataContext var="adjacentNodeKeyItems">
 			<xp:this.value><![CDATA[#{javascript:
@@ -57,7 +57,7 @@ if(list.size() > 0) {
 		<xp:panel id="activefilterarea"
 			styleClass="sbo-filter-activefilterarea">
 			<xp:repeat var="filter"
-				value="#{javascript:var map:java.util.HashMap = soNBOManager.businessObject.getFilterList(); return map.entrySet();}">
+				value="#{javascript:var map:java.util.HashMap = soNBOManager.getFilterList(); return map.entrySet();}">
 				<div>
 					<ol>
 						<li>
@@ -77,7 +77,7 @@ if(list.size() > 0) {
 									<xp:this.action><![CDATA[#{javascript:var link:com.ibm.xsp.component.xp.XspOutputLink = this.getParent();
 var attrList:java.util.List = link.getAttrs();
 var attr:com.ibm.xsp.complex.Attr = attrList.get(0); 
-soNBOManager.businessObject.removeFilter(attr.getValue());												}]]>
+soNBOManager.removeFilter(attr.getValue());												}]]>
 									</xp:this.action>
 								</xp:eventHandler>
 							</xp:link>
@@ -127,7 +127,7 @@ if(list.size()>0){
 		pos = listItems.indexOf(curValue);
 	}
 	var vItem:java.util.Vector = list.get(pos);
-	var resultList:java.util.List = soNBOManager.businessObject.getAdjacentNodeAttributeValues(vItem.get(0), vItem.get(1));
+	var resultList:java.util.List = soNBOManager.getAdjacentNodeAttributeValues(vItem.get(0), vItem.get(1));
 	return resultList.toArray().sort();
 }else {
 	return list;
@@ -168,7 +168,7 @@ if(typeof curValue == 'undefined' || curValue == null) {
 	posKey = listItems.indexOf(curValue);
 }
 var vItemKey:java.util.Vector = listKeys.get(posKey);
-soNBOManager.businessObject.addFilter(filterType, vItemKey.get(0), vItemKey.get(1), valueItemList);}]]></xp:this.action>
+soNBOManager.addFilter(filterType, vItemKey.get(0), vItemKey.get(1), valueItemList);}]]></xp:this.action>
 			</xp:eventHandler>
 		</xp:button>
 	</xp:panel>
