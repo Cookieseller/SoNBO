@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.Vector;
+import java.util.concurrent.atomic.AtomicLong;
 
 import uniko.iwvi.fgbas.magoetz.sbo.services.ConfigService;
 
@@ -25,6 +26,12 @@ public class Node implements Serializable {
 	private String nodeTitle;
 	
 	private List<Node> adjacentNodeList;
+	
+	private SortAttribute sortAttribute = new SortAttribute();
+	
+	private List<Filter> filters = new ArrayList<Filter>();
+	
+	private static AtomicLong idCounter = new AtomicLong();
 	
 	private String nodeImage;
 	
@@ -239,8 +246,9 @@ public class Node implements Serializable {
 		return nodeList;
 	}
 	
-	public List<Node> filterNodeList(List<Node> nodeList, List<Filter> filterList) {
+	public List<Node> getFilteredNodeList(List<Node> nodeList) {
 		
+		List<Filter> filterList = this.filters;
 		if(filterList.size() > 0) {
 		Set<Node> filteredNodeSet = new HashSet<Node>();
 		Set<Node> excludedNodeSet = new HashSet<Node>();
@@ -327,5 +335,56 @@ public class Node implements Serializable {
 	
 	public void addAttribute(NodeTypeAttribute nodeTypeAttribute) {
 		this.attributeList.add(nodeTypeAttribute);
+	}
+	
+	public void applySorting(boolean sortType, Vector<String> attributeVector) {
+		SortAttribute sortAttribute = new SortAttribute();
+		sortAttribute.setSortType(sortType);
+		sortAttribute.setAttributeName(attributeVector.firstElement());
+		sortAttribute.setDatatype(attributeVector.lastElement());
+		this.sortAttribute = sortAttribute;
+	}
+	
+	public void addFilter(String filterType, String attributeName, String attributeDatatype, List<String> attributeList) {
+		String filterId = String.valueOf(this.idCounter.getAndIncrement());
+		Filter filter = new Filter(filterId);
+		filter.setFilterType(Boolean.valueOf(filterType));
+		filter.setAttributeName(attributeName);
+		filter.setAttributeDatatype(attributeDatatype);
+		filter.setAttributeList(attributeList);
+		this.filters.add(filter);
+	}
+	
+	public HashMap<String, String> getFilterList() {
+		HashMap<String, String> filterList = new HashMap<String, String>();
+		for(Filter filter : this.filters) {
+			filterList.put(filter.getId(), filter.toString());
+		}
+		return filterList;
+	}
+	
+	public void removeFilter(String id) {
+		Filter filterToRemove = null;
+		for(Filter filter : this.filters) {
+			if(filter.getId().equals(id)) {
+				filterToRemove = filter;
+			}
+		}
+		if(filterToRemove != null) {
+			this.filters.remove(filterToRemove);
+		}
+	}
+
+	public List<Filter> getFilters() {
+		return filters;
+	}
+
+	public void setFilters(List<Filter> filters) {
+		this.filters = filters;
+	}
+	
+	public List<Node> getfilterAndOrderedNodeList(List<Node> nodeList) {
+		// filter node list
+		return this.getFilteredNodeList(nodeList);
 	}
 }

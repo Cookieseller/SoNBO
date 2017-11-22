@@ -24,18 +24,22 @@
 			<xp:this.value><![CDATA[#{javascript:var curItemKeyValue = getComponent("comboBoxKeys");
 var listUnsorted:java.util.List = adjacentNodeKeyItems;
 var list:java.util.List = adjacentNodeKeyMap;
-
-if(typeof curItemKeyValue == 'undefined' || curValue == null) {
-	var arSorted:java.lang.reflect.Array = adjacentNodeKeyItemsSorted;
-	var firstItem = arSorted[0];
-	var pos = listUnsorted.indexOf(firstItem);
-	var vItem:java.util.Vector = list.get(pos);
-	return vItem.get(1) == "Integer" ? true : false;
+if(list.size() > 0) {
+	if(typeof curItemKeyValue == 'undefined' || curValue == null) {
+		var arSorted:java.lang.reflect.Array = adjacentNodeKeyItemsSorted;
+		var firstItem = arSorted[0];
+		var pos = listUnsorted.indexOf(firstItem);
+		var vItem:java.util.Vector = list.get(pos);
+		return vItem.get(1) == "Integer" ? true : false;
+	}else {
+		var curValue = curItemKeyValue.getValue();
+		var pos = listUnsorted.indexOf(curValue);
+		var vItem:java.util.Vector = list.get(pos);
+		return vItem.get(1) == "Integer" ? true : false;
+	}
 }else {
-	var curValue = curItemKeyValue.getValue();
-	var pos = listUnsorted.indexOf(curValue);
-	var vItem:java.util.Vector = list.get(pos);
-	return vItem.get(1) == "Integer" ? true : false;}}]]></xp:this.value>
+	return false;
+}}]]></xp:this.value>
 		</xp:dataContext>
 	</xp:this.dataContexts>
 	<xp:this.resources>
@@ -53,7 +57,7 @@ if(typeof curItemKeyValue == 'undefined' || curValue == null) {
 		<xp:panel id="activefilterarea"
 			styleClass="sbo-filter-activefilterarea">
 			<xp:repeat var="filter"
-				value="#{javascript:var map:java.util.HashMap = soNBOManager.getFilterList(); return map.entrySet();}">
+				value="#{javascript:var map:java.util.HashMap = soNBOManager.businessObject.getFilterList(); return map.entrySet();}">
 				<div>
 					<ol>
 						<li>
@@ -73,7 +77,7 @@ if(typeof curItemKeyValue == 'undefined' || curValue == null) {
 									<xp:this.action><![CDATA[#{javascript:var link:com.ibm.xsp.component.xp.XspOutputLink = this.getParent();
 var attrList:java.util.List = link.getAttrs();
 var attr:com.ibm.xsp.complex.Attr = attrList.get(0); 
-soNBOManager.removeFilter(attr.getValue());												}]]>
+soNBOManager.businessObject.removeFilter(attr.getValue());												}]]>
 									</xp:this.action>
 								</xp:eventHandler>
 							</xp:link>
@@ -111,20 +115,23 @@ soNBOManager.removeFilter(attr.getValue());												}]]>
 		<xp:listBox id="listBoxValues" multiple="true"
 			rendered="#{javascript:!adjacentNodeValueInteger}" size="5">
 			<xp:selectItems>
-				<xp:this.value><![CDATA[#{javascript:
-				var list:java.util.List = adjacentNodeKeyMap;
-				var listItems:java.lang.reflect.Array = adjacentNodeKeyItems;
-				var curValue = getComponent("comboBoxKeys").getValue();
-				var pos; 
-				if(typeof curValue == 'undefined' || curValue == null) {
-					var arList = list.toArray().sort();
-					pos = list.indexOf(arList[0]);
-				}else {
-					pos = listItems.indexOf(curValue);
-				}
-				var vItem:java.util.Vector = list.get(pos);
-				var resultList:java.util.List = soNBOManager.businessObject.getAdjacentNodeAttributeValues(vItem.get(0), vItem.get(1));
-				return resultList.toArray().sort();
+				<xp:this.value><![CDATA[#{javascript:var list:java.util.List = adjacentNodeKeyMap;
+if(list.size()>0){
+	var listItems:java.lang.reflect.Array = adjacentNodeKeyItems;
+	var curValue = getComponent("comboBoxKeys").getValue();
+	var pos; 
+	if(typeof curValue == 'undefined' || curValue == null) {
+		var arList = list.toArray().sort();
+		pos = list.indexOf(arList[0]);
+	}else {
+		pos = listItems.indexOf(curValue);
+	}
+	var vItem:java.util.Vector = list.get(pos);
+	var resultList:java.util.List = soNBOManager.businessObject.getAdjacentNodeAttributeValues(vItem.get(0), vItem.get(1));
+	return resultList.toArray().sort();
+}else {
+	return list;
+}
 				}]]></xp:this.value>
 			</xp:selectItems>
 		</xp:listBox>
@@ -161,7 +168,7 @@ if(typeof curValue == 'undefined' || curValue == null) {
 	posKey = listItems.indexOf(curValue);
 }
 var vItemKey:java.util.Vector = listKeys.get(posKey);
-soNBOManager.addFilter(filterType, vItemKey.get(0), vItemKey.get(1), valueItemList);}]]></xp:this.action>
+soNBOManager.businessObject.addFilter(filterType, vItemKey.get(0), vItemKey.get(1), valueItemList);}]]></xp:this.action>
 			</xp:eventHandler>
 		</xp:button>
 	</xp:panel>
