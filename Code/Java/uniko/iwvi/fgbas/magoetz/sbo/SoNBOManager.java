@@ -1,6 +1,8 @@
 package uniko.iwvi.fgbas.magoetz.sbo;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -40,7 +42,7 @@ public class SoNBOManager implements Serializable {
 	
 	private List<Node> adjacentNodeList;
 	
-	private SortAttribute sortAttribute = new SortAttribute();
+	private SortAttribute sortAttribute;
 	
 	private List<Filter> filters = new ArrayList<Filter>();
 	
@@ -197,7 +199,19 @@ public class SoNBOManager implements Serializable {
 		return adjacentNodeListFilteredByNodeType;
 	}
 	
-	public List<Node> getSortedNodeList(List<Node> nodeList, SortAttribute sortAttribute) {
+	public List<Node> getSortedNodeList(List<Node> nodeList, final SortAttribute sortAttribute) {
+		
+       Collections.sort(nodeList, new Comparator<Node>() {
+			public int compare(Node n0, Node n1) {
+				int comparison = n0.compareByAttribute(n1, sortAttribute);
+				System.out.println("Node " + n0.getNodeTitle() + " vs. " + n1.getNodeTitle() + " = " + comparison);
+				return comparison;
+			}
+        });
+		// if sortType is descending
+		if(!sortAttribute.isSortType()) {
+			Collections.reverse(nodeList);
+		}
 		
 		return nodeList;
 	}
@@ -289,8 +303,13 @@ public class SoNBOManager implements Serializable {
 		this.filters = filters;
 	}
 	
-	public List<Node> getfilterAndOrderedNodeList(List<Node> nodeList) {
+	public List<Node> getfilterAndSortedNodeList(List<Node> nodeList) {
 		// filter node list
-		return this.getFilteredNodeList(nodeList);
+		List<Node> filteredAndSortedList = this.getFilteredNodeList(nodeList);
+		// sort node list
+		if(this.sortAttribute != null) {
+			filteredAndSortedList = this.getSortedNodeList(filteredAndSortedList, this.sortAttribute);
+		}
+		return filteredAndSortedList;
 	}
 }

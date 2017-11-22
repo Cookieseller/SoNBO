@@ -67,6 +67,17 @@ public class Node implements Serializable {
 		return (T) value;
 	}
 	
+	public NodeTypeAttribute getAttributeOfType(String key, String datatype) {
+		for(NodeTypeAttribute nodeTypeAttribute : attributeList) {
+			// TODO String is expected (change to getValue)
+			if(nodeTypeAttribute.getName().equals(key) && nodeTypeAttribute.getDatatype().equals(datatype)) {
+				System.out.println("Node Attribute is returned: " + nodeTypeAttribute.getName());
+				return nodeTypeAttribute;
+			}
+		}
+		return null;
+	}
+	
 	public String getAttributeValueAsString(String key) {
 		String value = null;
 		for(NodeTypeAttribute nodeTypeAttribute : attributeList) {
@@ -165,5 +176,51 @@ public class Node implements Serializable {
 	
 	public void addAttribute(NodeTypeAttribute nodeTypeAttribute) {
 		this.attributeList.add(nodeTypeAttribute);
+	}
+	
+	public int compareByAttribute(Node otherNode, SortAttribute sortAttribute) {
+		
+		if(this == otherNode) {
+			System.out.println("Nodes are equal");
+			return 0;
+		}
+		
+		String attributeName = sortAttribute.getAttributeName();
+		String datatype = sortAttribute.getDatatype();
+		
+		System.out.println("attributeName = " + attributeName);
+		System.out.println("datatype = " + datatype);
+		
+		// the node which contains the attribute will be preferred
+		NodeTypeAttribute thisAttribute = this.getAttributeOfType(attributeName, datatype);
+		NodeTypeAttribute othersAttribute = otherNode.getAttributeOfType(attributeName, datatype);
+		
+		if(thisAttribute == null && othersAttribute != null) {
+			System.out.println("this is null");
+			return 1;
+		}
+		if(thisAttribute == null && othersAttribute == null) {
+			System.out.println("both are null");
+			return 0;
+		}
+		if(thisAttribute != null && othersAttribute == null) {
+			System.out.println("others is null");
+			return -1;
+		}
+		
+		// if both contain attributes of the specified datatype compare
+		if(datatype.equals("String") || datatype.equals("NotesUsername")) {
+			String thisAttrString = thisAttribute.getValue();
+			String othersAttrString = othersAttribute.getValue();
+			return thisAttrString.compareTo(othersAttrString);
+		}
+		if(datatype.equals("Integer")) {
+			int thisAttrInt = thisAttribute.getValue();
+			int othersAttrInt = othersAttribute.getValue();
+			return Double.compare(thisAttrInt, othersAttrInt);
+		}
+		// TODO: implement other datatypes
+		System.out.println("datatype not covered returning 0");
+		return 0;
 	}
 }

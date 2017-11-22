@@ -102,14 +102,14 @@ soNBOManager.removeFilter(attr.getValue());												}]]>
 			</xp:radioGroup>
 		</div>
 		<xp:label value="Attribute keys:" id="label3" for="comboBoxKeys" />
-		<xp_1:djComboBox id="comboBoxKeys">
+		<xp:comboBox id="comboBoxKeys">
 			<xp:selectItems id="comboBoxKeysValue">
 				<xp:this.value><![CDATA[#{javascript:adjacentNodeKeyItemsSorted}]]></xp:this.value>
 			</xp:selectItems>
 			<xp:eventHandler event="onchange" submit="true"
 				refreshMode="partial" refreshId="listBoxValues">
 			</xp:eventHandler>
-		</xp_1:djComboBox>
+		</xp:comboBox>
 		<xp:label value="Attribute values (optional):" id="label4"
 			for="listBoxValues" />
 		<xp:listBox id="listBoxValues" multiple="true"
