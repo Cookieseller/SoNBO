@@ -1,14 +1,14 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note class='form' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.0'
- replicaid='C12581C5006D51E8'>
-<noteinfo noteid='4ca' unid='20062A6198CE09CDC125816300749DD5' sequence='12'>
+ replicaid='C12581E0003A7DA5'>
+<noteinfo noteid='4b6' unid='20062A6198CE09CDC125816300749DD5' sequence='15'>
 <created><datetime dst='true'>20170720T231345,81+02</datetime></created>
-<modified><datetime>20171109T114904,55+01</datetime></modified>
-<revised><datetime>20171109T114904,54+01</datetime></revised>
-<lastaccessed><datetime>20171109T114904,55+01</datetime></lastaccessed>
-<addedtofile><datetime dst='true'>20171026T221703,94+02</datetime></addedtofile></noteinfo>
-<updatedby><name>CN=Flemming Goetz/O=uniko/C=de</name></updatedby>
-<wassignedby><name>CN=Flemming Goetz/O=uniko/C=de</name></wassignedby>
+<modified><datetime>20171122T114605,24+01</datetime></modified>
+<revised><datetime>20171122T114605,23+01</datetime></revised>
+<lastaccessed><datetime>20171122T114605,24+01</datetime></lastaccessed>
+<addedtofile><datetime>20171122T113857,40+01</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></updatedby>
+<wassignedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></wassignedby>
 <item name='$Comment' sign='true'><text/></item>
 <item name='$HTMLCode' sign='true'>
 <rawitemdata type='1'>
