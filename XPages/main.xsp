@@ -14,6 +14,7 @@
 	<xc:mainLayout loaded="${javascript:nodeIdSet}">
 		<xp:this.facets>
 			<xp:panel xp:key="facetLeft" id="filter">
+				<xc:sort />
 				<xc:filter />
 			</xp:panel>
 			<xp:panel xp:key="facetMiddle" id="content">

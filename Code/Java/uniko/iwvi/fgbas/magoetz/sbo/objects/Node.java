@@ -234,6 +234,11 @@ public class Node implements Serializable {
 		return adjacentNodeListFilteredByNodeType;
 	}
 	
+	public List<Node> getSortedNodeList(List<Node> nodeList, SortAttribute sortAttribute) {
+		
+		return nodeList;
+	}
+	
 	public List<Node> filterNodeList(List<Node> nodeList, List<Filter> filterList) {
 		
 		if(filterList.size() > 0) {

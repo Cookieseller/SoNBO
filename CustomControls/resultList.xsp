@@ -7,9 +7,9 @@
 var nodeTypeCategory = viewScope.get('nodeTypeCategory');
 soNBOManager.businessObject.getAdjacentNodeListFilteredByNodeType(nodeTypeCategory == null ? 'all' : nodeTypeCategory, nodeType == null ? 'all' : nodeType);}]]></xp:this.value>
 		</xp:dataContext>
-		<xp:dataContext
-			value="#{javascript:soNBOManager.businessObject.filterNodeList(nodeListFilteredByNodeType, soNBOManager.filters);}"
-			var="filteredNodeList">
+		<xp:dataContext var="filteredNodeList">
+			<xp:this.value><![CDATA[#{javascript:var nodeList = soNBOManager.businessObject.filterNodeList(nodeListFilteredByNodeType, soNBOManager.filters);
+return soNBOManager.businessObject.getSortedNodeList(nodeList, soNBOManager.sortAttribute);}]]></xp:this.value>
 		</xp:dataContext>
 	</xp:this.dataContexts>
 	<xp:panel styleClass="sbo-object-preview-container"

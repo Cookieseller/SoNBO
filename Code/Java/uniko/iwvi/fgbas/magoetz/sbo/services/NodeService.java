@@ -233,7 +233,7 @@ public class NodeService implements Serializable {
 					NoteTypeAdjacency adjacencyQuery = gson.fromJson(adjacencyQueryJSON, NoteTypeAdjacency.class);
 					adjacencyQueryList.add(adjacencyQuery);
 					// test print out
-					System.out.println("adjacencyQuery: " + adjacencyQuery.getQuery());
+					//System.out.println("adjacencyQuery: " + adjacencyQuery.getQuery());
 				}
 			}else {
 				System.out.println("Result of query " + adjacencyQueryString + " is null.");
@@ -249,13 +249,13 @@ public class NodeService implements Serializable {
 	private String buildAdjacentNodesQueryString(ArrayList<String> adjacentNodeTypes, String sourceNodeType) {
 		String adjacencyQueryString = "";
 		for(int i=0; i<adjacentNodeTypes.size(); i++) {
-			System.out.println("Result string adjacent node name: " + adjacentNodeTypes.get(i));
+			//System.out.println("Result string adjacent node name: " + adjacentNodeTypes.get(i));
 			adjacencyQueryString += "[adjacencySourceNode] = " + sourceNodeType + " AND [adjacencyTargetNode] = " + adjacentNodeTypes.get(i);
 			if(i < adjacentNodeTypes.size() - 1) {
 				adjacencyQueryString += " OR ";
 			}
 		}
-		System.out.println("adjacencyQueryString: " + adjacencyQueryString);
+		//System.out.println("adjacencyQueryString: " + adjacencyQueryString);
 		return adjacencyQueryString;
 	}
 	
@@ -279,11 +279,11 @@ public class NodeService implements Serializable {
 				// get attribute value from business object
 				String replaceAttributeValue = businessObject.getAttributeValueAsString(replaceAttributeKey);
 				//convert email to notes username
-				System.out.println("Attribute Valueeeeeeee " + replaceAttributeValue);
+				//System.out.println("Attribute Value: " + replaceAttributeValue);
 				if(queryObject.getKeyValueReturnType().equals("getEmailAsNotesUsername")) {
 					replaceAttributeValue = this.queryService.getNotesUsernameByEmail(replaceAttributeValue);
 				}
-				System.out.println("Attribute Valueeeeeeee " + replaceAttributeValue);
+				//System.out.println("Attribute Value: " + replaceAttributeValue);
 				replaceAttributesMap.put(replaceAttributeKey, replaceAttributeValue);
 			}
 			// replace [key] in string with variable values
@@ -319,7 +319,7 @@ public class NodeService implements Serializable {
 			try {
 				for(int i=1; i<=resultCollectionAdjacentNodesIDs.getCount(); i++) {
 					Document doc = resultCollectionAdjacentNodesIDs.getNthDocument(i);
-					System.out.println(doc.generateXML());
+					//System.out.println(doc.generateXML());
 					for(String targetNodeIdKey : targetNodeIdKeys) {
 						// expect multiple values
 						Vector<String> nodeIds = doc.getItemValue(targetNodeIdKey);

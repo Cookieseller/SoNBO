@@ -42,7 +42,7 @@ if(typeof curItemKeyValue == 'undefined' || curValue == null) {
 		<xp:dojoModule name="dojox.form.RangeSlider"></xp:dojoModule>
 	</xp:this.resources>
 	<h4>
-		<xp:label value="Filters" id="label5"></xp:label>
+		<xp:label value="Filter" id="label5"></xp:label>
 	</h4>
 	<xp:panel id="activefilters">
 		<div>
@@ -97,16 +97,16 @@ soNBOManager.removeFilter(attr.getValue());												}]]>
 				</xp:selectItem>
 			</xp:radioGroup>
 		</div>
-		<xp:label value="Attribute keys" id="label3" for="comboBoxKeys" />
-		<xp:comboBox id="comboBoxKeys">
+		<xp:label value="Attribute keys:" id="label3" for="comboBoxKeys" />
+		<xp_1:djComboBox id="comboBoxKeys">
 			<xp:selectItems id="comboBoxKeysValue">
 				<xp:this.value><![CDATA[#{javascript:adjacentNodeKeyItemsSorted}]]></xp:this.value>
 			</xp:selectItems>
 			<xp:eventHandler event="onchange" submit="true"
 				refreshMode="partial" refreshId="listBoxValues">
 			</xp:eventHandler>
-		</xp:comboBox>
-		<xp:label value="Attribute values (optional)" id="label4"
+		</xp_1:djComboBox>
+		<xp:label value="Attribute values (optional):" id="label4"
 			for="listBoxValues" />
 		<xp:listBox id="listBoxValues" multiple="true"
 			rendered="#{javascript:!adjacentNodeValueInteger}" size="5">
@@ -139,8 +139,7 @@ soNBOManager.removeFilter(attr.getValue());												}]]>
 			</div>
 		<p><input type="text" id="sliderValue" class="form-control" disabled="true"/></p>
 		</xp:panel>
-		<xp:button id="add_filter" value="Add filter" execMode="full"
-			refreshId="activefilterarea">
+		<xp:button id="add_filter" value="Add filter">
 			<xp:eventHandler event="onclick" submit="true"
 				refreshMode="partial" refreshId="page">
 				<xp:this.action><![CDATA[#{javascript:// get control values

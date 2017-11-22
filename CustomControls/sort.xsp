@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core"
+	xmlns:xe="http://www.ibm.com/xsp/coreex">
+	<xp:this.dataContexts>
+		<xp:dataContext var="adjacentNodeKeyItemsSort">
+			<xp:this.value><![CDATA[#{javascript:		
+		var listAdjacentNodeAttributes:java.util.List = soNBOManager.businessObject.getAdjacentNodeAttributes();
+		var newItemList:java.util.List = new java.util.ArrayList();
+		for(var i=0;i<listAdjacentNodeAttributes.size();i++) {
+			var vItem:java.util.Vector = listAdjacentNodeAttributes.get(i);
+			var string = vItem.get(0) + " (" + vItem.get(1) + ")";
+			var selectItem:javax.faces.model.SelectItem = new javax.faces.model.SelectItem();
+			selectItem.setLabel(string);
+			selectItem.setValue(vItem);
+			newItemList.add(selectItem);
+		}
+		return newItemList;}]]></xp:this.value>
+		</xp:dataContext>
+	</xp:this.dataContexts>
+	<h4>
+		<xp:label value="Sort" id="sortHeadline"></xp:label>
+	</h4>
+	<div>
+		<xp:radioGroup id="sortType" defaultValue="true">
+			<xp:selectItem itemLabel="Ascending" itemValue="true"></xp:selectItem>
+			<xp:selectItem itemLabel="Descending" itemValue="false">
+			</xp:selectItem>
+		</xp:radioGroup>
+	</div>
+	<div>
+		<xp:label value="Sort criterion:" id="comboBoxKeyHeadline"
+			for="cbKeysSort" />
+		<xe:djComboBox id="cbKeysSort">
+				<xp:selectItems id="selectItems1">
+				<xp:this.value><![CDATA[#{javascript:adjacentNodeKeyItemsSort}]]></xp:this.value>
+			</xp:selectItems>
+			<xp:eventHandler event="onchange" submit="true"
+				refreshMode="partial">
+			</xp:eventHandler>
+		</xe:djComboBox>
+	</div>
+	<div>
+		<xp:button id="apply_sorting" value="Apply">
+			<xp:eventHandler event="onclick" submit="true"
+				refreshMode="partial" refreshId="page">
+				<xp:this.action><![CDATA[#{javascript:
+			// get control values
+var sortType = getComponent("sortType").getValue();
+var sortTypeBool = sortType == "true" ? true : false;
+var sortAttribute = getComponent("cbKeysSort").getValue();
+var sortAttrArray = sortAttribute.split(",");
+var vector:java.util.Vector = new java.util.Vector();
+for(var i=0; i<sortAttrArray.length; i++) {
+	vector.add(sortAttrArray[i]);
+}
+soNBOManager.applySorting(sortTypeBool, vector);
+}]]></xp:this.action>
+			</xp:eventHandler>
+		</xp:button>
+	</div>
+</xp:view>

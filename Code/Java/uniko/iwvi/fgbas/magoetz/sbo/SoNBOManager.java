@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Vector;
 import java.util.Map.Entry;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -14,6 +15,7 @@ import javax.faces.context.FacesContext;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.Filter;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.Node;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.NodeTypeCategory;
+import uniko.iwvi.fgbas.magoetz.sbo.objects.SortAttribute;
 import uniko.iwvi.fgbas.magoetz.sbo.services.ConfigService;
 import uniko.iwvi.fgbas.magoetz.sbo.services.NodeService;
 import uniko.iwvi.fgbas.magoetz.sbo.util.Utilities;
@@ -35,6 +37,8 @@ public class SoNBOManager implements Serializable {
 	public Node businessObject;
 	
 	public List<Filter> filters = new ArrayList<Filter>();
+	
+	public SortAttribute sortAttribute = new SortAttribute();
 	
 	private NodeService nodeService = new NodeService();
 	
@@ -61,6 +65,14 @@ public class SoNBOManager implements Serializable {
 		// TODO: execute tests if necessary
 		Test test = new Test();
 		//test.javaToJson();
+	}
+	
+	public void applySorting(boolean sortType, Vector<String> attributeVector) {
+		SortAttribute sortAttribute = new SortAttribute();
+		sortAttribute.setSortType(sortType);
+		sortAttribute.setAttributeName(attributeVector.firstElement());
+		sortAttribute.setDatatype(attributeVector.lastElement());
+		this.sortAttribute = sortAttribute;
 	}
 	
 	public void addFilter(String filterType, String attributeName, String attributeDatatype, List<String> attributeList) {
