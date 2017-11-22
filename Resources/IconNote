@@ -1,14 +1,13 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note default='true' class='icon' xmlns='http://www.lotus.com/dxl' version='9.0'
- maintenanceversion='1.0' replicaid='C125817D00447BEE'>
-<noteinfo noteid='11a' unid='FE662AEB349786ADC125817D00447BFB' sequence='8'>
-<created><datetime dst='true'>20170815T142801,87+02</datetime></created>
-<modified><datetime dst='true'>20170815T142825,77+02</datetime></modified>
-<revised><datetime dst='true'>20170815T142825,76+02</datetime></revised>
-<lastaccessed><datetime dst='true'>20170815T142825,77+02</datetime></lastaccessed>
-<addedtofile><datetime dst='true'>20170815T142801,91+02</datetime></addedtofile></noteinfo>
+ maintenanceversion='1.0' replicaid='C12581E0003A7DA5'>
+<noteinfo noteid='11e' unid='ACD9D4DF86095A53C12581C5006D51F9' sequence='14'>
+<created><datetime dst='true'>20171026T215404,09+02</datetime></created>
+<modified><datetime>20171122T114406,17+01</datetime></modified>
+<revised><datetime>20171122T114406,16+01</datetime></revised>
+<lastaccessed><datetime>20171122T114406,17+01</datetime></lastaccessed>
+<addedtofile><datetime>20171122T113852,80+01</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></updatedby>
-<wassignedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></wassignedby>
 <item name='IconBitmap' summary='true'>
 <rawitemdata type='6'>
 AiAgAQAA///////wD///4Af//8AD//4AAH/8AAA/+AAAH/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAA

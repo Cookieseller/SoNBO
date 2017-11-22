@@ -90,7 +90,7 @@ public class QueryService implements Serializable {
 		try {
 			notesDB = DominoUtils.openDatabaseByName(databasename);
 			// TODO: Don't update index on every query 
-			notesDB.updateFTIndex(true);
+			//notesDB.updateFTIndex(true);
 			resultCollection = notesDB.FTSearch(searchString);
 		} catch (NotesException e1) {
 			// TODO Auto-generated catch block
@@ -108,7 +108,7 @@ public class QueryService implements Serializable {
 			resultCollection = notesDB.createDocumentCollection();
 			View view = notesDB.getView(viewname);
 			// TODO: Don't update index on every query 
-			notesDB.updateFTIndex(true);
+			//notesDB.updateFTIndex(true);
 			int count = view.FTSearch(searchString);
 			if (count == 0){
 		        System.out.println("ftSearchView no documents found in view " + viewname + " with searchString " + searchString);
@@ -151,7 +151,7 @@ public class QueryService implements Serializable {
 		ArrayList<JsonObject> jsonObjects = new ArrayList<JsonObject>();
 		
 		for(String s : queryResults) {
-			System.out.println(s);
+			//System.out.println(s);
 			JsonObject o = new JsonParser().parse(s).getAsJsonObject();
 			jsonObjects.add(o);
 		}

@@ -1,14 +1,14 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note class='view' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.0'
- replicaid='C12581C5006D51E8'>
-<noteinfo noteid='4aa' unid='602C97302BBD1747C125817A007C47F7' sequence='3'>
+ replicaid='C12581E0003A7DA5'>
+<noteinfo noteid='496' unid='602C97302BBD1747C125817A007C47F7' sequence='8'>
 <created><datetime dst='true'>20170813T003728,87+02</datetime></created>
-<modified><datetime dst='true'>20171026T222635,34+02</datetime></modified>
-<revised><datetime dst='true'>20171026T222635,33+02</datetime></revised>
-<lastaccessed><datetime dst='true'>20171026T222635,34+02</datetime></lastaccessed>
-<addedtofile><datetime dst='true'>20171026T221703,56+02</datetime></addedtofile></noteinfo>
-<updatedby><name>CN=Flemming Goetz/O=uniko/C=de</name></updatedby>
-<wassignedby><name>CN=Flemming Goetz/O=uniko/C=de</name></wassignedby>
+<modified><datetime>20171122T114605,68+01</datetime></modified>
+<revised><datetime>20171122T114605,67+01</datetime></revised>
+<lastaccessed><datetime>20171122T114605,68+01</datetime></lastaccessed>
+<addedtofile><datetime>20171122T113857,24+01</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></updatedby>
+<wassignedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></wassignedby>
 <item name='$FormatNote' summary='true' sign='true'>
 <rawitemdata type='4'>
 AQB/ohaee+7K8eIPRADjgCXB
@@ -72,5 +72,14 @@ AAAAAAAAAAAABAAAAAAA//8AAAAAAAAAAAAAAAAAAFdDAQEACQAAAAAAAAAAAAAAAAAAAAAAAAQA
 AAAAAP//AAAAAAAAAAAAAAAAAABXQwEBAAkAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAD//wAAAAAA
 AAAAAAAAAAAAQgAQAAAAAQD///8ABQD///8AAQAAAAAAAAAAAAAAAAABAP///wABAP///wAAAAEA
 AAAAAAEAAAAAAAEAAAAAAAAACAAAAAAAAQA=
+</rawitemdata></item>
+<item name='$V5ACTIONS' sign='true'>
+<rawitemdata type='1'>
+vRw/AAAAAQABAAAAAQAAAAAAAAAAAAAACAACAHn/bAABAPDw8AABAAAAAAAJAAAAAAABAPDw8AAA
+AB8AAAAAAAAAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAPz/OgAAAAAAAQAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAEAAAAAAAAAAAAAAAAAAAC+/3AAAAABAB4AnwEAABoAAAAAAAAAQ3JlYXRlIE5vZGUg
+VHlwZSBBdHRyaWJ1dGVAAAAAMgACAOgDAAAAAAAAAQAAAAEAFwBjb25maWdOb2RlVHlwZUF0dHJp
+YnV0ZQDtAwMABwAMAAUACTRTNlMA
 </rawitemdata></item></note>
 

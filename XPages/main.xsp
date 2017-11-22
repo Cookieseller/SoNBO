@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xp:view xmlns:xp="http://www.ibm.com/xsp/core" xmlns:xc="http://www.ibm.com/xsp/custom">
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core"
+	xmlns:xc="http://www.ibm.com/xsp/custom" dojoParseOnLoad="true" dojoTheme="true">
 	<xp:this.beforePageLoad>
 		<![CDATA[#{javascript: 
 		viewScope.put("nodeType", "all");
@@ -7,21 +8,30 @@
 		var nodeIdSet = param.get('id')==null ? false : true; if(nodeIdSet) {soNBOManager.init();}}]]>
 	</xp:this.beforePageLoad>
 	<xp:this.resources>
-		<xp:styleSheet href="/main.css"/>
+		<xp:styleSheet href="/main.css" />
 	</xp:this.resources>
-	<xc:mainLayout loaded="${javascript:nodeIdSet}" >
+	<xp:panel id="page">
+	<xc:mainLayout loaded="${javascript:nodeIdSet}">
 		<xp:this.facets>
-			<xp:label value="Filter area" id="label1" xp:key="facetLeft"></xp:label>
-			<xp:panel xp:key="facetMiddle" id="content">
-				<xc:node/>
-				<xc:navbarNodeTypeCategory/>
-				<xc:navbarNodeType/>
-				<xc:resultList/>
+			<xp:panel xp:key="facetLeft" id="filter">
+				<xc:sort />
+				<xc:filter />
 			</xp:panel>
-			<xp:label value="Stream area" id="label4" xp:key="facetRight"></xp:label>
+			<xp:panel xp:key="facetMiddle" id="content">
+				<xc:node />
+				<xc:navbarNodeTypeCategory />
+				<xc:navbarNodeType />
+				<xc:resultList />
+			</xp:panel>
+			<xp:label value="Stream area" id="label4"
+				xp:key="facetRight">
+			</xp:label>
 		</xp:this.facets>
 	</xc:mainLayout>
-	<xp:label id="label3"  loaded="${javascript:!nodeIdSet}">
-		<xp:this.value>Page not loaded - missing id parameter in URL</xp:this.value>
+	<xp:label id="label3" loaded="${javascript:!nodeIdSet}">
+		<xp:this.value>
+			Page not loaded - missing id parameter in URL
+		</xp:this.value>
 	</xp:label>
+	</xp:panel>
 </xp:view>

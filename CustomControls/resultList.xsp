@@ -1,14 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xp:view xmlns:xp="http://www.ibm.com/xsp/core"
 	xmlns:xc="http://www.ibm.com/xsp/custom">
+	<xp:this.dataContexts>
+		<xp:dataContext var="nodeListFilteredByNodeType">
+			<xp:this.value><![CDATA[#{javascript:var nodeType = viewScope.get('nodeType');
+var nodeTypeCategory = viewScope.get('nodeTypeCategory');
+soNBOManager.getAdjacentNodeListFilteredByNodeType(nodeTypeCategory == null ? 'all' : nodeTypeCategory, nodeType == null ? 'all' : nodeType);}]]></xp:this.value>
+		</xp:dataContext>
+		<xp:dataContext var="filteredNodeList">
+			<xp:this.value><![CDATA[#{javascript:soNBOManager.getfilterAndSortedNodeList(nodeListFilteredByNodeType);}]]></xp:this.value>
+		</xp:dataContext>
+	</xp:this.dataContexts>
 	<xp:panel styleClass="sbo-object-preview-container"
 		id="resultList">
+		<xp:label value="#{javascript: '(Filters applied: ' + filteredNodeList.size() + ' from ' + nodeListFilteredByNodeType.size() + ' results)'}" id="label1">
+			<xp:this.rendered><![CDATA[#{javascript:soNBOManager.getFilters().size() > 0;}]]></xp:this.rendered>
+		</xp:label>
 		<!-- List peer objects filtered by certain criteria (relationship, filter) -->
-		<xp:repeat id="repeat1" var="adjacentNode">
-			<xp:this.value><![CDATA[#{javascript:
-			var nodeType = viewScope.get('nodeType');
-			var nodeTypeCategory = viewScope.get('nodeTypeCategory');
-			soNBOManager.businessObject.getAdjacentNodeListFilteredByNodeType(nodeTypeCategory == null ? 'all' : nodeTypeCategory, nodeType == null ? 'all' : nodeType);}]]></xp:this.value>
+		<xp:repeat id="repeat1" var="adjacentNode" value="#{filteredNodeList}">
 			<xc:nodePreview />
 		</xp:repeat>
 	</xp:panel>

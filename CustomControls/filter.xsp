@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core"
+	xmlns:xp_1="http://www.ibm.com/xsp/coreex">
+	<xp:this.dataContexts>
+		<xp:dataContext var="adjacentNodeKeyMap">
+			<xp:this.value><![CDATA[#{javascript:var list:java.util.List = soNBOManager.getAdjacentNodeAttributes(); return list;}]]></xp:this.value>
+		</xp:dataContext>
+		<xp:dataContext var="adjacentNodeKeyItems">
+			<xp:this.value><![CDATA[#{javascript:
+				var list:java.util.List = adjacentNodeKeyMap;
+				var itemList:java.util.List = new java.util.ArrayList();
+				for(var i=0;i<list.size();i++) {
+				var vItem:java.util.Vector = list.get(i);
+				var string = vItem.get(0) + " (" + vItem.get(1) + ")";
+				itemList.add(string);
+				}
+				return itemList;
+			}]]></xp:this.value>
+		</xp:dataContext>
+		<xp:dataContext var="adjacentNodeKeyItemsSorted">
+			<xp:this.value><![CDATA[#{javascript:var nodeKeyItems:java.util.List = adjacentNodeKeyItems; nodeKeyItems.toArray().sort()}]]></xp:this.value>
+		</xp:dataContext>
+		<xp:dataContext var="adjacentNodeValueInteger">
+			<xp:this.value><![CDATA[#{javascript:var curItemKeyValue = getComponent("comboBoxKeys");
+var listUnsorted:java.util.List = adjacentNodeKeyItems;
+var list:java.util.List = adjacentNodeKeyMap;
+if(list.size() > 0) {
+	if(typeof curItemKeyValue == 'undefined' || curValue == null) {
+		var arSorted:java.lang.reflect.Array = adjacentNodeKeyItemsSorted;
+		var firstItem = arSorted[0];
+		var pos = listUnsorted.indexOf(firstItem);
+		var vItem:java.util.Vector = list.get(pos);
+		return vItem.get(1) == "Integer" ? true : false;
+	}else {
+		var curValue = curItemKeyValue.getValue();
+		var pos = listUnsorted.indexOf(curValue);
+		var vItem:java.util.Vector = list.get(pos);
+		return vItem.get(1) == "Integer" ? true : false;
+	}
+}else {
+	return false;
+}}]]></xp:this.value>
+		</xp:dataContext>
+	</xp:this.dataContexts>
+	<xp:this.resources>
+		<xp:dojoModule name="dojox.form.RangeSlider"></xp:dojoModule>
+	</xp:this.resources>
+	<h4>
+		<xp:label value="Filter" id="label5"></xp:label>
+	</h4>
+	<xp:panel id="activefilters">
+		<div>
+			<xp:label value="Active filters" id="label1"
+				styleClass="sbo-heading-4">
+			</xp:label>
+		</div>
+		<xp:panel id="activefilterarea"
+			styleClass="sbo-filter-activefilterarea">
+			<xp:repeat var="filter"
+				value="#{javascript:var map:java.util.HashMap = soNBOManager.getFilterList(); return map.entrySet();}">
+				<div>
+					<ol>
+						<li>
+							<xp:label
+								value="#{javascript:filter.getValue()}" id="label6">
+							</xp:label>
+							<xp:link escape="true" id="rmFilter"
+								text="x" value="#" title="remove filter"
+								styleClass="sbo-filter-link">
+								<xp:this.attrs>
+									<xp:attr name="id"
+										value="#{javascript:filter.getKey()}">
+									</xp:attr>
+								</xp:this.attrs>
+								<xp:eventHandler event="onclick"
+									submit="true" refreshMode="partial" refreshId="page">
+									<xp:this.action><![CDATA[#{javascript:var link:com.ibm.xsp.component.xp.XspOutputLink = this.getParent();
+var attrList:java.util.List = link.getAttrs();
+var attr:com.ibm.xsp.complex.Attr = attrList.get(0); 
+soNBOManager.removeFilter(attr.getValue());												}]]>
+									</xp:this.action>
+								</xp:eventHandler>
+							</xp:link>
+						</li>
+					</ol>
+				</div>
+			</xp:repeat>
+		</xp:panel>
+	</xp:panel>
+	<xp:panel id="addfilter">
+		<div>
+			<xp:label value="Add filter" id="label2"
+				styleClass="sbo-heading-4">
+			</xp:label>
+		</div>
+		<div>
+			<xp:radioGroup id="filterType" defaultValue="true">
+				<xp:selectItem itemLabel="Contains" itemValue="true"></xp:selectItem>
+				<xp:selectItem itemLabel="Does not contain"
+					itemValue="false">
+				</xp:selectItem>
+			</xp:radioGroup>
+		</div>
+		<xp:label value="Attribute keys:" id="label3" for="comboBoxKeys" />
+		<xp:comboBox id="comboBoxKeys">
+			<xp:selectItems id="comboBoxKeysValue">
+				<xp:this.value><![CDATA[#{javascript:adjacentNodeKeyItemsSorted}]]></xp:this.value>
+			</xp:selectItems>
+			<xp:eventHandler event="onchange" submit="true"
+				refreshMode="partial" refreshId="listBoxValues">
+			</xp:eventHandler>
+		</xp:comboBox>
+		<xp:label value="Attribute values (optional):" id="label4"
+			for="listBoxValues" />
+		<xp:listBox id="listBoxValues" multiple="true"
+			rendered="#{javascript:!adjacentNodeValueInteger}" size="5">
+			<xp:selectItems>
+				<xp:this.value><![CDATA[#{javascript:var list:java.util.List = adjacentNodeKeyMap;
+if(list.size()>0){
+	var listItems:java.lang.reflect.Array = adjacentNodeKeyItems;
+	var curValue = getComponent("comboBoxKeys").getValue();
+	var pos; 
+	if(typeof curValue == 'undefined' || curValue == null) {
+		var arList = list.toArray().sort();
+		pos = list.indexOf(arList[0]);
+	}else {
+		pos = listItems.indexOf(curValue);
+	}
+	var vItem:java.util.Vector = list.get(pos);
+	var resultList:java.util.List = soNBOManager.getAdjacentNodeAttributeValues(vItem.get(0), vItem.get(1));
+	return resultList.toArray().sort();
+}else {
+	return list;
+}
+				}]]></xp:this.value>
+			</xp:selectItems>
+		</xp:listBox>
+		<xp:panel id="rangeSliderSection" rendered="#{javascript:adjacentNodeValueInteger}">
+			<div id="rangeSlider"
+				data-dojo-type="dojox.form.HorizontalRangeSlider"
+				data-dojo-props="value:[2,6], minimum:0, maximum:20, showButtons: true, intermediateChanges:true, discreteValues: 21">
+				<script type="dojo/method" data-dojo-event="onChange"
+					data-dojo-args="value">
+					dojo.byId("sliderValue").value = value;
+				</script>
+			</div>
+		<p><input type="text" id="sliderValue" class="form-control" disabled="true"/></p>
+		</xp:panel>
+		<xp:button id="add_filter" value="Add filter">
+			<xp:eventHandler event="onclick" submit="true"
+				refreshMode="partial" refreshId="page">
+				<xp:this.action><![CDATA[#{javascript:// get control values
+var filterType = getComponent("filterType").getValue();
+var key = getComponent("comboBoxKeys").getValue();
+var valueItems = getComponent("listBoxValues").getValue();
+if(typeof valueItems == 'undefined') {
+	valueItems = new java.util.ArrayList();
+}
+var valueItemList:util.java.List = java.util.Arrays.asList(valueItems);
+// get vector representing current selection of comboBoxKeys
+var listKeys:java.util.List = adjacentNodeKeyMap;
+var listKeyItems:java.util.List = adjacentNodeKeyItems;
+var posKey; 
+if(typeof curValue == 'undefined' || curValue == null) {
+	var arList = list.toArray().sort();
+	posKey = list.indexOf(arList[0]);
+}else {
+	posKey = listItems.indexOf(curValue);
+}
+var vItemKey:java.util.Vector = listKeys.get(posKey);
+soNBOManager.addFilter(filterType, vItemKey.get(0), vItemKey.get(1), valueItemList);}]]></xp:this.action>
+			</xp:eventHandler>
+		</xp:button>
+	</xp:panel>
+</xp:view>

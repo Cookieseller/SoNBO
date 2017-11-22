@@ -3,11 +3,11 @@ package uniko.iwvi.fgbas.magoetz.sbo.objects;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
-import java.util.Map.Entry;
+import java.util.Vector;
+import java.util.concurrent.atomic.AtomicLong;
 
 import uniko.iwvi.fgbas.magoetz.sbo.services.ConfigService;
 
@@ -25,13 +25,9 @@ public class Node implements Serializable {
 	
 	private String nodeTitle;
 	
-	private List<Node> adjacentNodeList;
-	
 	private String nodeImage;
 	
 	private List<NodeTypeAttribute> attributeList = new ArrayList<NodeTypeAttribute>();
-	
-	private ConfigService configService = new ConfigService();
 	
 	/*
 	 * returns key value pairs for displayfield
@@ -71,21 +67,51 @@ public class Node implements Serializable {
 		return (T) value;
 	}
 	
-	public <T> T getAttributeValueAsString(String key) {
-		Object value = null;
+	public NodeTypeAttribute getAttributeOfType(String key, String datatype) {
+		for(NodeTypeAttribute nodeTypeAttribute : attributeList) {
+			// TODO String is expected (change to getValue)
+			if(nodeTypeAttribute.getName().equals(key) && nodeTypeAttribute.getDatatype().equals(datatype)) {
+				System.out.println("Node Attribute is returned: " + nodeTypeAttribute.getName());
+				return nodeTypeAttribute;
+			}
+		}
+		return null;
+	}
+	
+	public String getAttributeValueAsString(String key) {
+		String value = null;
 		for(NodeTypeAttribute nodeTypeAttribute : attributeList) {
 			if(nodeTypeAttribute.getName().equals(key)) {
 				// TODO change to getValue if it must not be a String
 				value = nodeTypeAttribute.getValueAsString();
 			}
 		}
-		return (T) value;
+		return value;
 	}
 
 	public boolean containsAttribute(String key, String value) {
 		for(NodeTypeAttribute nodeTypeAttribute : attributeList) {
 			// TODO String ist expected (change to getValue)
 			if(nodeTypeAttribute.getName().equals(key) && nodeTypeAttribute.getValueAsString().equals(value)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean containsAttributeOfType(String key, String datatype) {
+		for(NodeTypeAttribute nodeTypeAttribute : attributeList) {
+			// TODO String is expected (change to getValue)
+			if(nodeTypeAttribute.getName().equals(key) && nodeTypeAttribute.getDatatype().equals(datatype)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean containsAttributeOfTypeWithValue(String key, String datatype, Object value) {
+		for(NodeTypeAttribute nodeTypeAttribute : attributeList) {
+			if(nodeTypeAttribute.getName().equals(key) && nodeTypeAttribute.getDatatype().equals(datatype) && nodeTypeAttribute.getValue().equals(value)) {
 				return true;
 			}
 		}
@@ -114,91 +140,6 @@ public class Node implements Serializable {
 
 	public void setNodeTitle(String nodeTitle) {
 		this.nodeTitle = nodeTitle;
-	}
-
-	public void setAdjacentNodeList(List<Node> adjacentNodeList) {
-		this.adjacentNodeList = adjacentNodeList;
-	}
-
-	public List<Node> getAdjacentNodeList() {
-		return adjacentNodeList;
-	}
-	
-	/*
-	 * filtered by NodeTypeCategory
-	 */
-	public List<Node> getAdjacentNodeListFilteredByCategory(String nodeTypeCategory) {
-		
-		List<Node> adjacentNodeListFilteredByCategory = new ArrayList<Node>();
-		
-		if(nodeTypeCategory.equals("all") || nodeTypeCategory.equals("")) {
-			return this.adjacentNodeList;
-		}else {
-			for(Node adjacentNode : adjacentNodeList) {
-				if(adjacentNode.getNodeTypeCategory().equals(nodeTypeCategory)) {
-					adjacentNodeListFilteredByCategory.add(adjacentNode);
-				}
-			}
-		}
-		return adjacentNodeListFilteredByCategory;
-	}
-
-	/*
-	 * filtered by NodeType
-	 */
-	public List<Node> getAdjacentNodeListFilteredByNodeType(String nodeTypeCategory, String nodeType) {
-		
-		List<Node> adjacentNodeListFilteredByNodeType = new ArrayList<Node>();		
-		
-		if((nodeTypeCategory.equals("all") || nodeTypeCategory.equals(""))) {
-			// category all and nodeType all
-			if(nodeType.equals("all") || nodeType.equals("")) {
-				return this.adjacentNodeList;
-			// category all and specific nodeType
-			}else {
-				for(Node adjacentNode : adjacentNodeList) {
-					if(adjacentNode.getNodeType().equals(nodeType)) {
-						adjacentNodeListFilteredByNodeType.add(adjacentNode);
-					}
-				}
-			}
-		}else {
-			// category specific and nodeType all
-			if(nodeType.equals("all") || nodeType.equals("")) {
-				List<String> nodeTypes = this.configService.getAllNodeTypeNamesByCategory(nodeTypeCategory);
-				
-				for(String nodeTypeName : nodeTypes) {
-					for(Node adjacentNode : adjacentNodeList) {
-						if(adjacentNode.getNodeType().equals(nodeTypeName)) {
-							adjacentNodeListFilteredByNodeType.add(adjacentNode);
-						}
-					}
-				}
-			// category specific and nodeType specific
-			}else {
-				for(Node adjacentNode : adjacentNodeList) {
-					if(adjacentNode.getNodeType().equals(nodeType)) {
-						adjacentNodeListFilteredByNodeType.add(adjacentNode);
-					}
-				}
-			}
-		}
-		
-		return adjacentNodeListFilteredByNodeType;
-	}
-	
-	public List<String> getNodeAdjacencyNamesByCategory(String nodeTypeCategory) {
-		List<String> nodeAdjacencies = new ArrayList<String>();
-		if((nodeTypeCategory.equals("all") || nodeTypeCategory.equals(""))) {
-			for(String nodeTypeCategoryName : this.nodeTypeCategories) {
-				List<String> nodeTypes = this.configService.getAllNodeTypeNamesByCategory(nodeTypeCategoryName);
-				nodeAdjacencies.addAll(nodeTypes);
-			}
-		}else {
-			nodeAdjacencies = this.configService.getAllNodeTypeNamesByCategory(nodeTypeCategory);
-		}
-		
-		return nodeAdjacencies;
 	}
 
 	public String getNodeTypeCategory() {
@@ -235,5 +176,51 @@ public class Node implements Serializable {
 	
 	public void addAttribute(NodeTypeAttribute nodeTypeAttribute) {
 		this.attributeList.add(nodeTypeAttribute);
+	}
+	
+	public int compareByAttribute(Node otherNode, SortAttribute sortAttribute) {
+		
+		if(this == otherNode) {
+			System.out.println("Nodes are equal");
+			return 0;
+		}
+		
+		String attributeName = sortAttribute.getAttributeName();
+		String datatype = sortAttribute.getDatatype();
+		
+		System.out.println("attributeName = " + attributeName);
+		System.out.println("datatype = " + datatype);
+		
+		// the node which contains the attribute will be preferred
+		NodeTypeAttribute thisAttribute = this.getAttributeOfType(attributeName, datatype);
+		NodeTypeAttribute othersAttribute = otherNode.getAttributeOfType(attributeName, datatype);
+		
+		if(thisAttribute == null && othersAttribute != null) {
+			System.out.println("this is null");
+			return 1;
+		}
+		if(thisAttribute == null && othersAttribute == null) {
+			System.out.println("both are null");
+			return 0;
+		}
+		if(thisAttribute != null && othersAttribute == null) {
+			System.out.println("others is null");
+			return -1;
+		}
+		
+		// if both contain attributes of the specified datatype compare
+		if(datatype.equals("String") || datatype.equals("NotesUsername")) {
+			String thisAttrString = thisAttribute.getValue();
+			String othersAttrString = othersAttribute.getValue();
+			return thisAttrString.compareTo(othersAttrString);
+		}
+		if(datatype.equals("Integer")) {
+			int thisAttrInt = thisAttribute.getValue();
+			int othersAttrInt = othersAttribute.getValue();
+			return Double.compare(thisAttrInt, othersAttrInt);
+		}
+		// TODO: implement other datatypes
+		System.out.println("datatype not covered returning 0");
+		return 0;
 	}
 }

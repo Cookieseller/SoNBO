@@ -1,3 +1,11 @@
+label {
+	font-weight: 500;
+}
+
+select.form-control {
+    margin-bottom: 1em;
+}
+
 <!-- app css -->
 
 .sbo-badge {
@@ -7,6 +15,22 @@
 .sbo-main-container {
 	height: 100%;
 	width: 100%;
+}
+
+.sbo-filter-activefilterarea {
+    min-height: 200px;
+    background-color: #FAFAFAFA;
+    border-radius: 4px;
+    margin-bottom: 2em;
+}
+
+.sbo-filter-link {
+	margin-left: 0.3em;
+}
+
+.sbo-heading-4 {
+	font-size: 1.2em;
+	line-height: 2em;
 }
 
 .sbo-keyvaluepair {
@@ -108,4 +132,36 @@
 .sbo-object-preview-container {
 	width: 100%;
 	margin: 10px;
+}
+
+<!-- dojo rangeSlider -->
+.dijitSlider.dojoxRangeSlider .dijitSliderLeftBumper,
+.dijitSlider.dojoxRangeSlider .dijitSliderBottomBumper {
+	background:#FFFFFF;
+}
+.claro .dijitSliderDisabled.dojoxRangeSlider .dijitSliderLeftBumper,
+.claro .dijitSliderDisabled.dojoxRangeSlider .dijitSliderBottomBumper {
+	background:#EFEFEF;
+}
+.dojoxRangeSliderBarContainer {
+	position:relative;
+}
+.dojoxRangeSlider .dijitSliderProgressBarV {
+	position:relative !important;
+}
+.dojoxRangeSlider .dijitSliderProgressBar {
+	overflow:hidden;
+	cursor:pointer;
+	
+}
+.dojoxRangeSlider .dijitSliderProgressBarV {
+	position:absolute !important;
+	border-width: 0px;
+}
+.dojoxRangeSlider .dijitSliderImageHandleH {
+	left: -50%;
+}
+.dijitSlider .dojoxRangeSliderBarContainer .dijitSliderProgressBarH,
+.dojoxRangeSlider .dijitSliderMoveableH {
+	right:auto !important;
 }
