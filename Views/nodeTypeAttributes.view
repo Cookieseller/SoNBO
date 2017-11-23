@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note class='view' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.0'
- replicaid='C12581E0003A7DA5'>
-<noteinfo noteid='496' unid='602C97302BBD1747C125817A007C47F7' sequence='8'>
+ replicaid='C12581E1003AC64B'>
+<noteinfo noteid='496' unid='602C97302BBD1747C125817A007C47F7' sequence='13'>
 <created><datetime dst='true'>20170813T003728,87+02</datetime></created>
-<modified><datetime>20171122T114605,68+01</datetime></modified>
-<revised><datetime>20171122T114605,67+01</datetime></revised>
-<lastaccessed><datetime>20171122T114605,68+01</datetime></lastaccessed>
-<addedtofile><datetime>20171122T113857,24+01</datetime></addedtofile></noteinfo>
+<modified><datetime>20171123T114203,19+01</datetime></modified>
+<revised><datetime>20171122T234729,11+01</datetime></revised>
+<lastaccessed><datetime>20171123T114203,19+01</datetime></lastaccessed>
+<addedtofile><datetime>20171123T114203,19+01</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></updatedby>
 <wassignedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></wassignedby>
 <item name='$FormatNote' summary='true' sign='true'>
