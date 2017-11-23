@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note class='view' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.0'
  replicaid='C12581E0003A66A2'>
-<noteinfo noteid='49a' unid='43213E8DD10D4BDDC12581A3006C56AC' sequence='16'>
+<noteinfo noteid='49a' unid='43213E8DD10D4BDDC12581A3006C56AC' sequence='23'>
 <created><datetime dst='true'>20170922T214320,76+02</datetime></created>
-<modified><datetime>20171123T132001,64+01</datetime></modified>
-<revised><datetime>20171123T132001,63+01</datetime></revised>
-<lastaccessed><datetime>20171123T132001,64+01</datetime></lastaccessed>
+<modified><datetime>20171123T162240,17+01</datetime></modified>
+<revised><datetime>20171123T162240,16+01</datetime></revised>
+<lastaccessed><datetime>20171123T162240,17+01</datetime></lastaccessed>
 <addedtofile><datetime>20171122T113758,17+01</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></updatedby>
 <wassignedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></wassignedby>
@@ -14,7 +14,7 @@
 AQBYjVm4qNTSKouvewCNgSXB
 </rawitemdata></item>
 <item name='$FormulaClass' sign='true'><text>1</text></item>
-<item name='$TITLE' sign='true'><text>nodeTypeAdjacencies</text></item>
+<item name='$TITLE' sign='true'><text>2. Node Types\Adjacencies|nodeTypeAdjacencies</text></item>
 <item name='$Index' sign='true'><text/></item>
 <item name='$Formula' summary='true' sign='true'><formula compiled='true'>
 nAECAM4AAwAkMTcAAQAQAHsAInNvdXJjZU5vZGUiOiIFABMAYWRqYWNlbmN5U291cmNlTm9kZQAi
@@ -58,11 +58,12 @@ AAAAAAAAAAABAP///wABAP///wAAAAEAAAAAAAEAAAAAAAEAAAAAAAAACAAAAAAAAQA=
 </rawitemdata></item>
 <item name='$V5ACTIONS' sign='true'>
 <rawitemdata type='1'>
-vRw/AAAAAQABAAAAAQAAAAAAAAAAAAAACAACAHn/bAABAPDw8AABAAAAAAAJAAAAAAABAPDw8AAA
-AB8AAAAAAAAAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAPz/OgAAAAAAAQAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAEAAAAAAAAAAAAAAAAAAAC+/3AAAAABAB4AnwEAABoAAAAAAAAAQ3JlYXRlIE5vZGUg
-VHlwZSBBZGphY2VuY3lAAAAAMgACAOgDAAAAAAAAAQAAAAEAFwBjb25maWdOb2RlVHlwZUFkamFj
-ZW5jeQDtAwMABwAMAAUACTRTNlMA
+vRwBAAAAAQABAAAAIwAAAAAAAAAAAAAACAACAHn/bAABAP///wABAAAAAAAJAAAAAAABAPDw8AAA
+AB8AAQAAAAAAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAHH/NQAAAAAAAwATABMAAAAAAAAAAAAAAAAAAAAAAAAAAABT
+b05CT19Mb2dvX2ljb24ucG5nP/z/OgAAAAAAAQAAAAAAAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAEAAKAAAAAAAAAAAAAAAAC+/3QAAAABAB4AnwEAAB4AAAAAAAAAQ3JlYXRlIE5ldyBOb2Rl
+IFR5cGUgQWRqYWNlbmN5QAAAADIAAgDoAwAAAAAAAAEAAAABABcAY29uZmlnTm9kZVR5cGVBZGph
+Y2VuY3kA7QMDAAcADAAFAAk0UzZTAA==
 </rawitemdata></item></note>
 

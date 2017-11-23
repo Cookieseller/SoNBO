@@ -1,16 +1,16 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note default='true' class='view' xmlns='http://www.lotus.com/dxl' version='9.0'
  maintenanceversion='1.0' replicaid='C12581E0003A66A2'>
-<noteinfo noteid='48e' unid='F1CAEE7B9E16A27FC12580E300440FE2' sequence='27'>
+<noteinfo noteid='48e' unid='F1CAEE7B9E16A27FC12580E300440FE2' sequence='36'>
 <created><datetime>20170314T132325,14+01</datetime></created>
-<modified><datetime>20171123T133030,89+01</datetime></modified>
-<revised><datetime>20171123T133030,88+01</datetime></revised>
-<lastaccessed><datetime>20171123T133030,89+01</datetime></lastaccessed>
+<modified><datetime>20171123T161227,31+01</datetime></modified>
+<revised><datetime>20171123T161227,30+01</datetime></revised>
+<lastaccessed><datetime>20171123T161227,31+01</datetime></lastaccessed>
 <addedtofile><datetime>20171122T113758,11+01</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></updatedby>
 <wassignedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></wassignedby>
 <item name='$FormulaClass' sign='true'><text>1</text></item>
-<item name='$TITLE' sign='true'><text>nodeTypes</text></item>
+<item name='$TITLE' sign='true'><text>2. Node Types|nodeTypes</text></item>
 <item name='$Index' sign='true'><text/></item>
 <item name='$Formula' summary='true' sign='true'><formula compiled='true'>
 dAECANoACgBvYmplY3RKU09OAQAVAHsACSJub2RlVHlwZU5hbWUiOiAgIgAFAAwAbm9kZVR5cGVO
@@ -45,15 +45,16 @@ AAAAAAAAAAAEAAAAAAD//wAAAAAAAAAAAAAAAAAAQgAQAAAAAQD///8ABQD///8AAQAAAAAAAAAA
 AAAAAAABAP///wABAP///wAAAAEAAAAAAAEAAAAAAAEAAAAAAAAACAAAAAAAAQA=
 </rawitemdata></item>
 <item name='$Comment' sign='true'><text/></item>
+<item name='$Flags'><text/></item>
 <item name='$DesignerVersion'><text>8.5.3</text></item>
 <item name='$V5ACTIONS' sign='true'>
 <rawitemdata type='1'>
-vRw/AAAAAQABAAAAAQAAAAAAAAAAAAAACAACAHn/bAABAPDw8AABAAAAAAAJAAAAAAABAPDw8AAA
-AB8AAAAAAAAAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAPz/OgAAAAAAAQAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAEAAAAAAAAAAAAAAAAAAAC+/1wAAAABAB4AnwEAABAAAAAAAAAAQ3JlYXRlIE5vZGUg
-VHlwZTYAAAAoAAIA6AMAAAAAAAABAAAAAQAOAGNvbmZpZ05vZGVUeXBl7QMDAAcADAAFAAk0UzZT
-AA==
-</rawitemdata></item>
-<item name='$Flags'><text/></item></note>
+vRwBAAAAAQABAAAAIwAAAAAAAAAAAAAACAACAHn/bAABAP///wABAAAAAAAJAAAAAAABAPDw8AAA
+AB8AAQAAAAAAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAHH/NQAAAAAAAwATABMAAAAAAAAAAAAAAAAAAAAAAAAAAABT
+b05CT19Mb2dvX2ljb24ucG5nP/z/OgAAAAAAAQAAAAAAAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAEAAKAAAAAAAAAAAAAAAAC+/2AAAAABAB4AnwEAABQAAAAAAAAAQ3JlYXRlIE5ldyBOb2Rl
+IFR5cGU2AAAAKAACAOgDAAAAAAAAAQAAAAEADgBjb25maWdOb2RlVHlwZe0DAwAHAAwABQAJNFM2
+UwA=
+</rawitemdata></item></note>
 

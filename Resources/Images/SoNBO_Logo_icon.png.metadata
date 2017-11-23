@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.0" replicaid="C12581E0003A66A2" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="1762" sequence="1" unid="6FDC35E463DB2DC8C12581E10052DA13">
+<created><datetime>20171123T160457,79+01</datetime></created>
+<modified><datetime>20171123T160457,96+01</datetime></modified>
+<revised><datetime>20171123T160457,95+01</datetime></revised>
+<lastaccessed><datetime>20171123T160457,96+01</datetime></lastaccessed>
+<addedtofile><datetime>20171123T160457,96+01</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></updatedby>
+<wassignedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></wassignedby>
+<item name="$TITLE"><text>SoNBO_Logo_icon.png</text></item>
+<item name="$Flags"><text>34CiQ</text></item>
+<item name="$FlagsExt"><text>D</text></item>
+<item name="$ImagesWide" sign="true"><number>1</number></item>
+<item name="$ImagesHigh" sign="true"><number>1</number></item>
+<item name="$ImagesColorize" sign="true"><number>0</number></item>
+
+
+<item name="$MimeType" sign="true"><text>image/png</text></item>
+<item name="$FileModDT" sign="true"><datetime>20171123T112616,57+01</datetime></item>
+<item name="$ImageNames" sign="true"><text>SoNBO_Logo_icon.png</text></item>
+<item name="$DesignerVersion"><text>8.5.3</text></item></note>
