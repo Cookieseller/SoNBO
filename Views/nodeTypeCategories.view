@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note class='view' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.0'
- replicaid='C12581E1003AC64B'>
-<noteinfo noteid='492' unid='E1F780E631D96638C1258185003576B3' sequence='14'>
+ replicaid='C12581E0003A66A2'>
+<noteinfo noteid='492' unid='E1F780E631D96638C1258185003576B3' sequence='17'>
 <created><datetime dst='true'>20170823T114357,95+02</datetime></created>
-<modified><datetime>20171123T114203,17+01</datetime></modified>
-<revised><datetime>20171122T234729,07+01</datetime></revised>
-<lastaccessed><datetime>20171123T114203,17+01</datetime></lastaccessed>
-<addedtofile><datetime>20171123T114203,17+01</datetime></addedtofile></noteinfo>
+<modified><datetime>20171123T132028,60+01</datetime></modified>
+<revised><datetime>20171123T132028,59+01</datetime></revised>
+<lastaccessed><datetime>20171123T132028,60+01</datetime></lastaccessed>
+<addedtofile><datetime>20171122T113758,13+01</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></updatedby>
 <wassignedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></wassignedby>
 <item name='$FormatNote' summary='true' sign='true'>
@@ -53,7 +53,7 @@ AFdDAQEACQAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAP//AAAAAAAAAAAAAAAAAABCABAAAAABAP//
 AAAAAAABAA==
 </rawitemdata></item>
 <item name='$Comment' sign='true'><text/></item>
-<item name='$Flags'><text>PY</text></item>
+<item name='$Flags'><text>P</text></item>
 <item name='$DesignerVersion'><text>8.5.3</text></item>
 <item name='$V5ACTIONS' sign='true'>
 <rawitemdata type='1'>
@@ -61,7 +61,7 @@ vRw/AAAAAQABAAAAAQAAAAAAAAAAAAAACAACAHn/bAABAPDw8AABAAAAAAAJAAAAAAABAPDw8AAA
 AB8AAAAAAAAAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAPz/OgAAAAAAAQAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAA
 AAAAAAAAAAEAAAAAAAAAAAAAAAAAAAC+/24AAAABAB4AnwEAABkAAAAAAAAAQ3JlYXRlIE5vZGUg
-VHlwZSBDYXRlZ29yeQI+AAAAMAACAOgDAAAAAAAAAQAAAAEAFgBjb25maWdOb2RlVHlwZUNhdGVn
+VHlwZSBDYXRlZ29yeQA+AAAAMAACAOgDAAAAAAAAAQAAAAEAFgBjb25maWdOb2RlVHlwZUNhdGVn
 b3J57QMDAAcADAAFAAk0UzZTAA==
 </rawitemdata></item></note>
 

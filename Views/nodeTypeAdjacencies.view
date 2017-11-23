@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note class='view' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.0'
- replicaid='C12581E1003AC64B'>
-<noteinfo noteid='49a' unid='43213E8DD10D4BDDC12581A3006C56AC' sequence='13'>
+ replicaid='C12581E0003A66A2'>
+<noteinfo noteid='49a' unid='43213E8DD10D4BDDC12581A3006C56AC' sequence='16'>
 <created><datetime dst='true'>20170922T214320,76+02</datetime></created>
-<modified><datetime>20171123T114203,21+01</datetime></modified>
-<revised><datetime>20171122T234729,15+01</datetime></revised>
-<lastaccessed><datetime>20171123T114203,21+01</datetime></lastaccessed>
-<addedtofile><datetime>20171123T114203,21+01</datetime></addedtofile></noteinfo>
+<modified><datetime>20171123T132001,64+01</datetime></modified>
+<revised><datetime>20171123T132001,63+01</datetime></revised>
+<lastaccessed><datetime>20171123T132001,64+01</datetime></lastaccessed>
+<addedtofile><datetime>20171122T113758,17+01</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></updatedby>
 <wassignedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></wassignedby>
 <item name='$FormatNote' summary='true' sign='true'>
@@ -31,7 +31,7 @@ AA4ACAAJTDFTNFM1Uw==
 MgACAABEgGYAAAALAIBmAAsAEwBhZGphY2VuY3lJZGFkamFjZW5jeVNvdXJjZU5vZGU=
 </rawitemdata></item>
 <item name='$Comment' sign='true'><text/></item>
-<item name='$Flags'><text>PY</text></item>
+<item name='$Flags'><text>P</text></item>
 <item name='$DesignerVersion'><text>8.5.3</text></item>
 <item name='$ViewFormat' sign='true'>
 <rawitemdata type='5'>
