@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='utf-8'?>
+<note class='form' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.0'
+ replicaid='C12581E0003A66A2'>
+<noteinfo noteid='1742' unid='D26BF91348B32EF1C12581E10039C82C' sequence='1'>
+<created><datetime>20171123T113107,96+01</datetime></created>
+<modified><datetime>20171123T113107,99+01</datetime></modified>
+<revised><datetime>20171123T113107,98+01</datetime></revised>
+<lastaccessed><datetime>20171123T113107,99+01</datetime></lastaccessed>
+<addedtofile><datetime>20171123T113107,99+01</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></updatedby>
+<wassignedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></wassignedby>
+<item name='$TITLE'><text>$DBIcon</text></item>
+<item name='$Flags'><text>34Ci~Q</text></item>
+<item name='$ImagesWide' sign='true'><number>1</number></item>
+<item name='$ImagesHigh' sign='true'><number>1</number></item>
+<item name='$ImagesColorize' sign='true'><number>0</number></item>
+<item name='$FileSize' sign='true'><number>2352</number></item>
+<item name='$ImageData' sign='true'>
+<rawitemdata type='1'>
+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
+uzz/H6kk/aumPjmmAAAAAElFTkSuQmCC
+</rawitemdata></item>
+<item name='$MimeType' sign='true'><text>image/png</text></item>
+<item name='$FileModDT' sign='true'><datetime>20171123T112616,57+01</datetime></item>
+<item name='$ImageNames' sign='true'><text>E:\Masterarbeit\Figures\SBO_logo\SoNBO_Logo_icon.png</text></item>
+<item name='$DesignerVersion'><text>8.5.3</text></item></note>
+
