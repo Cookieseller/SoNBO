@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note default='true' class='icon' xmlns='http://www.lotus.com/dxl' version='9.0'
  maintenanceversion='1.0' replicaid='C12581E0003A66A2'>
-<noteinfo noteid='11e' unid='ACD9D4DF86095A53C12581C5006D51F9' sequence='29'>
+<noteinfo noteid='11e' unid='ACD9D4DF86095A53C12581C5006D51F9' sequence='32'>
 <created><datetime dst='true'>20171026T215404,09+02</datetime></created>
-<modified><datetime>20171123T114623,54+01</datetime></modified>
-<revised><datetime>20171123T114623,53+01</datetime></revised>
-<lastaccessed><datetime>20171123T114623,54+01</datetime></lastaccessed>
+<modified><datetime>20171123T174111,20+01</datetime></modified>
+<revised><datetime>20171123T174111,19+01</datetime></revised>
+<lastaccessed><datetime>20171123T174111,20+01</datetime></lastaccessed>
 <addedtofile><datetime>20171122T113753,71+01</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></updatedby>
 <item name='IconBitmap' summary='true'>
@@ -25,6 +25,8 @@ AAAAUEECICABAAD/////+A4DgA==
 </rawitemdata></item>
 <item name='$Daos'><text>0</text></item>
 <item name='$TITLE'><text>SoNBO Explorer</text></item>
+<item name='$DefaultFrameset'><text>Main</text></item>
 <item name='$Flags'><text>J</text></item>
+<item name='$LaunchXPageRunOnServer'><text>0</text></item>
 <item name='$FlagsNoRefresh'><text>rv</text></item></note>
 
