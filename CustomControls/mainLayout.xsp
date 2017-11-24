@@ -11,9 +11,9 @@
 		<xe:this.configuration>
 			<xe:bootstrapResponsiveConfiguration banner="false"
 				collapseLeftColumn="true" fixedNavbar="unfixed-top" footer="false"
-				leftColumnLabel="LeftColumnLabel" placeBar="true"
+				leftColumnLabel="LeftColumnLabel" placeBar="false"
 				placeBarLabel="placeBar" rightColumnLabel="rightColumn"
-				titleBar="true" titleBarLabel="titleBar">
+				titleBar="false" titleBarLabel="titleBar">
 			</xe:bootstrapResponsiveConfiguration>
 		</xe:this.configuration>
 	</xe:applicationLayout></xp:view>
