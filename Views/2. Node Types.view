@@ -1,13 +1,14 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note default='true' class='view' xmlns='http://www.lotus.com/dxl' version='9.0'
  maintenanceversion='1.0' replicaid='C12581E0003A66A2'>
-<noteinfo noteid='48e' unid='F1CAEE7B9E16A27FC12580E300440FE2' sequence='64'>
+<noteinfo noteid='48e' unid='F1CAEE7B9E16A27FC12580E300440FE2' sequence='66'>
 <created><datetime>20170314T132325,14+01</datetime></created>
-<modified><datetime>20171124T000713,78+01</datetime></modified>
-<revised><datetime>20171124T000713,77+01</datetime></revised>
-<lastaccessed><datetime>20171124T000713,78+01</datetime></lastaccessed>
+<modified><datetime>20171124T151354,25+01</datetime></modified>
+<revised><datetime>20171124T151354,24+01</datetime></revised>
+<lastaccessed><datetime>20171124T151354,25+01</datetime></lastaccessed>
 <addedtofile><datetime>20171122T113758,11+01</datetime></addedtofile></noteinfo>
-<updatedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></updatedby>
+<updatedby><name>CN=Flemming Goetz/O=uniko/C=DE</name><name>CN=Flemming Goetz/O=uniko/C=de</name><name
+>CN=Flemming Goetz/O=uniko/C=DE</name></updatedby>
 <wassignedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></wassignedby>
 <item name='$FormulaClass' sign='true'><text>1</text></item>
 <item name='$TITLE' sign='true'><text>2. Node Types|nodeTypes</text></item>

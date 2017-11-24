@@ -3,9 +3,7 @@
 	<xe:applicationLayout id="applicationLayout1">
 		<xp:callback facetName="facetMiddle" id="facetMiddle"></xp:callback>
 		<xe:this.facets>
-			<xp:callback facetName="facetRight" id="facetRight"
-				xp:key="RightColumn">
-			</xp:callback>
+
 			<xp:callback facetName="facetLeft" id="facetLeft"
 				xp:key="LeftColumn">
 			</xp:callback>
