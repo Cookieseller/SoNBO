@@ -231,8 +231,8 @@ public class QueryService implements Serializable {
 		
 		// TODO: queryType was added and has to be processed (e.g. "IBM Domino") 
 		String queryCommand = queryObject.getCommand();
-		String queryServer = queryObject.getServer();
-		String queryDatabase = queryObject.getDatabase();
+		//String queryServer = queryObject.getServer();
+		//String queryDatabase = queryObject.getDatabase();
 		String queryView = queryObject.getView();
 		// TODO process multiple values (return type is List<String>)
 		String queryKey = queryObject.getKey().toString();
@@ -246,7 +246,7 @@ public class QueryService implements Serializable {
 		ArrayList<String> queryResults = new ArrayList<String>();
 		try {
 			// return values by key
-			queryResults = Utils.Dblookup(queryServer, queryDatabase, queryView, queryKey, queryFieldname);
+			queryResults = Utils.Dblookup(hostname, database, queryView, queryKey, queryFieldname);
 			
 		} catch (NotesException e) {
 			// TODO Auto-generated catch block
