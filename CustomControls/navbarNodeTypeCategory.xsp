@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xp:view xmlns:xp="http://www.ibm.com/xsp/core"
 	xmlns:xe="http://www.ibm.com/xsp/coreex">
-	<xe:navbar id="navbarPeers" headingText="Category">
+	<xe:navbar id="navbarPeers">
 		<xp:repeat id="repeat1" var="peer">
 			<xp:this.value><![CDATA[${javascript: var adjacentNodeTypeCategories = soNBOManager.businessObject.getNodeTypeCategories(); adjacentNodeTypeCategories.unshift("all"); return adjacentNodeTypeCategories;}]]></xp:this.value>
 			<xp:panel styleClass="sbo-navbar-link-wrapper">

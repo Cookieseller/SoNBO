@@ -5,7 +5,7 @@
 		<![CDATA[#{javascript: 
 		viewScope.put("nodeType", "all");
 		viewScope.put("nodeTypeCategory", "all");
-		var nodeIdSet = param.get('id')==null ? false : true; if(nodeIdSet) {soNBOManager.init();}}]]>
+		var nodeIdSet = param.get('id')==null ? false : true; if(nodeIdSet) {soNBOManager.init(); soNBOSession.addChronicEntry(soNBOManager.businessObject.getNodeTitle(), soNBOManager.businessObject.getId());}}]]>
 	</xp:this.beforePageLoad>
 	<xp:this.resources>
 		<xp:styleSheet href="/main.css" />
@@ -14,6 +14,7 @@
 	<xc:mainLayout loaded="${javascript:nodeIdSet}">
 		<xp:this.facets>
 			<xp:panel xp:key="facetLeft" id="filter">
+				<xc:chronic />
 				<xc:sort />
 				<xc:filter />
 			</xp:panel>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core">
+	<xp:panel styleClass="sbo-chronic-container">
+		<h4>
+			<xp:label value="Path" id="label5"></xp:label>
+		</h4>
+		<div>
+			<xp:repeat id="chronicRepeat" var="chronicEntry" value="#{javascript: soNBOSession.getChronicEntries(5);}">
+				<xp:panel id="chronicEntriesContainer" styleClass="sbo-text-center">
+					<xp:link escape="true"
+						styleClass="#{javascript:soNBOManager.businessObject.getId() == chronicEntry.get(1) ? 'sbo-link-not-active' : '';}"
+						text="#{javascript: var entry = chronicEntry.get(0); var cur = soNBOManager.businessObject.getId() == chronicEntry.get(1) ? ' (Current)' : ''; return entry + cur;}"
+						value="#{javascript: return 'main.xsp?id=' + chronicEntry.get(1)}"
+						id="chronicLink" />
+					<div>
+						<xp:label id="chronicEntrySeparator" value="|" />
+					</div>
+				</xp:panel>
+			</xp:repeat>
+			<xp:panel styleClass="sbo-text-center">
+				<xp:button value="Back to me" id="buttonBackToMe"
+					disabled="#{javascript:soNBOManager.businessObject.getId() == 'schubert@uni-koblenz.de'}">
+				<xp:eventHandler event="onclick" submit="true"
+					refreshMode="complete">
+					<xp:this.action><![CDATA[#{javascript:context.redirectToPage('main.xsp?id=' + 'schubert@uni-koblenz.de');}]]></xp:this.action>
+				</xp:eventHandler></xp:button>
+			</xp:panel>
+		</div>
+	</xp:panel>
+</xp:view>

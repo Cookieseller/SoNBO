@@ -12,6 +12,10 @@ select.form-control {
 	margin-right: 2px;
 }
 
+.sbo-chronic-container {
+	height: 28em;
+}
+
 .sbo-main-container {
 	height: 100%;
 	width: 100%;
@@ -35,6 +39,12 @@ select.form-control {
 
 .sbo-keyvaluepair {
 	display: block;
+}
+
+.sbo-link-not-active {
+   pointer-events: none;
+   cursor: default;
+   color: #000000;
 }
 
 .sbo-object-card {
@@ -117,12 +127,13 @@ select.form-control {
 }
 
 .sbo-object-img {
-	width: 100%
+	max-width: 100%;
+	max-height: 100%;
 }
 
 .sbo-object-img-container {
 	display: inline-block;
-	width: 29%;
+	height: 24.3em;
 }
 
 .sbo-object-name {
@@ -132,6 +143,10 @@ select.form-control {
 .sbo-object-preview-container {
 	width: 100%;
 	margin: 10px;
+}
+
+.sbo-text-center {
+	text-align: center;
 }
 
 <!-- dojo rangeSlider -->
