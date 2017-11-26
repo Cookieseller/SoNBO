@@ -1,38 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xp:view xmlns:xp="http://www.ibm.com/xsp/core"
-	xmlns:xc="http://www.ibm.com/xsp/custom" dojoParseOnLoad="true" dojoTheme="true">
+	xmlns:xc="http://www.ibm.com/xsp/custom" dojoParseOnLoad="true"
+	dojoTheme="true">
 	<xp:this.beforePageLoad>
 		<![CDATA[#{javascript: 
 		viewScope.put("nodeType", "all");
 		viewScope.put("nodeTypeCategory", "all");
-		var nodeIdSet = param.get('id')==null ? false : true; if(nodeIdSet) {soNBOManager.init(); soNBOSession.addChronicEntry(soNBOManager.businessObject.getNodeTitle(), soNBOManager.businessObject.getId());}}]]>
+		var nodeIdSet = param.get('id')==null ? false : true; if(nodeIdSet) {soNBOManager.init(context.getLocale()); soNBOSession.addChronicEntry(soNBOManager.businessObject.getNodeTitle(), soNBOManager.businessObject.getId());}}]]>
 	</xp:this.beforePageLoad>
 	<xp:this.resources>
 		<xp:styleSheet href="/main.css" />
 	</xp:this.resources>
 	<xp:panel id="page">
-	<xc:mainLayout loaded="${javascript:nodeIdSet}">
-		<xp:this.facets>
-			<xp:panel xp:key="facetLeft" id="filter">
-				<xc:chronic />
-				<xc:sort />
-				<xc:filter />
-			</xp:panel>
-			<xp:panel xp:key="facetMiddle" id="content">
-				<xc:node />
-				<xc:navbarNodeTypeCategory />
-				<xc:navbarNodeType />
-				<xc:resultList />
-			</xp:panel>
-			<xp:label value="Stream area" id="label4"
-				xp:key="facetRight">
-			</xp:label>
-		</xp:this.facets>
-	</xc:mainLayout>
-	<xp:label id="label3" loaded="${javascript:!nodeIdSet}">
-		<xp:this.value>
-			Page not loaded - missing id parameter in URL
-		</xp:this.value>
-	</xp:label>
+		<xc:mainLayout loaded="${javascript:nodeIdSet}">
+			<xp:this.facets>
+				<xp:panel xp:key="facetLeft" id="filter">
+					<xc:chronic />
+					<xc:sort />
+					<xc:filter />
+				</xp:panel>
+				<xp:panel xp:key="facetMiddle" id="content">
+					<xc:node />
+					<xc:navbarNodeTypeCategory />
+					<xc:navbarNodeType />
+					<xc:resultList />
+				</xp:panel>
+				<xp:label value="Stream area" id="label4"
+					xp:key="facetRight">
+				</xp:label>
+			</xp:this.facets>
+		</xc:mainLayout>
+		<xp:label id="label3" loaded="${javascript:!nodeIdSet}">
+			<xp:this.value>
+				Page not loaded - missing id parameter in URL
+			</xp:this.value>
+		</xp:label>
 	</xp:panel>
 </xp:view>

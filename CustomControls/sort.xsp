@@ -15,17 +15,17 @@
 		</xp:dataContext>
 	</xp:this.dataContexts>
 	<h4>
-		<xp:label value="Sort" id="sortHeadline"></xp:label>
+		<xp:label value="#{javascript:soNBOManager.getTranslationBundle()['sort']}" id="sortHeadline"></xp:label>
 	</h4>
 	<div>
 		<xp:radioGroup id="sortType" defaultValue="true">
-			<xp:selectItem itemLabel="Ascending" itemValue="true"></xp:selectItem>
-			<xp:selectItem itemLabel="Descending" itemValue="false">
+			<xp:selectItem itemLabel="#{javascript:soNBOManager.getTranslationBundle()['ascending']}" itemValue="true"></xp:selectItem>
+			<xp:selectItem itemLabel="#{javascript:soNBOManager.getTranslationBundle()['descending']}" itemValue="false">
 			</xp:selectItem>
 		</xp:radioGroup>
 	</div>
 	<xp:panel id="cbKeysSortContainer">
-		<xp:label value="Sort criterion:" id="comboBoxKeyHeadline" for="cbKeysSort" /> 
+		<xp:label value="#{javascript:soNBOManager.getTranslationBundle()['sort_criterion']}" id="comboBoxKeyHeadline" for="cbKeysSort" /> 
 		<xp:comboBox id="cbKeysSort">
 			<xp:selectItems>
 				<xp:this.value><![CDATA[#{javascript:adjacentNodeKeyItemsSort}]]></xp:this.value>
@@ -33,7 +33,7 @@
 		</xp:comboBox>
 	</xp:panel>
 	<div>
-		<xp:button id="apply_sorting" value="Apply">
+		<xp:button id="apply_sorting" value="#{javascript:soNBOManager.getTranslationBundle()['apply']}">
 			<xp:eventHandler event="onclick" submit="true"
 				refreshMode="partial" refreshId="page">
 				<xp:this.action><![CDATA[#{javascript:// get control values

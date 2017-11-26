@@ -7,7 +7,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.Vector;
 import java.util.Map.Entry;
@@ -22,6 +24,7 @@ import uniko.iwvi.fgbas.magoetz.sbo.objects.NodeTypeCategory;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.SortAttribute;
 import uniko.iwvi.fgbas.magoetz.sbo.services.ConfigService;
 import uniko.iwvi.fgbas.magoetz.sbo.services.NodeService;
+import uniko.iwvi.fgbas.magoetz.sbo.util.Texts;
 import uniko.iwvi.fgbas.magoetz.sbo.util.Utilities;
 
 /**
@@ -52,10 +55,14 @@ public class SoNBOManager implements Serializable {
 	
 	private NodeService nodeService = new NodeService();
 	
-	public void init(){
+	private Texts texts;
+	
+	public void init(Locale locale){
 		System.out.println("NEW REQUEST FOR BUSINESS OBJECT");
 		System.out.println("===============================");
 
+		// initialize translation
+		this.texts = new Texts(locale);
 		// if parameter nodeTypeCategoryName was not set get all 
 		if(this.nodeTypeCategoryName == null) {
 			this.nodeTypeCategoryName = "all";
@@ -311,5 +318,9 @@ public class SoNBOManager implements Serializable {
 			filteredAndSortedList = this.getSortedNodeList(filteredAndSortedList, this.sortAttribute);
 		}
 		return filteredAndSortedList;
+	}
+	
+	public ResourceBundle getTranslationBundle() {
+		return texts.getBundle();
 	}
 }

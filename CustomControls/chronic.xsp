@@ -2,7 +2,7 @@
 <xp:view xmlns:xp="http://www.ibm.com/xsp/core">
 	<xp:panel styleClass="sbo-chronic-container">
 		<h4>
-			<xp:label value="Path" id="label5"></xp:label>
+			<xp:label value="#{javascript:soNBOManager.getTranslationBundle()['path']}" id="label5"></xp:label>
 		</h4>
 		<div>
 			<xp:repeat id="chronicRepeat" var="chronicEntry" value="#{javascript: soNBOSession.getChronicEntries(5);}">
@@ -18,7 +18,7 @@
 				</xp:panel>
 			</xp:repeat>
 			<xp:panel styleClass="sbo-text-center">
-				<xp:button value="Back to me" id="buttonBackToMe"
+				<xp:button value="#{javascript:soNBOManager.getTranslationBundle()['button-back_to_me']}" id="buttonBackToMe"
 					disabled="#{javascript:soNBOManager.businessObject.getId() == 'schubert@uni-koblenz.de'}">
 				<xp:eventHandler event="onclick" submit="true"
 					refreshMode="complete">
