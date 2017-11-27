@@ -1,30 +1,29 @@
 function getSortedStringList(unsortedStringList) {
 	var vectorList:java.util.List = new java.util.ArrayList();
+	var locale = context.getLocale().getLanguage();
+	if(locale.equals("de")) {
+		var returnField = "translationGerman";
+	}else if(locale.contains("en")) {
+		var returnField = "translationEnglish";
+	}
 	for(string in unsortedStringList) {
-		var vItem:java.util.Vector = new java.util.Vector();
-		vItem.add(string);
-		if(context.getLocale().getLanguage().equals("de")) {
-			var lookupResult = @DbLookup("", "translations", string, 2);
-			var result = (typeof lookupResult == "string") ? lookupResult : string;
-			result = result == "" ? string : result;
-			vItem.add(result);
-		}else {
-			vItem.add(string);
-		}
+		var vItem = getTranslatedVector(string);
 		vectorList.add(vItem);
-	} 
-	var allString = "all";
-	var vItemAll:java.util.Vector = new java.util.Vector();
-	vItemAll.add(allString);
-	if(context.getLocale().getLanguage().equals("de")) {
-			var lookupResult = @DbLookup("", "translations", allString, 2);
-			var result = (typeof lookupResult == "string") ? lookupResult : allString;
-			allString = result == "" ? allString : lookupResult;
-			vItemAll.add(allString);
-	}else {
-		vItemAll.add(allString);
 	}
 	var sortedList = soNBOManager.sortVectorList(vectorList, 1);
+	var vItemAll = getTranslatedVector("all");
 	sortedList.unshift(vItemAll); 
 	return sortedList;
+}
+
+function getTranslatedVector(string) {
+	var vItem:java.util.Vector = new java.util.Vector();
+	vItem.add(string);
+	var lookupResult = "";
+	if(locale.equals("de") || locale.contains("en")) {
+		lookupResult = @DbLookup("", "translations", string, returnField);
+	}
+	var result = (typeof lookupResult == "string" && lookupResult != "") ? lookupResult : string;
+	vItem.add(result)
+	return vItem;
 }

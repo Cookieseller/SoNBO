@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note class='view' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.0'
  replicaid='C12581E0003A66A2'>
-<noteinfo noteid='17d6' unid='67FAF73D81FAB09AC12581E4006F4D0F' sequence='10'>
+<noteinfo noteid='17d6' unid='67FAF73D81FAB09AC12581E4006F4D0F' sequence='12'>
 <created><datetime>20171126T211542,23+01</datetime></created>
-<modified><datetime>20171127T173053,34+01</datetime></modified>
-<revised><datetime>20171127T173053,33+01</datetime></revised>
-<lastaccessed><datetime>20171127T173053,34+01</datetime></lastaccessed>
+<modified><datetime>20171127T201305,39+01</datetime></modified>
+<revised><datetime>20171127T201305,38+01</datetime></revised>
+<lastaccessed><datetime>20171127T201305,39+01</datetime></lastaccessed>
 <addedtofile><datetime>20171126T211542,29+01</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></updatedby>
 <wassignedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></wassignedby>
@@ -17,9 +17,9 @@ AQB/ohaee+7K8eIPRADjgCXB
 <item name='$TITLE' sign='true'><text>5. Translations|translations</text></item>
 <item name='$Index' sign='true'><text/></item>
 <item name='$Formula' summary='true' sign='true'><formula compiled='true'>
-egAFADwAOAAEAA4AEQAJAAQAdHJhbnNsYXRpb25LZXl0cmFuc2xhdGlvbkdlcm1hbiRDb25mbGlj
-dCRSRUYEAAQAAAAqAAUABABGb3JtAQARAGNvbmZpZ1RyYW5zbGF0aW9uAAoCBAAEAAMABwAOAAgA
-CUwxUzRTNVM=
+jgAFAFAATAAFAA4AEQASAAkABAB0cmFuc2xhdGlvbktleXRyYW5zbGF0aW9uR2VybWFudHJhbnNs
+YXRpb25FbmdsaXNoJENvbmZsaWN0JFJFRgQABAAAACoABQAEAEZvcm0BABEAY29uZmlnVHJhbnNs
+YXRpb24ACgIEAAQAAwAHAA4ACAAJTDFTNFM1Uw==
 </formula></item>
 <item name='$Collation' summary='true'>
 <rawitemdata type='2'>
@@ -27,12 +27,14 @@ GwABAABEgGYAAAAOAHRyYW5zbGF0aW9uS2V5
 </rawitemdata></item>
 <item name='$ViewFormat' summary='true' sign='true'>
 <rawitemdata type='5'>
-AQACAA0AiAABAFZDAQAOAA4AAAAAAIIAAQAACgAAAAAAAAAAAAICAAAAVkMAABEACwAAAAAAkQAB
-AAAKAAAAAAAAAAAAAgIAAAB0cmFuc2xhdGlvbktleXRyYW5zbGF0aW9uS2V5dHJhbnNsYXRpb25H
-ZXJtYW50cmFuc2xhdGlvbiYAAQAAAAEBAAkBAAAKAQEOCgAANACtKwEAAQABAAAAAAAAAAAAV0MB
-AQAJAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAA//8AAAAAAAAAAAAAAAAAAFdDAQEACQAAAAAAAAAA
-AAAAAAAAAAAAAAQAAAAAAP//AAAAAAAAAAAAAAAAAABCABAAAAABAP///wABAH//fwABAAAAAAAA
-AAAAAAAAAAEAAAAAAAEA////AAAAAQAAAAAAAQAAAAAAAQAAAAAAAAAIAAAAAAABAA==
+AQADAA4AiAABAFZDAQAOAA4AAAAAAIIAAQAACgAAAAAAAAAAAAICAAAAVkMAABEAEQAAAAAAkQAB
+AAAKAAAAAAAAAAAAAgIAAABWQwAAEgASAAAAAAB2AAEAAAoAAAAAAAAAAAACAgAAAHRyYW5zbGF0
+aW9uS2V5dHJhbnNsYXRpb25LZXl0cmFuc2xhdGlvbkdlcm1hbnRyYW5zbGF0aW9uR2VybWFudHJh
+bnNsYXRpb25FbmdsaXNodHJhbnNsYXRpb25FbmdsaXNoJgABAAAAAQEACQEAAAoBAQ4KAAA0AK0r
+AQABAAEAAAAAAAAAAABXQwEBAAkAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAD//wAAAAAAAAAAAAAA
+AAAAV0MBAQAJAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAA//8AAAAAAAAAAAAAAAAAAFdDAQEACQAA
+AAAAAAAAAAAAAAAAAAAAAAQAAAAAAP//AAAAAAAAAAAAAAAAAABCABAAAAABAP///wABAH//fwAB
+AAAAAAAAAAAAAAAAAAEAAAAAAAEA////AAAAAQAAAAAAAQAAAAAAAQAAAAAAAAAIAAAAAAABAA==
 </rawitemdata></item>
 <item name='$Comment' sign='true'><text/></item>
 <item name='$Flags'><text>PY</text></item>

@@ -9,6 +9,8 @@ public class NodeType {
 	
 	private String nodeTypeNameDE;
 	
+	private String nodeTypeNameEN;
+	
 	private String nodeTypeId;
 	
 	private String nodeTypeTitle;
@@ -37,6 +39,14 @@ public class NodeType {
 
 	public String getNodeTypeNameDE() {
 		return nodeTypeNameDE;
+	}
+
+	public void setNodeTypeNameEN(String nodeTypeNameEN) {
+		this.nodeTypeNameEN = nodeTypeNameEN;
+	}
+
+	public String getNodeTypeNameEN() {
+		return nodeTypeNameEN;
 	}
 
 	public void setNodeTypeId(String nodeTypeId) {

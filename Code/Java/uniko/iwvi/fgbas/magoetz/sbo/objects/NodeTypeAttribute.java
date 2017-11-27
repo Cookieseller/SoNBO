@@ -20,6 +20,8 @@ public class NodeTypeAttribute implements Serializable {
 	
 	private String nameDE;
 	
+	private String nameEN;
+	
 	private String datasource;
 	
 	private String query;
@@ -44,10 +46,10 @@ public class NodeTypeAttribute implements Serializable {
 	}
 	
 	public String getName(Locale locale) {
-		System.out.println("Language EQUALS: " + locale.getLanguage());
-		System.out.println("nameDE: " + this.nameDE);
 		if(locale.getLanguage().equals("de") && (!"".equals(this.nameDE))) {
 			return nameDE;
+		}else if(locale.getLanguage().contains("en") && (!"".equals(this.nameEN))) {
+			return nameEN;
 		}else {
 			return name;
 		}
@@ -65,6 +67,14 @@ public class NodeTypeAttribute implements Serializable {
 		return nameDE;
 	}
 	
+	public void setNameEN(String nameEN) {
+		this.nameEN = nameEN;
+	}
+
+	public String getNameEN() {
+		return nameEN;
+	}
+
 	public String getTranslatedName(Locale locale) {
 		if(locale.getLanguage().equals("de") && !"".equals(this.nameDE)) {
 			return this.nameDE;
