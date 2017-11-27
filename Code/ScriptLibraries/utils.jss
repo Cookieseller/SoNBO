@@ -4,8 +4,9 @@ function getSortedStringList(unsortedStringList) {
 		var vItem:java.util.Vector = new java.util.Vector();
 		vItem.add(string);
 		if(context.getLocale().getLanguage().equals("de")) {
-			var lookupResult = @DbLookup("", "translations", string, "translationGerman");
-			result = (typeof lookupResult == "string") ? lookupResult : string;
+			var lookupResult = @DbLookup("", "translations", string, 2);
+			var result = (typeof lookupResult == "string") ? lookupResult : string;
+			result = result == "" ? string : result;
 			vItem.add(result);
 		}else {
 			vItem.add(string);
@@ -16,13 +17,14 @@ function getSortedStringList(unsortedStringList) {
 	var vItemAll:java.util.Vector = new java.util.Vector();
 	vItemAll.add(allString);
 	if(context.getLocale().getLanguage().equals("de")) {
-			var lookupResult = @DbLookup("", "translations", allString, "translationGerman");
-			allString = (typeof lookupResult == "string") ? lookupResult : allString;
+			var lookupResult = @DbLookup("", "translations", allString, 2);
+			var result = (typeof lookupResult == "string") ? lookupResult : allString;
+			allString = result == "" ? allString : lookupResult;
 			vItemAll.add(allString);
 	}else {
 		vItemAll.add(allString);
 	}
-	vectorList.unshift(vItemAll); 
 	var sortedList = soNBOManager.sortVectorList(vectorList, 1);
+	sortedList.unshift(vItemAll); 
 	return sortedList;
 }

@@ -66,7 +66,7 @@ public class NodeTypeAttribute implements Serializable {
 	}
 	
 	public String getTranslatedName(Locale locale) {
-		if(locale.getLanguage().equals("de")) {
+		if(locale.getLanguage().equals("de") && !"".equals(this.nameDE)) {
 			return this.nameDE;
 		}else {
 			return this.name;

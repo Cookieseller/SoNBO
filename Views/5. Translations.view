@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note class='view' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.0'
  replicaid='C12581E0003A66A2'>
-<noteinfo noteid='17d6' unid='67FAF73D81FAB09AC12581E4006F4D0F' sequence='9'>
+<noteinfo noteid='17d6' unid='67FAF73D81FAB09AC12581E4006F4D0F' sequence='10'>
 <created><datetime>20171126T211542,23+01</datetime></created>
-<modified><datetime>20171126T212259,36+01</datetime></modified>
-<revised><datetime>20171126T212259,35+01</datetime></revised>
-<lastaccessed><datetime>20171126T212259,36+01</datetime></lastaccessed>
+<modified><datetime>20171127T173053,34+01</datetime></modified>
+<revised><datetime>20171127T173053,33+01</datetime></revised>
+<lastaccessed><datetime>20171127T173053,34+01</datetime></lastaccessed>
 <addedtofile><datetime>20171126T211542,29+01</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></updatedby>
 <wassignedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></wassignedby>
@@ -27,12 +27,12 @@ GwABAABEgGYAAAAOAHRyYW5zbGF0aW9uS2V5
 </rawitemdata></item>
 <item name='$ViewFormat' summary='true' sign='true'>
 <rawitemdata type='5'>
-AQACAA0AiAABAFZDAQAOAA4AAAAAAIIAAQAACgAAAAAAAAAAAAICAAAAVkMAABEAEQAAAAAAkQAB
+AQACAA0AiAABAFZDAQAOAA4AAAAAAIIAAQAACgAAAAAAAAAAAAICAAAAVkMAABEACwAAAAAAkQAB
 AAAKAAAAAAAAAAAAAgIAAAB0cmFuc2xhdGlvbktleXRyYW5zbGF0aW9uS2V5dHJhbnNsYXRpb25H
-ZXJtYW50cmFuc2xhdGlvbkdlcm1hbiYAAQAAAAEBAAkBAAAKAQEOCgAANACtKwEAAQABAAAAAAAA
-AAAAV0MBAQAJAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAA//8AAAAAAAAAAAAAAAAAAFdDAQEACQAA
-AAAAAAAAAAAAAAAAAAAAAAQAAAAAAP//AAAAAAAAAAAAAAAAAABCABAAAAABAP///wABAH//fwAB
-AAAAAAAAAAAAAAAAAAEAAAAAAAEA////AAAAAQAAAAAAAQAAAAAAAQAAAAAAAAAIAAAAAAABAA==
+ZXJtYW50cmFuc2xhdGlvbiYAAQAAAAEBAAkBAAAKAQEOCgAANACtKwEAAQABAAAAAAAAAAAAV0MB
+AQAJAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAA//8AAAAAAAAAAAAAAAAAAFdDAQEACQAAAAAAAAAA
+AAAAAAAAAAAAAAQAAAAAAP//AAAAAAAAAAAAAAAAAABCABAAAAABAP///wABAH//fwABAAAAAAAA
+AAAAAAAAAAEAAAAAAAEA////AAAAAQAAAAAAAQAAAAAAAQAAAAAAAAAIAAAAAAABAA==
 </rawitemdata></item>
 <item name='$Comment' sign='true'><text/></item>
 <item name='$Flags'><text>PY</text></item>
