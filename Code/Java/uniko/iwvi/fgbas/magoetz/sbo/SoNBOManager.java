@@ -74,7 +74,7 @@ public class SoNBOManager implements Serializable {
 		
 		// get business object
 		this.businessObject = this.nodeService.getNode(objectId, false);
-		this.loadAdjacentNodes(this.businessObject);
+		this.loadAdjacentNodes(this.businessObject, locale);
 		
 		// TODO: execute tests if necessary
 		Test test = new Test();
@@ -83,7 +83,7 @@ public class SoNBOManager implements Serializable {
 	
 	List<Node> adjacentNodeCategoryList = new ArrayList<Node>();
 
-	private void loadAdjacentNodes(Node node) {
+	private void loadAdjacentNodes(Node node, Locale locale) {
 		List<String> nodeTypeCategoryNames = configService.getAllNodeTypeCategoryNames();
 		for(String adjacentNodeTypeCategory : nodeTypeCategoryNames) {
 			List<Node> objects = nodeService.getAdjacentNodes(node, adjacentNodeTypeCategory);

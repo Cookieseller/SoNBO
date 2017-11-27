@@ -9,14 +9,16 @@
 					<xp:image styleClass="sbo-object-img" url="#{javascript: return '/' + adjacentNode.getNodeImage();}" id="image1"></xp:image>
 				</xp:panel>
 				<xp:panel styleClass="sbo-object-card-fields-container">
-					<xp:repeat id="repeat5" var="field1">
-						<xp:this.value>
-							<!-- Change to preview attribute list getPreviewAttribteList() -->
-							<![CDATA[#{javascript:var map:java.util.HashMap = adjacentNode.getAttributeListForPreview(); return map.entrySet();}]]>
-						</xp:this.value>
+					<xp:repeat id="repeat5" var="field1"
+						value="#{javascript:var map:java.util.HashMap = adjacentNode.getAttributeListForPreview(context.getLocale()); return map.entrySet();}">
+
 						<div class="sbo-keyvaluepair">
-							<xp:label value="#{javascript:field1.getKey() + ': '}" id="label1"></xp:label>
-							<xp:label value="#{javascript:field1.getValue()}" id="label2"></xp:label>
+							<xp:label
+								value="#{javascript:field1.getKey() + ': '}" id="label1">
+							</xp:label>
+							<xp:label
+								value="#{javascript:field1.getValue()}" id="label2">
+							</xp:label>
 						</div>
 					</xp:repeat>
 				</xp:panel>

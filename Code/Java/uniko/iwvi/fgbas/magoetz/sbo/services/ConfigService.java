@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 import lotus.domino.Document;
@@ -53,6 +54,14 @@ public class ConfigService implements Serializable {
 		return queryService.getColumnValues("nodeTypeCategories", 0);
 	} 
 	
+	public List<String> getAllNodeTypeCategoryNames(Locale locale) {
+		if(locale.getLanguage().equals("de")) {
+			return queryService.getColumnValues("nodeTypeCategories", 1);
+		}else {
+			return queryService.getColumnValues("nodeTypeCategories", 0);
+		}
+	} 
+	
 	public ArrayList<String> getAllNodeTypeNamesByCategory(String nodeTypeCategoryName) {
 		ArrayList<String> adjacentNodeTypes = new ArrayList<String>();
 		String queryStringNodeTypes = "FIELD nodeTypeCategory = " + nodeTypeCategoryName;
@@ -62,7 +71,6 @@ public class ConfigService implements Serializable {
 				for(int i=1; i<=resultCollectionNodeTypes.getCount(); i++) {
 					Document doc = resultCollectionNodeTypes.getNthDocument(i);
 					String nodeType = doc.getItemValueString("nodeTypeName");
-							System.out.println("childObjectName: " + nodeType);
 					adjacentNodeTypes.add(nodeType);
 				}
 			}else {

@@ -46,11 +46,11 @@ if(list.size() > 0) {
 		<xp:dojoModule name="dojox.form.RangeSlider"></xp:dojoModule>
 	</xp:this.resources>
 	<h4>
-		<xp:label value="Filter" id="label5"></xp:label>
+		<xp:label value="#{javascript:soNBOManager.getTranslationBundle()['filter']}" id="label5"></xp:label>
 	</h4>
 	<xp:panel id="activefilters">
 		<div>
-			<xp:label value="Active filters" id="label1"
+			<xp:label value="#{javascript:soNBOManager.getTranslationBundle()['filters_active']}" id="label1"
 				styleClass="sbo-heading-4">
 			</xp:label>
 		</div>
@@ -65,7 +65,7 @@ if(list.size() > 0) {
 								value="#{javascript:filter.getValue()}" id="label6">
 							</xp:label>
 							<xp:link escape="true" id="rmFilter"
-								text="x" value="#" title="remove filter"
+								text="x" value="#" title="#{javascript:soNBOManager.getTranslationBundle()['filter_remove']}"
 								styleClass="sbo-filter-link">
 								<xp:this.attrs>
 									<xp:attr name="id"
@@ -89,19 +89,19 @@ soNBOManager.removeFilter(attr.getValue());												}]]>
 	</xp:panel>
 	<xp:panel id="addfilter">
 		<div>
-			<xp:label value="Add filter" id="label2"
+			<xp:label value="#{javascript:soNBOManager.getTranslationBundle()['filter_add']}" id="label2"
 				styleClass="sbo-heading-4">
 			</xp:label>
 		</div>
 		<div>
 			<xp:radioGroup id="filterType" defaultValue="true">
-				<xp:selectItem itemLabel="Contains" itemValue="true"></xp:selectItem>
-				<xp:selectItem itemLabel="Does not contain"
+				<xp:selectItem itemLabel="#{javascript:soNBOManager.getTranslationBundle()['contains']}" itemValue="true"></xp:selectItem>
+				<xp:selectItem itemLabel="#{javascript:soNBOManager.getTranslationBundle()['contains_not']}"
 					itemValue="false">
 				</xp:selectItem>
 			</xp:radioGroup>
 		</div>
-		<xp:label value="Attribute keys:" id="label3" for="comboBoxKeys" />
+		<xp:label value="#{javascript:soNBOManager.getTranslationBundle()['attribute_keys']}" id="label3" for="comboBoxKeys" />
 		<xp:comboBox id="comboBoxKeys">
 			<xp:selectItems id="comboBoxKeysValue">
 				<xp:this.value><![CDATA[#{javascript:adjacentNodeKeyItemsSorted}]]></xp:this.value>
@@ -110,7 +110,7 @@ soNBOManager.removeFilter(attr.getValue());												}]]>
 				refreshMode="partial" refreshId="listBoxValues">
 			</xp:eventHandler>
 		</xp:comboBox>
-		<xp:label value="Attribute values (optional):" id="label4"
+		<xp:label value="#{javascript:soNBOManager.getTranslationBundle()['attribute_values']}" id="label4"
 			for="listBoxValues" />
 		<xp:listBox id="listBoxValues" multiple="true"
 			rendered="#{javascript:!adjacentNodeValueInteger}" size="5">
@@ -146,7 +146,7 @@ if(list.size()>0){
 			</div>
 		<p><input type="text" id="sliderValue" class="form-control" disabled="true"/></p>
 		</xp:panel>
-		<xp:button id="add_filter" value="Add filter">
+		<xp:button id="add_filter" value="#{javascript:soNBOManager.getTranslationBundle()['button-add_filter']}">
 			<xp:eventHandler event="onclick" submit="true"
 				refreshMode="partial" refreshId="page">
 				<xp:this.action><![CDATA[#{javascript:// get control values

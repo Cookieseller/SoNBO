@@ -2,6 +2,7 @@ package uniko.iwvi.fgbas.magoetz.sbo.objects;
 
 import java.io.Serializable;
 import java.util.Iterator;
+import java.util.Locale;
 
 import uniko.iwvi.fgbas.magoetz.sbo.services.QueryService;
 
@@ -16,6 +17,8 @@ public class NodeTypeAttribute implements Serializable {
 	private static final long serialVersionUID = 805731509510272843L;
 	
 	private String name;
+	
+	private String nameDE;
 	
 	private String datasource;
 	
@@ -39,9 +42,27 @@ public class NodeTypeAttribute implements Serializable {
 	public String getName() {
 		return name;
 	}
+	
+	public String getName(Locale locale) {
+		System.out.println("Language EQUALS: " + locale.getLanguage());
+		System.out.println("nameDE: " + this.nameDE);
+		if(locale.getLanguage().equals("de") && (!"".equals(this.nameDE))) {
+			return nameDE;
+		}else {
+			return name;
+		}
+	}
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public void setNameDE(String nameDE) {
+		this.nameDE = nameDE;
+	}
+
+	public String getNameDE() {
+		return nameDE;
 	}
 
 	public String getDatasource() {

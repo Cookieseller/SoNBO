@@ -9,6 +9,8 @@ public class NodeTypeCategory implements Serializable{
 	
 	private String name;
 	
+	private String nameDE;
+	
 	private String mainDatasource;
 	
 	private String mainQuery;
@@ -28,6 +30,14 @@ public class NodeTypeCategory implements Serializable{
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public void setNameDE(String nameDE) {
+		this.nameDE = nameDE;
+	}
+
+	public String getNameDE() {
+		return nameDE;
 	}
 
 	public String getMainDatasource() {

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 import java.util.Vector;
 import java.util.concurrent.atomic.AtomicLong;
@@ -32,11 +33,11 @@ public class Node implements Serializable {
 	/*
 	 * returns key value pairs for displayfield
 	 */
-	public HashMap<String, String> getAttributeListForDisplayfield(int displayfieldnumber) {
+	public HashMap<String, String> getAttributeListForDisplayfield(int displayfieldnumber, Locale locale) {
 		HashMap<String, String> attributeListForDisplayfield = new HashMap<String, String>();
 		for(NodeTypeAttribute nodeTypeAttribute : attributeList) {
 			if(nodeTypeAttribute.getDisplayfield() == displayfieldnumber) {
-				String attributeName = nodeTypeAttribute.getName();
+				String attributeName = nodeTypeAttribute.getName(locale);
 				String attributeValue = nodeTypeAttribute.getValueAsString();
 				attributeListForDisplayfield.put(attributeName, attributeValue);
 			}
@@ -44,11 +45,11 @@ public class Node implements Serializable {
 		return attributeListForDisplayfield;
 	}
 	
-	public HashMap<String, String> getAttributeListForPreview() {
+	public HashMap<String, String> getAttributeListForPreview(Locale locale) {
 		HashMap<String, String> attributeListForDisplayfield = new HashMap<String, String>();
 		for(NodeTypeAttribute nodeTypeAttribute : attributeList) {
 			if(nodeTypeAttribute.isPreview()) {
-				String attributeName = nodeTypeAttribute.getName();
+				String attributeName = nodeTypeAttribute.getName(locale);
 				String attributeValue = nodeTypeAttribute.getValueAsString();
 				attributeListForDisplayfield.put(attributeName, attributeValue);
 			}

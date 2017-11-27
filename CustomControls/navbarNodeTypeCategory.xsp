@@ -7,7 +7,12 @@
 			<xp:panel styleClass="sbo-navbar-link-wrapper">
 				<xp:link id="label2" value="#"
 					styleClass="sbo-navbar-link #{javascript: return viewScope.get('nodeTypeCategory') == peer || viewScope.get('nodeTypeCategory') == null &amp;&amp; peer == 'all' ? 'sbo-navbar-selected' : '';}">
-					<xp:this.text>#{peer}</xp:this.text>
+					<xp:this.text><![CDATA[#{javascript:if(context.getLocale().getLanguage().equals("de")) {
+	var result = @DbLookup("", "translations", peer, "translationGerman");
+	return (typeof result == "string") ? result : peer;
+}else {
+	return peer;
+}}]]></xp:this.text>
 					<xp:label
 						value="#{javascript: soNBOManager.getAdjacentNodeListFilteredByCategory(peer).size().toString()}"
 						id="label4" style="margin-right: 3px;"

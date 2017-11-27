@@ -1,21 +1,19 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note class='view' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.0'
  replicaid='C12581E0003A66A2'>
-<noteinfo noteid='49a' unid='43213E8DD10D4BDDC12581A3006C56AC' sequence='33'>
+<noteinfo noteid='49a' unid='43213E8DD10D4BDDC12581A3006C56AC' sequence='35'>
 <created><datetime dst='true'>20170922T214320,76+02</datetime></created>
-<modified><datetime>20171124T151354,21+01</datetime></modified>
-<revised><datetime>20171124T151354,20+01</datetime></revised>
-<lastaccessed><datetime>20171124T151354,21+01</datetime></lastaccessed>
+<modified><datetime>20171126T212457,34+01</datetime></modified>
+<revised><datetime>20171126T212457,33+01</datetime></revised>
+<lastaccessed><datetime>20171126T212457,34+01</datetime></lastaccessed>
 <addedtofile><datetime>20171122T113758,17+01</datetime></addedtofile></noteinfo>
-<updatedby><name>CN=Flemming Goetz/O=uniko/C=DE</name><name>CN=Flemming Goetz/O=uniko/C=de</name><name
->CN=Flemming Goetz/O=uniko/C=DE</name></updatedby>
+<updatedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></updatedby>
 <wassignedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></wassignedby>
 <item name='$FormatNote' summary='true' sign='true'>
 <rawitemdata type='4'>
 AQBYjVm4qNTSKouvewCNgSXB
 </rawitemdata></item>
 <item name='$FormulaClass' sign='true'><text>1</text></item>
-<item name='$TITLE' sign='true'><text>2. Node Types\Adjacencies|nodeTypeAdjacencies</text></item>
 <item name='$Index' sign='true'><text/></item>
 <item name='$Formula' summary='true' sign='true'><formula compiled='true'>
 nAECAM4AAwAkMTcAAQAQAHsAInNvdXJjZU5vZGUiOiIFABMAYWRqYWNlbmN5U291cmNlTm9kZQAi
@@ -33,7 +31,6 @@ MgACAABEgGYAAAALAIBmAAsAEwBhZGphY2VuY3lJZGFkamFjZW5jeVNvdXJjZU5vZGU=
 </rawitemdata></item>
 <item name='$Comment' sign='true'><text/></item>
 <item name='$Flags'><text>P</text></item>
-<item name='$DesignerVersion'><text>8.5.3</text></item>
 <item name='$ViewFormat' sign='true'>
 <rawitemdata type='5'>
 AQAHABUAiAABAFZDAQALAAsAAAAAAKoAAQAACgAAAAAAAAAAAAICAAAAVkMBABMAEwAAAAAAeAAB
@@ -66,5 +63,7 @@ b05CT19Mb2dvX2xhYmVsX3NtYWxsLnBuZ/z/OgAAAAAAAQAAAAAAAwAAAAAAAAAAAAAAAAAAAAAA
 AAAAAAAAAAAAAAEAAKAAAAAAAAAAAAAAAAC+/3QAAAABAB4AnwEAAB4AAAAAAAAAQ3JlYXRlIE5l
 dyBOb2RlIFR5cGUgQWRqYWNlbmN5QAAAADIAAgDoAwAAAAAAAAEAAAABABcAY29uZmlnTm9kZVR5
 cGVBZGphY2VuY3kA7QMDAAcADAAFAAk0UzZTAA==
-</rawitemdata></item></note>
+</rawitemdata></item>
+<item name='$TITLE' sign='true'><text>2. Node Types\2.2 Adjacencies|nodeTypeAdjacencies</text></item>
+<item name='$DesignerVersion' sign='true'><text>8.5.3</text></item></note>
 
