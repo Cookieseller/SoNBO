@@ -36,6 +36,18 @@ public class Filter implements Serializable {
 		}
 		return type + attributeMeta + attributes;	
 	}
+	
+	public String getAttributeListAsString() {
+		String attributes = "";
+		for(int i = 0; i < this.attributeList.size(); i++) {
+			if(i < this.attributeList.size() - 1) {
+				attributes += this.attributeList.get(i) + ", ";
+			}else {
+				attributes += this.attributeList.get(i);
+			}
+		}
+		return attributes;	
+	}
 
 	public String getId() {
 		return id;

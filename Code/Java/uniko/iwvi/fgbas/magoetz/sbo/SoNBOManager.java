@@ -132,6 +132,24 @@ public class SoNBOManager implements Serializable {
 	}
 	
 	/*
+	 * returns vector list of (unique) adjacent nodes attributes (attributeName translated)
+	 */	
+	public List<Vector<String>> getAdjacentNodeAttributes(Locale locale) {
+		Set<Vector<String>> adjacentNodeAttributeNames = new HashSet<Vector<String>>();
+		for(Node adjacentNode : this.adjacentNodeList) {
+			List<NodeTypeAttribute> adjacentNodeAttributeList = adjacentNode.getAttributeList();
+			for(NodeTypeAttribute adjacentNodeTypeAttribute : adjacentNodeAttributeList) {
+				Vector<String> v = new Vector<String>();
+				v.add(adjacentNodeTypeAttribute.getName());
+				v.add(adjacentNodeTypeAttribute.getDatatype());
+				v.add(adjacentNodeTypeAttribute.getTranslatedName(locale));
+				adjacentNodeAttributeNames.add(v);
+			}
+		}
+		return new ArrayList<Vector<String>>(adjacentNodeAttributeNames);
+	}
+	
+	/*
 	 * returns vector list of (unique) adjacent nodes attribute values of type string
 	 */	
 	public List<String> getAdjacentNodeAttributeValues(String attributeName, String attributDatatype) {
@@ -282,10 +300,17 @@ public class SoNBOManager implements Serializable {
 		this.filters.add(filter);
 	}
 	
-	public HashMap<String, String> getFilterList() {
-		HashMap<String, String> filterList = new HashMap<String, String>();
+	public List<Vector<String>> getFilterList() {
+		List<Vector<String>> filterList = new ArrayList<Vector<String>>();
 		for(Filter filter : this.filters) {
-			filterList.put(filter.getId(), filter.toString());
+			Vector<String> vector = new Vector<String>();
+			vector.add(filter.getId());
+			vector.add(filter.getAttributeName());
+			vector.add(filter.getAttributeDatatype());
+			vector.add(filter.getAttributeListAsString());
+			String filterType = filter.isFilterType() ? "" : "!";
+			vector.add(filterType);
+			filterList.add(vector);
 		}
 		return filterList;
 	}

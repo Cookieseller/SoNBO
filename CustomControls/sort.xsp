@@ -4,11 +4,14 @@
 	<xp:this.dataContexts>
 		<xp:dataContext var="adjacentNodeKeyItemsSort">
 			<xp:this.value><![CDATA[#{javascript:		
-		var listAdjacentNodeAttributes:java.util.List = soNBOManager.getAdjacentNodeAttributes();
+		var listAdjacentNodeAttributes:java.util.List = soNBOManager.getAdjacentNodeAttributes(context.getLocale());
 		var newItemList:java.util.List = new java.util.ArrayList();
 		for(var i=0;i<listAdjacentNodeAttributes.size();i++) {
 			var vItem:java.util.Vector = listAdjacentNodeAttributes.get(i);
 			var label = vItem.get(0) + " (" + vItem.get(1) + ")";
+			if(context.getLocale().getLanguage().equals("de")) {
+				label = vItem.get(2) + " (" + vItem.get(1) + ")";  
+			}
 			newItemList.add(label + "|" + vItem.get(0) + "," + vItem.get(1));
 		}
 		return newItemList.toArray();}]]></xp:this.value>
