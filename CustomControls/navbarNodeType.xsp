@@ -1,26 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xp:view xmlns:xp="http://www.ibm.com/xsp/core"
 	xmlns:xe="http://www.ibm.com/xsp/coreex">
+	<xp:this.resources>
+		<xp:script src="/utils.jss" clientSide="false"></xp:script>
+	</xp:this.resources>
 	<xe:navbar id="navbarRelations">
 		<xp:repeat id="repeat1" var="relation">
-			<xp:this.value><![CDATA[#{javascript:var relationships = soNBOManager.getNodeAdjacencyNamesByCategory(viewScope.get('nodeTypeCategory')); relationships.unshift("all"); return relationships;}]]></xp:this.value>
+			<xp:this.value><![CDATA[#{javascript:var relationships = soNBOManager.getNodeAdjacencyNamesByCategory(viewScope.get('nodeTypeCategory'));
+return getSortedStringList(relationships);}]]></xp:this.value>
 			<xp:panel styleClass="sbo-navbar-link-wrapper">
 				<xp:link id="label2" value="#"
-					styleClass="sbo-navbar-link #{javascript: return viewScope.get('nodeType') == relation || viewScope.get('nodeType') == null &amp;&amp; relation == 'all' ? 'sbo-navbar-selected' : '';}">
-					<xp:this.text><![CDATA[#{javascript:if(context.getLocale().getLanguage().equals("de")) {
-	var result = @DbLookup("", "translations", relation, "translationGerman");
-	return (typeof result == "string") ? result : relation;
-}else {
-	return relation;
-}}]]></xp:this.text>
+					styleClass="sbo-navbar-link #{javascript: return viewScope.get('nodeType') == relation.get(0) || viewScope.get('nodeType') == null &amp;&amp; relation.get(0) == 'all' ? 'sbo-navbar-selected' : '';}">
+					<xp:this.text><![CDATA[#{javascript:relation.get(1)}]]></xp:this.text>
 					<xp:label
-						value="#{javascript:soNBOManager.getAdjacentNodeListFilteredByNodeType(viewScope.get('nodeTypeCategory'), relation).size().toString()}"
+						value="#{javascript:soNBOManager.getAdjacentNodeListFilteredByNodeType(viewScope.get('nodeTypeCategory'), relation.get(0)).size().toString()}"
 						id="label4" style="margin-right: 3px;"
 						styleClass="badge sbo-badge" />
 					<xp:eventHandler event="onclick" submit="true"
 						refreshMode="partial" refreshId="content">
 						<xp:this.action><![CDATA[#{javascript:
-						viewScope.put("nodeType", relation);
+						viewScope.put("nodeType", relation.get(0));
 					}]]>
 						</xp:this.action>
 					</xp:eventHandler>

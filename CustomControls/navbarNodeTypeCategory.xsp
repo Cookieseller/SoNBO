@@ -1,26 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xp:view xmlns:xp="http://www.ibm.com/xsp/core"
 	xmlns:xe="http://www.ibm.com/xsp/coreex">
+	<xp:this.resources>
+		<xp:script src="/utils.jss" clientSide="false"></xp:script>
+	</xp:this.resources>
 	<xe:navbar id="navbarPeers">
-		<xp:repeat id="repeat1" var="peer">
-			<xp:this.value><![CDATA[${javascript: var adjacentNodeTypeCategories = soNBOManager.businessObject.getNodeTypeCategories(); adjacentNodeTypeCategories.unshift("all"); return adjacentNodeTypeCategories;}]]></xp:this.value>
+		<xp:repeat id="repeat1" var="category">
+			<xp:this.value><![CDATA[${javascript: var categories = soNBOManager.businessObject.getNodeTypeCategories();
+ return getSortedStringList(categories);}]]></xp:this.value>
 			<xp:panel styleClass="sbo-navbar-link-wrapper">
 				<xp:link id="label2" value="#"
-					styleClass="sbo-navbar-link #{javascript: return viewScope.get('nodeTypeCategory') == peer || viewScope.get('nodeTypeCategory') == null &amp;&amp; peer == 'all' ? 'sbo-navbar-selected' : '';}">
-					<xp:this.text><![CDATA[#{javascript:if(context.getLocale().getLanguage().equals("de")) {
-	var result = @DbLookup("", "translations", peer, "translationGerman");
-	return (typeof result == "string") ? result : peer;
-}else {
-	return peer;
-}}]]></xp:this.text>
+					styleClass="sbo-navbar-link #{javascript: return viewScope.get('nodeTypeCategory') == category.get(0) || viewScope.get('nodeTypeCategory') == null &amp;&amp; category.get(0) == 'all' ? 'sbo-navbar-selected' : '';}">
+					<xp:this.text><![CDATA[#{javascript:category.get(1);}]]></xp:this.text>
 					<xp:label
-						value="#{javascript: soNBOManager.getAdjacentNodeListFilteredByCategory(peer).size().toString()}"
+						value="#{javascript: soNBOManager.getAdjacentNodeListFilteredByCategory(category.get(0)).size().toString()}"
 						id="label4" style="margin-right: 3px;"
 						styleClass="badge sbo-badge" />
 					<xp:eventHandler event="onclick" submit="true"
 						refreshMode="partial" refreshId="content">
 						<xp:this.action><![CDATA[#{javascript:
-						viewScope.put("nodeTypeCategory", peer);
+						viewScope.put("nodeTypeCategory", category.get(0));
 						viewScope.put("nodeType", "all");
 					}]]>
 						</xp:this.action>

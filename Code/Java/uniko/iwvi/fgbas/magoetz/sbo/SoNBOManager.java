@@ -146,15 +146,16 @@ public class SoNBOManager implements Serializable {
 				adjacentNodeAttributeNames.add(v);
 			}
 		}
-		return sortVectorSet(adjacentNodeAttributeNames, 2);
+		List<Vector<String>> adjacentNodeAttributeList = new ArrayList<Vector<String>>(adjacentNodeAttributeNames);
+		return sortVectorList(adjacentNodeAttributeList, 2);
 	}
 	
 	/*
-	 * Sorts set alphabetically specified vector item (int) and returns list
+	 * Sorts list of vectors alphabetically after specified vector item (int) and returns list
 	 */
-	public List<Vector<String>> sortVectorSet(Set<Vector<String>> vectorSet, final int sortItem) {
+	public List<Vector<String>> sortVectorList(List<Vector<String>> vectorSet, final int sortItem) {
 		List<Vector<String>> list = new ArrayList<Vector<String>>(vectorSet);
-	   Collections.sort(list, new Comparator<Vector<String>>() {
+	    Collections.sort(list, new Comparator<Vector<String>>() {
 			public int compare(Vector<String> v0, Vector<String> v1) {
 				String i0 = v0.get(sortItem);
 				String i1 = v1.get(sortItem);
