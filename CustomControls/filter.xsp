@@ -108,8 +108,12 @@ soNBOManager.removeFilter(attr.getValue());												}]]>
 		var filterKeyAttrArray = filterKeyAttribute.split(",");
 	}else {
 		var firstEntry = adjacentNodeKeyItemsFilter[0];
+		if(firstEntry != null) {
 		var firstEntrySplitted = firstEntry.split("|");
 		var filterKeyAttrArray = firstEntrySplitted[1].split(",");
+		}else {
+			var filterKeyAttrArray = ["", ""];
+		}
 	}
 	var resultList:java.util.List = soNBOManager.getAdjacentNodeAttributeValues(filterKeyAttrArray[0], filterKeyAttrArray[1]);
 	return resultList.toArray().sort();

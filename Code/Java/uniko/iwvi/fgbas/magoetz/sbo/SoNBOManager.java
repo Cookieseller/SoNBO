@@ -146,7 +146,23 @@ public class SoNBOManager implements Serializable {
 				adjacentNodeAttributeNames.add(v);
 			}
 		}
-		return new ArrayList<Vector<String>>(adjacentNodeAttributeNames);
+		return sortVectorSet(adjacentNodeAttributeNames, 2);
+	}
+	
+	/*
+	 * Sorts set alphabetically specified vector item (int) and returns list
+	 */
+	public List<Vector<String>> sortVectorSet(Set<Vector<String>> vectorSet, final int sortItem) {
+		List<Vector<String>> list = new ArrayList<Vector<String>>(vectorSet);
+	   Collections.sort(list, new Comparator<Vector<String>>() {
+			public int compare(Vector<String> v0, Vector<String> v1) {
+				String i0 = v0.get(sortItem);
+				String i1 = v1.get(sortItem);
+				int comparison = i0.compareTo(i1);
+				return comparison;
+			}
+	    });
+		return list;
 	}
 	
 	/*
@@ -229,7 +245,6 @@ public class SoNBOManager implements Serializable {
        Collections.sort(nodeList, new Comparator<Node>() {
 			public int compare(Node n0, Node n1) {
 				int comparison = n0.compareByAttribute(n1, sortAttribute);
-				System.out.println("Node " + n0.getNodeTitle() + " vs. " + n1.getNodeTitle() + " = " + comparison);
 				return comparison;
 			}
         });
