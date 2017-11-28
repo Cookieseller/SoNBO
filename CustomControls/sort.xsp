@@ -17,26 +17,9 @@
 		return newItemList.toArray();}]]></xp:this.value>
 		</xp:dataContext>
 	</xp:this.dataContexts>
-	<h4>
-		<xp:label value="#{javascript:soNBOManager.getTranslationBundle()['sort']}" id="sortHeadline"></xp:label>
-	</h4>
-	<div>
-		<xp:radioGroup id="sortType" defaultValue="true">
-			<xp:selectItem itemLabel="#{javascript:soNBOManager.getTranslationBundle()['ascending']}" itemValue="true"></xp:selectItem>
-			<xp:selectItem itemLabel="#{javascript:soNBOManager.getTranslationBundle()['descending']}" itemValue="false">
-			</xp:selectItem>
-		</xp:radioGroup>
-	</div>
-	<xp:panel id="cbKeysSortContainer">
-		<xp:label value="#{javascript:soNBOManager.getTranslationBundle()['sort_criterion']}" id="comboBoxKeyHeadline" for="cbKeysSort" /> 
-		<xp:comboBox id="cbKeysSort">
-			<xp:selectItems>
-				<xp:this.value><![CDATA[#{javascript:adjacentNodeKeyItemsSort}]]></xp:this.value>
-			</xp:selectItems>
-		</xp:comboBox>
-	</xp:panel>
-	<div>
-		<xp:button id="apply_sorting" value="#{javascript:soNBOManager.getTranslationBundle()['apply']}">
+	<xp:panel styleClass="sortPanel">
+	<xp:panel styleClass="sbo-sort-button">
+		<xp:button id="apply_sorting" value="#{javascript:soNBOManager.getTranslationBundle()['sort']}">
 			<xp:eventHandler event="onclick" submit="true"
 				refreshMode="partial" refreshId="page">
 				<xp:this.action><![CDATA[#{javascript:// get control values
@@ -53,5 +36,20 @@ soNBOManager.applySorting(sortTypeBool, vector);
 			<xp:this.onComplete><![CDATA[enableDesign()]]></xp:this.onComplete>
 			</xp:eventHandler>
 		</xp:button>
-	</div>
+		</xp:panel>
+		<xp:panel id="cbKeysSortContainer" styleClass="sbo-sort-container-attr">
+			<xp:comboBox id="cbKeysSort" styleClass="sbo-sort-attr-combobox">
+				<xp:selectItems>
+					<xp:this.value><![CDATA[#{javascript:adjacentNodeKeyItemsSort}]]></xp:this.value>
+				</xp:selectItems>
+			</xp:comboBox>
+		</xp:panel>
+		<xp:panel styleClass="sortType">
+			<xp:radioGroup id="sortType" styleClass="sbo-sort-radio-group" defaultValue="true">
+				<xp:selectItem itemLabel="#{javascript:soNBOManager.getTranslationBundle()['ascending']}" itemValue="true"></xp:selectItem>
+				<xp:selectItem itemLabel="#{javascript:soNBOManager.getTranslationBundle()['descending']}" itemValue="false">
+				</xp:selectItem>
+			</xp:radioGroup>
+		</xp:panel>
+	</xp:panel>
 </xp:view>

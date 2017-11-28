@@ -16,13 +16,13 @@
 			<xp:this.facets>
 				<xp:panel xp:key="facetLeft" id="filter">
 					<xc:chronic />
-					<xc:sort />
 					<xc:filter />
 				</xp:panel>
 				<xp:panel xp:key="facetMiddle" id="content">
 					<xc:node />
 					<xc:navbarNodeTypeCategory />
 					<xc:navbarNodeType />
+					<xc:sort />
 					<xc:resultList />
 				</xp:panel>
 				<xp:label value="Stream area" id="label4"

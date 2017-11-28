@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xp:view xmlns:xp="http://www.ibm.com/xsp/core">
-	<xp:panel styleClass="sbo-chronic-container">
-		<h4>
+	<xp:panel styleClass="sbo-chronic-container sbo-widget-container">
+		<h4 class="sbo-widget-heading">
 			<xp:label value="#{javascript:soNBOManager.getTranslationBundle()['path']}" id="label5"></xp:label>
 		</h4>
-		<div>
+		<div class="sbo-widget-container-inner">
 			<xp:repeat id="chronicRepeat" var="chronicEntry" value="#{javascript: soNBOSession.getChronicEntries(5);}">
 				<xp:panel id="chronicEntriesContainer" styleClass="sbo-text-center">
 					<xp:link escape="true"

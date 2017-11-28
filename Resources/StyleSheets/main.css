@@ -6,23 +6,6 @@ select.form-control {
     margin-bottom: 1em;
 }
 
-.sbo-navbar {
-	margin-bottom: 5px !important;
-}
-
-.sbo-navbar-item-active {
- 	color: #555;
-    background-color: #e7e7e7;
-    border: grey solid 1px;
-	border-radius: 4px;
-	padding: 14px !important;
-}
-
-.sbo-navbar-item {
-	margin: 0px !important;
-	padding: 15px;
-}
-
 <!-- app css -->
 
 .sbo-badge {
@@ -45,8 +28,14 @@ select.form-control {
     margin-bottom: 2em;
 }
 
+.sbo-filter-indicator {
+	margin-bottom: 0.6em;
+	font-size: 0.9em;
+}
+
 .sbo-filter-link {
 	margin-left: 0.3em;
+	color: #db1111;
 }
 
 .sbo-heading-4 {
@@ -65,11 +54,31 @@ select.form-control {
 }
 
 .sbo-object-card {
-	border: 1px solid rgba(0, 0, 0, .2);
+	border: 3px solid rgba(0, 0, 0, .2);
+	border-radius: 4px;
+	box-shadow: 3px 3px 3px #888888;
 	display: inline-block;
 	height: 230px;
 	padding: 8px;
+	position: relative;
 	margin: 0 4px 8px 0;
+}
+
+.sbo-object-card-headline {
+	font-size: 1.2em;
+}
+
+.sbo-card-link { 
+  position: absolute; 
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.sbo-card-link:hover { 
+	background: hsla(220,50%,50%,0.2);
 }
 
 .sbo-object-card-content-wrapper {
@@ -87,8 +96,42 @@ select.form-control {
     margin-right: 5px;
 }
 
+.sbo-navbar {
+	margin-bottom: 5px !important;
+	border: lightgrey solid 3px;
+	border-radius: 4px;
+}
+
+.sbo-navbar-item-active {
+ 	color: #555;
+    background-color: #ffffff;
+    border-right: lightgray solid 3px;
+    border-left: lightgray solid 3px;
+	border-radius: 4px;
+	padding: 14px !important;
+}
+
+.sbo-navbar-item {
+	margin: 0px !important;
+	padding: 15px;
+	position: relative;
+}
+
+.sbo-navbar-item > .sbo-navbar-link-wrapper > a {
+	color: #000000;
+}
+
 .sbo-navbar-link {
-	margin-right: 15px;
+	position: absolute; 
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	z-index: 1;
+}
+
+.sbo-navbar-link:hover {
+	background: hsla(220,50%,50%,0.2);
 }
 
 .sbo-navbar-link-wrapper {
@@ -103,7 +146,10 @@ select.form-control {
 .sbo-object-container {
 	height: 100%;
 	width: 100%;
-	margin: 10px;
+	border: lightgrey solid 3px;
+	border-radius: 4px;
+	margin-bottom: 0.8em;
+	padding: 0.8em;
 }
 
 .sbo-object-fields-container {
@@ -164,6 +210,61 @@ select.form-control {
 
 .sbo-text-center {
 	text-align: center;
+}
+
+.sortPanel {
+	margin-top: 10px;
+	margin-bottom: 10px;
+	display: block;
+	height: 35px;
+}
+
+.sortType {
+	display: inline-block;
+	float: right;
+	margin-right: 1em;
+}
+
+.sbo-sort-attr-combobox {
+	margin-bottom: 0px !important;
+}
+
+.sbo-sort-button {
+	display: inline-block;
+	float: right;
+}
+
+.sbo-sort-container-attr {
+	display: inline-block;
+	float: right;
+	margin-right: 1em;
+}
+
+.sbo-sort-radio-group {
+	display: inline-block;
+	margin-top: 5px !important;
+	margin-bottom: 0px !important;
+}
+
+.sbo-widget-container {
+	border: lightgrey solid 3px;
+	border-radius: 4px;
+	margin-bottom: 0.8em;
+}
+
+.sbo-widget-container-inner {
+	padding: 0.4em;
+}
+
+.sbo-widget-heading {
+	background-color: #325c80;
+	border-bottom: lightgray solid 3px;
+	color: #ffffff;
+	margin-bottom: 0.5em;
+	margin-top: 0px;
+	padding-top: 0.5em;
+	padding-bottom: 0.5em;
+	padding-left: 0.5em;
 }
 
 <!-- dojo rangeSlider -->
