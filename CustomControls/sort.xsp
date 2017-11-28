@@ -50,6 +50,7 @@ for(var i=0; i<sortAttrArray.length; i++) {
 }
 soNBOManager.applySorting(sortTypeBool, vector);
 }]]></xp:this.action>
+			<xp:this.onComplete><![CDATA[enableDesign()]]></xp:this.onComplete>
 			</xp:eventHandler>
 		</xp:button>
 	</div>

@@ -66,6 +66,7 @@ var attrList:java.util.List = link.getAttrs();
 var attr:com.ibm.xsp.complex.Attr = attrList.get(0); 
 soNBOManager.removeFilter(attr.getValue());												}]]>
 									</xp:this.action>
+									<xp:this.onComplete><![CDATA[enableDesign()]]></xp:this.onComplete>
 								</xp:eventHandler>
 							</xp:link>
 						</li>
@@ -145,6 +146,7 @@ if(typeof valueItems == 'undefined') {
 }
 var valueItemList:util.java.List = java.util.Arrays.asList(valueItems);
 soNBOManager.addFilter(filterType, filterKeyAttrArray[0], filterKeyAttrArray[1], valueItemList);}]]></xp:this.action>
+			<xp:this.onComplete><![CDATA[enableDesign()]]></xp:this.onComplete>
 			</xp:eventHandler>
 		</xp:button>
 	</xp:panel>

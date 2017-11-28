@@ -4,10 +4,11 @@
 	<xp:this.resources>
 		<xp:script src="/utils.jss" clientSide="false"></xp:script>
 	</xp:this.resources>
-	<xe:navbar id="navbarRelations">
-		<xp:repeat id="repeat1" var="relation">
+	<xe:navbar id="navbarRelations" styleClass="sbo-navbar">
+		<xp:repeat id="repeat1" var="relation" disableOutputTag="true" removeRepeat="true">
 			<xp:this.value><![CDATA[#{javascript:var relationships = soNBOManager.getNodeAdjacencyNamesByCategory(viewScope.get('nodeTypeCategory'));
 return getSortedStringList(relationships);}]]></xp:this.value>
+			<div class="sbo-navbar-item navbar-text #{javascript: return viewScope.get('nodeType') == relation.get(0) || viewScope.get('nodeType') == null &amp;&amp; relation.get(0) == 'all' ? 'sbo-navbar-item-active' : '';}">
 			<xp:panel styleClass="sbo-navbar-link-wrapper">
 				<xp:link id="label2" value="#"
 					styleClass="sbo-navbar-link #{javascript: return viewScope.get('nodeType') == relation.get(0) || viewScope.get('nodeType') == null &amp;&amp; relation.get(0) == 'all' ? 'sbo-navbar-selected' : '';}">
@@ -22,9 +23,11 @@ return getSortedStringList(relationships);}]]></xp:this.value>
 						viewScope.put("nodeType", relation.get(0));
 					}]]>
 						</xp:this.action>
+						<xp:this.onComplete><![CDATA[enableDesign()]]></xp:this.onComplete>
 					</xp:eventHandler>
 				</xp:link>
 			</xp:panel>
+			</div>
 		</xp:repeat>
 	</xe:navbar>
 </xp:view>

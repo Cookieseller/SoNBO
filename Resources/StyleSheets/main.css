@@ -6,6 +6,23 @@ select.form-control {
     margin-bottom: 1em;
 }
 
+.sbo-navbar {
+	margin-bottom: 5px !important;
+}
+
+.sbo-navbar-item-active {
+ 	color: #555;
+    background-color: #e7e7e7;
+    border: grey solid 1px;
+	border-radius: 4px;
+	padding: 14px !important;
+}
+
+.sbo-navbar-item {
+	margin: 0px !important;
+	padding: 15px;
+}
+
 <!-- app css -->
 
 .sbo-badge {
