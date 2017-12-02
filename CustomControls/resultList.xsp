@@ -11,13 +11,13 @@ soNBOManager.getAdjacentNodeListFilteredByNodeType(nodeTypeCategory == null ? 'a
 			<xp:this.value><![CDATA[#{javascript:soNBOManager.getfilterAndSortedNodeList(nodeListFilteredByNodeType);}]]></xp:this.value>
 		</xp:dataContext>
 	</xp:this.dataContexts>
-	<xp:panel styleClass="sbo-object-preview-container"
-		id="resultList">
-		<xp:panel styleClass="sbo-filter-indicator">
+	<xp:panel styleClass="sbo-filter-indicator">
 		<xp:label value="#{javascript: '(Filters applied: ' + filteredNodeList.size() + ' from ' + nodeListFilteredByNodeType.size() + ' results)'}" id="label1">
 			<xp:this.rendered><![CDATA[#{javascript:soNBOManager.getFilters().size() > 0;}]]></xp:this.rendered>
 		</xp:label>
-		</xp:panel>
+	</xp:panel>
+	<xp:panel styleClass="sbo-object-preview-container"
+		id="resultList">
 		<!-- List peer objects filtered by certain criteria (relationship, filter) -->
 		<xp:repeat id="repeat1" var="adjacentNode"
 			value="#{filteredNodeList}" disableOutputTag="true">
