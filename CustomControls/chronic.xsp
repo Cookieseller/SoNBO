@@ -7,10 +7,9 @@
 		<div class="sbo-widget-container-inner">
 			<xp:repeat id="chronicRepeat" var="chronicEntry" value="#{javascript: soNBOSession.getChronicEntries(5);}">
 				<xp:panel id="chronicEntriesContainer" styleClass="sbo-text-center">
-					<xp:link escape="true"
+					<xp:label
 						styleClass="#{javascript:soNBOManager.businessObject.getId() == chronicEntry.get(1) ? 'sbo-link-not-active' : '';}"
-						text="#{javascript: var entry = chronicEntry.get(0); var cur = soNBOManager.businessObject.getId() == chronicEntry.get(1) ? ' (Current)' : ''; return entry + cur;}"
-						value="#{javascript: return 'main.xsp?id=' + chronicEntry.get(1)}"
+						value="#{javascript: var entry = chronicEntry.get(0); return entry;}"
 						id="chronicLink" />
 					<div>
 						<xp:label id="chronicEntrySeparator" value="|" />

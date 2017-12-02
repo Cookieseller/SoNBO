@@ -58,10 +58,12 @@ select.form-control {
 	border-radius: 4px;
 	box-shadow: 3px 3px 3px #888888;
 	display: inline-block;
-	height: 230px;
+	flex-grow: 1;
+	margin: 0 auto 1em 0;
+	max-width: 45em;
+	min-height: 230px;
 	padding: 8px;
 	position: relative;
-	margin: 0 4px 8px 0;
 }
 
 .sbo-object-card-headline {
@@ -196,7 +198,7 @@ select.form-control {
 
 .sbo-object-img-container {
 	display: inline-block;
-	height: 24.3em;
+	max-width: 29%;
 }
 
 .sbo-object-name {
@@ -206,6 +208,9 @@ select.form-control {
 .sbo-object-preview-container {
 	width: 100%;
 	margin: 10px;
+	display: flex;
+	justify-content: flex-start;
+	flex-flow: row wrap;
 }
 
 .sbo-text-center {
