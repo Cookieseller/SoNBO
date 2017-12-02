@@ -160,6 +160,9 @@ public class SoNBOManager implements Serializable {
 				String i0 = v0.get(sortItem);
 				String i1 = v1.get(sortItem);
 				int comparison = i0.compareTo(i1);
+				System.out.println("String i0: " + i0);
+				System.out.println("String i1: " + i1);
+				System.out.println("Comparison: " + comparison);
 				return comparison;
 			}
 	    });

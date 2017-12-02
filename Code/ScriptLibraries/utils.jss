@@ -1,4 +1,4 @@
-function getSortedStringList(unsortedStringList) {
+function getSortedStringListForView(unsortedStringList, viewName) {
 	var vectorList:java.util.List = new java.util.ArrayList();
 	var locale = context.getLocale().getLanguage();
 	if(locale.equals("de")) {
@@ -8,9 +8,13 @@ function getSortedStringList(unsortedStringList) {
 	}
 	for(string in unsortedStringList) {
 		var vItem = getTranslatedVector(string);
+		// lookup entered order and append to vector
+		lookupResult = @DbLookup("", viewName, string, 2);
+		var result = (typeof lookupResult == "number" && lookupResult != "") ? lookupResult : vItem.get(1);
+		vItem.add(result.toString());
 		vectorList.add(vItem);
 	}
-	var sortedList = soNBOManager.sortVectorList(vectorList, 1);
+	var sortedList = soNBOManager.sortVectorList(vectorList, 2);
 	var vItemAll = getTranslatedVector("all");
 	sortedList.unshift(vItemAll); 
 	return sortedList;

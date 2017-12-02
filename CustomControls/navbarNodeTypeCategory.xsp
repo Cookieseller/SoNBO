@@ -9,7 +9,7 @@
 		<xp:repeat id="repeat1" var="category" disableOutputTag="true"
 			removeRepeat="true">
 			<xp:this.value><![CDATA[${javascript: var categories = soNBOManager.businessObject.getNodeTypeCategories();
- return getSortedStringList(categories);}]]></xp:this.value>
+ return getSortedStringListForView(categories, "nodeTypeCategories");}]]></xp:this.value>
  			<div class="navbar-text sbo-navbar-item #{javascript: return viewScope.get('nodeTypeCategory') == category.get(0) || viewScope.get('nodeTypeCategory') == null &amp;&amp; category.get(0) == 'all' ? 'sbo-navbar-item-active' : '';}">
 			<xp:panel styleClass="sbo-navbar-link-wrapper">
 				<xp:link id="label2" value="#"
