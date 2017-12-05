@@ -10,8 +10,9 @@
 	</xp:this.beforePageLoad>
 	<xp:this.resources>
 		<xp:styleSheet href="/main.css" />
+		<xp:script src="/clientSide.js" clientSide="true"></xp:script>
 	</xp:this.resources>
-	<xp:panel id="page">
+	<div id="page">
 		<xc:mainLayout loaded="${javascript:nodeIdSet}">
 			<xp:this.facets>
 				<xp:panel xp:key="facetLeft" id="filter">
@@ -35,5 +36,5 @@
 				Page not loaded - missing id parameter in URL
 			</xp:this.value>
 		</xp:label>
-	</xp:panel>
+	</div>
 </xp:view>

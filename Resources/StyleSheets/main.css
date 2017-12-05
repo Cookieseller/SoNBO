@@ -60,7 +60,7 @@ select.form-control {
 	display: inline-block;
 	flex-grow: 1;
 	margin: 0 auto 1em 0;
-	max-width: 45em;
+	max-width: 36em;
 	min-height: 230px;
 	padding: 8px;
 	position: relative;
@@ -211,6 +211,8 @@ select.form-control {
 	display: flex;
 	justify-content: flex-start;
 	flex-flow: row wrap;
+	max-height: 1000px;
+	overflow: auto;
 }
 
 .sbo-text-center {
@@ -259,6 +261,14 @@ select.form-control {
 
 .sbo-widget-container-inner {
 	padding: 0.4em;
+	position: relative;
+}
+
+.sbo-widget-container-inner-scroll {
+	padding: 0.4em;
+	overflow: scroll;
+	height: 24em;
+	position: relative;
 }
 
 .sbo-widget-heading {
