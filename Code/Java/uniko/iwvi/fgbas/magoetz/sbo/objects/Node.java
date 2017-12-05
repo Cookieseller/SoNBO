@@ -182,30 +182,23 @@ public class Node implements Serializable {
 	public int compareByAttribute(Node otherNode, SortAttribute sortAttribute) {
 		
 		if(this == otherNode) {
-			System.out.println("Nodes are equal");
 			return 0;
 		}
 		
 		String attributeName = sortAttribute.getAttributeName();
 		String datatype = sortAttribute.getDatatype();
 		
-		System.out.println("attributeName = " + attributeName);
-		System.out.println("datatype = " + datatype);
-		
 		// the node which contains the attribute will be preferred
 		NodeTypeAttribute thisAttribute = this.getAttributeOfType(attributeName, datatype);
 		NodeTypeAttribute othersAttribute = otherNode.getAttributeOfType(attributeName, datatype);
 		
 		if(thisAttribute == null && othersAttribute != null) {
-			System.out.println("this is null");
 			return 1;
 		}
 		if(thisAttribute == null && othersAttribute == null) {
-			System.out.println("both are null");
 			return 0;
 		}
 		if(thisAttribute != null && othersAttribute == null) {
-			System.out.println("others is null");
 			return -1;
 		}
 		

@@ -1,6 +1,6 @@
 package uniko.iwvi.fgbas.magoetz.sbo.objects;
 
-public class NoteTypeAdjacency {
+public class NodeTypeAdjacency {
 	
 	private String sourceNode;
 	
