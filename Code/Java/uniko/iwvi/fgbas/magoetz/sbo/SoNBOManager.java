@@ -80,7 +80,7 @@ public class SoNBOManager implements Serializable {
 		Test test = new Test();
 		//test.javaToJson();
 	}
-	
+
 	List<Node> adjacentNodeCategoryList = new ArrayList<Node>();
 
 	private void loadAdjacentNodes(Node node, Locale locale) {
