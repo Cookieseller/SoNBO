@@ -6,14 +6,15 @@
 		<![CDATA[#{javascript: 
 		viewScope.put("nodeType", "all");
 		viewScope.put("nodeTypeCategory", "all");
-		var nodeIdSet = param.get('id')==null ? false : true; if(nodeIdSet) {soNBOManager.init(context.getLocale()); soNBOSession.addChronicEntry(soNBOManager.businessObject.getNodeTitle(), soNBOManager.businessObject.getId());}}]]>
+		soNBOManager.init(context.getLocale()); 
+		soNBOSession.addChronicEntry(soNBOManager.businessObject.getNodeTitle(), soNBOManager.businessObject.getId());}]]>
 	</xp:this.beforePageLoad>
 	<xp:this.resources>
 		<xp:styleSheet href="/main.css" />
 		<xp:script src="/clientSide.js" clientSide="true"></xp:script>
 	</xp:this.resources>
 	<xp:panel id="page">
-		<xc:mainLayout loaded="${javascript:nodeIdSet}">
+		<xc:mainLayout>
 			<xp:this.facets>
 				<xp:panel xp:key="facetLeft" id="filter">
 					<xc:chronic />
@@ -31,10 +32,5 @@
 				</xp:label>
 			</xp:this.facets>
 		</xc:mainLayout>
-		<xp:label id="label3" loaded="${javascript:!nodeIdSet}">
-			<xp:this.value>
-				Page not loaded - missing id parameter in URL
-			</xp:this.value>
-		</xp:label>
 	</xp:panel>
 </xp:view>

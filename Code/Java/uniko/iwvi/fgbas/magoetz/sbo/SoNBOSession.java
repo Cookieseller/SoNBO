@@ -6,11 +6,25 @@ import java.util.Vector;
 
 import javax.faces.context.FacesContext;
 
+import com.ibm.sbt.services.client.ClientServicesException;
+
+import uniko.iwvi.fgbas.magoetz.sbo.services.ConnectionsService;
+
 public class SoNBOSession {
 	
-	private String objectId = (String) FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id");
+	private String objectId;
+	
+	private ConnectionsService connectionsService;
 
 	private List<Vector<String>> chronicList = new ArrayList<Vector<String>>();;
+	
+	public SoNBOSession() {
+	}
+	
+	public void init() {
+		this.connectionsService = new ConnectionsService("connectionsSSO");
+		this.objectId = connectionsService.getUserEmail();
+	}
 	
 	public String getObjectId() {
 		return objectId;

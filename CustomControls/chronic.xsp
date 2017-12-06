@@ -21,7 +21,11 @@
 					disabled="#{javascript:soNBOManager.businessObject.getId() == soNBOSession.getObjectId()}">
 				<xp:eventHandler event="onclick" submit="true"
 					refreshMode="complete">
-					<xp:this.action><![CDATA[#{javascript:soNBOSession.clearChronic();context.redirectToPage('main.xsp?id=' + soNBOSession.getObjectId());}]]></xp:this.action>
+					<xp:this.action><![CDATA[#{javascript:soNBOSession.clearChronic(); 
+var objectId = soNBOSession.getObjectId(); 
+if(objectId != null) {
+	context.redirectToPage('main.xsp?id=' + objectId);
+}}]]></xp:this.action>
 				</xp:eventHandler></xp:button>
 			</xp:panel>
 		</div>

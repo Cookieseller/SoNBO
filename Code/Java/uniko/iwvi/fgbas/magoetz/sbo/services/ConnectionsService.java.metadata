@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.0" replicaid="C12581ED004C5206" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="179e" sequence="3" unid="2C0E1F18222777B3C12581EE0053C55F">
+<created><datetime>20171206T161500,15+01</datetime></created>
+<modified><datetime>20171206T161500,48+01</datetime></modified>
+<revised><datetime>20171206T161500,47+01</datetime></revised>
+<lastaccessed><datetime>20171206T161500,48+01</datetime></lastaccessed>
+<addedtofile><datetime>20171206T161500,17+01</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></updatedby>
+<wassignedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></wassignedby>
+<item name="$Flags"><text>34567Cg~[</text></item>
+<item name="$TITLE"><text>uniko/iwvi/fgbas/magoetz/sbo/services/ConnectionsService.java</text></item>
+<item name="$DesignerVersion"><text>8.5.3</text></item>
+
+
+<item name="$FileNames" sign="true"><text>uniko/iwvi/fgbas/magoetz/sbo/services/ConnectionsService.java</text></item></note>

@@ -23,6 +23,7 @@ import uniko.iwvi.fgbas.magoetz.sbo.objects.NodeTypeAttribute;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.NodeTypeCategory;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.SortAttribute;
 import uniko.iwvi.fgbas.magoetz.sbo.services.ConfigService;
+import uniko.iwvi.fgbas.magoetz.sbo.services.ConnectionsService;
 import uniko.iwvi.fgbas.magoetz.sbo.services.NodeService;
 import uniko.iwvi.fgbas.magoetz.sbo.util.Texts;
 import uniko.iwvi.fgbas.magoetz.sbo.util.Utilities;
@@ -55,12 +56,19 @@ public class SoNBOManager implements Serializable {
 	
 	private NodeService nodeService = new NodeService();
 	
+	private ConnectionsService connectionsService = new ConnectionsService("connectionsSSO");
+	
 	private Texts texts;
 	
 	public void init(Locale locale){
 		System.out.println("NEW REQUEST FOR BUSINESS OBJECT");
 		System.out.println("===============================");
-
+		
+		// set my userEmail as objectId on invoke
+		if(this.objectId == null) {
+			this.objectId = connectionsService.getUserEmail();
+		}
+		
 		// initialize translation
 		this.texts = new Texts(locale);
 		// if parameter nodeTypeCategoryName was not set get all 
