@@ -14,6 +14,12 @@ function enableIframeResize() {
 }
 
 $(function() {
-$('.sbo-navbar-item').parent().contents().unwrap();
-enableIframeResize();
+	$('.sbo-navbar-item').parent().contents().unwrap();
+		
+	enableIframeResize();
+	
+	$('.navbar-toggle').click(function(e) {
+		 $('.applayout-column-left').toggleClass('hidden-xs');
+		 console.log('removed');
+	});
 });
