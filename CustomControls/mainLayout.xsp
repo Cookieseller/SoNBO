@@ -13,9 +13,12 @@
 				leftColumnLabel="LeftColumnLabel" placeBar="false"
 				placeBarLabel="placeBar" rightColumnLabel="rightColumn"
 				titleBarLabel="titleBar" titleBar="false"
-				productLogoAlt="SoNBO Explorer">
-			<xe:this.bannerApplicationLinks>
-				
-			</xe:this.bannerApplicationLinks></xe:bootstrapResponsiveConfiguration>
+				productLogoAlt="SoNBO Explorer"
+				productLogo="/SoNBO_Logo_label_small.png"
+				productLogoClass="sbo-navbar-logo">
+				<xe:this.bannerApplicationLinks>
+
+				</xe:this.bannerApplicationLinks>
+			</xe:bootstrapResponsiveConfiguration>
 		</xe:this.configuration>
 	</xe:applicationLayout></xp:view>

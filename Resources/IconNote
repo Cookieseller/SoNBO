@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note default='true' class='icon' xmlns='http://www.lotus.com/dxl' version='9.0'
- maintenanceversion='1.0' replicaid='C12581E0003A66A2'>
-<noteinfo noteid='11e' unid='ACD9D4DF86095A53C12581C5006D51F9' sequence='38'>
+ maintenanceversion='1.0' replicaid='C12581ED004C5206'>
+<noteinfo noteid='122' unid='ACD9D4DF86095A53C12581C5006D51F9' sequence='45'>
 <created><datetime dst='true'>20171026T215404,09+02</datetime></created>
-<modified><datetime>20171205T142133,75+01</datetime></modified>
-<revised><datetime>20171205T142133,74+01</datetime></revised>
-<lastaccessed><datetime>20171205T142133,75+01</datetime></lastaccessed>
-<addedtofile><datetime>20171122T113753,71+01</datetime></addedtofile></noteinfo>
+<modified><datetime>20171206T142017,60+01</datetime></modified>
+<revised><datetime>20171206T142017,59+01</datetime></revised>
+<lastaccessed><datetime>20171206T142017,60+01</datetime></lastaccessed>
+<addedtofile><datetime>20171205T145337,70+01</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></updatedby>
 <item name='IconBitmap' summary='true'>
 <rawitemdata type='6'>
