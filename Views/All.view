@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='utf-8'?>
+<note class='view' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.0'
+ replicaid='C12581ED004C5206'>
+<noteinfo noteid='24f6' unid='AB58B6026222A981C12581EF0060DD1C' sequence='4'>
+<created><datetime>20171207T183800,60+01</datetime></created>
+<modified><datetime>20171207T184028,55+01</datetime></modified>
+<revised><datetime>20171207T184028,54+01</datetime></revised>
+<lastaccessed><datetime>20171207T184028,55+01</datetime></lastaccessed>
+<addedtofile><datetime>20171207T183800,66+01</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></updatedby>
+<wassignedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></wassignedby>
+<item name='$FormatNote' summary='true'>
+<rawitemdata type='4'>
+AQB/ohaee+7K8eIPRADjgCXB
+</rawitemdata></item>
+<item name='$FormulaClass' sign='true'><text>1</text></item>
+<item name='$TITLE' sign='true'><text>All</text></item>
+<item name='$Index' sign='true'><text/></item>
+<item name='$Formula' summary='true' sign='true'><formula compiled='true'>
+QAACAA4AAwAkMTkAaQADAAUAJAAgAAQAAwAEAAkABAAkMTlGb3JtJENvbmZsaWN0JFJFRgQABAAA
+AAgAZgADAA==
+</formula></item>
+<item name='$Collation' summary='true'>
+<rawitemdata type='2'>
+EAABAABEgGYAAAADACQxOQ==
+</rawitemdata></item>
+<item name='$ViewFormat' summary='true' sign='true'>
+<rawitemdata type='5'>
+AQADABQAiAABAFZDAAADAAEACgAKAB0AAQAACgAAAAAAAAAAAAICAAAAVkMBAAMABwAQAAAAUAAB
+AAAKAAAAAAAAAAAAAgIAAABWQwAABAAEAAAAAABQAAEAAAoAAAAAAAAAAAACAgAAACQxNyMKAAAA
+CACSAAMAAQUBAAQAf0Ew/yQxOUNyZWF0ZWQQAAIADgADACQxOQBpAAMARm9ybUZvcm0mAAEAAAAB
+AQAJAQAACgEBDgoAADQArSsBAAEAAQAAAAAAAAAAAFdDAQEACQAAAAAAAAAAAAAAAAAAAAAAAAQA
+AAAAAP//AAAAAAAAAAAAAAAAAABXQwEBAAkAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAD//wAAAAAA
+AAAAAAAAAAAAV0MBAQAJAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAA//8AAAAAAAAAAAAAAAAAAEIA
+EAAAAAEA////AAEAf/9/AAEAAAAAAAAAAAAAAAAAAQAAAAAAAQD///8AAAABAAAAAAABAAAAAAAB
+AAAAAAAAAAgAAAAAAAEA
+</rawitemdata></item>
+<item name='$Comment' sign='true'><text/></item>
+<item name='$Flags'><text>PY</text></item>
+<item name='$DesignerVersion'><text>8.5.3</text></item>
+<item name='$V5ACTIONS' sign='true'>
+<rawitemdata type='1'>
+vRwBAAAAAQABAAAAIwMAAAAAAAABAAAKIAACAHn/bAABAP///wABAAAAAAAJAAAAAAABAPDw8AAA
+ACQAAQAAAAAAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAHH/PAAAAAAAAwATABoAAAAAAAAAAAAAAAAAAAAAAAAAAABT
+b05CT19Mb2dvX2xhYmVsX3NtYWxsLnBuZ/z/OgAAAAAAAQAAAAAAAwAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAEAAKAAAAAAAAAAAAAAAAC+/2AAAAABAB4AnwEAABQAAAAAAAAAQ3JlYXRlIE5l
+dyBOb2RlIFR5cGU2AAAAKAACAOgDAAAAAAAAAQAAAAEADgBjb25maWdOb2RlVHlwZe0DAwAHAAwA
+BQAJNFM2UwA=
+</rawitemdata></item></note>
+
