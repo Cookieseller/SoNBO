@@ -31,3 +31,14 @@ function getTranslatedVector(string) {
 	vItem.add(result)
 	return vItem;
 }
+
+function translate(string) {
+	var locale = context.getLocale().getLanguage();
+	if(locale.equals("de")) {
+		var returnField = "translationGerman";
+	}else if(locale.contains("en")) {
+		var returnField = "translationEnglish";
+	}
+	lookupResult = @DbLookup("", "translations", string, returnField);
+	return (typeof lookupResult == "string" && lookupResult != "") ? lookupResult : string;
+}

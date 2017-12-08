@@ -1,60 +1,88 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xp:view xmlns:xp="http://www.ibm.com/xsp/core">
+	<xp:this.resources>
+		<xp:script src="/utils.jss" clientSide="false"></xp:script>
+	</xp:this.resources>
 	<xp:panel styleClass="sbo-object-container">
-		<xp:label id="object_name" value="#{javascript:soNBOManager.businessObject.getNodeTitle();}" styleClass="sbo-object-name"></xp:label>
+		<xp:label id="object_name"
+			value="#{javascript:soNBOManager.businessObject.getNodeTitle();}"
+			styleClass="sbo-object-name">
+		</xp:label>
 		<div>
-			<xp:label id="object_type" value="#{javascript:soNBOManager.businessObject.getNodeType();}" styleClass=""></xp:label>
+			<xp:label id="object_type"
+				value="#{javascript:translate(soNBOManager.businessObject.getNodeType());}"
+				styleClass="">
+			</xp:label>
 		</div>
-			<div>
-				<xp:panel styleClass="sbo-object-img-container">
-					<xp:image styleClass="sbo-object-img" url="#{javascript: return '/' + soNBOManager.businessObject.getNodeImage();}" id="image1"></xp:image>
+		<div>
+			<xp:panel styleClass="sbo-object-img-container">
+				<xp:image styleClass="sbo-object-img"
+					url="#{javascript: return '/' + soNBOManager.businessObject.getNodeImage();}"
+					id="image1">
+				</xp:image>
+			</xp:panel>
+			<xp:panel styleClass="sbo-object-fields-container">
+				<xp:panel styleClass="sbo-object-field1">
+					<xp:repeat id="repeat5" var="field1">
+						<xp:this.value>
+							<![CDATA[#{javascript:var map:java.util.HashMap = soNBOManager.businessObject.getAttributeListForDisplayfield(1, context.getLocale()); return map.entrySet();}]]>
+						</xp:this.value>
+						<div class="sbo-keyvaluepair">
+							<xp:label
+								value="#{javascript:field1.getKey() + ': '}" id="label9">
+							</xp:label>
+							<xp:label
+								value="#{javascript:field1.getValue()}" id="label1">
+							</xp:label>
+						</div>
+					</xp:repeat>
 				</xp:panel>
-				<xp:panel styleClass="sbo-object-fields-container">
-					<xp:panel styleClass="sbo-object-field1">
-						<xp:repeat id="repeat5" var="field1">
-							<xp:this.value>
-								<![CDATA[#{javascript:var map:java.util.HashMap = soNBOManager.businessObject.getAttributeListForDisplayfield(1, context.getLocale()); return map.entrySet();}]]>
-							</xp:this.value>
-							<div class="sbo-keyvaluepair">
-								<xp:label value="#{javascript:field1.getKey() + ': '}" id="label9"></xp:label>
-								<xp:label value="#{javascript:field1.getValue()}" id="label1"></xp:label>
-							</div>
-						</xp:repeat>
-					</xp:panel>
-					<xp:panel styleClass="sbo-object-field2">
-						<xp:repeat id="repeat2" var="field2">
-							<xp:this.value>
-								<![CDATA[#{javascript:var map:java.util.HashMap = soNBOManager.businessObject.getAttributeListForDisplayfield(2, context.getLocale()); return map.entrySet();}]]>
-							</xp:this.value>
-							<div class="sbo-keyvaluepair">
-								<xp:label value="#{javascript:field2.getKey() + ': '}" id="label3"></xp:label>
-								<xp:label value="#{javascript:field2.getValue()}" id="label4"></xp:label>
-							</div>
-						</xp:repeat>
-					</xp:panel>
-					<xp:panel styleClass="sbo-object-field3">
-						<xp:repeat id="repeat3" var="field3">
-							<xp:this.value>
-								<![CDATA[#{javascript:var map:java.util.HashMap = soNBOManager.businessObject.getAttributeListForDisplayfield(3, context.getLocale()); return map.entrySet();}]]>
-							</xp:this.value>
-							<div class="sbo-keyvaluepair">
-								<xp:label value="#{javascript:field3.getKey() + ': '}" id="label5"></xp:label>
-								<xp:label value="#{javascript:field3.getValue()}" id="label6"></xp:label>
-							</div>
-						</xp:repeat>
-					</xp:panel>
-					<xp:panel styleClass="sbo-object-field4">
-						<xp:repeat id="repeat4" var="field4">
-							<xp:this.value>
-								<![CDATA[#{javascript:var map:java.util.HashMap = soNBOManager.businessObject.getAttributeListForDisplayfield(4, context.getLocale()); return map.entrySet();}]]>
-							</xp:this.value>
-							<div class="sbo-keyvaluepair">
-								<xp:label value="#{javascript:field4.getKey() + ': '}" id="label7"></xp:label>
-								<xp:label value="#{javascript:field4.getValue()}" id="label8"></xp:label>
-							</div>
-						</xp:repeat>
-					</xp:panel>
+				<xp:panel styleClass="sbo-object-field2">
+					<xp:repeat id="repeat2" var="field2">
+						<xp:this.value>
+							<![CDATA[#{javascript:var map:java.util.HashMap = soNBOManager.businessObject.getAttributeListForDisplayfield(2, context.getLocale()); return map.entrySet();}]]>
+						</xp:this.value>
+						<div class="sbo-keyvaluepair">
+							<xp:label
+								value="#{javascript:field2.getKey() + ': '}" id="label3">
+							</xp:label>
+							<xp:label
+								value="#{javascript:field2.getValue()}" id="label4">
+							</xp:label>
+						</div>
+					</xp:repeat>
 				</xp:panel>
-			</div>
-		</xp:panel>
+				<xp:panel styleClass="sbo-object-field3">
+					<xp:repeat id="repeat3" var="field3">
+						<xp:this.value>
+							<![CDATA[#{javascript:var map:java.util.HashMap = soNBOManager.businessObject.getAttributeListForDisplayfield(3, context.getLocale()); return map.entrySet();}]]>
+						</xp:this.value>
+						<div class="sbo-keyvaluepair">
+							<xp:label
+								value="#{javascript:field3.getKey() + ': '}" id="label5">
+							</xp:label>
+							<xp:label
+								value="#{javascript:field3.getValue()}" id="label6">
+							</xp:label>
+						</div>
+					</xp:repeat>
+				</xp:panel>
+				<xp:panel styleClass="sbo-object-field4">
+					<xp:repeat id="repeat4" var="field4">
+						<xp:this.value>
+							<![CDATA[#{javascript:var map:java.util.HashMap = soNBOManager.businessObject.getAttributeListForDisplayfield(4, context.getLocale()); return map.entrySet();}]]>
+						</xp:this.value>
+						<div class="sbo-keyvaluepair">
+							<xp:label
+								value="#{javascript:field4.getKey() + ': '}" id="label7">
+							</xp:label>
+							<xp:label
+								value="#{javascript:field4.getValue()}" id="label8">
+							</xp:label>
+						</div>
+					</xp:repeat>
+				</xp:panel>
+			</xp:panel>
+		</div>
+	</xp:panel>
 </xp:view>
