@@ -104,18 +104,24 @@ public class ConfigService implements Serializable {
 		for(NodeType nodeType : nodeTypeList) {
 			// get datasource and query of id attribute
 			NodeTypeAttribute nodeTypeAttribute = nodeType.getNodeTypeIdAttribute();
-			JsonObject jsonDatasourceObject = queryService.getJsonObject("datasources", nodeTypeAttribute.getDatasource(), "datasourceJSON");				
-			JsonObject jsonQueryObject = queryService.getJsonObject("queries", nodeTypeAttribute.getQuery(), "queryJSON");
-			//replace attributes in query string with variable values
-			Gson gson = new Gson();
-			Datasource datasourceObject = gson.fromJson(jsonDatasourceObject, Datasource.class);
-			Query queryObject = gson.fromJson(jsonQueryObject, Query.class);
-			JsonObject json = queryService.executeQuery(datasourceObject, queryObject, id);
-			if(json != null) {
-				System.out.println("Determined that Id is of the following nodeType: " + nodeType.getNodeTypeName());
-				return nodeType;
+			if(nodeTypeAttribute != null) {
+				JsonObject jsonDatasourceObject = queryService.getJsonObject("datasources", nodeTypeAttribute.getDatasource(), "datasourceJSON");				
+				JsonObject jsonQueryObject = queryService.getJsonObject("queries", nodeTypeAttribute.getQuery(), "queryJSON");
+				//replace attributes in query string with variable values
+				Gson gson = new Gson();
+				Datasource datasourceObject = gson.fromJson(jsonDatasourceObject, Datasource.class);
+				Query queryObject = gson.fromJson(jsonQueryObject, Query.class);
+				// set fieldname of id attribute as key to be retrieved (FTSearch) 
+				List<String> idList = new ArrayList<String>();
+				idList.add(nodeTypeAttribute.getFieldname());
+				queryObject.setKey(idList);
+				JsonObject json = queryService.executeQuery(datasourceObject, queryObject, id);
+				if(json != null) {
+					System.out.println("Determined that Id is of the following nodeType: " + nodeType.getNodeTypeName());
+					return nodeType;
+				}
 			}
-		}
+		}		
 		return resultNodeType;
 	}
 }

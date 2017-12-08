@@ -10,10 +10,6 @@ public class Query {
 	
 	private String command;
 	
-	private String server;
-	
-	private String database;
-	
 	private String view;
 	
 	private List<String> key;
@@ -21,6 +17,8 @@ public class Query {
 	private String keyValueReturnType;
 	
 	private String fieldname;
+	
+	private int columnNr;
 	
 	private String string;
 	
@@ -46,22 +44,6 @@ public class Query {
 
 	public void setCommand(String command) {
 		this.command = command;
-	}
-
-	public String getServer() {
-		return server;
-	}
-
-	public void setServer(String server) {
-		this.server = server;
-	}
-
-	public String getDatabase() {
-		return database;
-	}
-
-	public void setDatabase(String database) {
-		this.database = database;
 	}
 
 	public String getView() {
@@ -94,6 +76,14 @@ public class Query {
 
 	public void setFieldname(String fieldname) {
 		this.fieldname = fieldname;
+	}
+
+	public int getColumnNr() {
+		return columnNr;
+	}
+
+	public void setColumnNr(int columnNr) {
+		this.columnNr = columnNr;
 	}
 
 	public String getString() {

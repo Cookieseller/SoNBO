@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note class='view' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.0'
- replicaid='C12581E0003A66A2'>
-<noteinfo noteid='496' unid='602C97302BBD1747C125817A007C47F7' sequence='62'>
+ replicaid='C12581ED004C5206'>
+<noteinfo noteid='49a' unid='602C97302BBD1747C125817A007C47F7' sequence='70'>
 <created><datetime dst='true'>20170813T003728,87+02</datetime></created>
-<modified><datetime>20171205T143948,64+01</datetime></modified>
-<revised><datetime>20171205T143948,63+01</datetime></revised>
-<lastaccessed><datetime>20171205T143948,64+01</datetime></lastaccessed>
-<addedtofile><datetime>20171122T113758,15+01</datetime></addedtofile></noteinfo>
+<modified><datetime>20171208T164041,99+01</datetime></modified>
+<revised><datetime>20171208T164041,98+01</datetime></revised>
+<lastaccessed><datetime>20171208T164041,99+01</datetime></lastaccessed>
+<addedtofile><datetime>20171205T145342,14+01</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></updatedby>
 <wassignedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></wassignedby>
 <item name='$FormatNote' summary='true' sign='true'>
@@ -89,6 +89,9 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAHH/PAAAAAAAAwATABoAAAAAAAAAAAAAAAAAAAAAAAAAAABT
 b05CT19Mb2dvX2xhYmVsX3NtYWxsLnBuZ/z/OgAAAAAAAQAAAAAAAwAAAAAAAAAAAAAAAAAAAAAA
 AAAAAAAAAAAAAAEAAKAAAAAAAAAAAAAAAAC+/3QAAAABAB4AnwEAAB4AAAAAAAAAQ3JlYXRlIE5l
 dyBOb2RlIFR5cGUgQXR0cmlidXRlQAAAADIAAgDoAwAAAAAAAAEAAAABABcAY29uZmlnTm9kZVR5
-cGVBdHRyaWJ1dGUA7QMDAAcADAAFAAk0UzZTAA==
+cGVBdHRyaWJ1dGUA7QMDAAcADAAFAAk0UzZTAL7/UAAAAAEAFgCeAQAAGgAAAAAAAABSZWZyZXNo
+IHNlbGVjdGVkIGRvY3VtZW50cyAAAAASAAIAlxcAAAAAAADtAQMABwAMAAUACTBTMEUAvv9MAAAA
+AQAWAJ4BAAAVAAAAAAAAAFJlZnJlc2ggYWxsIGRvY3VtZW50cwAgAAAAEgACAJgXAAAAAAAA7QED
+AAcADAAFAAkwUzBFAA==
 </rawitemdata></item></note>
 

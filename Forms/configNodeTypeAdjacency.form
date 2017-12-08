@@ -1,14 +1,13 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note class='form' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.0'
- replicaid='C12581E0003A66A2'>
-<noteinfo noteid='4b2' unid='84BCF020453E7B34C125818D0077EA1D' sequence='19'>
+ replicaid='C12581ED004C5206'>
+<noteinfo noteid='4b6' unid='84BCF020453E7B34C125818D0077EA1D' sequence='26'>
 <created><datetime dst='true'>20170831T234947,17+02</datetime></created>
-<modified><datetime>20171205T143948,93+01</datetime></modified>
-<revised><datetime>20171205T143948,92+01</datetime></revised>
-<lastaccessed><datetime>20171205T143948,93+01</datetime></lastaccessed>
-<addedtofile><datetime>20171122T113758,29+01</datetime></addedtofile></noteinfo>
-<updatedby><name>CN=Flemming Goetz/O=uniko/C=DE</name><name>CN=Flemming Goetz/O=uniko/C=de</name><name
->CN=Flemming Goetz/O=uniko/C=DE</name></updatedby>
+<modified><datetime>20171208T164042,30+01</datetime></modified>
+<revised><datetime>20171208T164042,29+01</datetime></revised>
+<lastaccessed><datetime>20171208T164042,30+01</datetime></lastaccessed>
+<addedtofile><datetime>20171205T145342,28+01</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></updatedby>
 <wassignedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></wassignedby>
 <item name='$Comment' sign='true'><text/></item>
 <item name='$HTMLCode' sign='true'>

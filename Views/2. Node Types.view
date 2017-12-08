@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note default='true' class='view' xmlns='http://www.lotus.com/dxl' version='9.0'
- maintenanceversion='1.0' replicaid='C12581E0003A66A2'>
-<noteinfo noteid='48e' unid='F1CAEE7B9E16A27FC12580E300440FE2' sequence='76'>
+ maintenanceversion='1.0' replicaid='C12581ED004C5206'>
+<noteinfo noteid='492' unid='F1CAEE7B9E16A27FC12580E300440FE2' sequence='84'>
 <created><datetime>20170314T132325,14+01</datetime></created>
-<modified><datetime>20171205T143948,72+01</datetime></modified>
-<revised><datetime>20171205T143948,71+01</datetime></revised>
-<lastaccessed><datetime>20171205T143948,72+01</datetime></lastaccessed>
-<addedtofile><datetime>20171122T113758,11+01</datetime></addedtofile></noteinfo>
+<modified><datetime>20171208T164042,03+01</datetime></modified>
+<revised><datetime>20171208T164042,02+01</datetime></revised>
+<lastaccessed><datetime>20171208T164042,03+01</datetime></lastaccessed>
+<addedtofile><datetime>20171205T145342,10+01</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></updatedby>
 <wassignedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></wassignedby>
 <item name='$FormulaClass' sign='true'><text>1</text></item>
@@ -66,6 +66,8 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAHH/PAAAAAAAAwATABoAAAAAAAAAAAAAAAAAAAAAAAAAAABT
 b05CT19Mb2dvX2xhYmVsX3NtYWxsLnBuZ/z/OgAAAAAAAQAAAAAAAwAAAAAAAAAAAAAAAAAAAAAA
 AAAAAAAAAAAAAAEAAKAAAAAAAAAAAAAAAAC+/2AAAAABAB4AnwEAABQAAAAAAAAAQ3JlYXRlIE5l
 dyBOb2RlIFR5cGU2AAAAKAACAOgDAAAAAAAAAQAAAAEADgBjb25maWdOb2RlVHlwZe0DAwAHAAwA
-BQAJNFM2UwA=
+BQAJNFM2UwC+/1AAAAABABYAngEAABoAAAAAAAAAUmVmcmVzaCBzZWxlY3RlZCBkb2N1bWVudHMg
+AAAAEgACAJcXAAAAAAAA7QEDAAcADAAFAAkwUzBFAL7/TAAAAAEAFgCeAQAAFQAAAAAAAABSZWZy
+ZXNoIGFsbCBkb2N1bWVudHMAIAAAABIAAgCYFwAAAAAAAO0BAwAHAAwABQAJMFMwRQA=
 </rawitemdata></item></note>
 
