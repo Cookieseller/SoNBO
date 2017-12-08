@@ -146,21 +146,19 @@ public class NodeService implements Serializable {
 			QueryResult queryResult = new QueryResult(datasource, query);
 			try {
 				JsonObject jsonQueryResultObject = queryService.getQueryResult(queryResultList, queryResult);
-			// extract value from query result
-			JsonElement jsonFirstQueryResultElement = jsonQueryResultObject.get(businessObject.getId());
-			JsonObject jsonFirstQueryResultObject = jsonFirstQueryResultElement.getAsJsonObject();
-			JsonElement value = jsonFirstQueryResultObject.get(fieldname);
-			Gson gson = new Gson();
-			String valueJson = gson.toJson(value);
-			nodeTypeAttribute.setValue(valueJson);
-			int displayfield = nodeTypeAttribute.getDisplayfield();
-			// add whole nodeTypeAttribute Object with updated value
-			businessObject.addAttribute(nodeTypeAttribute);
-			//set business object title if attribute is configured as title
-			String titleAttribute = configuration.getNodeTypeTitle();
-			if(titleAttribute.equals(name)) {
-				businessObject.setNodeTitle(value.getAsString());
-			} 
+				// extract value from query result
+				JsonElement value = jsonQueryResultObject.get(fieldname);
+				Gson gson = new Gson();
+				String valueJson = gson.toJson(value);
+				nodeTypeAttribute.setValue(valueJson);
+				int displayfield = nodeTypeAttribute.getDisplayfield();
+				// add whole nodeTypeAttribute Object with updated value
+				businessObject.addAttribute(nodeTypeAttribute);
+				//set business object title if attribute is configured as title
+				String titleAttribute = configuration.getNodeTypeTitle();
+				if(titleAttribute.equals(name)) {
+					businessObject.setNodeTitle(value.getAsString());
+				} 
 			}catch(NullPointerException npe) {
 				System.out.println("Failed loading attribute: " + name + " from field: " + fieldname);
 			}

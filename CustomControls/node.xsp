@@ -2,6 +2,9 @@
 <xp:view xmlns:xp="http://www.ibm.com/xsp/core">
 	<xp:panel styleClass="sbo-object-container">
 		<xp:label id="object_name" value="#{javascript:soNBOManager.businessObject.getNodeTitle();}" styleClass="sbo-object-name"></xp:label>
+		<div>
+			<xp:label id="object_type" value="#{javascript:soNBOManager.businessObject.getNodeType();}" styleClass=""></xp:label>
+		</div>
 			<div>
 				<xp:panel styleClass="sbo-object-img-container">
 					<xp:image styleClass="sbo-object-img" url="#{javascript: return '/' + soNBOManager.businessObject.getNodeImage();}" id="image1"></xp:image>
