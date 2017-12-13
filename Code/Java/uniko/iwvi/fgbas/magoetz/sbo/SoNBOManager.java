@@ -3,30 +3,22 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.Vector;
-import java.util.Map.Entry;
 import java.util.concurrent.atomic.AtomicLong;
-
 import javax.faces.context.FacesContext;
-
 import uniko.iwvi.fgbas.magoetz.sbo.objects.Filter;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.Node;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.NodeTypeAttribute;
-import uniko.iwvi.fgbas.magoetz.sbo.objects.NodeTypeCategory;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.SortAttribute;
 import uniko.iwvi.fgbas.magoetz.sbo.services.ConfigService;
 import uniko.iwvi.fgbas.magoetz.sbo.services.ConnectionsService;
 import uniko.iwvi.fgbas.magoetz.sbo.services.NodeService;
 import uniko.iwvi.fgbas.magoetz.sbo.util.Texts;
-import uniko.iwvi.fgbas.magoetz.sbo.util.Utilities;
 
 /**
  * @author Flemming
@@ -83,15 +75,10 @@ public class SoNBOManager implements Serializable {
 		// get business object
 		this.businessObject = this.nodeService.getNode(objectId, false);
 		this.loadAdjacentNodes(this.businessObject, locale);
-		
-		// TODO: execute tests if necessary
-		Test test = new Test();
-		//test.javaToJson();
 	}
 
-	List<Node> adjacentNodeCategoryList = new ArrayList<Node>();
-
 	private void loadAdjacentNodes(Node node, Locale locale) {
+		List<Node> adjacentNodeCategoryList = new ArrayList<Node>();
 		List<String> nodeTypeCategoryNames = configService.getAllNodeTypeCategoryNames();
 		for(String adjacentNodeTypeCategory : nodeTypeCategoryNames) {
 			List<Node> objects = nodeService.getAdjacentNodes(node, adjacentNodeTypeCategory);

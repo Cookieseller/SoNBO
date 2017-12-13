@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.0" replicaid="C12581E0003A66A2" version="9.0" xmlns="http://www.lotus.com/dxl">
-<noteinfo noteid="482" sequence="113" unid="41433AF615BE8759C12581C5006DE00E">
+<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.9" replicaid="C12581ED004C5206" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="486" sequence="166" unid="41433AF615BE8759C12581C5006DE00E">
 <created><datetime dst="true">20171026T220007,82+02</datetime></created>
-<modified><datetime>20171127T220911,53+01</datetime></modified>
-<revised><datetime>20171127T220911,52+01</datetime></revised>
-<lastaccessed><datetime>20171127T220911,53+01</datetime></lastaccessed>
-<addedtofile><datetime>20171122T113758,05+01</datetime></addedtofile></noteinfo>
-<updatedby><name>CN=Flemming Goetz/O=uniko/C=DE</name><name>CN=Flemming Goetz/O=uniko/C=de</name><name>CN=Flemming Goetz/O=uniko/C=DE</name></updatedby>
+<modified><datetime>20171213T145942,04+01</datetime></modified>
+<revised><datetime>20171213T145942,03+01</datetime></revised>
+<lastaccessed><datetime>20171213T145942,04+01</datetime></lastaccessed>
+<addedtofile><datetime>20171205T145342,04+01</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></updatedby>
 <wassignedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></wassignedby>
 <item name="$Flags"><text>gC~4;</text></item>
 <item name="$TITLE" sign="true"><text>navbarNodeTypeCategory.xsp</text></item>
@@ -13,9 +13,9 @@
 
 
 
-
 <item name="$FileNames" sign="true"><text>navbarNodeTypeCategory.xsp</text></item>
 <item name="$DesignerVersion"><text>8.5.3</text></item>
+
 
 
 

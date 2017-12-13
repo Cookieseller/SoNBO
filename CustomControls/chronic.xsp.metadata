@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.0" replicaid="C12581E0003A66A2" version="9.0" xmlns="http://www.lotus.com/dxl">
-<noteinfo noteid="178a" sequence="55" unid="2EDE7EE00F9B3136C12581E30072C9E5">
+<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.9" replicaid="C12581ED004C5206" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="170e" sequence="167" unid="2EDE7EE00F9B3136C12581E30072C9E5">
 <created><datetime>20171125T215347,89+01</datetime></created>
-<modified><datetime>20171126T001547,53+01</datetime></modified>
-<revised><datetime>20171126T001547,52+01</datetime></revised>
-<lastaccessed><datetime>20171126T001547,53+01</datetime></lastaccessed>
-<addedtofile><datetime>20171125T215347,90+01</datetime></addedtofile></noteinfo>
+<modified><datetime>20171213T145942,21+01</datetime></modified>
+<revised><datetime>20171213T145942,20+01</datetime></revised>
+<lastaccessed><datetime>20171213T145942,21+01</datetime></lastaccessed>
+<addedtofile><datetime>20171205T145405,76+01</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></updatedby>
 <wassignedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></wassignedby>
 <item name="$Flags"><text>gC~4;</text></item>
@@ -14,9 +14,9 @@
 
 
 
+
+
 <item name="$FileNames" sign="true"><text>chronic.xsp</text></item>
 <item name="$DesignerVersion"><text>8.5</text></item>
-
-
 
 </note>
