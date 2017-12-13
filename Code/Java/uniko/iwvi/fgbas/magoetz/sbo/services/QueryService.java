@@ -32,7 +32,7 @@ public class QueryService implements Serializable {
 	/*
 	 * return first returned field value as string
 	 */
-	public String getFieldValue(String view, String key, String returnField) throws IndexOutOfBoundsException{
+	public String getFieldValue(String hostname, String database, String view, String key, String returnField) throws IndexOutOfBoundsException{
 		
 		Database notesDB = DominoUtils.getCurrentDatabase();
 		ArrayList<String> queryResults = new ArrayList<String>();
@@ -218,6 +218,8 @@ public class QueryService implements Serializable {
 		} catch (NotesException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (NullPointerException npe) {
+			npe.printStackTrace();
 		}
 		return resultCollection;
 	}
@@ -292,6 +294,8 @@ public class QueryService implements Serializable {
 	
 	public String getEmailByNotesUsername(String notesUsername) {
 		
+		return this.getFieldValue("", "GEDYSIntraWare8\\georga.nsf", "Usernames", notesUsername, "email");
+		/*
 		Session session = DominoUtils.getCurrentSession();
 		try {
 			Directory dir = session.getDirectory();
@@ -309,10 +313,16 @@ public class QueryService implements Serializable {
 			e.printStackTrace();
 		}
 		return "n/a";
+		*/
 	}
 	
 	public String getNotesUsernameByEmail(String email) {
+		
+		return this.getFieldValue("", "GEDYSIntraWare8\\georg.nsf", "SoNBO\\(Emails)", email, "username");
+		
+		/* 
 		String notesUsername = "not found";
+		
 		DocumentCollection resultCollection = this.ftSearchView("names.nsf", email, "($Users)");
 		try {
 			Document doc = resultCollection.getFirstDocument();
@@ -322,6 +332,7 @@ public class QueryService implements Serializable {
 			e.printStackTrace();
 		}
 		return notesUsername;
+		*/
 		
 		/*
 		Session session = DominoUtils.getCurrentSession();

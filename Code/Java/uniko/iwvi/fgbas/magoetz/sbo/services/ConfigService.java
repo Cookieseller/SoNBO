@@ -85,7 +85,7 @@ public class ConfigService implements Serializable {
 
 	public NodeTypeCategory getNodeTypeCategory(String nodeTypeCategory) {
 		
-		String jsonFromDb = queryService.getFieldValue("nodeTypeCategories", nodeTypeCategory, "nodeTypeCategoryJSON");
+		String jsonFromDb = queryService.getFieldValue("", "", "nodeTypeCategories", nodeTypeCategory, "nodeTypeCategoryJSON");
 		Gson gson = new Gson();
 		return gson.fromJson(jsonFromDb, NodeTypeCategory.class);
 	}
@@ -119,8 +119,8 @@ public class ConfigService implements Serializable {
 				if(json != null) {
 					System.out.println("Sufficient data found for nodeType: " + nodeType.getNodeTypeName());
 					// check if required key and value for node type exist
-					String key = queryService.getFieldValue("nodeTypes", nodeType.getNodeTypeName(), "nodeTypeKey");
-					String value = queryService.getFieldValue("nodeTypes", nodeType.getNodeTypeName(), "nodeTypeValue");
+					String key = queryService.getFieldValue("", "", "nodeTypes", nodeType.getNodeTypeName(), "nodeTypeKey");
+					String value = queryService.getFieldValue("", "", "nodeTypes", nodeType.getNodeTypeName(), "nodeTypeValue");
 					if(key != null && value != null && !value.equals("") && !key.equals("")) {
 						//check if json contains required key value pair
 						String jsonPrimitive = json.get(key).toString();

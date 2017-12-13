@@ -216,7 +216,7 @@ public class NodeService implements Serializable {
 				for(int i=1; i<=resultCollectionAdjacenyQueryList.getCount(); i++) {
 					Document doc = resultCollectionAdjacenyQueryList.getNthDocument(i);
 					String adjacencyId = doc.getItemValueString("adjacencyId");
-					String adjacencyQueryJSON = queryService.getFieldValue("nodeTypeAdjacencies", adjacencyId, "adjacencyQueryJSON");					
+					String adjacencyQueryJSON = queryService.getFieldValue("", "", "nodeTypeAdjacencies", adjacencyId, "adjacencyQueryJSON");					
 					// retrieve query and database
 					NodeTypeAdjacency adjacencyQuery = gson.fromJson(adjacencyQueryJSON, NodeTypeAdjacency.class);
 					adjacencyQueryList.add(adjacencyQuery);
@@ -281,7 +281,7 @@ public class NodeService implements Serializable {
 			queryObject.setString(string);
 			
 			String targetNodeName = adjacencyQuery.getTargetNode();
-			String targetNodeIdKey = queryService.getFieldValue("nodeTypes", targetNodeName, "nodeTypeId");
+			String targetNodeIdKey = queryService.getFieldValue("", "", "nodeTypes", targetNodeName, "nodeTypeId");
 				System.out.println("targetNodeIdKey: " + targetNodeIdKey);
 			String sourceNodeId = businessObject.getId();
 				System.out.println("sourceNodeIdKey: " + sourceNodeId);
