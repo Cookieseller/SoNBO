@@ -25,7 +25,7 @@ public class ConnectionsService implements Serializable {
 		String email = null;
 		if(this.myProfile == null) {
 			try {
-				this.myProfile = myProfile = this.profileService.getMyProfile();
+				this.myProfile = this.profileService.getMyProfile();
 			} catch (ClientServicesException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

@@ -4,10 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Vector;
-
 import lotus.domino.Document;
 import lotus.domino.DocumentCollection;
 import lotus.domino.NotesException;
@@ -126,16 +124,7 @@ public class NodeService implements Serializable {
 	}
 	
 	private Node loadAttributes(Node businessObject, NodeType configuration, ArrayList<QueryResult> queryResultList, boolean nodePreview) {
-
-		// TODO: all attributes should be loaded, but only the preview ones displayed
-		// if it is an object preview only process preview attributes otherwise all defined
-		List<NodeTypeAttribute> configurationNodeAttributes =  new ArrayList<NodeTypeAttribute>();
-		if(nodePreview){
-			configurationNodeAttributes =  configuration.getPreviewConfigurationNodeAttributes();
-		}else {
-			configurationNodeAttributes =  configuration.getNodeTypeAttributes();
-		}
-		
+	
 		for(NodeTypeAttribute nodeTypeAttribute : configuration.getNodeTypeAttributes()) {
 			// get name and fieldname of attribute
 			String name = nodeTypeAttribute.getName();
@@ -151,7 +140,6 @@ public class NodeService implements Serializable {
 				Gson gson = new Gson();
 				String valueJson = gson.toJson(value);
 				nodeTypeAttribute.setValue(valueJson);
-				int displayfield = nodeTypeAttribute.getDisplayfield();
 				// add whole nodeTypeAttribute Object with updated value
 				businessObject.addAttribute(nodeTypeAttribute);
 				//set business object title if attribute is configured as title
@@ -173,10 +161,6 @@ public class NodeService implements Serializable {
 		System.out.println("==============");
 		
 		List<Node> adjacentNodesList = new ArrayList<Node>();
-		// get peer query for object type
-		// execute peer query and retrieve peer object ids
-		String queryString = "";
-		
 		// determine peer query by source and target object type
 		String sourceNodeType = businessObject.getNodeType();
 		//System.out.println("sourceNodeType: " + sourceNodeType);
@@ -296,6 +280,7 @@ public class NodeService implements Serializable {
 		return adjacentNodeIDs;
 	}
 	
+	@SuppressWarnings("unchecked")
 	private ArrayList<String> retrieveAdjacentNodeIDs(Datasource datasourceObject, Query queryObject, String sourceNodeId) {
 		
 		DocumentCollection resultCollectionAdjacentNodesIDs = queryService.executeQueryFTSearch(datasourceObject, queryObject); 
@@ -310,7 +295,7 @@ public class NodeService implements Serializable {
 					//System.out.println(doc.generateXML());
 					for(String targetNodeIdKey : targetNodeIdKeys) {
 						// expect multiple values
-						Vector<String> nodeIds = doc.getItemValue(targetNodeIdKey);
+						Vector<String> nodeIds = (Vector<String>) doc.getItemValue(targetNodeIdKey);
 						for(String nodeId : nodeIds) {
 							// add to peer object id list if it is not the object id itself
 							if(!nodeId.equals(sourceNodeId)) {

@@ -3,11 +3,6 @@ package uniko.iwvi.fgbas.magoetz.sbo;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
-
-import javax.faces.context.FacesContext;
-
-import com.ibm.sbt.services.client.ClientServicesException;
-
 import uniko.iwvi.fgbas.magoetz.sbo.services.ConnectionsService;
 
 public class SoNBOSession {

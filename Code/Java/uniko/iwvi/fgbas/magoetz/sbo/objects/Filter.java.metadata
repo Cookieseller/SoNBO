@@ -1,14 +1,17 @@
-<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.0" replicaid="C12581C5006D51E8" version="9.0" xmlns="http://www.lotus.com/dxl">
-<noteinfo noteid="14aa" sequence="3" unid="4AFD1D8D9F68B541C12581CD0033B89E">
+<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.9" replicaid="C12581ED004C5206" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="1462" sequence="61" unid="4AFD1D8D9F68B541C12581CD0033B89E">
 <created><datetime>20171103T102455,98+01</datetime></created>
-<modified><datetime>20171103T102456,39+01</datetime></modified>
-<revised><datetime>20171103T102456,38+01</datetime></revised>
-<lastaccessed><datetime>20171103T102456,39+01</datetime></lastaccessed>
-<addedtofile><datetime>20171103T102455,99+01</datetime></addedtofile></noteinfo>
-<updatedby><name>CN=Flemming Goetz/O=uniko/C=de</name></updatedby>
-<wassignedby><name>CN=Flemming Goetz/O=uniko/C=de</name></wassignedby>
+<modified><datetime>20171214T101029,68+01</datetime></modified>
+<revised><datetime>20171214T101029,67+01</datetime></revised>
+<lastaccessed><datetime>20171214T101029,68+01</datetime></lastaccessed>
+<addedtofile><datetime>20171205T145402,34+01</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></updatedby>
+<wassignedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></wassignedby>
 <item name="$Flags"><text>34567Cg~[</text></item>
 <item name="$TITLE"><text>uniko/iwvi/fgbas/magoetz/sbo/objects/Filter.java</text></item>
+
+
+
 <item name="$DesignerVersion"><text>8.5.3</text></item>
 
 

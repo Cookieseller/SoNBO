@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xp:view xmlns:xp="http://www.ibm.com/xsp/core">
 		<xp:panel styleClass="sbo-object-card">
-			<xp:label value="#{javascript:adjacentNode.getNodeTitle()}" styleClass="sbo-object-card-headline" id="sbo-object-card-headline"></xp:label>
+			<div>
+				<xp:label value="#{javascript:adjacentNode.getNodeTitle()}" styleClass="sbo-object-card-headline" id="sbo-object-card-headline" />
+			</div>
+			<div>
+				<xp:label id="object_type_preview" value="#{javascript:translate(adjacentNode.getNodeType());}" styleClass="" />
+			</div>
 			<xp:link id="label3">
 				<xp:this.value><![CDATA[#{javascript: return "main.xsp?id=" + adjacentNode.getId() + "&nodeTypeCategory=all";}]]></xp:this.value>
 				<span class="sbo-card-link"></span>

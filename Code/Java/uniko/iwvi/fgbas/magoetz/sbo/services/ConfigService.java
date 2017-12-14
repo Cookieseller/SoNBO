@@ -2,24 +2,17 @@ package uniko.iwvi.fgbas.magoetz.sbo.services;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
-import java.util.Set;
-
 import lotus.domino.Document;
 import lotus.domino.DocumentCollection;
 import lotus.domino.NotesException;
-
-import uniko.iwvi.fgbas.magoetz.sbo.objects.NodeTypeAttribute;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.Datasource;
-import uniko.iwvi.fgbas.magoetz.sbo.objects.NodeTypeCategory;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.NodeType;
+import uniko.iwvi.fgbas.magoetz.sbo.objects.NodeTypeAttribute;
+import uniko.iwvi.fgbas.magoetz.sbo.objects.NodeTypeCategory;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.Query;
-import uniko.iwvi.fgbas.magoetz.sbo.util.Utilities;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 public class ConfigService implements Serializable {
@@ -32,9 +25,6 @@ public class ConfigService implements Serializable {
 		
 		// TODO: check if object type exists 
 		JsonObject jsonNodeType = queryService.getJsonObject("nodeTypes", nodeTypeName, "nodeTypeJSON");
-		// log json
-		Utilities utilities = new Utilities();
-		//utilities.printJson(jsonNodeType, "Parsed nodeType json");
 		
 		// get config information
 		Gson gson = new Gson();

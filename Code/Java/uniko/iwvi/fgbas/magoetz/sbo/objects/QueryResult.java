@@ -1,7 +1,5 @@
 package uniko.iwvi.fgbas.magoetz.sbo.objects;
 
-import java.io.Serializable;
-
 import com.google.gson.JsonObject;
 
 public class QueryResult {

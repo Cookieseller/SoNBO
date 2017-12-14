@@ -2,25 +2,16 @@ package uniko.iwvi.fgbas.magoetz.sbo.services;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Vector;
-
+import lotus.domino.Database;
+import lotus.domino.Document;
+import lotus.domino.DocumentCollection;
+import lotus.domino.NotesException;
+import lotus.domino.View;
 import org.openntf.Utils;
-
 import uniko.iwvi.fgbas.magoetz.sbo.objects.Datasource;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.Query;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.QueryResult;
 import uniko.iwvi.fgbas.magoetz.sbo.util.Utilities;
-import lotus.domino.Database;
-import lotus.domino.Directory;
-import lotus.domino.DirectoryNavigator;
-import lotus.domino.Document;
-import lotus.domino.DocumentCollection;
-import lotus.domino.NotesException;
-import lotus.domino.Session;
-import lotus.domino.View;
-
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.ibm.xsp.model.domino.DominoUtils;
@@ -197,8 +188,8 @@ public class QueryService implements Serializable {
 	public DocumentCollection executeQueryFTSearch(Datasource datasourceObject, Query queryObject) {
 		
 		// TODO: Evaluate whole query and change to dynamic execution for all query types (currently only IBM Domino supported)
-		String type = datasourceObject.getType();
-		String hostname = datasourceObject.getHostname();
+		//String type = datasourceObject.getType();
+		//String hostname = datasourceObject.getHostname();
 		String database = datasourceObject.getDatabase();
 		
 		// TODO: queryType was added and has to be processed (e.g. "IBM Domino") 
@@ -227,12 +218,12 @@ public class QueryService implements Serializable {
 	public JsonObject executeQuery(Datasource datasourceObject, Query queryObject, String objectId) {
 		
 		// TODO: Evaluate whole query and change to dynamic execution for all query types (currently only IBM Domino supported)
-		String type = datasourceObject.getType();
+		//String type = datasourceObject.getType();
 		String hostname = datasourceObject.getHostname();
 		String database = datasourceObject.getDatabase();
 		
 		// TODO: queryType was added and has to be processed (e.g. "IBM Domino") 
-		String queryCommand = queryObject.getCommand();
+		//String queryCommand = queryObject.getCommand();
 		//String queryServer = queryObject.getServer();
 		//String queryDatabase = queryObject.getDatabase();
 		String queryView = queryObject.getView();

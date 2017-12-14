@@ -3,14 +3,8 @@ package uniko.iwvi.fgbas.magoetz.sbo.objects;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
-import java.util.Set;
-import java.util.Vector;
-import java.util.concurrent.atomic.AtomicLong;
-
-import uniko.iwvi.fgbas.magoetz.sbo.services.ConfigService;
 
 public class Node implements Serializable {
 	
@@ -57,6 +51,7 @@ public class Node implements Serializable {
 		return attributeListForDisplayfield;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public <T> T getAttributeValue(String key) {
 		Object value = null;
 		for(NodeTypeAttribute nodeTypeAttribute : attributeList) {

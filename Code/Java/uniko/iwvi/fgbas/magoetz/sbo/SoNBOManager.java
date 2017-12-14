@@ -42,7 +42,7 @@ public class SoNBOManager implements Serializable {
 	
 	private List<Filter> filters = new ArrayList<Filter>();
 	
-	private static AtomicLong idCounter = new AtomicLong();
+	private AtomicLong idCounter = new AtomicLong();
 	
 	private ConfigService configService = new ConfigService();
 	

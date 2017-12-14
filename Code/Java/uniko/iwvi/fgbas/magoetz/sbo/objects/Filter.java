@@ -2,8 +2,6 @@ package uniko.iwvi.fgbas.magoetz.sbo.objects;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.UUID;
-import java.util.concurrent.atomic.AtomicLong;
 
 public class Filter implements Serializable {
 	

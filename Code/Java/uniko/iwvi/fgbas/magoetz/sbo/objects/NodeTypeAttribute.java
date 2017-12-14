@@ -3,14 +3,10 @@ package uniko.iwvi.fgbas.magoetz.sbo.objects;
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.Locale;
-
 import uniko.iwvi.fgbas.magoetz.sbo.services.QueryService;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonSerializationContext;
 
 public class NodeTypeAttribute implements Serializable {
 	
