@@ -146,6 +146,27 @@ public class SoNBOManager implements Serializable {
 	}
 	
 	/*
+	 * returns vector list of (unique) adjacent nodes attributes which are filterable (attributeName translated)
+	 */	
+	public List<Vector<String>> getAdjacentNodeFilterableAttributes(Locale locale) {
+		Set<Vector<String>> adjacentNodeAttributeNames = new HashSet<Vector<String>>();
+		for(Node adjacentNode : this.adjacentNodeList) {
+			List<NodeTypeAttribute> adjacentNodeAttributeList = adjacentNode.getAttributeList();
+			for(NodeTypeAttribute adjacentNodeTypeAttribute : adjacentNodeAttributeList) {
+				if(adjacentNodeTypeAttribute.isFilterable()) {
+					Vector<String> v = new Vector<String>();
+					v.add(adjacentNodeTypeAttribute.getName());
+					v.add(adjacentNodeTypeAttribute.getDatatype());
+					v.add(adjacentNodeTypeAttribute.getTranslatedName(locale));
+					adjacentNodeAttributeNames.add(v);
+				}
+			}
+		}
+		List<Vector<String>> adjacentNodeAttributeList = new ArrayList<Vector<String>>(adjacentNodeAttributeNames);
+		return sortVectorList(adjacentNodeAttributeList, 2);
+	}
+	
+	/*
 	 * Sorts list of vectors alphabetically after specified vector item (int) and returns list
 	 */
 	public List<Vector<String>> sortVectorList(List<Vector<String>> vectorSet, final int sortItem) {

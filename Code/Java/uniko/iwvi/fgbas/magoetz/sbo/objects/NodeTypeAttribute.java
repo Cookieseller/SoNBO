@@ -28,6 +28,8 @@ public class NodeTypeAttribute implements Serializable {
 	
 	private int displayfield;
 	
+	private boolean filterable;
+	
 	private boolean preview;
 	
 	private String value;
@@ -117,6 +119,14 @@ public class NodeTypeAttribute implements Serializable {
 
 	public String getQuery() {
 		return query;
+	}
+
+	public boolean isFilterable() {
+		return filterable;
+	}
+
+	public void setFilterable(boolean filterable) {
+		this.filterable = filterable;
 	}
 
 	public void setPreview(boolean preview) {

@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note class='form' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.9'
  replicaid='C12581ED004C5206'>
-<noteinfo noteid='24f2' unid='FC0B01965C1988C7C12581EF0055698D' sequence='47'>
+<noteinfo noteid='24f2' unid='FC0B01965C1988C7C12581EF0055698D' sequence='48'>
 <created><datetime>20171207T163255,81+01</datetime></created>
-<modified><datetime>20171214T122929,68+01</datetime></modified>
-<revised><datetime>20171214T122929,67+01</datetime></revised>
-<lastaccessed><datetime>20171214T122929,68+01</datetime></lastaccessed>
+<modified><datetime>20171215T220805,75+01</datetime></modified>
+<revised><datetime>20171215T220805,74+01</datetime></revised>
+<lastaccessed><datetime>20171215T220805,75+01</datetime></lastaccessed>
 <addedtofile><datetime>20171207T163256,43+01</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></updatedby>
 <wassignedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></wassignedby>
@@ -19,6 +19,7 @@ X/8QAAEA/gAAAAAAAAAAAF//EAACAA8ABwAAAAAAAAA=
 <rawitemdata type='1'>
 hhgBAIAAAAAAgAAAAQABAP///wAQAAAA
 </rawitemdata></item>
+<item name='$WindowTitle' sign='true'><formula>"JSON Builder helper form"</formula></item>
 <item name='$Flags'><text/></item>
 <item name='$DesignerVersion'><text>8.5.3</text></item>
 <item name='$$Script_O' sign='true'>

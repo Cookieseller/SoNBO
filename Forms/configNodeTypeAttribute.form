@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note class='form' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.9'
  replicaid='C12581ED004C5206'>
-<noteinfo noteid='4b2' unid='A6D09DF797497F1AC125817A0052DD31' sequence='46'>
+<noteinfo noteid='4b2' unid='A6D09DF797497F1AC125817A0052DD31' sequence='49'>
 <created><datetime dst='true'>20170812T170505,77+02</datetime></created>
-<modified><datetime>20171214T122210,61+01</datetime></modified>
-<revised><datetime>20171214T122210,60+01</datetime></revised>
-<lastaccessed><datetime>20171214T122210,61+01</datetime></lastaccessed>
+<modified><datetime>20171215T223055,83+01</datetime></modified>
+<revised><datetime>20171215T223055,82+01</datetime></revised>
+<lastaccessed><datetime>20171215T223055,83+01</datetime></lastaccessed>
 <addedtofile><datetime>20171205T145342,26+01</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></updatedby>
 <wassignedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></wassignedby>
@@ -25,6 +25,7 @@ hhgBAIAAAAAAgAAAAQABAP///wAQAAAA
 <item name='$$ScriptName' summary='false' sign='true'><text>configFormAttribute</text></item>
 <item name='$$FormActionC' sign='true'><formula>@If(attributePreview = ""; FIELD attributePreview := "false";  "");
 @If(attributeDisplayfieldname = ""; FIELD attributeDisplayfieldname := "1";  "");
+@If(attributeFilterable = ""; FIELD attributeFilterable := "false";  "");
 @Return("")</formula></item>
 <item name='attributeNodeType' placeholder='true'>
 <rawitemdata type='0'>
@@ -53,13 +54,16 @@ hhgBAIAAAAAAgAAAAQABAP///wAQAAAA
 <item name='attributeDisplayfieldname' placeholder='true'>
 <rawitemdata type='0'>
 </rawitemdata></item>
+<item name='attributeFilterable' placeholder='true'>
+<rawitemdata type='0'>
+</rawitemdata></item>
 <item name='attributePreview' placeholder='true'>
 <rawitemdata type='0'>
 </rawitemdata></item>
-<item name='$Fields'><textlist><text>attributePreview</text><text>attributeDisplayfieldname</text><text
->attributeDatatype</text><text>attributeFieldname</text><text>attributeQuery</text><text
->attributeDatasource</text><text>attributeNameEN</text><text>attributeNameDE</text><text
->attributeName</text><text>attributeNodeType</text></textlist></item>
+<item name='$Fields'><textlist><text>attributePreview</text><text>attributeFilterable</text><text
+>attributeDisplayfieldname</text><text>attributeDatatype</text><text>attributeFieldname</text><text
+>attributeQuery</text><text>attributeDatasource</text><text>attributeNameEN</text><text
+>attributeNameDE</text><text>attributeName</text><text>attributeNodeType</text></textlist></item>
 <item name='$Body' sign='true'>
 <rawitemdata type='1'>
 gQKC/1oAAQAAAAAAAAAAAKAFAACgBQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
@@ -68,7 +72,7 @@ aW9uIGZvcm11bGFyIC0gQXR0cmlidXRlIGRlZmluaXRpb24AgQKDBAEAhf9HAAEAAApIZXJlIHlv
 dSBjYW4gYWRkIG9yIGVkaXQgYW4gYXR0cmlidXRlIHRvIGFuIGV4aXN0aW5nIG5vZGUgdHlwZS4A
 gQKDBAEAhf8IAAEAAAqBAoL/WgACAAAAAAAAAAAAoAUAAKAFAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAlIUAAAAAoAUNAAAAAAABAAAABAAAAIMEAgDdBgEA
-+//7/ywAAAAAAAoDAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAFz/PgAAAAAAAAAA
++//7/ywAAAAAAAsDAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAFz/PgAAAAAAAAAA
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAOAAAAAAAAAAEAAAoAAAAAAQAAAAAA3gYBAPv/
 ow6gBSgAPAAAAAAAAgCkEgAAoAXKDgAAVQIREQEBAACBAoL/WgADAAAAAAAAAAAArwXKDq8FAAAA
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAhgEAAAAAVIcAAAAAAAAAAAAA
@@ -176,15 +180,24 @@ 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
-AArdBgAArf+p/zUAFgAEAAAAKQBTaG93IGF0dHJpYnV0ZSBvbiB0aGUgcHJldmlldyBvZiBhIG5v
-ZGU/AACF/w8AAQAAClByZXZpZXcA3QYAAIX/hf8JAAEAAgoqANIIAQD/AAAA3gYAAIX/hf8JAAEA
-AAo6AKoC3gYAAK4Ahf8IAAEAAAqkEgkByg7lFwAAVQIREQEBAACBAoMEBACF/wgAAQAACt0GAAD3
-//f/JAABAACAAADcCGgBAAAAAAAAAABkAAAAAAAAAAAAAAAAAP7/UAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAHgAeAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAsP8UAAAABECBAAAAAAAAAAAAAACK/0QAigIABQAgAgAAAAAAAAIBAAAKAAAAAAAAAAAQAAAA
-DwBhdHRyaWJ1dGVQcmV2aWV3AgAFAAQAZmFsc2V0cnVlANIIAQAAAAAA0ggJAP///wDeBgAA9/+F
-/wgAAQAACqQSCQLlFwAhAABVAhERAQEAAIECgwQFAIX/CAABAAAKpQYAAAAAgQKDBAEA3QYAAIX/
-hf8JAAEAAgkqANIIAQD/AAAA3gYAAIX/hf8eAAEAAAkgcmVxdWlyZWQgfCD7IGNvbXB1dGVk
+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
+CSByZXF1aXJlZCB8IPsgY29tcHV0ZWQ=
 </rawitemdata></item>
 <item name='$V5ACTIONS' sign='true'>
 <rawitemdata type='1'>
