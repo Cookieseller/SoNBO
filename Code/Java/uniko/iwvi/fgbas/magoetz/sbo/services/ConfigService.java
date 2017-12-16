@@ -94,13 +94,10 @@ public class ConfigService implements Serializable {
 		for(NodeType nodeType : nodeTypeList) {
 			// get datasource and query of id attribute
 			NodeTypeAttribute nodeTypeAttribute = nodeType.getNodeTypeIdAttribute();
-			if(nodeTypeAttribute != null) {
-				JsonObject jsonDatasourceObject = queryService.getJsonObject("datasources", nodeTypeAttribute.getDatasource(), "datasourceJSON");				
-				JsonObject jsonQueryObject = queryService.getJsonObject("queries", nodeTypeAttribute.getQuery(), "queryJSON");
+			if(nodeTypeAttribute != null) {				
 				//replace attributes in query string with variable values
-				Gson gson = new Gson();
-				Datasource datasourceObject = gson.fromJson(jsonDatasourceObject, Datasource.class);
-				Query queryObject = gson.fromJson(jsonQueryObject, Query.class);
+				Datasource datasourceObject = queryService.getDatasourceObject(nodeTypeAttribute.getDatasource());
+				Query queryObject = queryService.getQueryObject(nodeTypeAttribute.getQuery());
 				// set fieldname of id attribute as key to be retrieved (FTSearch) 
 				List<String> idList = new ArrayList<String>();
 				idList.add(nodeTypeAttribute.getFieldname());

@@ -2,6 +2,9 @@ package uniko.iwvi.fgbas.magoetz.sbo.services;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Vector;
+
 import lotus.domino.Database;
 import lotus.domino.Document;
 import lotus.domino.DocumentCollection;
@@ -91,7 +94,6 @@ public class QueryService implements Serializable {
 	}
 	
 	public DocumentCollection ftSearchView(String databasename, String searchString, String viewname) {
-		
 		Database notesDB;
 		DocumentCollection resultCollection = null;
 		try {
@@ -264,6 +266,59 @@ public class QueryService implements Serializable {
 		Utilities utilities = new Utilities();
 		utilities.printJson(jsonObject, "query result json object");
 		return jsonObject;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public Datasource getDatasourceObject(String datasourceName) {
+		
+		String searchString = "FIELD datasourcename = \"" + datasourceName + "\"";
+		Document datasourceDoc = null;
+		Datasource datasource = new Datasource();
+		try {
+			datasourceDoc = this.ftSearchView("", searchString, "datasources").getFirstDocument();
+			if(datasourceDoc != null) {
+				datasource.setName(datasourceDoc.getItemValueString("datasourcename"));
+				datasource.setType(datasourceDoc.getItemValueString("datasourceType"));
+				datasource.setHostname(datasourceDoc.getItemValueString("datasourceHostname"));
+				datasource.setDatabase(datasourceDoc.getItemValueString("datasourceDatabase"));
+				datasource.setAuth(Boolean.getBoolean(datasourceDoc.getItemValueString("datasourceAuth")));
+				datasource.setUser(datasourceDoc.getItemValueString("datasourceUser"));
+				datasource.setPassword(datasourceDoc.getItemValueString("datasourcePassword"));
+			}
+		} catch (NotesException e) {
+			// TODO Auto-generated catch block
+			System.out.println("Error retrieving datasource with name: " + datasourceName);
+			e.printStackTrace();
+		}	
+		return datasource;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public Query getQueryObject(String queryName) {
+		
+		String searchString = "FIELD queryName = \"" + queryName + "\"";
+		Document queryDoc = null;
+		Query query = new Query();
+		try {
+			queryDoc = this.ftSearchView("", searchString, "queries").getFirstDocument();
+			if(queryDoc != null) {
+				query.setName(queryDoc.getItemValueString("queryName"));
+				query.setType(queryDoc.getItemValueString("queryType"));
+				query.setCommand(queryDoc.getItemValueString("queryCommand"));
+				query.setView(queryDoc.getItemValueString("queryView"));
+				Vector<String> keysVector = (Vector<String>) queryDoc.getItemValue("queryKey");
+				query.setKey(new ArrayList<String>(keysVector));
+				query.setKeyValueReturnType(queryDoc.getItemValueString("queryKeyValueReturnType"));
+				query.setFieldname(queryDoc.getItemValueString("queryFieldname"));
+				query.setColumnNr((int) queryDoc.getItemValueDouble("queryColumnNr"));
+				query.setString(queryDoc.getItemValueString("queryString"));
+			}
+		} catch (NotesException e) {
+			// TODO Auto-generated catch block
+			System.out.println("Error retrieving query with name: " + queryName);
+			e.printStackTrace();
+		}	
+		return query;
 	}
 	
 	/**

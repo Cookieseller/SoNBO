@@ -101,22 +101,12 @@ public class NodeService implements Serializable {
 			
 			if(jsonQueryResultObject == null) {
 				// get datasource configuration
-				JsonObject jsonDatasourceObject = queryService.getJsonObject("datasources", datasource, "datasourceJSON");
-				Gson gson = new Gson();
-				Datasource datasourceObject = gson.fromJson(jsonDatasourceObject, Datasource.class);
-				// log json
-				//Utilities utilities = new Utilities();
-				//utilities.printJson(jsonDatasourceObject, "json datasource object");
+				Datasource datasourceObject = queryService.getDatasourceObject(datasource);
 				// get query				
-				JsonObject jsonQueryObject = queryService.getJsonObject("queries", query, "queryJSON");
-				Query queryObject = gson.fromJson(jsonQueryObject, Query.class);
-				// log json
-				//utilities.printJson(jsonQueryObject, "json query object");
+				Query queryObject = queryService.getQueryObject(query);
 				jsonQueryResultObject = queryService.executeQuery(datasourceObject, queryObject, id);
 				queryResult.setJsonObject(jsonQueryResultObject);
 				queryResultList.add(queryResult);
-				// log json
-				//utilities.printJson(jsonQueryResultObject, "Parsed queryResult json");
 			}
 		}	
 		
@@ -222,7 +212,7 @@ public class NodeService implements Serializable {
 		String adjacencyQueryString = "";
 		for(int i=0; i<adjacentNodeTypes.size(); i++) {
 			//System.out.println("Result string adjacent node name: " + adjacentNodeTypes.get(i));
-			adjacencyQueryString += "[adjacencySourceNode] = " + sourceNodeType + " AND [adjacencyTargetNode] = " + adjacentNodeTypes.get(i);
+			adjacencyQueryString += "[adjacencySourceNode] = \"" + sourceNodeType + "\"" + " AND [adjacencyTargetNode] = \"" + adjacentNodeTypes.get(i) + "\"";
 			if(i < adjacentNodeTypes.size() - 1) {
 				adjacencyQueryString += " OR ";
 			}
@@ -236,13 +226,10 @@ public class NodeService implements Serializable {
 		ArrayList<String> adjacentNodeIDs = new ArrayList<String>();
 		for(NodeTypeAdjacency adjacencyQuery : adjacencyQueryList) {
 		
-			// get datasource and query for peer query
-			JsonObject jsonDatasourceObject = queryService.getJsonObject("datasources", adjacencyQuery.getDatasource(), "datasourceJSON");				
-			JsonObject jsonQueryObject = queryService.getJsonObject("queries", adjacencyQuery.getQuery(), "queryJSON");
+			// get datasource and query for peer query				
+			Datasource datasourceObject = queryService.getDatasourceObject(adjacencyQuery.getDatasource());
+			Query queryObject = queryService.getQueryObject(adjacencyQuery.getQuery());
 			//replace attributes in query string with variable values
-			Gson gson = new Gson();
-			Datasource datasourceObject = gson.fromJson(jsonDatasourceObject, Datasource.class);
-			Query queryObject = gson.fromJson(jsonQueryObject, Query.class);
 			String string = queryObject.getString();
 			// create map with replacements
 			ArrayList<String> replaceAttributesList = Utilities.getTokens(string);
