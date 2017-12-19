@@ -31,9 +31,12 @@ public class Node implements Serializable {
 		HashMap<String, String> attributeListForDisplayfield = new HashMap<String, String>();
 		for(NodeTypeAttribute nodeTypeAttribute : attributeList) {
 			if(nodeTypeAttribute.getDisplayfield() == displayfieldnumber) {
-				String attributeName = nodeTypeAttribute.getName(locale);
-				String attributeValue = nodeTypeAttribute.getValueAsString();
-				attributeListForDisplayfield.put(attributeName, attributeValue);
+				// only add if not empty
+				if(!nodeTypeAttribute.getValueAsString().equals("")) {
+					String attributeName = nodeTypeAttribute.getName(locale);
+					String attributeValue = nodeTypeAttribute.getValueAsString();
+					attributeListForDisplayfield.put(attributeName, attributeValue);
+				}
 			}
 		}
 		return attributeListForDisplayfield;
@@ -43,9 +46,12 @@ public class Node implements Serializable {
 		HashMap<String, String> attributeListForDisplayfield = new HashMap<String, String>();
 		for(NodeTypeAttribute nodeTypeAttribute : attributeList) {
 			if(nodeTypeAttribute.isPreview()) {
-				String attributeName = nodeTypeAttribute.getName(locale);
-				String attributeValue = nodeTypeAttribute.getValueAsString();
-				attributeListForDisplayfield.put(attributeName, attributeValue);
+				// only add if not empty
+				if(!nodeTypeAttribute.getValueAsString().equals("")) {
+					String attributeName = nodeTypeAttribute.getName(locale);
+					String attributeValue = nodeTypeAttribute.getValueAsString();
+					attributeListForDisplayfield.put(attributeName, attributeValue);
+				}
 			}
 		}
 		return attributeListForDisplayfield;
