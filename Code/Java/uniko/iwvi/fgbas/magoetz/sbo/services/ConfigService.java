@@ -104,7 +104,7 @@ public class ConfigService implements Serializable {
 				queryObject.setKey(idList);
 				JsonObject json = queryService.executeQuery(datasourceObject, queryObject, id);
 				if(json != null) {
-					System.out.println("Sufficient data found for nodeType: " + nodeType.getNodeTypeName());
+					//System.out.println("Sufficient data found for nodeType: " + nodeType.getNodeTypeName());
 					// check if required key and value for node type exist
 					String key = queryService.getFieldValue("", "", "nodeTypes", nodeType.getNodeTypeName(), "nodeTypeKey");
 					String value = queryService.getFieldValue("", "", "nodeTypes", nodeType.getNodeTypeName(), "nodeTypeValue");

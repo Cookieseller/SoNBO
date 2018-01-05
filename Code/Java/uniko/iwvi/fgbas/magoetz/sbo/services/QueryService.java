@@ -263,8 +263,8 @@ public class QueryService implements Serializable {
 			return null;
 		}
 		// log json
-		Utilities utilities = new Utilities();
-		utilities.printJson(jsonObject, "query result json object");
+		//Utilities utilities = new Utilities();
+		//utilities.printJson(jsonObject, "query result json object");
 		return jsonObject;
 	}
 	

@@ -33,7 +33,7 @@ public class Utilities {
 				// matcher.appendReplacement(buffer, replacement);
 				// see comment
 				matcher.appendReplacement(buffer, "");
-				buffer.append("\"" + replacement  + "\"");
+				buffer.append(replacement);
 			}
 		}
 		matcher.appendTail(buffer);

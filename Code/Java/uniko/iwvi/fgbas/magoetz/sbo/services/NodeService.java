@@ -231,22 +231,44 @@ public class NodeService implements Serializable {
 			Query queryObject = queryService.getQueryObject(adjacencyQuery.getQuery());
 			//replace attributes in query string with variable values
 			String string = queryObject.getString();
-			// create map with replacements
 			ArrayList<String> replaceAttributesList = Utilities.getTokens(string);
-			Map<String, String> replaceAttributesMap = new HashMap<String, String>();
-			for(String replaceAttributeKey : replaceAttributesList) {
-				// get attribute value from business object
-				String replaceAttributeValue = businessObject.getAttributeValueAsString(replaceAttributeKey);
-				//convert email to notes username
-				//System.out.println("Attribute Value: " + replaceAttributeValue);
-				if(queryObject.getKeyValueReturnType().equals("getEmailAsNotesUsername")) {
-					replaceAttributeValue = this.queryService.getNotesUsernameByEmail(replaceAttributeValue);
-				}
-				//System.out.println("Attribute Value: " + replaceAttributeValue);
-				replaceAttributesMap.put(replaceAttributeKey, replaceAttributeValue);
+			NodeTypeAttribute nta = null;
+			if(replaceAttributesList.size() > 0) {
+				String replaceAttrString = replaceAttributesList.get(0);
+				nta = businessObject.getAttributeOfType(replaceAttrString, "Array(String)");
 			}
-			// replace [key] in string with variable values
-			string = Utilities.replaceTokens(string, replaceAttributesMap);
+			// if first attribute is not of type Array(String)
+			if(nta == null) {
+				// create map with replacements
+				Map<String, String> replaceAttributesMap = new HashMap<String, String>();
+				for(String replaceAttributeKey : replaceAttributesList) {
+					// get attribute value from business object
+					String replaceAttributeValue = businessObject.getAttributeValueAsString(replaceAttributeKey);
+					//convert email to notes username
+					//System.out.println("Attribute Value: " + replaceAttributeValue);
+					if(queryObject.getKeyValueReturnType().equals("getEmailAsNotesUsername")) {
+						replaceAttributeValue = this.queryService.getNotesUsernameByEmail(replaceAttributeValue);
+					}
+					//System.out.println("Attribute Value: " + replaceAttributeValue);
+					replaceAttributesMap.put(replaceAttributeKey, replaceAttributeValue);
+				}
+				// replace [key] in string with variable values
+				string = Utilities.replaceTokens(string, replaceAttributesMap);
+			// if first attribute is of type Array(String) concatenate values
+			}else {
+				String[] stringValues = nta.getValueAsString().split(",");
+				String[] words = string.split(" ");
+				string = "";
+				String fieldname = words[1];
+				for(int i=0; i<stringValues.length; i++) {
+					if(i < stringValues.length - 1) {
+						string += "FIELD " + fieldname + " CONTAINS " + stringValues[i] + " OR ";
+					}else {
+						string += "FIELD " + fieldname + " CONTAINS " + stringValues[i];
+					}
+				}
+			}
+			
 			System.out.println("QueryString after replacements: " + string);
 			// replace query string
 			queryObject.setString(string);
