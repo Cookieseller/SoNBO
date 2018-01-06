@@ -46,6 +46,23 @@ public class QueryService implements Serializable {
 		}
 		return fieldValue;
 	}
+	
+	/*
+	 * return all found field values as string
+	 */
+	public ArrayList<String> getFieldValues(String queryView, String queryKey, String queryFieldname) {
+		
+		Database notesDB = DominoUtils.getCurrentDatabase();
+		ArrayList<String> queryResults = new ArrayList<String>();
+		try {
+			// return values by key
+			queryResults = Utils.Dblookup(notesDB, queryView, queryKey, queryFieldname);
+		} catch (NotesException ex) {
+			// TODO Auto-generated catch block
+			ex.printStackTrace();
+		}
+		return queryResults;
+	}
 
 	/*
 	 * return all found field values as string

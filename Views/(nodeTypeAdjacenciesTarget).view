@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
-<note class='view' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.0'
+<note class='view' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.9'
  replicaid='C12581ED004C5206'>
-<noteinfo noteid='16fe' unid='73568FFCB230794DC12581E10044DEBB' sequence='23'>
+<noteinfo noteid='16fe' unid='73568FFCB230794DC12581E10044DEBB' sequence='24'>
 <created><datetime>20171123T133214,67+01</datetime></created>
-<modified><datetime>20171208T164043,89+01</datetime></modified>
-<revised><datetime>20171208T164043,88+01</datetime></revised>
-<lastaccessed><datetime>20171208T164043,89+01</datetime></lastaccessed>
+<modified><datetime>20180106T122324,72+01</datetime></modified>
+<revised><datetime>20180106T122324,71+01</datetime></revised>
+<lastaccessed><datetime>20180106T122324,72+01</datetime></lastaccessed>
 <addedtofile><datetime>20171205T145405,68+01</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></updatedby>
 <wassignedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></wassignedby>
@@ -14,7 +14,6 @@
 AQDdSw3RjT4hQ6xWbACjgSXB
 </rawitemdata></item>
 <item name='$FormulaClass' sign='true'><text>1</text></item>
-<item name='$TITLE' sign='true'><text>(nodeTypeAdjacenciesTarget)</text></item>
 <item name='$Index' sign='true'><text/></item>
 <item name='$Formula' summary='true' sign='true'><formula compiled='true'>
 JAEKAAQAAgCoAAMAJDIxAAUAEwBhZGphY2VuY3lTb3VyY2VOb2RlAAEABQAgLSAtIABWASICBQAN
@@ -42,7 +41,6 @@ AAAAAAQAAAAAAP//AAAAAAAAAAAAAAAAAABXQwEBAAkAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAD/
 /wAAAAEAAAAAAAEAAAAAAAEAAAAAAAAACAAAAAAAAQA=
 </rawitemdata></item>
 <item name='$Comment' sign='true'><text/></item>
-<item name='$DesignerVersion'><text>8.5.3</text></item>
 <item name='$V5ACTIONS' sign='true'>
 <rawitemdata type='1'>
 vRw/AAAAAQABAAAAAQAAAAAAAAAAAAAACAACAHn/bAABAPDw8AABAAAAAAAJAAAAAAABAPDw8AAA
@@ -52,5 +50,7 @@ AAAAAAAAAAEAAAAAAAAAAAAAAAAAAAC+/3AAAAABAB4AnwEAABoAAAAAAAAAQ3JlYXRlIE5vZGUg
 VHlwZSBBZGphY2VuY3lAAAAAMgACAOgDAAAAAAAAAQAAAAEAFwBjb25maWdOb2RlVHlwZUFkamFj
 ZW5jeQDtAwMABwAMAAUACTRTNlMA
 </rawitemdata></item>
-<item name='$Flags'><text>PY</text></item></note>
+<item name='$Flags'><text>PY</text></item>
+<item name='$TITLE' sign='true'><text>(nodeTypeAdjacenciesTarget)|nodeTypeAdjacenciesTarget</text></item>
+<item name='$DesignerVersion' sign='true'><text>8.5.3</text></item></note>
 

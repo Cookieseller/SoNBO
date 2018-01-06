@@ -79,12 +79,9 @@ public class SoNBOManager implements Serializable {
 
 	private void loadAdjacentNodes(Node node, Locale locale) {
 		List<Node> adjacentNodeCategoryList = new ArrayList<Node>();
-		List<String> nodeTypeCategoryNames = configService.getAllNodeTypeCategoryNames();
-		for(String adjacentNodeTypeCategory : nodeTypeCategoryNames) {
-			List<Node> objects = nodeService.getAdjacentNodes(node, adjacentNodeTypeCategory);
-			adjacentNodeCategoryList.addAll(objects);
-			this.setAdjacentNodeList(adjacentNodeCategoryList);
-		}
+		List<Node> objects = nodeService.getAdjacentNodes(node);
+		adjacentNodeCategoryList.addAll(objects);
+		this.setAdjacentNodeList(adjacentNodeCategoryList);
 	}
 	
 	public void setAdjacentNodeList(List<Node> adjacentNodeList) {
