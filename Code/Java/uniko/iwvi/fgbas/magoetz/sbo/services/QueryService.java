@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
-
 import lotus.domino.Database;
 import lotus.domino.Document;
 import lotus.domino.DocumentCollection;
@@ -14,7 +13,6 @@ import org.openntf.Utils;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.Datasource;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.Query;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.QueryResult;
-import uniko.iwvi.fgbas.magoetz.sbo.util.Utilities;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.ibm.xsp.model.domino.DominoUtils;
@@ -26,7 +24,7 @@ public class QueryService implements Serializable {
 	/*
 	 * return first returned field value as string
 	 */
-	public String getFieldValue(String hostname, String database, String view, String key, String returnField) throws IndexOutOfBoundsException{
+	public String getFieldValue(String hostname, String database, String view, String key, String returnField) {
 		
 		Database notesDB = DominoUtils.getCurrentDatabase();
 		ArrayList<String> queryResults = new ArrayList<String>();
@@ -42,7 +40,7 @@ public class QueryService implements Serializable {
 			fieldValue = queryResults.get(0);
 		}catch (IndexOutOfBoundsException nex) {
 			System.out.println("No query results for view: " + view + " key: " + key + " returnField: " + returnField);
-			throw new IndexOutOfBoundsException();
+			return null;
 		}
 		return fieldValue;
 	}
@@ -417,5 +415,22 @@ public class QueryService implements Serializable {
 		}
 		return "n/a";
 		*/
+	}
+
+	protected void addEntry(List<Vector<String>> dataList, String formName) {
+
+		try {
+			Database db = DominoUtils.getCurrentDatabase();
+			Document doc = db.createDocument();
+
+			doc.replaceItemValue("Form", formName);
+			for(Vector<String> dataVector : dataList) {
+				doc.replaceItemValue(dataVector.get(0), dataVector.get(1));
+			}
+			doc.save();
+			
+		} catch (NotesException e) {
+			throw new RuntimeException(e);
+		}
 	}
 }

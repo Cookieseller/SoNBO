@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Vector;
 import lotus.domino.Document;
 import lotus.domino.DocumentCollection;
 import lotus.domino.NotesException;
@@ -84,6 +85,25 @@ public class ConfigService implements Serializable {
 		
 		NodeType resultNodeType =  null;
 		
+		// lookup if node type was determined before
+		String nodeTypeName = queryService.getFieldValue("", "", "(nodeTypeIdMapping)", id, "nodeTypeMappingType");
+		if(nodeTypeName == null) {
+			// if node type name was not cached yet try to determine it
+			resultNodeType = this.determineNodeTypeById(id);
+		}else {
+			resultNodeType = this.getNodeType(nodeTypeName);
+			System.out.println("Mapping table result - Id " + id + " is of type " + nodeTypeName);
+		}
+		
+		return resultNodeType;
+	}
+	
+	/*
+	 * Function determines node type by searching for a matching db entry with id and (option) filter attribute
+	 */
+	private NodeType determineNodeTypeById(String id) {
+		
+		NodeType resultNodeType =  null;
 		//get all node type definitions
 		ArrayList<String> nodeTypes = queryService.getColumnValues("nodeTypes", 0);
 		ArrayList<NodeType> nodeTypeList = new ArrayList<NodeType>();
@@ -114,15 +134,30 @@ public class ConfigService implements Serializable {
 						boolean contains = jsonPrimitive.contains(value);
 						if(contains) {
 							System.out.println("Determined that Id is of the following nodeType: " + nodeType.getNodeTypeName());
-							return nodeType;
+							resultNodeType = nodeType;
+							break;
 						}
 					}else {
 						System.out.println("Determined that Id is of the following nodeType: " + nodeType.getNodeTypeName());
-						return nodeType;
+						resultNodeType = nodeType;
+						break;
 					}
 				}
 			}
-		}		
+		}
+		// if node type could be determined add entry to mapping table
+		if(resultNodeType != null) {
+			List<Vector<String>> dataList = new ArrayList<Vector<String>>();
+			Vector<String> dataVector1 = new Vector<String>();
+			dataVector1.add("nodeTypeMappingId");
+			dataVector1.add(id);
+			dataList.add(dataVector1);
+			Vector<String> dataVector2 = new Vector<String>();
+			dataVector2.add("nodeTypeMappingType");
+			dataVector2.add(resultNodeType.getNodeTypeName());
+			dataList.add(dataVector2);
+			queryService.addEntry(dataList, "nodeTypeID");
+		}
 		return resultNodeType;
 	}
 }
