@@ -188,8 +188,9 @@ public class SoNBOManager implements Serializable {
 	public List<String> getAdjacentNodeAttributeValues(String attributeName, String attributDatatype) {
 		Set<String> attributeValues = new HashSet<String>();
 		for(Node adjacentNode : this.adjacentNodeList) {
-			if(adjacentNode.containsAttributeOfType(attributeName, attributDatatype)) {
-				attributeValues.add(adjacentNode.getAttributeValueAsString(attributeName));
+			String attributeValue = adjacentNode.getAttributeValueAsString(attributeName);
+			if(attributeValue != null) {
+				attributeValues.add(attributeValue);
 			}
 		}
 		return new ArrayList<String>(attributeValues);

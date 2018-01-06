@@ -37,7 +37,7 @@ public class NodeService implements Serializable {
 	
 		// set object id and name
 		node.setId(id);
-			System.out.println("NodeId " + id);
+
 		//set node type categories
 		List<String> nodeTypeCategories = configService.getAllNodeTypeCategoryNames();
 		node.setNodeTypeCategories(nodeTypeCategories);
@@ -60,10 +60,18 @@ public class NodeService implements Serializable {
 			node.setNodeImage(nodeTypeCategory.getDefaultImage());
 			
 			// get business object attributes
-			ArrayList<QueryResult> queryResultList = this.getNodeAttributes(configObject, id, nodePreview);
+			// if it is an object preview only get preview attributes otherwise all defined
+			List<NodeTypeAttribute> nodeTypeAttributes =  new ArrayList<NodeTypeAttribute>();
+			if(nodePreview){
+				nodeTypeAttributes =  configObject.getPreviewAndFilterableConfigurationNodeAttributes();
+			}else {
+				nodeTypeAttributes =  configObject.getNodeTypeAttributes();
+			}
+			ArrayList<QueryResult> queryResultList = this.getNodeAttributes(nodeTypeAttributes, id, nodePreview);
 			
+			String nodeTypeTitleAttrName = configObject.getNodeTypeTitle();
 			// load attribute key and value into business object
-			node = loadAttributes(node, configObject, queryResultList, nodePreview);
+			node = loadAttributes(node, nodeTypeAttributes, nodeTypeTitleAttrName, queryResultList, nodePreview);
 		
 			return node;
 		}else {
@@ -75,25 +83,16 @@ public class NodeService implements Serializable {
 	/*
 	 * returns list of business object attributes
 	 */
-	private ArrayList<QueryResult> getNodeAttributes(NodeType config, String id, boolean nodePreview) {
+	private ArrayList<QueryResult> getNodeAttributes(List<NodeTypeAttribute> nodeTypeAttributes, String id, boolean nodePreview) {
 		
 		// cache result to prevent redundant queries
 		ArrayList<QueryResult> queryResultList = new ArrayList<QueryResult>();
-		
-		// if it is an object preview only get preview attributes otherwise all defined
-		List<NodeTypeAttribute> nodeTypeAttributes =  new ArrayList<NodeTypeAttribute>();
-		if(nodePreview){
-			nodeTypeAttributes =  config.getPreviewConfigurationNodeAttributes();
-		}else {
-			nodeTypeAttributes =  config.getNodeTypeAttributes();
-		}
 		
 		// get value for each object attribute
 		for(NodeTypeAttribute nodeTypeAttribute : nodeTypeAttributes) {
 
 			String datasource = nodeTypeAttribute.getDatasource();
 			String query = nodeTypeAttribute.getQuery();
-			System.out.println("Query: " + query);
 			QueryResult queryResult = new QueryResult(datasource, query);
 			
 			// check if query result is already cached
@@ -104,6 +103,7 @@ public class NodeService implements Serializable {
 				Datasource datasourceObject = queryService.getDatasourceObject(datasource);
 				// get query				
 				Query queryObject = queryService.getQueryObject(query);
+					System.out.println("Executing query: " + query);
 				jsonQueryResultObject = queryService.executeQuery(datasourceObject, queryObject, id);
 				queryResult.setJsonObject(jsonQueryResultObject);
 				queryResultList.add(queryResult);
@@ -113,9 +113,9 @@ public class NodeService implements Serializable {
 		return queryResultList;
 	}
 	
-	private Node loadAttributes(Node businessObject, NodeType configuration, ArrayList<QueryResult> queryResultList, boolean nodePreview) {
+	private Node loadAttributes(Node businessObject, List<NodeTypeAttribute> nodeTypeAttributes, String nodeTypeTitleAttrName, ArrayList<QueryResult> queryResultList, boolean nodePreview) {
 	
-		for(NodeTypeAttribute nodeTypeAttribute : configuration.getNodeTypeAttributes()) {
+		for(NodeTypeAttribute nodeTypeAttribute : nodeTypeAttributes) {
 			// get name and fieldname of attribute
 			String name = nodeTypeAttribute.getName();
 			String fieldname = nodeTypeAttribute.getFieldname();
@@ -133,7 +133,7 @@ public class NodeService implements Serializable {
 				// add whole nodeTypeAttribute Object with updated value
 				businessObject.addAttribute(nodeTypeAttribute);
 				//set business object title if attribute is configured as title
-				String titleAttribute = configuration.getNodeTypeTitle();
+				String titleAttribute = nodeTypeTitleAttrName;
 				if(titleAttribute.equals(name)) {
 					businessObject.setNodeTitle(value.getAsString());
 				} 
