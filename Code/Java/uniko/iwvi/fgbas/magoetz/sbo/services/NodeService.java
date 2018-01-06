@@ -103,7 +103,6 @@ public class NodeService implements Serializable {
 				Datasource datasourceObject = queryService.getDatasourceObject(datasource);
 				// get query				
 				Query queryObject = queryService.getQueryObject(query);
-					System.out.println("Executing query: " + query);
 				jsonQueryResultObject = queryService.executeQuery(datasourceObject, queryObject, id);
 				queryResult.setJsonObject(jsonQueryResultObject);
 				queryResultList.add(queryResult);

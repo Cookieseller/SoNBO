@@ -89,7 +89,7 @@ public class NodeType {
 	public List<NodeTypeAttribute> getPreviewAndFilterableConfigurationNodeAttributes() {
 		List<NodeTypeAttribute> previewConfigNodeAttrList = new ArrayList<NodeTypeAttribute>();
 		for(NodeTypeAttribute configNodeAttr : this.getNodeTypeAttributes()) {
-			if(configNodeAttr.isPreview() || configNodeAttr.isFilterable()) {
+			if(configNodeAttr.isPreview() || configNodeAttr.isFilterable() || configNodeAttr.getName().equals(this.getNodeTypeTitle())) {
 				previewConfigNodeAttrList.add(configNodeAttr);
 			}
 		}
