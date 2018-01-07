@@ -20,7 +20,7 @@ soNBOManager.getAdjacentNodeListFilteredByNodeType(nodeTypeCategory == null ? 'a
 		id="resultList">
 		<!-- List peer objects filtered by certain criteria (relationship, filter) -->
 		<xp:repeat id="repeat1" var="adjacentNode"
-			value="#{filteredNodeList}" disableOutputTag="true">
+			value="#{filteredNodeList}" disableOutputTag="true" rows="${javascript: soNBOManager.getAdjacentNodeListFilteredByCategory('all').size().toString()}">
 			<xc:nodePreview />
 		</xp:repeat>
 	</xp:panel>

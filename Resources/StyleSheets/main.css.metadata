@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.0" replicaid="C12581600034AF94" version="9.0" xmlns="http://www.lotus.com/dxl">
-<noteinfo noteid="16a" sequence="5" unid="42CD15F78CC14605C12580E30047F836">
+<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.9" replicaid="C12581ED004C5206" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="15a" sequence="160" unid="42CD15F78CC14605C12580E30047F836">
 <created><datetime>20170314T140605,98+01</datetime></created>
-<modified><datetime dst="true">20170718T164940,05+02</datetime></modified>
-<revised><datetime dst="true">20170718T164940,04+02</datetime></revised>
-<lastaccessed><datetime dst="true">20170718T164940,05+02</datetime></lastaccessed>
-<addedtofile><datetime dst="true">20170717T113528,74+02</datetime></addedtofile></noteinfo>
-<updatedby><name>CN=Flemming Goetz/O=uniko/C=DE</name><name>CN=Flemming Goetz/O=uniko/C=de</name><name>CN=Flemming Goetz/O=uniko/C=DE</name></updatedby>
+<modified><datetime>20180107T095742,80+01</datetime></modified>
+<revised><datetime>20180107T095742,79+01</datetime></revised>
+<lastaccessed><datetime>20180107T095742,80+01</datetime></lastaccessed>
+<addedtofile><datetime>20171205T145337,98+01</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></updatedby>
 <wassignedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></wassignedby>
 <item name="$MimeType"><text>text/css</text></item>
 <item name="$Flags"><text>34C=Q</text></item>
