@@ -73,7 +73,6 @@ public class Node implements Serializable {
 		for(NodeTypeAttribute nodeTypeAttribute : attributeList) {
 			// TODO String is expected (change to getValue)
 			if(nodeTypeAttribute.getName().equals(key) && nodeTypeAttribute.getDatatype().equals(datatype)) {
-				System.out.println("Node Attribute is returned: " + nodeTypeAttribute.getName());
 				return nodeTypeAttribute;
 			}
 		}
@@ -215,7 +214,6 @@ public class Node implements Serializable {
 			return Double.compare(thisAttrInt, othersAttrInt);
 		}
 		// TODO: implement other datatypes
-		System.out.println("datatype not covered returning 0");
 		return 0;
 	}
 }

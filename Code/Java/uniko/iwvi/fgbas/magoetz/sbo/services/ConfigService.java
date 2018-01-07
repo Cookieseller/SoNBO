@@ -86,13 +86,18 @@ public class ConfigService implements Serializable {
 		NodeType resultNodeType =  null;
 		
 		// lookup if node type was determined before
-		String nodeTypeName = queryService.getFieldValue("", "", "(nodeTypeIdMapping)", id, "nodeTypeMappingType");
+		String nodeTypeName = queryService.getFieldValue("", "", "nodeTypeIdMapping", id, "nodeTypeMappingType");
 		if(nodeTypeName == null) {
 			// if node type name was not cached yet try to determine it
 			resultNodeType = this.determineNodeTypeById(id);
+			// add entry to mapping table
+			this.addNodeTypeId(id, resultNodeType);
 		}else {
-			resultNodeType = this.getNodeType(nodeTypeName);
-			System.out.println("Mapping table result - Id " + id + " is of type " + nodeTypeName);
+			if(nodeTypeName.equals("NOT DETERMINABLE")) {
+				return null;
+			}else {
+				resultNodeType = this.getNodeType(nodeTypeName);
+			}
 		}
 		
 		return resultNodeType;
@@ -124,7 +129,6 @@ public class ConfigService implements Serializable {
 				queryObject.setKey(idList);
 				JsonObject json = queryService.executeQuery(datasourceObject, queryObject, id);
 				if(json != null) {
-					//System.out.println("Sufficient data found for nodeType: " + nodeType.getNodeTypeName());
 					// check if required key and value for node type exist
 					String key = queryService.getFieldValue("", "", "nodeTypes", nodeType.getNodeTypeName(), "nodeTypeKey");
 					String value = queryService.getFieldValue("", "", "nodeTypes", nodeType.getNodeTypeName(), "nodeTypeValue");
@@ -133,31 +137,36 @@ public class ConfigService implements Serializable {
 						String jsonPrimitive = json.get(key).toString();
 						boolean contains = jsonPrimitive.contains(value);
 						if(contains) {
-							System.out.println("Determined that Id is of the following nodeType: " + nodeType.getNodeTypeName());
 							resultNodeType = nodeType;
 							break;
 						}
 					}else {
-						System.out.println("Determined that Id is of the following nodeType: " + nodeType.getNodeTypeName());
 						resultNodeType = nodeType;
 						break;
 					}
 				}
 			}
-		}
-		// if node type could be determined add entry to mapping table
-		if(resultNodeType != null) {
-			List<Vector<String>> dataList = new ArrayList<Vector<String>>();
-			Vector<String> dataVector1 = new Vector<String>();
-			dataVector1.add("nodeTypeMappingId");
-			dataVector1.add(id);
-			dataList.add(dataVector1);
-			Vector<String> dataVector2 = new Vector<String>();
-			dataVector2.add("nodeTypeMappingType");
-			dataVector2.add(resultNodeType.getNodeTypeName());
-			dataList.add(dataVector2);
-			queryService.addEntry(dataList, "nodeTypeID");
-		}
+		}		
 		return resultNodeType;
+	}
+	
+	private void addNodeTypeId(String id, NodeType nodeType) {
+		// always add the id
+		List<Vector<String>> dataList = new ArrayList<Vector<String>>();
+		Vector<String> dataVector1 = new Vector<String>();
+		dataVector1.add("nodeTypeMappingId");
+		dataVector1.add(id);
+		dataList.add(dataVector1);
+		// add NodeType
+		Vector<String> dataVector2 = new Vector<String>();
+		dataVector2.add("nodeTypeMappingType");
+		if(nodeType != null) {
+			dataVector2.add(nodeType.getNodeTypeName());
+		}else {
+			dataVector2.add("NOT DETERMINABLE");
+			dataList.add(dataVector2);
+		}
+		dataList.add(dataVector2);
+		queryService.addEntry(dataList, "nodeTypeID");
 	}
 }

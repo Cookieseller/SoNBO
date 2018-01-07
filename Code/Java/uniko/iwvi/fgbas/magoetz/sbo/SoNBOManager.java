@@ -52,15 +52,12 @@ public class SoNBOManager implements Serializable {
 	
 	private Texts texts;
 	
-	public void init(Locale locale){
-		System.out.println("NEW REQUEST FOR BUSINESS OBJECT");
-		System.out.println("===============================");
-		
+	public void init(Locale locale){		
 		// set my userEmail as objectId on invoke
 		if(this.objectId == null) {
 			this.objectId = connectionsService.getUserEmail();
 		}
-		
+		System.out.println("SoNBO: New request for business object with id " + objectId);
 		// initialize translation
 		this.texts = new Texts(locale);
 		// if parameter nodeTypeCategoryName was not set get all 
@@ -70,8 +67,7 @@ public class SoNBOManager implements Serializable {
 		// if parameter nodeType was not set get all 
 		if(this.nodeType == null) {
 			this.nodeType = "all";
-		}
-		
+		}		
 		// get business object
 		this.businessObject = this.nodeService.getNode(objectId, false);
 		this.loadAdjacentNodes(this.businessObject, locale);

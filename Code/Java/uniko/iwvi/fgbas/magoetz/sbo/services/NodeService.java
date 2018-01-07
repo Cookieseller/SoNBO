@@ -145,10 +145,7 @@ public class NodeService implements Serializable {
 	}
 
 	public List<Node> getAdjacentNodes(Node businessObject) {
-		
-		System.out.println("Adjacent nodes");
-		System.out.println("==============");
-		
+				
 		List<Node> adjacentNodesList = new ArrayList<Node>();
 		// determine peer query by source and target object type
 		String sourceNodeType = businessObject.getNodeType();
@@ -205,11 +202,9 @@ public class NodeService implements Serializable {
 					// get attribute value from business object
 					String replaceAttributeValue = businessObject.getAttributeValueAsString(replaceAttributeKey);
 					//convert email to notes username
-					//System.out.println("Attribute Value: " + replaceAttributeValue);
 					if(queryObject.getKeyValueReturnType().equals("getEmailAsNotesUsername")) {
 						replaceAttributeValue = this.queryService.getNotesUsernameByEmail(replaceAttributeValue);
 					}
-					//System.out.println("Attribute Value: " + replaceAttributeValue);
 					replaceAttributesMap.put(replaceAttributeKey, replaceAttributeValue);
 				}
 				// replace [key] in string with variable values
@@ -229,21 +224,11 @@ public class NodeService implements Serializable {
 				}
 			}
 			
-			System.out.println("QueryString after replacements: " + string);
+			//System.out.println("QueryString after replacements: " + string);
 			// replace query string
 			queryObject.setString(string);
-			
-			String targetNodeName = adjacencyQuery.getTargetNode();
-			String targetNodeIdKey = queryService.getFieldValue("", "", "nodeTypes", targetNodeName, "nodeTypeId");
-				System.out.println("targetNodeIdKey: " + targetNodeIdKey);
 			String sourceNodeId = businessObject.getId();
-				System.out.println("sourceNodeIdKey: " + sourceNodeId);
-			
 			ArrayList<String> resultAdjacentNodeIDs = this.retrieveAdjacentNodeIDs(datasourceObject, queryObject, sourceNodeId);
-			// test
-			for(String nodeId : resultAdjacentNodeIDs) {
-				System.out.println("AdjacentNodeID: " + nodeId);
-			}
 			adjacentNodeIDs.addAll(resultAdjacentNodeIDs);
 		}
 		return adjacentNodeIDs;
