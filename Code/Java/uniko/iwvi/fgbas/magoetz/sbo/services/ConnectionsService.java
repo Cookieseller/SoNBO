@@ -31,6 +31,9 @@ public class ConnectionsService implements Serializable {
 				e.printStackTrace();
 			}
 			email = myProfile.getEmail();
+			System.out.println("User EMail: " + email);
+		}else {
+			email = myProfile.getEmail();
 		}
 		return email;
 	} 

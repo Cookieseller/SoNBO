@@ -14,9 +14,6 @@ public class SoNBOSession {
 	private List<Vector<String>> chronicList = new ArrayList<Vector<String>>();;
 	
 	public SoNBOSession() {
-	}
-	
-	public void init() {
 		this.connectionsService = new ConnectionsService("connectionsSSO");
 		this.objectId = connectionsService.getUserEmail();
 	}
