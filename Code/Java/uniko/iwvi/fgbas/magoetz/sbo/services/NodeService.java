@@ -17,6 +17,7 @@ import uniko.iwvi.fgbas.magoetz.sbo.objects.NodeType;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.Query;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.NodeTypeAdjacency;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.QueryResult;
+import uniko.iwvi.fgbas.magoetz.sbo.util.DBMock;
 import uniko.iwvi.fgbas.magoetz.sbo.util.Utilities;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -32,6 +33,10 @@ public class NodeService implements Serializable {
 
 	public Node getNode(String id, boolean nodePreview) {
 		
+		DBMock mock = new DBMock();
+		Node node = mock.getNodeById(id);
+		return node;
+		/*
 		// 1. CREATE NEW BUSINESS OBJECT
 		Node node = new Node();
 	
@@ -78,6 +83,7 @@ public class NodeService implements Serializable {
 			System.out.println("No configuration document found for id: " + id);
 		}
 		return null;
+		*/
 	}
 	
 	/*

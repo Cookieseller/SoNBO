@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.9" replicaid="C125822100577666" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="2d2" sequence="12" unid="94A39621BAACBAE7C1258222004AA6A7">
+<created><datetime>20180127T143523,27+01</datetime></created>
+<modified><datetime>20180127T143751,48+01</datetime></modified>
+<revised><datetime>20180127T143751,47+01</datetime></revised>
+<lastaccessed><datetime>20180127T143751,48+01</datetime></lastaccessed>
+<addedtofile><datetime>20180127T143523,29+01</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Matthias Riedle/O=uniko/C=DE</name></updatedby>
+<wassignedby><name>CN=Matthias Riedle/O=uniko/C=DE</name></wassignedby>
+<item name="$Flags"><text>34567Cg~[</text></item>
+<item name="$TITLE"><text>uniko/iwvi/fgbas/magoetz/sbo/services/DatabaseService.java</text></item>
+
+
+
+<item name="$DesignerVersion"><text>8.5.3</text></item>
+
+
+<item name="$FileNames" sign="true"><text>uniko/iwvi/fgbas/magoetz/sbo/services/DatabaseService.java</text></item></note>

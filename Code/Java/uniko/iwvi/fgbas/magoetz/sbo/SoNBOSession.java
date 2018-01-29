@@ -14,8 +14,8 @@ public class SoNBOSession {
 	private List<Vector<String>> chronicList = new ArrayList<Vector<String>>();;
 	
 	public SoNBOSession() {
-		this.connectionsService = new ConnectionsService("connectionsSSO");
-		this.objectId = connectionsService.getUserEmail();
+		//this.connectionsService = new ConnectionsService("connectionsSSO");
+		//this.objectId = connectionsService.getUserEmail();
 	}
 	
 	public String getObjectId() {
@@ -27,10 +27,11 @@ public class SoNBOSession {
 	}
 
 	public void addChronicEntry(String nodeTitle, String nodeId) {
+		/*
 		Vector<String> newChronicEntry = new Vector<String>();
 		newChronicEntry.add(nodeTitle);
 		newChronicEntry.add(nodeId);
-		this.chronicList.add(newChronicEntry);
+		this.chronicList.add(newChronicEntry);*/
 	}
 	
 	public List<Vector<String>> getChronicEntries(int maxEntries) {

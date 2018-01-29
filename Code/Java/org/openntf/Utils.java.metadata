@@ -1,12 +1,12 @@
-<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.0" replicaid="C12581600034AF94" version="9.0" xmlns="http://www.lotus.com/dxl">
-<noteinfo noteid="4ae" sequence="10" unid="4A5BC581797B5D76C1258160004045DE">
+<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.9" replicaid="C125821F00374300" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="252" sequence="7" unid="4A5BC581797B5D76C1258160004045DE">
 <created><datetime dst="true">20170717T134201,90+02</datetime></created>
-<modified><datetime dst="true">20170718T164940,11+02</datetime></modified>
-<revised><datetime dst="true">20170718T164940,10+02</datetime></revised>
-<lastaccessed><datetime dst="true">20170718T164940,11+02</datetime></lastaccessed>
-<addedtofile><datetime dst="true">20170717T134201,91+02</datetime></addedtofile></noteinfo>
-<updatedby><name>CN=Flemming Goetz/O=uniko/C=de</name><name>CN=Flemming Goetz/O=uniko/C=DE</name></updatedby>
-<wassignedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></wassignedby>
+<modified><datetime>20180124T110455,68+01</datetime></modified>
+<revised><datetime>20180124T110455,67+01</datetime></revised>
+<lastaccessed><datetime>20180124T110455,68+01</datetime></lastaccessed>
+<addedtofile><datetime>20180124T110452,62+01</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Mathias Riedle/O=Mathias Riedle</name></updatedby>
+<wassignedby><name>CN=Mathias Riedle/O=Mathias Riedle</name></wassignedby>
 <item name="$Flags"><text>34567Cg~[</text></item>
 <item name="$TITLE"><text>org/openntf/Utils.java</text></item>
 <item name="$DesignerVersion"><text>8.5.3</text></item>

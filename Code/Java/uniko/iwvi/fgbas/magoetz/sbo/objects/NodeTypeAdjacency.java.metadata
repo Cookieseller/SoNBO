@@ -1,18 +1,18 @@
-<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.0" replicaid="C12581E0003A66A2" version="9.0" xmlns="http://www.lotus.com/dxl">
-<noteinfo noteid="4c6" sequence="25" unid="861E31CA0C2E738FC125818E0044DC23">
+<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.9" replicaid="C125821F00374300" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="236" sequence="5" unid="861E31CA0C2E738FC125818E0044DC23">
 <created><datetime dst="true">20170901T143208,03+02</datetime></created>
-<modified><datetime>20171205T142835,47+01</datetime></modified>
-<revised><datetime>20171205T142835,46+01</datetime></revised>
-<lastaccessed><datetime>20171205T142835,47+01</datetime></lastaccessed>
-<addedtofile><datetime>20171122T113758,39+01</datetime></addedtofile></noteinfo>
-<updatedby><name>CN=Flemming Goetz/O=uniko/C=DE</name><name>CN=Flemming Goetz/O=uniko/C=de</name><name>CN=Flemming Goetz/O=uniko/C=DE</name></updatedby>
-<wassignedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></wassignedby>
+<modified><datetime>20180124T110455,28+01</datetime></modified>
+<revised><datetime>20180124T110455,27+01</datetime></revised>
+<lastaccessed><datetime>20180124T110455,28+01</datetime></lastaccessed>
+<addedtofile><datetime>20180124T110452,20+01</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Mathias Riedle/O=Mathias Riedle</name></updatedby>
+<wassignedby><name>CN=Mathias Riedle/O=Mathias Riedle</name></wassignedby>
 <item name="$Flags"><text>34567Cg~[</text></item>
-
-
-
 <item name="$TITLE"><text>uniko/iwvi/fgbas/magoetz/sbo/objects/NodeTypeAdjacency.java</text></item>
 <item name="$DesignerVersion"><text>8.5.3</text></item>
 
 
-<item name="$FileNames" sign="true"><text>uniko/iwvi/fgbas/magoetz/sbo/objects/NodeTypeAdjacency.java</text></item></note>
+<item name="$FileNames" sign="true"><text>uniko/iwvi/fgbas/magoetz/sbo/objects/NodeTypeAdjacency.java</text></item>
+
+
+</note>

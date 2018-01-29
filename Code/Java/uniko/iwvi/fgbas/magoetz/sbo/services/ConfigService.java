@@ -53,7 +53,7 @@ public class ConfigService implements Serializable {
 		}
 	} 
 	
-	public ArrayList<String> getAllNodeTypeNamesByCategory(String nodeTypeCategoryName) {
+	public ArrayList<String> getAllNodeTypeNamesByCategory(String nodeTypeCategoryName) throws Exception {
 		ArrayList<String> adjacentNodeTypes = new ArrayList<String>();
 		String queryStringNodeTypes = "FIELD nodeTypeCategory = " + nodeTypeCategoryName;
 		DocumentCollection resultCollectionNodeTypes = queryService.ftSearchView("", queryStringNodeTypes, "nodeTypes");

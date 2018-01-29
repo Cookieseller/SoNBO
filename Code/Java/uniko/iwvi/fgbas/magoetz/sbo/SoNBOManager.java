@@ -16,8 +16,9 @@ import uniko.iwvi.fgbas.magoetz.sbo.objects.Node;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.NodeTypeAttribute;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.SortAttribute;
 import uniko.iwvi.fgbas.magoetz.sbo.services.ConfigService;
-import uniko.iwvi.fgbas.magoetz.sbo.services.ConnectionsService;
+import uniko.iwvi.fgbas.magoetz.sbo.services.DatabaseService;
 import uniko.iwvi.fgbas.magoetz.sbo.services.NodeService;
+import uniko.iwvi.fgbas.magoetz.sbo.util.DBMock;
 import uniko.iwvi.fgbas.magoetz.sbo.util.Texts;
 
 /**
@@ -48,14 +49,14 @@ public class SoNBOManager implements Serializable {
 	
 	private NodeService nodeService = new NodeService();
 	
-	private ConnectionsService connectionsService = new ConnectionsService("connectionsSSO");
+	private DatabaseService databaseService = new DatabaseService();
 	
 	private Texts texts;
 	
-	public void init(Locale locale){		
+	public void init(Locale locale) throws Exception{
 		// set my userEmail as objectId on invoke
 		if(this.objectId == null) {
-			this.objectId = connectionsService.getUserEmail();
+			this.objectId = databaseService.getUserID();
 		}
 		System.out.println("SoNBO: New request for business object with id " + objectId);
 		// initialize translation
@@ -74,10 +75,14 @@ public class SoNBOManager implements Serializable {
 	}
 
 	private void loadAdjacentNodes(Node node, Locale locale) {
+		DBMock mock = new DBMock();
+		this.setAdjacentNodeList(mock.getAdjNodeList(node));
+		/*
 		List<Node> adjacentNodeCategoryList = new ArrayList<Node>();
 		List<Node> objects = nodeService.getAdjacentNodes(node);
 		adjacentNodeCategoryList.addAll(objects);
 		this.setAdjacentNodeList(adjacentNodeCategoryList);
+		*/
 	}
 	
 	public void setAdjacentNodeList(List<Node> adjacentNodeList) {
@@ -88,11 +93,12 @@ public class SoNBOManager implements Serializable {
 		return adjacentNodeList;
 	}
 	
-	public List<String> getNodeAdjacencyNamesByCategory(String nodeTypeCategory) {
+	public List<String> getNodeAdjacencyNamesByCategory(String nodeTypeCategory) throws Exception {
 		List<String> nodeAdjacencies = new ArrayList<String>();
 		if((nodeTypeCategory.equals("all") || nodeTypeCategory.equals(""))) {
 			for(String nodeTypeCategoryName : this.businessObject.getNodeTypeCategories()) {
-				List<String> nodeTypes = this.configService.getAllNodeTypeNamesByCategory(nodeTypeCategoryName);
+				List<String> nodeTypes;
+				nodeTypes = this.configService.getAllNodeTypeNamesByCategory(nodeTypeCategoryName);
 				nodeAdjacencies.addAll(nodeTypes);
 			}
 		}else {
@@ -211,7 +217,7 @@ public class SoNBOManager implements Serializable {
 	/*
 	 * filtered by NodeType
 	 */
-	public List<Node> getAdjacentNodeListFilteredByNodeType(String nodeTypeCategory, String nodeType) {
+	public List<Node> getAdjacentNodeListFilteredByNodeType(String nodeTypeCategory, String nodeType) throws Exception {
 		
 		List<Node> adjacentNodeListFilteredByNodeType = new ArrayList<Node>();		
 		
