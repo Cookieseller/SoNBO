@@ -1,12 +1,12 @@
-<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.9" replicaid="C12581ED004C5206" version="9.0" xmlns="http://www.lotus.com/dxl">
-<noteinfo noteid="145e" sequence="902" unid="9C66C6C41010267EC12581C800740F08">
+<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.9" replicaid="C125823300798F76" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="1f2" sequence="9" unid="9C66C6C41010267EC12581C800740F08">
 <created><datetime>20171029T220740,24+01</datetime></created>
-<modified><datetime>20171213T145942,18+01</datetime></modified>
-<revised><datetime>20171213T145942,17+01</datetime></revised>
-<lastaccessed><datetime>20171213T145942,18+01</datetime></lastaccessed>
-<addedtofile><datetime>20171205T145402,32+01</datetime></addedtofile></noteinfo>
-<updatedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></updatedby>
-<wassignedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></wassignedby>
+<modified><datetime>20180216T205042,43+01</datetime></modified>
+<revised><datetime>20180216T205042,42+01</datetime></revised>
+<lastaccessed><datetime>20180216T205042,43+01</datetime></lastaccessed>
+<addedtofile><datetime>20180213T230950,04+01</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Mathias Riedle/O=uniko/C=DE</name></updatedby>
+<wassignedby><name>CN=Mathias Riedle/O=uniko/C=DE</name></wassignedby>
 <item name="$Flags"><text>gC~4;</text></item>
 <item name="$TITLE"><text>filter.xsp</text></item>
 
@@ -14,9 +14,9 @@
 
 
 <item name="$FileNames" sign="true"><text>filter.xsp</text></item>
+
+
+
 <item name="$DesignerVersion"><text>8.5.3</text></item>
-
-
-
 
 </note>

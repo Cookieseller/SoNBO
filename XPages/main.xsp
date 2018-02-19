@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xp:view xmlns:xp="http://www.ibm.com/xsp/core"
-	xmlns:xc="http://www.ibm.com/xsp/custom" dojoParseOnLoad="true"
-	dojoTheme="true">
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core" xmlns:xc="http://www.ibm.com/xsp/custom"
+	dojoParseOnLoad="true" dojoTheme="true">
 	<xp:this.beforePageLoad>
 		<![CDATA[#{javascript: 
 		viewScope.put("nodeType", "all");
@@ -18,6 +17,7 @@
 			<xp:this.facets>
 				<xp:panel xp:key="facetLeft" id="filter">
 					<xc:chronic />
+					
 					<xc:filter />
 				</xp:panel>
 				<xp:panel xp:key="facetMiddle" id="content">
@@ -27,9 +27,9 @@
 					<xc:sort />
 					<xc:resultList />
 				</xp:panel>
-				<xp:label value="Stream area" id="label4"
-					xp:key="facetRight">
-				</xp:label>
+				<xp:panel xp:key="facetRight" id="activity">
+					<xc:activityStream />
+				</xp:panel>
 			</xp:this.facets>
 		</xc:mainLayout>
 	</xp:panel>

@@ -1,0 +1,4 @@
+<jdbc>
+	<driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</driver>
+	<url>jdbc:sqlserver://nav.erp-challenge.de;database=NAV-MA;user=mariedle;password=Ogilubime859;</url>
+</jdbc>

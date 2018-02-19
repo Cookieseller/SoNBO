@@ -1,12 +1,12 @@
-<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.9" replicaid="C125821F00374300" version="9.0" xmlns="http://www.lotus.com/dxl">
-<noteinfo noteid="20e" sequence="5" unid="7A821B08EBEF2B74C12581E40059D3D4">
+<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.0" replicaid="C125823300798F76" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="212" sequence="5" unid="7A821B08EBEF2B74C12581E40059D3D4">
 <created><datetime>20171126T172109,32+01</datetime></created>
-<modified><datetime>20180124T110454,88+01</datetime></modified>
-<revised><datetime>20180124T110454,87+01</datetime></revised>
-<lastaccessed><datetime>20180124T110454,88+01</datetime></lastaccessed>
-<addedtofile><datetime>20180124T110451,60+01</datetime></addedtofile></noteinfo>
-<updatedby><name>CN=Mathias Riedle/O=Mathias Riedle</name></updatedby>
-<wassignedby><name>CN=Mathias Riedle/O=Mathias Riedle</name></wassignedby>
+<modified><datetime>20180213T230956,44+01</datetime></modified>
+<revised><datetime>20180213T230956,43+01</datetime></revised>
+<lastaccessed><datetime>20180213T230956,44+01</datetime></lastaccessed>
+<addedtofile><datetime>20180213T230950,58+01</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Mathias Riedle/O=uniko/C=DE</name></updatedby>
+<wassignedby><name>CN=Mathias Riedle/O=uniko/C=DE</name></wassignedby>
 <item name="$Flags"><text>34567Cg~[</text></item>
 <item name="$TITLE"><text>uniko/iwvi/fgbas/magoetz/sbo/util/Language.java</text></item>
 <item name="$DesignerVersion"><text>8.5.3</text></item>

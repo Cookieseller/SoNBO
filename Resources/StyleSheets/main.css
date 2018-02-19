@@ -53,6 +53,11 @@ select.form-control {
    color: #000000;
 }
 
+.sbo-link {
+	color: #0000EE;
+	text-decoration: underline;
+}
+
 .sbo-object-card {
 	border: 3px solid rgba(0, 0, 0, .2);
 	border-radius: 4px;

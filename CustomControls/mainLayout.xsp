@@ -6,6 +6,9 @@
 			<xp:callback facetName="facetLeft" id="facetLeft"
 				xp:key="LeftColumn">
 			</xp:callback>
+			<xp:callback facetName="facetRight" id="facetRight"
+				xp:key="RightColumn">
+			</xp:callback>
 		</xe:this.facets>
 		<xe:this.configuration>
 			<xe:bootstrapResponsiveConfiguration
@@ -21,4 +24,5 @@
 				</xe:this.bannerApplicationLinks>
 			</xe:bootstrapResponsiveConfiguration>
 		</xe:this.configuration>
-	</xe:applicationLayout></xp:view>
+	</xe:applicationLayout>
+</xp:view>

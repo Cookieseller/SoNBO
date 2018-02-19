@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core" xmlns:xp_1="http://www.ibm.com/xsp/coreex">
+	<xp:panel styleClass="sbo-chronic-container sbo-widget-container">
+		<h4 class="sbo-widget-heading">
+			<xp:label
+				value="#{javascript:soNBOManager.getTranslationBundle()['activity_stream']}"
+				id="label5"></xp:label>
+		</h4>
+		<div class="sbo-widget-container-inner-scroll">
+			<xp:repeat id="activityRepeat" var="activityEntry"
+				value="#{javascript: soNBOSession.getActivityStreamEntries(10, soNBOManager.businessObject.getNodeType(), soNBOManager.businessObject.getId());}">
+				<xp:panel id="activityStreamEntriesContainer">
+					<xp:label
+						value="#{javascript: if (activityEntry.get(0).getKey() == 0) {return activityEntry.get(0).getValue();} else { return 'Link'; };}"
+						id="activityDate" />
+
+					<div>
+						<xp:repeat id="repeat1" var="activityPair"
+							value="#{javascript: activityEntry;}" indexVar="idx">
+							<xp:label
+								styleClass="#{javascript: activityPair.getKey() == 1 ? 'sbo-link' : '';}"
+								value="#{javascript: if (idx == 0) {return '';} return activityPair.getValue();}"
+								id="activityLink" />
+						</xp:repeat>
+						<xp:br></xp:br>
+						<xp:br></xp:br>
+					</div>
+				</xp:panel>
+			</xp:repeat>
+		</div>
+	</xp:panel>
+	<xp:section id="section1"></xp:section>
+</xp:view>

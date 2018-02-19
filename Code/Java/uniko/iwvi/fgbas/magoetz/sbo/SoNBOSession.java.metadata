@@ -1,14 +1,16 @@
-<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.9" replicaid="C12581ED004C5206" version="9.0" xmlns="http://www.lotus.com/dxl">
-<noteinfo noteid="1712" sequence="119" unid="1B96F1CA0A02B224C12581E300770A4B">
+<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.9" replicaid="C125823300798F76" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="256" sequence="83" unid="1B96F1CA0A02B224C12581E300770A4B">
 <created><datetime>20171125T224014,19+01</datetime></created>
-<modified><datetime>20171214T102159,04+01</datetime></modified>
-<revised><datetime>20171214T102159,03+01</datetime></revised>
-<lastaccessed><datetime>20171214T102159,04+01</datetime></lastaccessed>
-<addedtofile><datetime>20171205T145405,78+01</datetime></addedtofile></noteinfo>
-<updatedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></updatedby>
-<wassignedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></wassignedby>
+<modified><datetime>20180215T173353,22+01</datetime></modified>
+<revised><datetime>20180215T173353,21+01</datetime></revised>
+<lastaccessed><datetime>20180215T173353,22+01</datetime></lastaccessed>
+<addedtofile><datetime>20180213T230951,60+01</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Mathias Riedle/O=uniko/C=DE</name></updatedby>
+<wassignedby><name>CN=Mathias Riedle/O=uniko/C=DE</name></wassignedby>
 <item name="$Flags"><text>34567Cg~[</text></item>
 <item name="$TITLE"><text>uniko/iwvi/fgbas/magoetz/sbo/SoNBOSession.java</text></item>
+
+
 
 
 
