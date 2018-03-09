@@ -57,6 +57,7 @@ public class SoNBOManager implements Serializable {
 		// set my userEmail as objectId on invoke
 		if(this.objectId == null) {
 			this.objectId = databaseService.getUserID();
+			this.nodeType = "Mitarbeiter";
 		}
 		System.out.println("SoNBO: New request for business object with id " + objectId);
 		// initialize translation
@@ -70,8 +71,9 @@ public class SoNBOManager implements Serializable {
 			this.nodeType = "all";
 		}		
 		// get business object
-		this.businessObject = this.nodeService.getNode(objectId, false);
+		this.businessObject = this.nodeService.getNode(objectId, this.nodeType, false);
 		this.loadAdjacentNodes(this.businessObject, locale);
+		throw new Exception (this.businessObject.getNodeType() + " " + this.businessObject.getNodeTypeCategory());
 	}
 
 	private void loadAdjacentNodes(Node node, Locale locale) {

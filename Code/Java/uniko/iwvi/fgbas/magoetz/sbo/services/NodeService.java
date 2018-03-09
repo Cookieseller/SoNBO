@@ -31,12 +31,11 @@ public class NodeService implements Serializable {
 	
 	private QueryService queryService = new QueryService();
 
-	public Node getNode(String id, boolean nodePreview) {
+	public Node getNode(String id, String nodeType, boolean nodePreview) {
 		
 		DBMock mock = new DBMock();
-		Node node = mock.getNodeById(id);
-		return node;
-		/*
+		//Node node = mock.getNodeById(id);
+//		return node;
 		// 1. CREATE NEW BUSINESS OBJECT
 		Node node = new Node();
 	
@@ -50,7 +49,7 @@ public class NodeService implements Serializable {
 		// 2. GET CONFIGURATION DOCUMENT FOR OBJECT TYPE
 
 		//NodeType configObject = configService.getConfigurationObject(objectName);
-		NodeType configObject = configService.getNodeTypeById(id);
+		NodeType configObject = configService.getNodeType(nodeType);
 		if(configObject != null) {
 			node.setNodeType(configObject.getNodeTypeName());
 			
@@ -83,7 +82,6 @@ public class NodeService implements Serializable {
 			System.out.println("No configuration document found for id: " + id);
 		}
 		return null;
-		*/
 	}
 	
 	/*
@@ -162,7 +160,8 @@ public class NodeService implements Serializable {
 		ArrayList<String> adjacentNodeIDs = this.getAdjacentNodeIDs(businessObject, adjacencyQueryList);
 		
 		for(String adjacentNodeId : adjacentNodeIDs) {
-			Node adjacentNode = this.getNode(adjacentNodeId, true);
+			// TODO set node type
+			Node adjacentNode = this.getNode(adjacentNodeId, "", true);
 			if(adjacentNode != null) {
 				adjacentNodesList.add(adjacentNode);
 			}
