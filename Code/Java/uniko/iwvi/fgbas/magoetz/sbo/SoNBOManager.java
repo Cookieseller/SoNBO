@@ -18,7 +18,6 @@ import uniko.iwvi.fgbas.magoetz.sbo.objects.SortAttribute;
 import uniko.iwvi.fgbas.magoetz.sbo.services.ConfigService;
 import uniko.iwvi.fgbas.magoetz.sbo.services.DatabaseService;
 import uniko.iwvi.fgbas.magoetz.sbo.services.NodeService;
-import uniko.iwvi.fgbas.magoetz.sbo.util.DBMock;
 import uniko.iwvi.fgbas.magoetz.sbo.util.Texts;
 
 /**
@@ -72,19 +71,16 @@ public class SoNBOManager implements Serializable {
 		}		
 		// get business object
 		this.businessObject = this.nodeService.getNode(objectId, this.nodeType, false);
-		this.loadAdjacentNodes(this.businessObject, locale);
-		throw new Exception (this.businessObject.getNodeType() + " " + this.businessObject.getNodeTypeCategory());
+		this.loadAdjacentNodes(this.businessObject);
 	}
 
-	private void loadAdjacentNodes(Node node, Locale locale) {
-		DBMock mock = new DBMock();
-		this.setAdjacentNodeList(mock.getAdjNodeList(node));
-		/*
+	private void loadAdjacentNodes(Node node) {
+//		DBMock mock = new DBMock();
+//		this.setAdjacentNodeList(mock.getAdjNodeList(node));
+
 		List<Node> adjacentNodeCategoryList = new ArrayList<Node>();
 		List<Node> objects = nodeService.getAdjacentNodes(node);
-		adjacentNodeCategoryList.addAll(objects);
-		this.setAdjacentNodeList(adjacentNodeCategoryList);
-		*/
+		this.setAdjacentNodeList(objects);
 	}
 	
 	public void setAdjacentNodeList(List<Node> adjacentNodeList) {

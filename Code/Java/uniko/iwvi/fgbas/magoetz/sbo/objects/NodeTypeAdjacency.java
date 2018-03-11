@@ -22,9 +22,6 @@ public class NodeTypeAdjacency {
 		return targetNode;
 	}
 
-	public void setTargetNode(String targetNode) {
-	}
-
 	public String getDatasource() {
 		return datasource;
 	}

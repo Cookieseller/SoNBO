@@ -1,10 +1,18 @@
 package uniko.iwvi.fgbas.magoetz.sbo.services;
 
 import java.io.Serializable;
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
+import com.microsoft.sqlserver.jdbc.*;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import lotus.domino.Database;
 import lotus.domino.Document;
 import lotus.domino.DocumentCollection;
@@ -251,36 +259,49 @@ public class RDSQueryService implements IQueryService, Serializable {
         // TODO in this case objectId, but in other cases?
         queryKey = objectId;
 
-        // execute query to get results
-        // TODO make variable dependent on query command
-        ArrayList<String> queryResults = new ArrayList<String>();
+        String connectionString =
+                "jdbc:sqlserver://nav.erp-challenge.de;"
+                        + "database=NAV2015;"
+                        + "user=mariedle;"
+                        + "password=Uhuvegire422;"
+                        + "loginTimeout=10;";
+
+        Connection connection = null;
+        Statement statement = null;
+        ResultSet resultSet = null;
+        ArrayList<Vector<AbstractMap.SimpleEntry<Integer, String>>> resultList = new ArrayList<Vector<AbstractMap.SimpleEntry<Integer, String>>>();
         try {
-            // return values by key
-            queryResults = Utils.Dblookup(hostname, database, queryView, queryKey, queryFieldname);
+			connection = DriverManager.getConnection(connectionString);
+			statement = connection.createStatement();
+	        resultSet = statement.executeQuery(queryObject.getString());
 
-        } catch (NotesException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+	        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
+	        SimpleDateFormat formatter2 = new SimpleDateFormat("dd.MM.yyyy");
 
-        // get json object from query result
-        ArrayList<JsonObject> jsonQueryResultObjects = new ArrayList<JsonObject>();
-
-        for (String s : queryResults) {
-            JsonObject o = new JsonParser().parse(s).getAsJsonObject();
-            jsonQueryResultObjects.add(o);
-        }
-
-        JsonObject jsonObject = new JsonObject();
-        try {
-            jsonObject = jsonQueryResultObjects.get(0);
-        } catch (IndexOutOfBoundsException ex) {
-            return null;
-        }
+	     	// get json object from query result
+			ArrayList<JsonObject> jsonQueryResultObjects = new ArrayList<JsonObject>();
+	        while (resultSet.next()) {
+	            for (int i = 1; i < resultSet.getMetaData().getColumnCount(); i++) {
+	                JsonObject o = new JsonParser().parse(resultSet.getString(i)).getAsJsonObject();
+	                jsonQueryResultObjects.add(o);
+	            }
+	        }
+	        JsonObject jsonObject = new JsonObject();
+	        try {
+	            jsonObject = jsonQueryResultObjects.get(0);
+	        } catch (IndexOutOfBoundsException ex) {
+	            return null;
+	        }
+	        
+	        return jsonObject;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         // log json
         //Utilities utilities = new Utilities();
         //utilities.printJson(jsonObject, "query result json object");
-        return jsonObject;
+        return null;
     }
 
     @SuppressWarnings("unchecked")

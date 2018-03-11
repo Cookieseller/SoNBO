@@ -29,12 +29,12 @@ public class NodeService implements Serializable {
 	
 	private ConfigService configService = new ConfigService();
 	
-	private QueryService queryService = new QueryService();
+	private RDSQueryService queryService = new RDSQueryService();
 
 	public Node getNode(String id, String nodeType, boolean nodePreview) {
 		
-		DBMock mock = new DBMock();
-		//Node node = mock.getNodeById(id);
+//		DBMock mock = new DBMock();
+//		Node node = mock.getNodeById(id);
 //		return node;
 		// 1. CREATE NEW BUSINESS OBJECT
 		Node node = new Node();
@@ -105,7 +105,7 @@ public class NodeService implements Serializable {
 			if(jsonQueryResultObject == null) {
 				// get datasource configuration
 				Datasource datasourceObject = queryService.getDatasourceObject(datasource);
-				// get query				
+				// get query
 				Query queryObject = queryService.getQueryObject(query);
 				jsonQueryResultObject = queryService.executeQuery(datasourceObject, queryObject, id);
 				queryResult.setJsonObject(jsonQueryResultObject);
@@ -148,16 +148,20 @@ public class NodeService implements Serializable {
 		return businessObject;
 	}
 
+    /**
+     * Returns a lide of Nodes which are adjacent to the given one
+     *
+     * @param Node businessObject
+     *
+     * @return List<Node>
+     */
 	public List<Node> getAdjacentNodes(Node businessObject) {
-				
 		List<Node> adjacentNodesList = new ArrayList<Node>();
 		// determine peer query by source and target object type
 		String sourceNodeType = businessObject.getNodeType();
 		
-		//execute query for getting node relationships
-		ArrayList<NodeTypeAdjacency> adjacencyQueryList = getAdjacencyQueryObjects(sourceNodeType);
 		// execute queries for getting peer object IDs
-		ArrayList<String> adjacentNodeIDs = this.getAdjacentNodeIDs(businessObject, adjacencyQueryList);
+		ArrayList<String> adjacentNodeIDs = this.getAdjacentNodeIDs(businessObject);
 		
 		for(String adjacentNodeId : adjacentNodeIDs) {
 			// TODO set node type
@@ -169,8 +173,15 @@ public class NodeService implements Serializable {
 			
 		return adjacentNodesList;
 	}
-	
-	private ArrayList<NodeTypeAdjacency> getAdjacencyQueryObjects(String sourceNodeType) {
+
+    /**
+     * Returns a list of queries which can be used to get all its adjacent nodes
+     *
+     * @param String sourceNodeType
+     *
+     * @return ArrayList<String>
+     */
+	private ArrayList<NodeTypeAdjacency> getQueriesForAdjacenctNodes(String sourceNodeType) {
 		ArrayList<String> adjacencyIds = queryService.getFieldValues("(nodeTypeAdjacenciesSource)", sourceNodeType, "adjacencyId");
 		ArrayList<NodeTypeAdjacency> adjacencyQueryList = new ArrayList<NodeTypeAdjacency>();
 		Gson gson = new Gson();
@@ -182,62 +193,88 @@ public class NodeService implements Serializable {
 		}
 		return adjacencyQueryList;
 	}
-	
-	private ArrayList<String> getAdjacentNodeIDs(Node businessObject, ArrayList<NodeTypeAdjacency> adjacencyQueryList) {
-		// execute queries for getting peer object IDs
+
+	/**
+	 * Get Adjacent Nodes for the given Node
+	 *
+	 * @param Node node
+	 *
+	 * @return ArrayList<String>
+	 */
+	private ArrayList<String> getAdjacentNodeIDs(Node node) {
+		ArrayList<NodeTypeAdjacency> adjacencyQueryList = getQueriesForAdjacenctNodes(node.getNodeType());
 		ArrayList<String> adjacentNodeIDs = new ArrayList<String>();
+
 		for(NodeTypeAdjacency adjacencyQuery : adjacencyQueryList) {
-		
-			// get datasource and query for peer query				
-			Datasource datasourceObject = queryService.getDatasourceObject(adjacencyQuery.getDatasource());
 			Query queryObject = queryService.getQueryObject(adjacencyQuery.getQuery());
+
 			//replace attributes in query string with variable values
-			String string = queryObject.getString();
-			ArrayList<String> replaceAttributesList = Utilities.getTokens(string);
-			NodeTypeAttribute nta = null;
-			if(replaceAttributesList.size() > 0) {
-				String replaceAttrString = replaceAttributesList.get(0);
-				nta = businessObject.getAttributeOfType(replaceAttrString, "Array(String)");
-			}
-			// if first attribute is not of type Array(String)
-			if(nta == null) {
-				// create map with replacements
-				Map<String, String> replaceAttributesMap = new HashMap<String, String>();
-				for(String replaceAttributeKey : replaceAttributesList) {
-					// get attribute value from business object
-					String replaceAttributeValue = businessObject.getAttributeValueAsString(replaceAttributeKey);
-					//convert email to notes username
-					if(queryObject.getKeyValueReturnType().equals("getEmailAsNotesUsername")) {
-						replaceAttributeValue = this.queryService.getNotesUsernameByEmail(replaceAttributeValue);
-					}
-					replaceAttributesMap.put(replaceAttributeKey, replaceAttributeValue);
-				}
-				// replace [key] in string with variable values
-				string = Utilities.replaceTokens(string, replaceAttributesMap);
-			// if first attribute is of type Array(String) concatenate values
-			}else {
-				String[] stringValues = nta.getValueAsString().split(",");
-				String[] words = string.split(" ");
-				string = "";
-				String fieldname = words[1];
-				for(int i=0; i<stringValues.length; i++) {
-					if(i < stringValues.length - 1) {
-						string += "FIELD " + fieldname + " CONTAINS " + stringValues[i] + " OR ";
-					}else {
-						string += "FIELD " + fieldname + " CONTAINS " + stringValues[i];
-					}
-				}
-			}
-			
+			String queryString = queryObject.getString();
+            this.createAttributeList(queryObject, node);
 			//System.out.println("QueryString after replacements: " + string);
 			// replace query string
-			queryObject.setString(string);
-			String sourceNodeId = businessObject.getId();
-			ArrayList<String> resultAdjacentNodeIDs = this.retrieveAdjacentNodeIDs(datasourceObject, queryObject, sourceNodeId);
+			queryObject.setString(queryString);
+			queryObject.setQueryAttributes(new ArrayList<String>());
+			String sourceNodeId = node.getId();
+
+			Datasource datasource = queryService.getDatasourceObject(adjacencyQuery.getDatasource());
+			ArrayList<String> resultAdjacentNodeIDs = this.retrieveAdjacentNodeIDs(datasource, queryObject, sourceNodeId);
 			adjacentNodeIDs.addAll(resultAdjacentNodeIDs);
 		}
 		return adjacentNodeIDs;
 	}
+
+    /**
+     * Creates the attribute list by matching the placeholders in the queryString with the given nodes attributes.
+     * The attribute List can later be used to create a full query string in the given DB dialect.
+     *
+     * @param String queryString
+     * @param Node node
+     *
+     * @return String
+     */
+	private String createAttributeList(Query queryObject, Node node) {
+	    String queryString = queryObject.getString();
+	    ArrayList<String> attributeList = new ArrayList<String>();
+        ArrayList<String> tokenList = Utilities.getTokenList(queryString);
+
+        NodeTypeAttribute nodeTypeAttribute = null;
+        if(tokenList.size() > 0) {
+            String replaceAttrString = tokenList.get(0);
+            nodeTypeAttribute = node.getAttributeOfType(replaceAttrString, "Array(String)");
+        }
+        // if first attribute is not of type Array(String)
+        if(nodeTypeAttribute == null) {
+            // create map with replacements
+            Map<String, String> replaceAttributesMap = new HashMap<String, String>();
+            for(String replaceAttributeKey : tokenList) {
+                // get attribute value from business object
+                String replaceAttributeValue = node.getAttributeValueAsString(replaceAttributeKey);
+                //convert email to notes username
+                if(queryObject.getKeyValueReturnType().equals("getEmailAsNotesUsername")) {
+                    replaceAttributeValue = this.queryService.getNotesUsernameByEmail(replaceAttributeValue);
+                }
+                replaceAttributesMap.put(replaceAttributeKey, replaceAttributeValue);
+            }
+            // replace [key] in string with variable values
+            queryString = Utilities.replaceTokens(queryString, replaceAttributesMap);
+            // if first attribute is of type Array(String) concatenate values
+        }else {
+            String[] stringValues = nodeTypeAttribute.getValueAsString().split(",");
+            String[] words = queryString.split(" ");
+            queryString = "";
+            String fieldname = words[1];
+            for(int i=0; i<stringValues.length; i++) {
+                if(i < stringValues.length - 1) {
+                    queryString += "FIELD " + fieldname + " CONTAINS " + stringValues[i] + " OR ";
+                }else {
+                    queryString += "FIELD " + fieldname + " CONTAINS " + stringValues[i];
+                }
+            }
+        }
+        
+        return "";
+    }
 	
 	@SuppressWarnings("unchecked")
 	private ArrayList<String> retrieveAdjacentNodeIDs(Datasource datasourceObject, Query queryObject, String sourceNodeId) {

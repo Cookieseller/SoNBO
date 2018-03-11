@@ -40,10 +40,10 @@ public class Utilities {
 		return buffer.toString();
 	}
 	
-	/*
-	 * returns List of tokens identified in a text string delimited by [token]
+	/**
+	 * Returns List of tokens identified in a text string delimited by [token]
 	 */
-	public static ArrayList<String> getTokens(String text) {
+	public static ArrayList<String> getTokenList(String text) {
 		ArrayList<String> tokenList = new ArrayList<String>();
 		Pattern pattern = Pattern.compile("\\[(.+?)\\]");
 		Matcher matcher = pattern.matcher(text);

@@ -21,6 +21,8 @@ public class Query {
 	private int columnNr;
 	
 	private String string;
+
+	private List<String> queryAttributes;
 	
 	public String getName() {
 		return name;
@@ -93,4 +95,12 @@ public class Query {
 	public void setString(String string) {
 		this.string = string;
 	}
+
+    public List<String> getQueryAttributes() {
+        return queryAttributes;
+    }
+
+    public void setQueryAttributes(List<String> attributes) {
+	    this.queryAttributes = attributes;
+    }
 }
