@@ -53,17 +53,13 @@ interface IQueryService {
 
     public DocumentCollection executeQueryFTSearch(Datasource datasourceObject, Query queryObject);
 
-
     public JsonObject executeQuery(Datasource datasourceObject, Query queryObject, String objectId) throws Exception;
-
 
     @SuppressWarnings("unchecked")
     public Datasource getDatasourceObject(String datasourceName);
 
-
     @SuppressWarnings("unchecked")
     public Query getQueryObject(String queryName);
-
 
     /**
      * Method finds a query result (matching source and query) in a list of query results
