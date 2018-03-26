@@ -4,103 +4,103 @@ import java.util.List;
 
 public class Query {
 
-	private String name;
-	
-	private String type;
-	
-	private String command;
-	
-	private String view;
-	
-	private List<String> key;
-	
-	private String keyValueReturnType;
-	
-	private String fieldname;
-	
-	private int columnNr;
-	
-	private String string;
+    private String name;
 
-	private List<String> queryAttributes;
-	
-	public String getName() {
-		return name;
-	}
+    private String type;
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    private String command;
 
-	public String getType() {
-		return type;
-	}
+    private String view;
 
-	public void setType(String type) {
-		this.type = type;
-	}
+    private List<String> key;
 
-	public String getCommand() {
-		return command;
-	}
+    private String keyValueReturnType;
 
-	public void setCommand(String command) {
-		this.command = command;
-	}
+    private String fieldname;
 
-	public String getView() {
-		return view;
-	}
+    private int columnNr;
 
-	public void setView(String view) {
-		this.view = view;
-	}
+    private String string;
 
-	public List<String> getKey() {
-		return key;
-	}
+    private List<String> queryAttributes;
 
-	public void setKey(List<String> key) {
-		this.key = key;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setKeyValueReturnType(String keyValueReturnType) {
-		this.keyValueReturnType = keyValueReturnType;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public String getKeyValueReturnType() {
-		return keyValueReturnType;
-	}
+    public String getType() {
+        return type;
+    }
 
-	public String getFieldname() {
-		return fieldname;
-	}
+    public void setType(String type) {
+        this.type = type;
+    }
 
-	public void setFieldname(String fieldname) {
-		this.fieldname = fieldname;
-	}
+    public String getCommand() {
+        return command;
+    }
 
-	public int getColumnNr() {
-		return columnNr;
-	}
+    public void setCommand(String command) {
+        this.command = command;
+    }
 
-	public void setColumnNr(int columnNr) {
-		this.columnNr = columnNr;
-	}
+    public String getView() {
+        return view;
+    }
 
-	public String getString() {
-		return string;
-	}
+    public void setView(String view) {
+        this.view = view;
+    }
 
-	public void setString(String string) {
-		this.string = string;
-	}
+    public List<String> getKey() {
+        return key;
+    }
+
+    public void setKey(List<String> key) {
+        this.key = key;
+    }
+
+    public void setKeyValueReturnType(String keyValueReturnType) {
+        this.keyValueReturnType = keyValueReturnType;
+    }
+
+    public String getKeyValueReturnType() {
+        return keyValueReturnType;
+    }
+
+    public String getFieldname() {
+        return fieldname;
+    }
+
+    public void setFieldname(String fieldname) {
+        this.fieldname = fieldname;
+    }
+
+    public int getColumnNr() {
+        return columnNr;
+    }
+
+    public void setColumnNr(int columnNr) {
+        this.columnNr = columnNr;
+    }
+
+    public String getString() {
+        return string;
+    }
+
+    public void setString(String string) {
+        this.string = string;
+    }
 
     public List<String> getQueryAttributes() {
         return queryAttributes;
     }
 
     public void setQueryAttributes(List<String> attributes) {
-	    this.queryAttributes = attributes;
+        this.queryAttributes = attributes;
     }
 }

@@ -24,32 +24,32 @@ public class DBMock implements Serializable {
                     {
                         add("Name");
                     }
-                }, "Lieferanten-Belege", new String[] { "Lieferanten-Belege",
-                        "Kunden-Belege", "Personen", "Lager", "Produkte" },
+                }, "Lieferanten-Belege", new String[]{"Lieferanten-Belege",
+                        "Kunden-Belege", "Personen", "Lager", "Produkte"},
                 "Bestellung (Lieferant)");
         final Node ordNode2 = createNode("1002", "Bestellung 2",
                 new ArrayList<String>() {
                     {
                         add("Name");
                     }
-                }, "Lieferanten-Belege", new String[] { "Lieferanten-Belege",
-                        "Kunden-Belege", "Personen", "Lager", "Produkte" },
+                }, "Lieferanten-Belege", new String[]{"Lieferanten-Belege",
+                        "Kunden-Belege", "Personen", "Lager", "Produkte"},
                 "Bestellung (Lieferant)");
         final Node ordNode3 = createNode("1003", "Bestellung 3",
                 new ArrayList<String>() {
                     {
                         add("Name");
                     }
-                }, "Lieferanten-Belege", new String[] { "Lieferanten-Belege",
-                        "Kunden-Belege", "Personen", "Lager", "Produkte" },
+                }, "Lieferanten-Belege", new String[]{"Lieferanten-Belege",
+                        "Kunden-Belege", "Personen", "Lager", "Produkte"},
                 "Bestellung (Lieferant)");
         final Node ordNode4 = createNode("1004", "Bestellung 4",
                 new ArrayList<String>() {
                     {
                         add("Name");
                     }
-                }, "Lieferanten-Belege", new String[] { "Lieferanten-Belege",
-                        "Kunden-Belege", "Personen", "Lager", "Produkte" },
+                }, "Lieferanten-Belege", new String[]{"Lieferanten-Belege",
+                        "Kunden-Belege", "Personen", "Lager", "Produkte"},
                 "Bestellung (Lieferant)");
 
         final Node delNoteNode1 = createNode("1101", "Lieferschein 1",
@@ -57,28 +57,28 @@ public class DBMock implements Serializable {
                     {
                         add("Name");
                     }
-                }, "Lieferanten-Belege", new String[] { "Lieferanten-Belege" },
+                }, "Lieferanten-Belege", new String[]{"Lieferanten-Belege"},
                 "Lieferschein (Lieferant)");
         final Node delNoteNode2 = createNode("1102", "Lieferschein 2",
                 new ArrayList<String>() {
                     {
                         add("Name");
                     }
-                }, "Lieferanten-Belege", new String[] { "Lieferanten-Belege" },
+                }, "Lieferanten-Belege", new String[]{"Lieferanten-Belege"},
                 "Lieferschein (Lieferant)");
         final Node delNoteNode3 = createNode("1103", "Lieferschein 3",
                 new ArrayList<String>() {
                     {
                         add("Name");
                     }
-                }, "Lieferanten-Belege", new String[] { "Lieferanten-Belege" },
+                }, "Lieferanten-Belege", new String[]{"Lieferanten-Belege"},
                 "Lieferschein (Lieferant)");
         final Node delNoteNode4 = createNode("1104", "Lieferschein 4",
                 new ArrayList<String>() {
                     {
                         add("Name");
                     }
-                }, "Lieferanten-Belege", new String[] { "Lieferanten-Belege" },
+                }, "Lieferanten-Belege", new String[]{"Lieferanten-Belege"},
                 "Lieferschein (Lieferant)");
 
         final Node billNode1 = createNode("1201", "Rechnung 1",
@@ -86,32 +86,32 @@ public class DBMock implements Serializable {
                     {
                         add("Name");
                     }
-                }, "Lieferanten-Belege", new String[] { "Lieferanten-Belege",
-                        "Kunden-Belege", "Personen", "Lager", "Produkte" },
+                }, "Lieferanten-Belege", new String[]{"Lieferanten-Belege",
+                        "Kunden-Belege", "Personen", "Lager", "Produkte"},
                 "Rechnung (Lieferant)");
         final Node billNode2 = createNode("1202", "Rechnung 2",
                 new ArrayList<String>() {
                     {
                         add("Name");
                     }
-                }, "Lieferanten-Belege", new String[] { "Lieferanten-Belege",
-                        "Kunden-Belege", "Personen", "Lager", "Produkte" },
+                }, "Lieferanten-Belege", new String[]{"Lieferanten-Belege",
+                        "Kunden-Belege", "Personen", "Lager", "Produkte"},
                 "Rechnung (Lieferant)");
         final Node billNode3 = createNode("1203", "Rechnung 3",
                 new ArrayList<String>() {
                     {
                         add("Name");
                     }
-                }, "Lieferanten-Belege", new String[] { "Lieferanten-Belege",
-                        "Kunden-Belege", "Personen", "Lager", "Produkte" },
+                }, "Lieferanten-Belege", new String[]{"Lieferanten-Belege",
+                        "Kunden-Belege", "Personen", "Lager", "Produkte"},
                 "Rechnung (Lieferant)");
         final Node billNode4 = createNode("1204", "Rechnung 4",
                 new ArrayList<String>() {
                     {
                         add("Name");
                     }
-                }, "Lieferanten-Belege", new String[] { "Lieferanten-Belege",
-                        "Kunden-Belege", "Personen", "Lager", "Produkte" },
+                }, "Lieferanten-Belege", new String[]{"Lieferanten-Belege",
+                        "Kunden-Belege", "Personen", "Lager", "Produkte"},
                 "Rechnung (Lieferant)");
 
         // Kunden Belege
@@ -120,32 +120,32 @@ public class DBMock implements Serializable {
                     {
                         add("Name");
                     }
-                }, "Kunden-Belege", new String[] { "Lieferanten-Belege",
-                        "Kunden-Belege", "Personen", "Lager", "Produkte" },
+                }, "Kunden-Belege", new String[]{"Lieferanten-Belege",
+                        "Kunden-Belege", "Personen", "Lager", "Produkte"},
                 "Angebot (Kunde)");
         final Node offerNode2 = createNode("1302", "Angebot 2",
                 new ArrayList<String>() {
                     {
                         add("Name");
                     }
-                }, "Kunden-Belege", new String[] { "Lieferanten-Belege",
-                        "Kunden-Belege", "Personen", "Lager", "Produkte" },
+                }, "Kunden-Belege", new String[]{"Lieferanten-Belege",
+                        "Kunden-Belege", "Personen", "Lager", "Produkte"},
                 "Angebot (Kunde)");
         final Node offerNode3 = createNode("1303", "Angebot 3",
                 new ArrayList<String>() {
                     {
                         add("Name");
                     }
-                }, "Kunden-Belege", new String[] { "Lieferanten-Belege",
-                        "Kunden-Belege", "Personen", "Lager", "Produkte" },
+                }, "Kunden-Belege", new String[]{"Lieferanten-Belege",
+                        "Kunden-Belege", "Personen", "Lager", "Produkte"},
                 "Angebot (Kunde)");
         final Node offerNode4 = createNode("1304", "Angebot 4",
                 new ArrayList<String>() {
                     {
                         add("Name");
                     }
-                }, "Kunden-Belege", new String[] { "Lieferanten-Belege",
-                        "Kunden-Belege", "Personen", "Lager", "Produkte" },
+                }, "Kunden-Belege", new String[]{"Lieferanten-Belege",
+                        "Kunden-Belege", "Personen", "Lager", "Produkte"},
                 "Angebot (Kunde)");
 
         final Node orderNode1 = createNode("1401", "Auftrag 1",
@@ -153,32 +153,32 @@ public class DBMock implements Serializable {
                     {
                         add("Name");
                     }
-                }, "Kunden-Belege", new String[] { "Lieferanten-Belege",
-                        "Kunden-Belege", "Personen", "Lager", "Produkte" },
+                }, "Kunden-Belege", new String[]{"Lieferanten-Belege",
+                        "Kunden-Belege", "Personen", "Lager", "Produkte"},
                 "Auftrag (Kunde)");
         final Node orderNode2 = createNode("1402", "Auftrag 2",
                 new ArrayList<String>() {
                     {
                         add("Name");
                     }
-                }, "Kunden-Belege", new String[] { "Lieferanten-Belege",
-                        "Kunden-Belege", "Personen", "Lager", "Produkte" },
+                }, "Kunden-Belege", new String[]{"Lieferanten-Belege",
+                        "Kunden-Belege", "Personen", "Lager", "Produkte"},
                 "Auftrag (Kunde)");
         final Node orderNode3 = createNode("1403", "Auftrag 3",
                 new ArrayList<String>() {
                     {
                         add("Name");
                     }
-                }, "Kunden-Belege", new String[] { "Lieferanten-Belege",
-                        "Kunden-Belege", "Personen", "Lager", "Produkte" },
+                }, "Kunden-Belege", new String[]{"Lieferanten-Belege",
+                        "Kunden-Belege", "Personen", "Lager", "Produkte"},
                 "Auftrag (Kunde)");
         final Node orderNode4 = createNode("1404", "Auftrag 4",
                 new ArrayList<String>() {
                     {
                         add("Name");
                     }
-                }, "Kunden-Belege", new String[] { "Lieferanten-Belege",
-                        "Kunden-Belege", "Personen", "Lager", "Produkte" },
+                }, "Kunden-Belege", new String[]{"Lieferanten-Belege",
+                        "Kunden-Belege", "Personen", "Lager", "Produkte"},
                 "Auftrag (Kunde)");
 
         final Node custDelNoteNode1 = createNode("1501", "Lieferschein 1",
@@ -186,32 +186,32 @@ public class DBMock implements Serializable {
                     {
                         add("Name");
                     }
-                }, "Kunden-Belege", new String[] { "Lieferanten-Belege",
-                        "Kunden-Belege", "Personen", "Lager", "Produkte" },
+                }, "Kunden-Belege", new String[]{"Lieferanten-Belege",
+                        "Kunden-Belege", "Personen", "Lager", "Produkte"},
                 "Lieferschein (Kunde)");
         final Node custDelNoteNode2 = createNode("1502", "Lieferschein 2",
                 new ArrayList<String>() {
                     {
                         add("Name");
                     }
-                }, "Kunden-Belege", new String[] { "Lieferanten-Belege",
-                        "Kunden-Belege", "Personen", "Lager", "Produkte" },
+                }, "Kunden-Belege", new String[]{"Lieferanten-Belege",
+                        "Kunden-Belege", "Personen", "Lager", "Produkte"},
                 "Lieferschein (Kunde)");
         final Node custDelNoteNode3 = createNode("1503", "Lieferschein 3",
                 new ArrayList<String>() {
                     {
                         add("Name");
                     }
-                }, "Kunden-Belege", new String[] { "Lieferanten-Belege",
-                        "Kunden-Belege", "Personen", "Lager", "Produkte" },
+                }, "Kunden-Belege", new String[]{"Lieferanten-Belege",
+                        "Kunden-Belege", "Personen", "Lager", "Produkte"},
                 "Lieferschein (Kunde)");
         final Node custDelNoteNode4 = createNode("1504", "Lieferschein 4",
                 new ArrayList<String>() {
                     {
                         add("Name");
                     }
-                }, "Kunden-Belege", new String[] { "Lieferanten-Belege",
-                        "Kunden-Belege", "Personen", "Lager", "Produkte" },
+                }, "Kunden-Belege", new String[]{"Lieferanten-Belege",
+                        "Kunden-Belege", "Personen", "Lager", "Produkte"},
                 "Lieferschein (Kunde)");
 
         final Node custBillNode1 = createNode("1601", "Rechnung 1",
@@ -219,32 +219,32 @@ public class DBMock implements Serializable {
                     {
                         add("Name");
                     }
-                }, "Kunden-Belege", new String[] { "Lieferanten-Belege",
-                        "Kunden-Belege", "Personen", "Lager", "Produkte" },
+                }, "Kunden-Belege", new String[]{"Lieferanten-Belege",
+                        "Kunden-Belege", "Personen", "Lager", "Produkte"},
                 "Rechnung (Kunde)");
         final Node custBillNode2 = createNode("1602", "Rechnung 2",
                 new ArrayList<String>() {
                     {
                         add("Name");
                     }
-                }, "Kunden-Belege", new String[] { "Lieferanten-Belege",
-                        "Kunden-Belege", "Personen", "Lager", "Produkte" },
+                }, "Kunden-Belege", new String[]{"Lieferanten-Belege",
+                        "Kunden-Belege", "Personen", "Lager", "Produkte"},
                 "Rechnung (Kunde)");
         final Node custBillNode3 = createNode("1603", "Rechnung 3",
                 new ArrayList<String>() {
                     {
                         add("Name");
                     }
-                }, "Kunden-Belege", new String[] { "Lieferanten-Belege",
-                        "Kunden-Belege", "Personen", "Lager", "Produkte" },
+                }, "Kunden-Belege", new String[]{"Lieferanten-Belege",
+                        "Kunden-Belege", "Personen", "Lager", "Produkte"},
                 "Rechnung (Kunde)");
         final Node custBillNode4 = createNode("1604", "Rechnung 4",
                 new ArrayList<String>() {
                     {
                         add("Name");
                     }
-                }, "Kunden-Belege", new String[] { "Lieferanten-Belege",
-                        "Kunden-Belege", "Personen", "Lager", "Produkte" },
+                }, "Kunden-Belege", new String[]{"Lieferanten-Belege",
+                        "Kunden-Belege", "Personen", "Lager", "Produkte"},
                 "Rechnung (Kunde)");
 
         // Personen
@@ -253,32 +253,32 @@ public class DBMock implements Serializable {
                     {
                         add("Name");
                     }
-                }, "Personen", new String[] { "Lieferanten-Belege",
-                        "Kunden-Belege", "Personen", "Lager", "Produkte" },
+                }, "Personen", new String[]{"Lieferanten-Belege",
+                        "Kunden-Belege", "Personen", "Lager", "Produkte"},
                 "Mitarbeiter");
         final Node empNode2 = createNode("1702", "Berit Gebel-Sauer",
                 new ArrayList<String>() {
                     {
                         add("Name");
                     }
-                }, "Personen", new String[] { "Lieferanten-Belege",
-                        "Kunden-Belege", "Personen", "Lager", "Produkte" },
+                }, "Personen", new String[]{"Lieferanten-Belege",
+                        "Kunden-Belege", "Personen", "Lager", "Produkte"},
                 "Mitarbeiter");
-        final Node empNode3 = createNode("1703", "Flemming Götz",
+        final Node empNode3 = createNode("1703", "Flemming Gï¿½tz",
                 new ArrayList<String>() {
                     {
                         add("Name");
                     }
-                }, "Personen", new String[] { "Lieferanten-Belege",
-                        "Kunden-Belege", "Personen", "Lager", "Produkte" },
+                }, "Personen", new String[]{"Lieferanten-Belege",
+                        "Kunden-Belege", "Personen", "Lager", "Produkte"},
                 "Mitarbeiter");
         final Node empNode4 = createNode("1704", "Petra Schubert",
                 new ArrayList<String>() {
                     {
                         add("Name");
                     }
-                }, "Personen", new String[] { "Lieferanten-Belege",
-                        "Kunden-Belege", "Personen", "Lager", "Produkte" },
+                }, "Personen", new String[]{"Lieferanten-Belege",
+                        "Kunden-Belege", "Personen", "Lager", "Produkte"},
                 "Mitarbeiter");
 
         final Node custNode1 = createNode("1801", "Kunde 1",
@@ -286,24 +286,24 @@ public class DBMock implements Serializable {
                     {
                         add("Name");
                     }
-                }, "Personen", new String[] { "Lieferanten-Belege",
-                        "Kunden-Belege", "Personen", "Lager", "Produkte" },
+                }, "Personen", new String[]{"Lieferanten-Belege",
+                        "Kunden-Belege", "Personen", "Lager", "Produkte"},
                 "Kunde");
         final Node custNode2 = createNode("1802", "Kunde 2",
                 new ArrayList<String>() {
                     {
                         add("Name");
                     }
-                }, "Personen", new String[] { "Lieferanten-Belege",
-                        "Kunden-Belege", "Personen", "Lager", "Produkte" },
+                }, "Personen", new String[]{"Lieferanten-Belege",
+                        "Kunden-Belege", "Personen", "Lager", "Produkte"},
                 "Kunde");
         final Node custNode3 = createNode("1803", "Kunde 3",
                 new ArrayList<String>() {
                     {
                         add("Name");
                     }
-                }, "Personen", new String[] { "Lieferanten-Belege",
-                        "Kunden-Belege", "Personen", "Lager", "Produkte" },
+                }, "Personen", new String[]{"Lieferanten-Belege",
+                        "Kunden-Belege", "Personen", "Lager", "Produkte"},
                 "Kunde");
 
         final Node supNode1 = createNode("K00000000000001", "China Import Ltd.",
@@ -311,24 +311,24 @@ public class DBMock implements Serializable {
                     {
                         add("Name");
                     }
-                }, "Personen", new String[] { "Lieferanten-Belege",
-                        "Kunden-Belege", "Personen", "Lager", "Produkte" },
+                }, "Personen", new String[]{"Lieferanten-Belege",
+                        "Kunden-Belege", "Personen", "Lager", "Produkte"},
                 "Lieferant");
         final Node supNode2 = createNode("K00000000000004", "#1299#_Brat & Schmeck",
                 new ArrayList<String>() {
                     {
                         add("Name");
                     }
-                }, "Personen", new String[] { "Lieferanten-Belege",
-                        "Kunden-Belege", "Personen", "Lager", "Produkte" },
+                }, "Personen", new String[]{"Lieferanten-Belege",
+                        "Kunden-Belege", "Personen", "Lager", "Produkte"},
                 "Lieferant");
         final Node supNode3 = createNode("K00000000000005", "#1299#_General Elektro Deutschland AG",
                 new ArrayList<String>() {
                     {
                         add("Name");
                     }
-                }, "Personen", new String[] { "Lieferanten-Belege",
-                        "Kunden-Belege", "Personen", "Lager", "Produkte" },
+                }, "Personen", new String[]{"Lieferanten-Belege",
+                        "Kunden-Belege", "Personen", "Lager", "Produkte"},
                 "Lieferant");
 
         // Lager
@@ -337,16 +337,16 @@ public class DBMock implements Serializable {
                     {
                         add("Name");
                     }
-                }, "Lager", new String[] { "Lieferanten-Belege",
-                        "Kunden-Belege", "Personen", "Lager", "Produkte" },
+                }, "Lager", new String[]{"Lieferanten-Belege",
+                        "Kunden-Belege", "Personen", "Lager", "Produkte"},
                 "Lager");
         final Node stockNode2 = createNode("2002", "Lager 2",
                 new ArrayList<String>() {
                     {
                         add("Name");
                     }
-                }, "Lager", new String[] { "Lieferanten-Belege",
-                        "Kunden-Belege", "Personen", "Lager", "Produkte" },
+                }, "Lager", new String[]{"Lieferanten-Belege",
+                        "Kunden-Belege", "Personen", "Lager", "Produkte"},
                 "Lager");
 
         // Produkte
@@ -355,73 +355,73 @@ public class DBMock implements Serializable {
                     {
                         add("Name");
                     }
-                }, "Produkte", new String[] { "Lieferanten-Belege",
-                        "Kunden-Belege", "Personen", "Lager", "Produkte" },
-                "Artikel/Stückliste");
+                }, "Produkte", new String[]{"Lieferanten-Belege",
+                        "Kunden-Belege", "Personen", "Lager", "Produkte"},
+                "Artikel/Stï¿½ckliste");
         final Node productNode2 = createNode("2102", "Produkt 2",
                 new ArrayList<String>() {
                     {
                         add("Name");
                     }
-                }, "Produkte", new String[] { "Lieferanten-Belege",
-                        "Kunden-Belege", "Personen", "Lager", "Produkte" },
-                "Artikel/Stückliste");
+                }, "Produkte", new String[]{"Lieferanten-Belege",
+                        "Kunden-Belege", "Personen", "Lager", "Produkte"},
+                "Artikel/Stï¿½ckliste");
         final Node productNode3 = createNode("2103", "Produkt 3",
                 new ArrayList<String>() {
                     {
                         add("Name");
                     }
-                }, "Produkte", new String[] { "Lieferanten-Belege",
-                        "Kunden-Belege", "Personen", "Lager", "Produkte" },
-                "Artikel/Stückliste");
+                }, "Produkte", new String[]{"Lieferanten-Belege",
+                        "Kunden-Belege", "Personen", "Lager", "Produkte"},
+                "Artikel/Stï¿½ckliste");
         final Node productNode4 = createNode("2104", "Produkt 4",
                 new ArrayList<String>() {
                     {
                         add("Name");
                     }
-                }, "Produkte", new String[] { "Lieferanten-Belege",
-                        "Kunden-Belege", "Personen", "Lager", "Produkte" },
-                "Artikel/Stückliste");
+                }, "Produkte", new String[]{"Lieferanten-Belege",
+                        "Kunden-Belege", "Personen", "Lager", "Produkte"},
+                "Artikel/Stï¿½ckliste");
         final Node productNode5 = createNode("2105", "Produkt 5",
                 new ArrayList<String>() {
                     {
                         add("Name");
                     }
-                }, "Produkte", new String[] { "Lieferanten-Belege",
-                        "Kunden-Belege", "Personen", "Lager", "Produkte" },
-                "Artikel/Stückliste");
+                }, "Produkte", new String[]{"Lieferanten-Belege",
+                        "Kunden-Belege", "Personen", "Lager", "Produkte"},
+                "Artikel/Stï¿½ckliste");
         final Node productNode6 = createNode("2106", "Produkt 6",
                 new ArrayList<String>() {
                     {
                         add("Name");
                     }
-                }, "Produkte", new String[] { "Lieferanten-Belege",
-                        "Kunden-Belege", "Personen", "Lager", "Produkte" },
-                "Artikel/Stückliste");
+                }, "Produkte", new String[]{"Lieferanten-Belege",
+                        "Kunden-Belege", "Personen", "Lager", "Produkte"},
+                "Artikel/Stï¿½ckliste");
         final Node productNode7 = createNode("2107", "Produkt 7",
                 new ArrayList<String>() {
                     {
                         add("Name");
                     }
-                }, "Produkte", new String[] { "Lieferanten-Belege",
-                        "Kunden-Belege", "Personen", "Lager", "Produkte" },
-                "Artikel/Stückliste");
+                }, "Produkte", new String[]{"Lieferanten-Belege",
+                        "Kunden-Belege", "Personen", "Lager", "Produkte"},
+                "Artikel/Stï¿½ckliste");
         final Node productNode8 = createNode("2108", "Produkt 8",
                 new ArrayList<String>() {
                     {
                         add("Name");
                     }
-                }, "Produkte", new String[] { "Lieferanten-Belege",
-                        "Kunden-Belege", "Personen", "Lager", "Produkte" },
-                "Artikel/Stückliste");
+                }, "Produkte", new String[]{"Lieferanten-Belege",
+                        "Kunden-Belege", "Personen", "Lager", "Produkte"},
+                "Artikel/Stï¿½ckliste");
         final Node productNode9 = createNode("2109", "Produkt 9",
                 new ArrayList<String>() {
                     {
                         add("Name");
                     }
-                }, "Produkte", new String[] { "Lieferanten-Belege",
-                        "Kunden-Belege", "Personen", "Lager", "Produkte" },
-                "Artikel/Stückliste");
+                }, "Produkte", new String[]{"Lieferanten-Belege",
+                        "Kunden-Belege", "Personen", "Lager", "Produkte"},
+                "Artikel/Stï¿½ckliste");
 
         // Dienstleistung
         final Node serviceNode1 = createNode("2201", "Aufbau",
@@ -429,16 +429,16 @@ public class DBMock implements Serializable {
                     {
                         add("Name");
                     }
-                }, "Produkte", new String[] { "Lieferanten-Belege",
-                        "Kunden-Belege", "Personen", "Lager", "Produkte" },
+                }, "Produkte", new String[]{"Lieferanten-Belege",
+                        "Kunden-Belege", "Personen", "Lager", "Produkte"},
                 "Dienstleistung");
         final Node serviceNode2 = createNode("2202", "Produktion",
                 new ArrayList<String>() {
                     {
                         add("Name");
                     }
-                }, "Produkte", new String[] { "Lieferanten-Belege",
-                        "Kunden-Belege", "Personen", "Lager", "Produkte" },
+                }, "Produkte", new String[]{"Lieferanten-Belege",
+                        "Kunden-Belege", "Personen", "Lager", "Produkte"},
                 "Dienstleistung");
 
         // Lieferanten Belege

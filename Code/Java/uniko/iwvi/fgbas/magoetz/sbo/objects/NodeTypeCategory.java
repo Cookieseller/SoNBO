@@ -3,91 +3,91 @@ package uniko.iwvi.fgbas.magoetz.sbo.objects;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class NodeTypeCategory implements Serializable{
-	
-	private static final long serialVersionUID = 805731509510272843L;
-	
-	private String name;
-	
-	private String nameDE;
-	
-	private String nameEN;	
-	
-	private String mainDatasource;
-	
-	private String mainQuery;
-	
-	private ArrayList<String> adjacentNodeTypeCategories;
-	
-	private String defaultImage;
+public class NodeTypeCategory implements Serializable {
 
-	private String adjacencies;
-	
-	public NodeTypeCategory() {
-	}
+    private static final long serialVersionUID = 805731509510272843L;
 
-	public String getName() {
-		return name;
-	}
+    private String name;
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    private String nameDE;
 
-	public void setNameDE(String nameDE) {
-		this.nameDE = nameDE;
-	}
+    private String nameEN;
 
-	public String getNameDE() {
-		return nameDE;
-	}
+    private String mainDatasource;
 
-	public void setNameEN(String nameEN) {
-		this.nameEN = nameEN;
-	}
+    private String mainQuery;
 
-	public String getNameEN() {
-		return nameEN;
-	}
+    private ArrayList<String> adjacentNodeTypeCategories;
 
-	public String getMainDatasource() {
-		return mainDatasource;
-	}
+    private String defaultImage;
 
-	public void setMainDatasource(String mainDatasource) {
-		this.mainDatasource = mainDatasource;
-	}
+    private String adjacencies;
 
-	public String getMainQuery() {
-		return mainQuery;
-	}
+    public NodeTypeCategory() {
+    }
 
-	public void setMainQuery(String mainQuery) {
-		this.mainQuery = mainQuery;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setAdjacentNodeTypeCategories(
-			ArrayList<String> adjacentNodeTypeCategories) {
-		this.adjacentNodeTypeCategories = adjacentNodeTypeCategories;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public ArrayList<String> getAdjacentNodeTypeCategories() {
-		return adjacentNodeTypeCategories;
-	}
+    public void setNameDE(String nameDE) {
+        this.nameDE = nameDE;
+    }
 
-	public String getDefaultImage() {
-		return defaultImage;
-	}
+    public String getNameDE() {
+        return nameDE;
+    }
 
-	public void setDefaultImage(String defaultImage) {
-		this.defaultImage = defaultImage;
-	}
+    public void setNameEN(String nameEN) {
+        this.nameEN = nameEN;
+    }
 
-	public String getAdjacencies() {
-		return adjacencies;
-	}
+    public String getNameEN() {
+        return nameEN;
+    }
 
-	public void setAdjacencies(String adjacencies) {
-		this.adjacencies = adjacencies;
-	}
+    public String getMainDatasource() {
+        return mainDatasource;
+    }
+
+    public void setMainDatasource(String mainDatasource) {
+        this.mainDatasource = mainDatasource;
+    }
+
+    public String getMainQuery() {
+        return mainQuery;
+    }
+
+    public void setMainQuery(String mainQuery) {
+        this.mainQuery = mainQuery;
+    }
+
+    public void setAdjacentNodeTypeCategories(
+            ArrayList<String> adjacentNodeTypeCategories) {
+        this.adjacentNodeTypeCategories = adjacentNodeTypeCategories;
+    }
+
+    public ArrayList<String> getAdjacentNodeTypeCategories() {
+        return adjacentNodeTypeCategories;
+    }
+
+    public String getDefaultImage() {
+        return defaultImage;
+    }
+
+    public void setDefaultImage(String defaultImage) {
+        this.defaultImage = defaultImage;
+    }
+
+    public String getAdjacencies() {
+        return adjacencies;
+    }
+
+    public void setAdjacencies(String adjacencies) {
+        this.adjacencies = adjacencies;
+    }
 }

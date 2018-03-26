@@ -5,6 +5,7 @@ import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
+
 import com.microsoft.sqlserver.jdbc.*;
 
 import java.sql.Connection;
@@ -13,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
+
 import lotus.domino.Database;
 import lotus.domino.Document;
 import lotus.domino.DocumentCollection;
@@ -271,33 +273,33 @@ public class RDSQueryService implements IQueryService, Serializable {
         ResultSet resultSet = null;
         ArrayList<Vector<AbstractMap.SimpleEntry<Integer, String>>> resultList = new ArrayList<Vector<AbstractMap.SimpleEntry<Integer, String>>>();
         try {
-			connection = DriverManager.getConnection(connectionString);
-			statement = connection.createStatement();
-	        resultSet = statement.executeQuery(queryObject.getString());
+            connection = DriverManager.getConnection(connectionString);
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery(queryObject.getString());
 
-	        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
-	        SimpleDateFormat formatter2 = new SimpleDateFormat("dd.MM.yyyy");
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
+            SimpleDateFormat formatter2 = new SimpleDateFormat("dd.MM.yyyy");
 
-	     	// get json object from query result
-			ArrayList<JsonObject> jsonQueryResultObjects = new ArrayList<JsonObject>();
-	        while (resultSet.next()) {
-	            for (int i = 1; i < resultSet.getMetaData().getColumnCount(); i++) {
-	                JsonObject o = new JsonParser().parse(resultSet.getString(i)).getAsJsonObject();
-	                jsonQueryResultObjects.add(o);
-	            }
-	        }
-	        JsonObject jsonObject = new JsonObject();
-	        try {
-	            jsonObject = jsonQueryResultObjects.get(0);
-	        } catch (IndexOutOfBoundsException ex) {
-	            return null;
-	        }
-	        
-	        return jsonObject;
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+            // get json object from query result
+            ArrayList<JsonObject> jsonQueryResultObjects = new ArrayList<JsonObject>();
+            while (resultSet.next()) {
+                for (int i = 1; i < resultSet.getMetaData().getColumnCount(); i++) {
+                    JsonObject o = new JsonParser().parse(resultSet.getString(i)).getAsJsonObject();
+                    jsonQueryResultObjects.add(o);
+                }
+            }
+            JsonObject jsonObject = new JsonObject();
+            try {
+                jsonObject = jsonQueryResultObjects.get(0);
+            } catch (IndexOutOfBoundsException ex) {
+                return null;
+            }
+
+            return jsonObject;
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         // log json
         //Utilities utilities = new Utilities();
         //utilities.printJson(jsonObject, "query result json object");
@@ -377,8 +379,8 @@ public class RDSQueryService implements IQueryService, Serializable {
     public String getEmailByNotesUsername(String notesUsername) {
 
         return this.getFieldValue("", "GEDYSIntraWare8\\georga.nsf", "Usernames", notesUsername, "email");
-		/*
-		Session session = DominoUtils.getCurrentSession();
+        /*
+        Session session = DominoUtils.getCurrentSession();
 		try {
 			Directory dir = session.getDirectory();
 			// TODO local version
@@ -403,7 +405,7 @@ public class RDSQueryService implements IQueryService, Serializable {
         return this.getFieldValue("", "GEDYSIntraWare8\\georg.nsf", "SoNBO\\(Emails)", email, "username");
 
 		/*
-		String notesUsername = "not found";
+        String notesUsername = "not found";
 
 		DocumentCollection resultCollection = this.ftSearchView("names.nsf", email, "($Users)");
 		try {

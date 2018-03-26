@@ -4,82 +4,82 @@ import java.io.Serializable;
 import java.util.List;
 
 public class Filter implements Serializable {
-	
-	private static final long serialVersionUID = 805731509510272843L;
-	
-	private String id;
-	
-	private boolean filterType;
 
-	private String attributeName;
-	
-	private String attributeDatatype;
-	
-	private List<String> attributeList;
-	
-	public Filter(String id) {
-		this.id = id;
-	}
-	
-	public String toString() {
-		String type = filterType ? "" : "! ";
-		String attributeMeta = attributeName + " (" + attributeDatatype + "): ";
-		String attributes = "";
-		for(int i = 0; i < this.attributeList.size(); i++) {
-			if(i < this.attributeList.size() - 1) {
-				attributes += this.attributeList.get(i) + ", ";
-			}else {
-				attributes += this.attributeList.get(i);
-			}
-		}
-		return type + attributeMeta + attributes;	
-	}
-	
-	public String getAttributeListAsString() {
-		String attributes = "";
-		for(int i = 0; i < this.attributeList.size(); i++) {
-			if(i < this.attributeList.size() - 1) {
-				attributes += this.attributeList.get(i) + ", ";
-			}else {
-				attributes += this.attributeList.get(i);
-			}
-		}
-		return attributes;	
-	}
+    private static final long serialVersionUID = 805731509510272843L;
 
-	public String getId() {
-		return id;
-	}
+    private String id;
 
-	public void setFilterType(boolean filterType) {
-		this.filterType = filterType;
-	}
+    private boolean filterType;
 
-	public boolean isFilterType() {
-		return filterType;
-	}
+    private String attributeName;
 
-	public void setAttributeName(String attributeName) {
-		this.attributeName = attributeName;
-	}
+    private String attributeDatatype;
 
-	public String getAttributeName() {
-		return attributeName;
-	}
+    private List<String> attributeList;
 
-	public void setAttributeDatatype(String attributeDatatype) {
-		this.attributeDatatype = attributeDatatype;
-	}
+    public Filter(String id) {
+        this.id = id;
+    }
 
-	public String getAttributeDatatype() {
-		return attributeDatatype;
-	}
+    public String toString() {
+        String type = filterType ? "" : "! ";
+        String attributeMeta = attributeName + " (" + attributeDatatype + "): ";
+        String attributes = "";
+        for (int i = 0; i < this.attributeList.size(); i++) {
+            if (i < this.attributeList.size() - 1) {
+                attributes += this.attributeList.get(i) + ", ";
+            } else {
+                attributes += this.attributeList.get(i);
+            }
+        }
+        return type + attributeMeta + attributes;
+    }
 
-	public void setAttributeList(List<String> attributeList) {
-		this.attributeList = attributeList;
-	}
+    public String getAttributeListAsString() {
+        String attributes = "";
+        for (int i = 0; i < this.attributeList.size(); i++) {
+            if (i < this.attributeList.size() - 1) {
+                attributes += this.attributeList.get(i) + ", ";
+            } else {
+                attributes += this.attributeList.get(i);
+            }
+        }
+        return attributes;
+    }
 
-	public List<String> getAttributeList() {
-		return attributeList;
-	}
+    public String getId() {
+        return id;
+    }
+
+    public void setFilterType(boolean filterType) {
+        this.filterType = filterType;
+    }
+
+    public boolean isFilterType() {
+        return filterType;
+    }
+
+    public void setAttributeName(String attributeName) {
+        this.attributeName = attributeName;
+    }
+
+    public String getAttributeName() {
+        return attributeName;
+    }
+
+    public void setAttributeDatatype(String attributeDatatype) {
+        this.attributeDatatype = attributeDatatype;
+    }
+
+    public String getAttributeDatatype() {
+        return attributeDatatype;
+    }
+
+    public void setAttributeList(List<String> attributeList) {
+        this.attributeList = attributeList;
+    }
+
+    public List<String> getAttributeList() {
+        return attributeList;
+    }
 }
