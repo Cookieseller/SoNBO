@@ -26,7 +26,6 @@ public class SoNBOSession {
     private ConnectionsService connectionsService;
 
     private List<Vector<String>> chronicList = new ArrayList<Vector<String>>();
-    ;
 
     public SoNBOSession() {
         //this.connectionsService = new ConnectionsService("connectionsSSO");
