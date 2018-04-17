@@ -1,6 +1,7 @@
 package uniko.iwvi.fgbas.magoetz.sbo;
 
 import java.io.Serializable;
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -11,6 +12,7 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.Vector;
 import java.util.concurrent.atomic.AtomicLong;
+
 import javax.faces.context.FacesContext;
 
 import uniko.iwvi.fgbas.magoetz.sbo.objects.Filter;
@@ -18,6 +20,7 @@ import uniko.iwvi.fgbas.magoetz.sbo.objects.Node;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.NodeTypeAttribute;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.SortAttribute;
 import uniko.iwvi.fgbas.magoetz.sbo.services.ConfigService;
+import uniko.iwvi.fgbas.magoetz.sbo.services.ConnectionsService;
 import uniko.iwvi.fgbas.magoetz.sbo.services.DatabaseService;
 import uniko.iwvi.fgbas.magoetz.sbo.services.NodeService;
 import uniko.iwvi.fgbas.magoetz.sbo.util.Texts;
@@ -27,356 +30,384 @@ import uniko.iwvi.fgbas.magoetz.sbo.util.Texts;
  */
 public class SoNBOManager implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    private String objectId = (String) FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id");
+	private String objectId = (String) FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id");
 
-    private String nodeTypeCategoryName = (String) FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("nodeTypeCategory");
+	private String nodeTypeCategoryName = (String) FacesContext
+			.getCurrentInstance().getExternalContext().getRequestParameterMap().get("nodeTypeCategory");
 
-    private String nodeType = (String) FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("nodeType");
+	private String nodeType = (String) FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("nodeType");
 
-    public Node businessObject;
+	public Node businessObject;
 
-    private List<Node> adjacentNodeList;
+	private List<Node> adjacentNodeList;
 
-    private SortAttribute sortAttribute;
+	private SortAttribute sortAttribute;
 
-    private List<Filter> filters = new ArrayList<Filter>();
+	private List<Filter> filters = new ArrayList<Filter>();
 
-    private AtomicLong idCounter = new AtomicLong();
+	private AtomicLong idCounter = new AtomicLong();
 
-    private ConfigService configService = new ConfigService();
+	private ConfigService configService = new ConfigService();
 
-    private NodeService nodeService = new NodeService();
+	private NodeService nodeService = new NodeService();
 
-    private DatabaseService databaseService = new DatabaseService();
+	private DatabaseService databaseService = new DatabaseService();
 
-    private Texts texts;
+	private ConnectionsService connectionsService = new ConnectionsService("connectionsSSO");
+	
+	private Texts texts;
 
-    public void init(Locale locale) throws Exception {
-        // set my userEmail as objectId on invoke
-        if (this.objectId == null) {
-            this.objectId = databaseService.getUserID();
-            this.nodeType = "Mitarbeiter";
-        }
-        System.out.println("SoNBO: New request for business object with id " + objectId);
-        // initialize translation
-        this.texts = new Texts(locale);
-        // if parameter nodeTypeCategoryName was not set get all
-        if (this.nodeTypeCategoryName == null) {
-            this.nodeTypeCategoryName = "all";
-        }
-        // if parameter nodeType was not set get all
-        if (this.nodeType == null) {
-            this.nodeType = "all";
-        }
-        // get business object
-        this.businessObject = this.nodeService.getNode(objectId, this.nodeType, false);
-        this.loadAdjacentNodes(this.businessObject);
-    }
+	public void init(Locale locale) throws Exception {
+		if (objectId == null) {
+			objectId = connectionsService.getUserEmail();
+		}
+		texts = new Texts(locale);
 
-    private void loadAdjacentNodes(Node node) {
-//		DBMock mock = new DBMock();
-//		this.setAdjacentNodeList(mock.getAdjNodeList(node));
+		if (nodeTypeCategoryName == null) {
+			nodeTypeCategoryName = "Personen";
+		}
 
-        List<Node> adjacentNodeCategoryList = new ArrayList<Node>();
-        List<Node> objects = nodeService.getAdjacentNodes(node);
-        this.setAdjacentNodeList(objects);
-    }
+		if (nodeType == null) {
+			nodeType = "Mitarbeiter";
+		}
 
-    public void setAdjacentNodeList(List<Node> adjacentNodeList) {
-        this.adjacentNodeList = adjacentNodeList;
-    }
+		businessObject = nodeService.getNode(objectId, nodeType, false);
+		loadAdjacentNodes(businessObject);
+	}
 
-    public List<Node> getAdjacentNodeList() {
-        return adjacentNodeList;
-    }
+	private void loadAdjacentNodes(Node node) {
+		List<Node> objects = nodeService.getAdjacentNodes(node);
+		setAdjacentNodeList(objects);
+	}
 
-    public List<String> getNodeAdjacencyNamesByCategory(String nodeTypeCategory) throws Exception {
-        List<String> nodeAdjacencies = new ArrayList<String>();
-        if ((nodeTypeCategory.equals("all") || nodeTypeCategory.equals(""))) {
-            for (String nodeTypeCategoryName : this.businessObject.getNodeTypeCategories()) {
-                List<String> nodeTypes;
-                nodeTypes = this.configService.getAllNodeTypeNamesByCategory(nodeTypeCategoryName);
-                nodeAdjacencies.addAll(nodeTypes);
-            }
-        } else {
-            nodeAdjacencies = this.configService.getAllNodeTypeNamesByCategory(nodeTypeCategory);
-        }
+	public void setAdjacentNodeList(List<Node> adjacentNodeList) {
+		this.adjacentNodeList = adjacentNodeList;
+	}
 
-        return nodeAdjacencies;
-    }
+	public List<Node> getAdjacentNodeList() {
+		return adjacentNodeList;
+	}
 
-    /*
-     * returns vector list of (unique) adjacent nodes attributes (name and datatype)
-     */
-    public List<Vector<String>> getAdjacentNodeAttributes() {
-        Set<Vector<String>> adjacentNodeAttributeNames = new HashSet<Vector<String>>();
-        for (Node adjacentNode : this.adjacentNodeList) {
-            List<NodeTypeAttribute> adjacentNodeAttributeList = adjacentNode.getAttributeList();
-            for (NodeTypeAttribute adjacentNodeTypeAttribute : adjacentNodeAttributeList) {
-                Vector<String> v = new Vector<String>();
-                v.add(adjacentNodeTypeAttribute.getName());
-                v.add(adjacentNodeTypeAttribute.getDatatype());
-                adjacentNodeAttributeNames.add(v);
-            }
-        }
-        return new ArrayList<Vector<String>>(adjacentNodeAttributeNames);
-    }
+	public List<String> getNodeAdjacencyNamesByCategory(String nodeTypeCategory)
+			throws Exception {
+		List<String> nodeAdjacencies = new ArrayList<String>();
+		if ((nodeTypeCategory.equals("all") || nodeTypeCategory.equals(""))) {
+			for (String nodeTypeCategoryName : this.businessObject
+					.getNodeTypeCategories()) {
+				List<String> nodeTypes;
+				nodeTypes = this.configService
+						.getAllNodeTypeNamesByCategory(nodeTypeCategoryName);
+				nodeAdjacencies.addAll(nodeTypes);
+			}
+		} else {
+			nodeAdjacencies = this.configService
+					.getAllNodeTypeNamesByCategory(nodeTypeCategory);
+		}
 
-    /*
-     * returns vector list of (unique) adjacent nodes attributes (attributeName translated)
-     */
-    public List<Vector<String>> getAdjacentNodeAttributes(Locale locale) {
-        Set<Vector<String>> adjacentNodeAttributeNames = new HashSet<Vector<String>>();
-        for (Node adjacentNode : this.adjacentNodeList) {
-            List<NodeTypeAttribute> adjacentNodeAttributeList = adjacentNode.getAttributeList();
-            for (NodeTypeAttribute adjacentNodeTypeAttribute : adjacentNodeAttributeList) {
-                Vector<String> v = new Vector<String>();
-                v.add(adjacentNodeTypeAttribute.getName());
-                v.add(adjacentNodeTypeAttribute.getDatatype());
-                v.add(adjacentNodeTypeAttribute.getTranslatedName(locale));
-                adjacentNodeAttributeNames.add(v);
-            }
-        }
-        List<Vector<String>> adjacentNodeAttributeList = new ArrayList<Vector<String>>(adjacentNodeAttributeNames);
-        return sortVectorList(adjacentNodeAttributeList, 2);
-    }
+		return nodeAdjacencies;
+	}
 
-    /*
-     * returns vector list of (unique) adjacent nodes attributes which are filterable (attributeName translated)
-     */
-    public List<Vector<String>> getAdjacentNodeFilterableAttributes(Locale locale) {
-        Set<Vector<String>> adjacentNodeAttributeNames = new HashSet<Vector<String>>();
-        for (Node adjacentNode : this.adjacentNodeList) {
-            List<NodeTypeAttribute> adjacentNodeAttributeList = adjacentNode.getAttributeList();
-            for (NodeTypeAttribute adjacentNodeTypeAttribute : adjacentNodeAttributeList) {
-                if (adjacentNodeTypeAttribute.isFilterable()) {
-                    Vector<String> v = new Vector<String>();
-                    v.add(adjacentNodeTypeAttribute.getName());
-                    v.add(adjacentNodeTypeAttribute.getDatatype());
-                    v.add(adjacentNodeTypeAttribute.getTranslatedName(locale));
-                    adjacentNodeAttributeNames.add(v);
-                }
-            }
-        }
-        List<Vector<String>> adjacentNodeAttributeList = new ArrayList<Vector<String>>(adjacentNodeAttributeNames);
-        return sortVectorList(adjacentNodeAttributeList, 2);
-    }
+	/*
+	 * returns vector list of (unique) adjacent nodes attributes (name and
+	 * datatype)
+	 */
+	public List<Vector<String>> getAdjacentNodeAttributes() {
+		Set<Vector<String>> adjacentNodeAttributeNames = new HashSet<Vector<String>>();
+		for (Node adjacentNode : this.adjacentNodeList) {
+			List<NodeTypeAttribute> adjacentNodeAttributeList = adjacentNode
+					.getAttributeList();
+			for (NodeTypeAttribute adjacentNodeTypeAttribute : adjacentNodeAttributeList) {
+				Vector<String> v = new Vector<String>();
+				v.add(adjacentNodeTypeAttribute.getName());
+				v.add(adjacentNodeTypeAttribute.getDatatype());
+				adjacentNodeAttributeNames.add(v);
+			}
+		}
+		return new ArrayList<Vector<String>>(adjacentNodeAttributeNames);
+	}
 
-    /*
-     * Sorts list of vectors alphabetically after specified vector item (int) and returns list
-     */
-    public List<Vector<String>> sortVectorList(List<Vector<String>> vectorSet, final int sortItem) {
-        List<Vector<String>> list = new ArrayList<Vector<String>>(vectorSet);
-        Collections.sort(list, new Comparator<Vector<String>>() {
-            public int compare(Vector<String> v0, Vector<String> v1) {
-                String i0 = v0.get(sortItem);
-                String i1 = v1.get(sortItem);
-                int comparison = i0.compareTo(i1);
-                return comparison;
-            }
-        });
-        return list;
-    }
+	/*
+	 * returns vector list of (unique) adjacent nodes attributes (attributeName
+	 * translated)
+	 */
+	public List<Vector<String>> getAdjacentNodeAttributes(Locale locale) {
+		Set<Vector<String>> adjacentNodeAttributeNames = new HashSet<Vector<String>>();
+		for (Node adjacentNode : this.adjacentNodeList) {
+			List<NodeTypeAttribute> adjacentNodeAttributeList = adjacentNode
+					.getAttributeList();
+			for (NodeTypeAttribute adjacentNodeTypeAttribute : adjacentNodeAttributeList) {
+				Vector<String> v = new Vector<String>();
+				v.add(adjacentNodeTypeAttribute.getName());
+				v.add(adjacentNodeTypeAttribute.getDatatype());
+				v.add(adjacentNodeTypeAttribute.getTranslatedName(locale));
+				adjacentNodeAttributeNames.add(v);
+			}
+		}
+		List<Vector<String>> adjacentNodeAttributeList = new ArrayList<Vector<String>>(
+				adjacentNodeAttributeNames);
+		return sortVectorList(adjacentNodeAttributeList, 2);
+	}
 
-    /*
-     * returns vector list of (unique) adjacent nodes attribute values of type string
-     */
-    public List<String> getAdjacentNodeAttributeValues(String attributeName, String attributDatatype) {
-        Set<String> attributeValues = new HashSet<String>();
-        for (Node adjacentNode : this.adjacentNodeList) {
-            String attributeValue = adjacentNode.getAttributeValueAsString(attributeName);
-            if (attributeValue != null) {
-                attributeValues.add(attributeValue);
-            }
-        }
-        return new ArrayList<String>(attributeValues);
-    }
+	/*
+	 * returns vector list of (unique) adjacent nodes attributes which are
+	 * filterable (attributeName translated)
+	 */
+	public List<Vector<String>> getAdjacentNodeFilterableAttributes(Locale locale) {
+		Set<Vector<String>> adjacentNodeAttributeNames = new HashSet<Vector<String>>();
+		for (Node adjacentNode : this.adjacentNodeList) {
+			List<NodeTypeAttribute> adjacentNodeAttributeList = adjacentNode.getAttributeList();
+			for (NodeTypeAttribute adjacentNodeTypeAttribute : adjacentNodeAttributeList) {
+				if (adjacentNodeTypeAttribute.isFilterable()) {
+					Vector<String> v = new Vector<String>();
+					v.add(adjacentNodeTypeAttribute.getName());
+					v.add(adjacentNodeTypeAttribute.getDatatype());
+					v.add(adjacentNodeTypeAttribute.getTranslatedName(locale));
+					adjacentNodeAttributeNames.add(v);
+				}
+			}
+		}
+		List<Vector<String>> adjacentNodeAttributeList = new ArrayList<Vector<String>>(
+				adjacentNodeAttributeNames);
+		return sortVectorList(adjacentNodeAttributeList, 2);
+	}
 
-    /*
-     * filtered by NodeTypeCategory
-     */
-    public List<Node> getAdjacentNodeListFilteredByCategory(String nodeTypeCategory) {
+	/*
+	 * Sorts list of vectors alphabetically after specified vector item (int)
+	 * and returns list
+	 */
+	public List<Vector<String>> sortVectorList(List<Vector<String>> vectorSet,
+			final int sortItem) {
+		List<Vector<String>> list = new ArrayList<Vector<String>>(vectorSet);
+		Collections.sort(list, new Comparator<Vector<String>>() {
+			public int compare(Vector<String> v0, Vector<String> v1) {
+				String i0 = v0.get(sortItem);
+				String i1 = v1.get(sortItem);
+				int comparison = i0.compareTo(i1);
+				return comparison;
+			}
+		});
+		return list;
+	}
 
-        List<Node> adjacentNodeListFilteredByCategory = new ArrayList<Node>();
+	/*
+	 * returns vector list of (unique) adjacent nodes attribute values of type
+	 * string
+	 */
+	public List<String> getAdjacentNodeAttributeValues(String attributeName,
+			String attributDatatype) {
+		Set<String> attributeValues = new HashSet<String>();
+		for (Node adjacentNode : this.adjacentNodeList) {
+			String attributeValue = adjacentNode
+					.getAttributeValueAsString(attributeName);
+			if (attributeValue != null) {
+				attributeValues.add(attributeValue);
+			}
+		}
+		return new ArrayList<String>(attributeValues);
+	}
 
-        if (nodeTypeCategory.equals("all") || nodeTypeCategory.equals("")) {
-            return this.adjacentNodeList;
-        } else {
-            for (Node adjacentNode : adjacentNodeList) {
-                if (adjacentNode.getNodeTypeCategory().equals(nodeTypeCategory)) {
-                    adjacentNodeListFilteredByCategory.add(adjacentNode);
-                }
-            }
-        }
-        return adjacentNodeListFilteredByCategory;
-    }
+	/*
+	 * filtered by NodeTypeCategory
+	 */
+	public List<Node> getAdjacentNodeListFilteredByCategory(
+			String nodeTypeCategory) {
 
-    /*
-     * filtered by NodeType
-     */
-    public List<Node> getAdjacentNodeListFilteredByNodeType(String nodeTypeCategory, String nodeType) throws Exception {
+		List<Node> adjacentNodeListFilteredByCategory = new ArrayList<Node>();
 
-        List<Node> adjacentNodeListFilteredByNodeType = new ArrayList<Node>();
+		if (nodeTypeCategory.equals("all") || nodeTypeCategory.equals("")) {
+			return this.adjacentNodeList;
+		} else {
+			for (Node adjacentNode : adjacentNodeList) {
+				if (adjacentNode.getNodeTypeCategory().equals(nodeTypeCategory)) {
+					adjacentNodeListFilteredByCategory.add(adjacentNode);
+				}
+			}
+		}
+		return adjacentNodeListFilteredByCategory;
+	}
 
-        if ((nodeTypeCategory.equals("all") || nodeTypeCategory.equals(""))) {
-            // category all and nodeType all
-            if (nodeType.equals("all") || nodeType.equals("")) {
-                adjacentNodeListFilteredByNodeType = this.adjacentNodeList;
-                // category all and specific nodeType
-            } else {
-                for (Node adjacentNode : adjacentNodeList) {
-                    if (adjacentNode.getNodeType().equals(nodeType)) {
-                        adjacentNodeListFilteredByNodeType.add(adjacentNode);
-                    }
-                }
-            }
-        } else {
-            // category specific and nodeType all
-            if (nodeType.equals("all") || nodeType.equals("")) {
-                List<String> nodeTypes = this.configService.getAllNodeTypeNamesByCategory(nodeTypeCategory);
+	/*
+	 * filtered by NodeType
+	 */
+	public List<Node> getAdjacentNodeListFilteredByNodeType(
+			String nodeTypeCategory, String nodeType) throws Exception {
 
-                for (String nodeTypeName : nodeTypes) {
-                    for (Node adjacentNode : adjacentNodeList) {
-                        if (adjacentNode.getNodeType().equals(nodeTypeName)) {
-                            adjacentNodeListFilteredByNodeType.add(adjacentNode);
-                        }
-                    }
-                }
-                // category specific and nodeType specific
-            } else {
-                for (Node adjacentNode : adjacentNodeList) {
-                    if (adjacentNode.getNodeType().equals(nodeType)) {
-                        adjacentNodeListFilteredByNodeType.add(adjacentNode);
-                    }
-                }
-            }
-        }
-        return adjacentNodeListFilteredByNodeType;
-    }
+		List<Node> adjacentNodeListFilteredByNodeType = new ArrayList<Node>();
 
-    public List<Node> getSortedNodeList(List<Node> nodeList, final SortAttribute sortAttribute) {
+		if ((nodeTypeCategory.equals("all") || nodeTypeCategory.equals(""))) {
+			// category all and nodeType all
+			if (nodeType.equals("all") || nodeType.equals("")) {
+				adjacentNodeListFilteredByNodeType = this.adjacentNodeList;
+				// category all and specific nodeType
+			} else {
+				for (Node adjacentNode : adjacentNodeList) {
+					if (adjacentNode.getNodeType().equals(nodeType)) {
+						adjacentNodeListFilteredByNodeType.add(adjacentNode);
+					}
+				}
+			}
+		} else {
+			// category specific and nodeType all
+			if (nodeType.equals("all") || nodeType.equals("")) {
+				List<String> nodeTypes = this.configService
+						.getAllNodeTypeNamesByCategory(nodeTypeCategory);
 
-        Collections.sort(nodeList, new Comparator<Node>() {
-            public int compare(Node n0, Node n1) {
-                int comparison = n0.compareByAttribute(n1, sortAttribute);
-                return comparison;
-            }
-        });
-        // if sortType is descending
-        if (!sortAttribute.isSortType()) {
-            Collections.reverse(nodeList);
-        }
+				for (String nodeTypeName : nodeTypes) {
+					for (Node adjacentNode : adjacentNodeList) {
+						if (adjacentNode.getNodeType().equals(nodeTypeName)) {
+							adjacentNodeListFilteredByNodeType
+									.add(adjacentNode);
+						}
+					}
+				}
+				// category specific and nodeType specific
+			} else {
+				for (Node adjacentNode : adjacentNodeList) {
+					if (adjacentNode.getNodeType().equals(nodeType)) {
+						adjacentNodeListFilteredByNodeType.add(adjacentNode);
+					}
+				}
+			}
+		}
+		return adjacentNodeListFilteredByNodeType;
+	}
 
-        return nodeList;
-    }
+	public List<Node> getSortedNodeList(List<Node> nodeList,
+			final SortAttribute sortAttribute) {
 
-    public List<Node> getFilteredNodeList(List<Node> nodeList) {
+		Collections.sort(nodeList, new Comparator<Node>() {
+			public int compare(Node n0, Node n1) {
+				int comparison = n0.compareByAttribute(n1, sortAttribute);
+				return comparison;
+			}
+		});
+		// if sortType is descending
+		if (!sortAttribute.isSortType()) {
+			Collections.reverse(nodeList);
+		}
 
-        List<Filter> filterList = this.filters;
-        if (filterList.size() > 0) {
-            Set<Node> filteredNodeSet = new HashSet<Node>();
-            Set<Node> excludedNodeSet = new HashSet<Node>();
-            for (Filter filter : filterList) {
-                List<String> attributeList = filter.getAttributeList();
-                for (Node node : nodeList) {
-                    if (attributeList.size() > 0) {
-                        for (String attributeValue : attributeList) {
-                            if (node.containsAttributeOfTypeWithValue(filter.getAttributeName(), filter.getAttributeDatatype(), attributeValue)) {
-                                if (filter.isFilterType()) {
-                                    filteredNodeSet.add(node);
-                                } else {
-                                    excludedNodeSet.add(node);
-                                }
-                            } else if (!filter.isFilterType()) {
-                                filteredNodeSet.add(node);
-                            }
-                        }
-                    } else {
-                        if (node.containsAttributeOfType(filter.getAttributeName(), filter.getAttributeDatatype())) {
-                            if (filter.isFilterType()) {
-                                filteredNodeSet.add(node);
-                            } else {
-                                excludedNodeSet.add(node);
-                            }
-                        } else if (!filter.isFilterType()) {
-                            filteredNodeSet.add(node);
-                        }
-                    }
-                }
-            }
-            filteredNodeSet.removeAll(excludedNodeSet);
-            return new ArrayList<Node>(filteredNodeSet);
-        } else {
-            return nodeList;
-        }
-    }
+		return nodeList;
+	}
 
-    public void applySorting(boolean sortType, Vector<String> attributeVector) {
-        SortAttribute sortAttribute = new SortAttribute();
-        sortAttribute.setSortType(sortType);
-        sortAttribute.setAttributeName(attributeVector.firstElement());
-        sortAttribute.setDatatype(attributeVector.lastElement());
-        this.sortAttribute = sortAttribute;
-    }
+	public List<Node> getFilteredNodeList(List<Node> nodeList) {
 
-    public void addFilter(String filterType, String attributeName, String attributeDatatype, List<String> attributeList) {
-        String filterId = String.valueOf(this.idCounter.getAndIncrement());
-        Filter filter = new Filter(filterId);
-        filter.setFilterType(Boolean.valueOf(filterType));
-        filter.setAttributeName(attributeName);
-        filter.setAttributeDatatype(attributeDatatype);
-        filter.setAttributeList(attributeList);
-        this.filters.add(filter);
-    }
+		List<Filter> filterList = this.filters;
+		if (filterList.size() > 0) {
+			Set<Node> filteredNodeSet = new HashSet<Node>();
+			Set<Node> excludedNodeSet = new HashSet<Node>();
+			for (Filter filter : filterList) {
+				List<String> attributeList = filter.getAttributeList();
+				for (Node node : nodeList) {
+					if (attributeList.size() > 0) {
+						for (String attributeValue : attributeList) {
+							if (node.containsAttributeOfTypeWithValue(filter
+									.getAttributeName(), filter
+									.getAttributeDatatype(), attributeValue)) {
+								if (filter.isFilterType()) {
+									filteredNodeSet.add(node);
+								} else {
+									excludedNodeSet.add(node);
+								}
+							} else if (!filter.isFilterType()) {
+								filteredNodeSet.add(node);
+							}
+						}
+					} else {
+						if (node.containsAttributeOfType(filter
+								.getAttributeName(), filter
+								.getAttributeDatatype())) {
+							if (filter.isFilterType()) {
+								filteredNodeSet.add(node);
+							} else {
+								excludedNodeSet.add(node);
+							}
+						} else if (!filter.isFilterType()) {
+							filteredNodeSet.add(node);
+						}
+					}
+				}
+			}
+			filteredNodeSet.removeAll(excludedNodeSet);
+			return new ArrayList<Node>(filteredNodeSet);
+		} else {
+			return nodeList;
+		}
+	}
 
-    public List<Vector<String>> getFilterList() {
-        List<Vector<String>> filterList = new ArrayList<Vector<String>>();
-        for (Filter filter : this.filters) {
-            Vector<String> vector = new Vector<String>();
-            vector.add(filter.getId());
-            vector.add(filter.getAttributeName());
-            vector.add(filter.getAttributeDatatype());
-            vector.add(filter.getAttributeListAsString());
-            String filterType = filter.isFilterType() ? "" : "!";
-            vector.add(filterType);
-            filterList.add(vector);
-        }
-        return filterList;
-    }
+	public void applySorting(boolean sortType, Vector<String> attributeVector) {
+		SortAttribute sortAttribute = new SortAttribute();
+		sortAttribute.setSortType(sortType);
+		sortAttribute.setAttributeName(attributeVector.firstElement());
+		sortAttribute.setDatatype(attributeVector.lastElement());
+		this.sortAttribute = sortAttribute;
+	}
 
-    public void removeFilter(String id) {
-        Filter filterToRemove = null;
-        for (Filter filter : this.filters) {
-            if (filter.getId().equals(id)) {
-                filterToRemove = filter;
-            }
-        }
-        if (filterToRemove != null) {
-            this.filters.remove(filterToRemove);
-        }
-    }
+	public void addFilter(String filterType, String attributeName,
+			String attributeDatatype, List<String> attributeList) {
+		String filterId = String.valueOf(this.idCounter.getAndIncrement());
+		Filter filter = new Filter(filterId);
+		filter.setFilterType(Boolean.valueOf(filterType));
+		filter.setAttributeName(attributeName);
+		filter.setAttributeDatatype(attributeDatatype);
+		filter.setAttributeList(attributeList);
+		this.filters.add(filter);
+	}
 
-    public List<Filter> getFilters() {
-        return filters;
-    }
+	public List<Vector<String>> getFilterList() {
+		List<Vector<String>> filterList = new ArrayList<Vector<String>>();
+		for (Filter filter : this.filters) {
+			Vector<String> vector = new Vector<String>();
+			vector.add(filter.getId());
+			vector.add(filter.getAttributeName());
+			vector.add(filter.getAttributeDatatype());
+			vector.add(filter.getAttributeListAsString());
+			String filterType = filter.isFilterType() ? "" : "!";
+			vector.add(filterType);
+			filterList.add(vector);
+		}
+		return filterList;
+	}
 
-    public void setFilters(List<Filter> filters) {
-        this.filters = filters;
-    }
+	public void removeFilter(String id) {
+		Filter filterToRemove = null;
+		for (Filter filter : this.filters) {
+			if (filter.getId().equals(id)) {
+				filterToRemove = filter;
+			}
+		}
+		if (filterToRemove != null) {
+			this.filters.remove(filterToRemove);
+		}
+	}
 
-    public List<Node> getfilterAndSortedNodeList(List<Node> nodeList) {
-        // filter node list
-        List<Node> filteredAndSortedList = this.getFilteredNodeList(nodeList);
-        // sort node list
-        if (this.sortAttribute != null) {
-            filteredAndSortedList = this.getSortedNodeList(filteredAndSortedList, this.sortAttribute);
-        }
-        return filteredAndSortedList;
-    }
+	public List<Filter> getFilters() {
+		return filters;
+	}
 
-    public ResourceBundle getTranslationBundle() {
-        return texts.getBundle();
+	public void setFilters(List<Filter> filters) {
+		this.filters = filters;
+	}
+
+	public List<Node> getfilterAndSortedNodeList(List<Node> nodeList) {
+		// filter node list
+		List<Node> filteredAndSortedList = this.getFilteredNodeList(nodeList);
+		// sort node list
+		if (this.sortAttribute != null) {
+			filteredAndSortedList = this.getSortedNodeList(
+					filteredAndSortedList, this.sortAttribute);
+		}
+		return filteredAndSortedList;
+	}
+
+	public ResourceBundle getTranslationBundle() {
+		return texts.getBundle();
+	}
+	
+	public List<Vector<AbstractMap.SimpleEntry<Integer, String>>> getActivityStreamEntries(int maxEntries, String nodeType, String nodeID) throws Exception {
+		Node node = nodeService.getNode(nodeID, nodeType, false);
+		
+        return new ArrayList<Vector<AbstractMap.SimpleEntry<Integer, String>>>();
     }
 }

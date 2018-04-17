@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='utf-8'?>
+<note class='view' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.9'
+ replicaid='C125825E00556E6F'>
+<noteinfo noteid='6ea' unid='B8D355C87377D1C8C1258272003A1695' sequence='3'>
+<created><datetime dst='true'>20180417T123428,69+02</datetime></created>
+<modified><datetime dst='true'>20180417T123503,40+02</datetime></modified>
+<revised><datetime dst='true'>20180417T123503,39+02</datetime></revised>
+<lastaccessed><datetime dst='true'>20180417T123503,40+02</datetime></lastaccessed>
+<addedtofile><datetime dst='true'>20180417T123428,74+02</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Mathias Riedle/O=uniko/C=DE</name></updatedby>
+<wassignedby><name>CN=Mathias Riedle/O=uniko/C=DE</name></wassignedby>
+<item name='$FormatNote' summary='true'>
+<rawitemdata type='4'>
+AQB/ohaee+7K8eIPRADjgCXB
+</rawitemdata></item>
+<item name='$FormulaClass' sign='true'><text>1</text></item>
+<item name='$TITLE' sign='true'><text>2. Node Types\2.4 Events</text></item>
+<item name='$Index' sign='true'><text/></item>
+<item name='$Formula' summary='true' sign='true'><formula compiled='true'>
+bgAFAC4AKgADABMACQAEAGFkamFjZW5jeURhdGFzb3VyY2UkQ29uZmxpY3QkUkVGBAAEAAAALAAF
+AAQARm9ybQEAEwBjb25maWdOb2RlVHlwZUV2ZW50AAoCBAAEAAMABwAOAAgACUwxUzRTNVM=
+</formula></item>
+<item name='$Collation' summary='true'>
+<rawitemdata type='2'>
+BgAAAABE
+</rawitemdata></item>
+<item name='$ViewFormat' summary='true' sign='true'>
+<rawitemdata type='5'>
+AQABABMAiAABAFZDAAATAAAAAAAAAFAAAQAACgAAAAAAAAAAAAICAAAAYWRqYWNlbmN5RGF0YXNv
+dXJjZSYAAQAAAAEBAAkBAAAKAQEOCgAANACtKwEAAQABAAAAAAAAAAAAV0MBAQAJAAAAAAAAAAAA
+AAAAAAAAAAAABAAAAAAA//8AAAAAAAAAAAAAAAAAAEIAEAAAAAEA////AAEAf/9/AAEAAAAAAAAA
+AAAAAAAAAQAAAAAAAQD///8AAAABAAAAAAABAAAAAAABAAAAAAAAAAgAAAAAAAEA
+</rawitemdata></item>
+<item name='$Comment' sign='true'><text/></item>
+<item name='$Flags'><text>PY</text></item>
+<item name='$DesignerVersion'><text>8.5.3</text></item>
+<item name='$V5ACTIONS' sign='true'>
+<rawitemdata type='1'>
+vRwBAAAAAQABAAAAIwMAAAAAAAABAAAKIAACAHn/bAABAP///wABAAAAAAAJAAAAAAABAPDw8AAA
+ACQAAQAAAAAAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAHH/PAAAAAAAAwATABoAAAAAAAAAAAAAAAAAAAAAAAAAAABT
+b05CT19Mb2dvX2xhYmVsX3NtYWxsLnBuZ/z/OgAAAAAAAQAAAAAAAwAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAEAAKAAAAAAAAAAAAAAAAC+/2AAAAABAB4AnwEAABQAAAAAAAAAQ3JlYXRlIE5l
+dyBOb2RlIFR5cGU2AAAAKAACAOgDAAAAAAAAAQAAAAEADgBjb25maWdOb2RlVHlwZe0DAwAHAAwA
+BQAJNFM2UwC+/1AAAAABABYAngEAABoAAAAAAAAAUmVmcmVzaCBzZWxlY3RlZCBkb2N1bWVudHMg
+AAAAEgACAJcXAAAAAAAA7QEDAAcADAAFAAkwUzBFAL7/TAAAAAEAFgCeAQAAFQAAAAAAAABSZWZy
+ZXNoIGFsbCBkb2N1bWVudHP/IAAAABIAAgCYFwAAAAAAAO0BAwAHAAwABQAJMFMwRQA=
+</rawitemdata></item></note>
+

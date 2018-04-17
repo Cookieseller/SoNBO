@@ -15,6 +15,7 @@ import uniko.iwvi.fgbas.magoetz.sbo.objects.Datasource;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.Node;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.NodeTypeCategory;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.NodeType;
+import uniko.iwvi.fgbas.magoetz.sbo.objects.NodeTypeEvent;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.Query;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.NodeTypeAdjacency;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.QueryResult;
@@ -191,6 +192,10 @@ public class NodeService implements Serializable {
             adjacencyQueryList.add(adjacencyQuery);
         }
         return adjacencyQueryList;
+    }
+    
+    private ArrayList<NodeTypeEvent> getQueriesForEvents() {
+    	return new ArrayList<NodeTypeEvent>();
     }
 
     /**
