@@ -42,10 +42,21 @@ public class ConfigService implements Serializable {
         return nodeType;
     }
 
+    /**
+     * Returns all node type names
+     *
+     * @param locale
+     * @return
+     */
     public List<String> getAllNodeTypeCategoryNames() {
         return queryService.getColumnValues("nodeTypeCategories", 0);
     }
 
+    /**
+     * 
+     * @param locale
+     * @return
+     */
     public List<String> getAllNodeTypeCategoryNames(Locale locale) {
         if (locale.getLanguage().equals("de")) {
             return queryService.getColumnValues("nodeTypeCategories", 1);
@@ -78,8 +89,7 @@ public class ConfigService implements Serializable {
     public NodeTypeCategory getNodeTypeCategory(String nodeTypeCategory) {
 
         String jsonFromDb = queryService.getFieldValue("", "", "nodeTypeCategories", nodeTypeCategory, "nodeTypeCategoryJSON");
-        Gson gson = new Gson();
-        return gson.fromJson(jsonFromDb, NodeTypeCategory.class);
+        return new Gson().fromJson(jsonFromDb, NodeTypeCategory.class);
     }
 
     public NodeType getNodeTypeById(String id) {
@@ -125,7 +135,7 @@ public class ConfigService implements Serializable {
                 Datasource datasourceObject = queryService.getDatasourceObject(nodeTypeAttribute.getDatasource());
                 Query queryObject = queryService.getQueryObject(nodeTypeAttribute.getQuery());
                 // set fieldname of id attribute as key to be retrieved (FTSearch)
-                List<String> idList = new ArrayList<String>();
+                ArrayList<String> idList = new ArrayList<String>();
                 idList.add(nodeTypeAttribute.getFieldname());
                 queryObject.setKey(idList);
                 JsonObject json = queryService.executeQuery(datasourceObject, queryObject, id);

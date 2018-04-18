@@ -1,13 +1,14 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note default='true' class='icon' xmlns='http://www.lotus.com/dxl' version='9.0'
- maintenanceversion='1.9' replicaid='C12581ED004C5206'>
-<noteinfo noteid='122' unid='ACD9D4DF86095A53C12581C5006D51F9' sequence='46'>
-<created><datetime dst='true'>20171026T215404,09+02</datetime></created>
-<modified><datetime>20171213T151457,30+01</datetime></modified>
-<revised><datetime>20171213T151457,29+01</datetime></revised>
-<lastaccessed><datetime>20171213T151457,30+01</datetime></lastaccessed>
-<addedtofile><datetime>20171205T145337,70+01</datetime></addedtofile></noteinfo>
-<updatedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></updatedby>
+ maintenanceversion='1.9' replicaid='C125825E00556E6F'>
+<noteinfo noteid='11e' unid='A31FC5E776BB4412C125823300798F7B' sequence='32'>
+<created><datetime>20180213T230745,87+01</datetime></created>
+<modified><datetime dst='true'>20180411T221855,35+02</datetime></modified>
+<revised><datetime dst='true'>20180411T221855,34+02</datetime></revised>
+<lastaccessed><datetime dst='true'>20180411T221855,35+02</datetime></lastaccessed>
+<addedtofile><datetime dst='true'>20180328T173309,06+02</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Mathias Riedle/O=uniko/C=DE</name></updatedby>
+<wassignedby><name>CN=Mathias Riedle/O=uniko/C=DE</name></wassignedby>
 <item name='IconBitmap' summary='true'>
 <rawitemdata type='6'>
 AiAgAQAA///////wD///4Af//8AD//4AAH/8AAA/+AAAH/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAA
@@ -28,5 +29,6 @@ AAAAUEECICABAAD/////+A4DgA==
 <item name='$LaunchXPageRunOnServer'><text>0</text></item>
 <item name='$TITLE'><text>SoNBO Explorer</text></item>
 <item name='$Flags'><text>J</text></item>
-<item name='$FlagsNoRefresh'><text>rv</text></item></note>
+<item name='$FlagsNoRefresh'><text>rv</text></item>
+<item name='$LargeSummary'><text>0</text></item></note>
 

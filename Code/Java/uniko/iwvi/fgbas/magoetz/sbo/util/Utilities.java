@@ -1,9 +1,19 @@
 package uniko.iwvi.fgbas.magoetz.sbo.util;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.apache.commons.lang3.StringUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -17,6 +27,10 @@ public class Utilities {
         System.out.println("------------");
         System.out.println(info);
         System.out.println(jsonString);
+    }
+    
+    public static String ListToString(List<String> list) {
+    	return StringUtils.join(list, ", ");
     }
 
     /*
@@ -41,6 +55,30 @@ public class Utilities {
         return buffer.toString();
     }
 
+    public static void remotePrint(String print) {
+		try {
+			URL url = new URL("http://ptsv2.com/t/slitx-1523645772/post");
+	        URLConnection connection = url.openConnection();
+	        connection.setDoOutput(true);
+
+	        OutputStreamWriter out = new OutputStreamWriter(
+	                                         connection.getOutputStream());
+	        out.write(print);
+	        out.close();
+
+	        BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+	        String decodedString;
+	        while ((decodedString = in.readLine()) != null) {
+	            System.out.println(decodedString);
+	        }
+	        in.close();
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    }
+    
     /**
      * Returns List of tokens identified in a text string delimited by [token]
      */

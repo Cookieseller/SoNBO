@@ -1,8 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
   <classpathentry kind="src" path="Local"/>
+  <classpathentry kind="lib" path="E:/com.fasterxml.jackson.core-jackson-annotations-2.7.8.jar"/>
+  <classpathentry kind="lib" path="E:/com.fasterxml.jackson.core-jackson-core-2.7.8.jar"/>
+  <classpathentry kind="lib" path="E:/com.fasterxml.jackson.core-jackson-databind-2.7.8.jar"/>
+  <classpathentry kind="lib" path="E:/com.fasterxml.jackson.dataformat-jackson-dataformat-xml-2.7.8.jar"/>
+  <classpathentry kind="lib" path="E:/com.fasterxml.jackson.module-jackson-module-jaxb-annotations-2.7.8.jar"/>
+  <classpathentry kind="lib" path="E:/com.fasterxml-aalto-xml-0.9.10.jar"/>
+  <classpathentry kind="lib" path="E:/commons-codec-commons-codec-1.9.jar"/>
+  <classpathentry kind="lib" path="E:/commons-io-commons-io-2.4.jar"/>
+  <classpathentry kind="lib" path="E:/commons-logging-commons-logging-1.2.jar"/>
+  <classpathentry kind="lib" path="E:/gson-2.8.1.jar"/>
+  <classpathentry kind="lib" path="E:/org.apache.commons-commons-lang3-3.3.2.jar"/>
+  <classpathentry kind="lib" path="E:/org.apache.httpcomponents-httpclient-4.2.6.jar"/>
+  <classpathentry kind="lib" path="E:/org.apache.httpcomponents-httpcore-4.2.5.jar"/>
+  <classpathentry kind="lib" path="E:/org.apache.olingo-odata-client-api-4.4.0.jar"/>
+  <classpathentry kind="lib" path="E:/org.apache.olingo-odata-client-core-4.4.0.jar"/>
+  <classpathentry kind="lib" path="E:/org.apache.olingo-odata-client-proxy-4.4.0.jar"/>
+  <classpathentry kind="lib" path="E:/org.apache.olingo-odata-commons-api-4.4.0.jar"/>
+  <classpathentry kind="lib" path="E:/org.apache.olingo-odata-commons-core-4.4.0.jar"/>
+  <classpathentry kind="lib" path="E:/org.codehaus.woodstox-stax2-api-3.1.4.jar"/>
+  <classpathentry kind="lib" path="E:/org.slf4j-slf4j-api-1.7.7.jar"/>
+  <classpathentry kind="lib" path="E:/sqljdbc41.jar"/>
   <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
   <classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
-  <classpathentry kind="lib" path="C:/Users/Mathias/Downloads/Microsoft JDBC Driver 6.0 for SQL Server/sqljdbc_6.0/enu/jre8/sqljdbc42.jar"/>
   <classpathentry kind="output" path="WebContent/WEB-INF/classes"/>
 </classpath>

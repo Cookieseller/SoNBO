@@ -8,7 +8,7 @@
 		</h4>
 		<div class="sbo-widget-container-inner-scroll">
 			<xp:repeat id="activityRepeat" var="activityEntry"
-				value="#{javascript: soNBOSession.getActivityStreamEntries(10, soNBOManager.businessObject.getNodeType(), soNBOManager.businessObject.getId());}">
+				value="#{javascript: soNBOManager.getActivityStreamEntries(10, soNBOManager.businessObject.getNodeType(), soNBOManager.businessObject.getId());}">
 				<xp:panel id="activityStreamEntriesContainer">
 					<xp:label
 						value="#{javascript: if (activityEntry.get(0).getKey() == 0) {return activityEntry.get(0).getValue();} else { return 'Link'; };}"

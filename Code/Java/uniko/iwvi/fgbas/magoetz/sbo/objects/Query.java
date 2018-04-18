@@ -1,6 +1,6 @@
 package uniko.iwvi.fgbas.magoetz.sbo.objects;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class Query {
 
@@ -12,7 +12,7 @@ public class Query {
 
     private String view;
 
-    private List<String> key;
+    private ArrayList<String> key;
 
     private String keyValueReturnType;
 
@@ -22,8 +22,26 @@ public class Query {
 
     private String string;
 
-    private List<String> queryAttributes;
+    private ArrayList<String> queryAttributes;
 
+    public Query() {
+    	key = new ArrayList<String>();
+    	queryAttributes =new ArrayList<String>();
+    }
+    
+    public Query(Query copy) {
+    	this.name = copy.name;
+    	this.type = copy.type;
+    	this.command = copy.command;
+    	this.view = copy.view;
+    	this.key = new ArrayList<String>(copy.key);
+    	this.keyValueReturnType = copy.keyValueReturnType;
+    	this.fieldname = copy.fieldname;
+    	this.columnNr = copy.columnNr;
+    	this.string = copy.string;
+    	this.queryAttributes = new ArrayList<String>(copy.queryAttributes);
+    }
+    
     public String getName() {
         return name;
     }
@@ -56,11 +74,11 @@ public class Query {
         this.view = view;
     }
 
-    public List<String> getKey() {
+    public ArrayList<String> getKey() {
         return key;
     }
 
-    public void setKey(List<String> key) {
+    public void setKey(ArrayList<String> key) {
         this.key = key;
     }
 
@@ -96,11 +114,11 @@ public class Query {
         this.string = string;
     }
 
-    public List<String> getQueryAttributes() {
+    public ArrayList<String> getQueryAttributes() {
         return queryAttributes;
     }
 
-    public void setQueryAttributes(List<String> attributes) {
+    public void setQueryAttributes(ArrayList<String> attributes) {
         this.queryAttributes = attributes;
     }
 }

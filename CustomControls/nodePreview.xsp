@@ -8,7 +8,7 @@
 				<xp:label id="object_type_preview" value="#{javascript:translate(adjacentNode.getNodeType());}" styleClass="" />
 			</div>
 			<xp:link id="label3">
-				<xp:this.value><![CDATA[#{javascript: return "main.xsp?id=" + adjacentNode.getId();}]]></xp:this.value>
+				<xp:this.value><![CDATA[#{javascript: return "main.xsp?id=" + adjacentNode.getId() + "&nodeType=" + adjacentNode.getNodeType();}]]></xp:this.value>
 				<span class="sbo-card-link"></span>
 			</xp:link>
 			<xp:panel styleClass="sbo-object-card-content-wrapper">

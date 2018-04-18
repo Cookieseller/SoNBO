@@ -1,20 +1,15 @@
 package uniko.iwvi.fgbas.magoetz.sbo.services;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
+import java.io.StringWriter;
 import java.net.URI;
-import java.util.AbstractMap;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Vector;
-
-import com.microsoft.sqlserver.jdbc.*;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.text.SimpleDateFormat;
 
 import lotus.domino.Database;
 import lotus.domino.Document;
@@ -22,19 +17,33 @@ import lotus.domino.DocumentCollection;
 import lotus.domino.NotesException;
 import lotus.domino.View;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.olingo.client.api.ODataClient;
 import org.apache.olingo.client.api.communication.request.retrieve.ODataEntitySetIteratorRequest;
-import org.apache.olingo.client.api.communication.request.retrieve.ODataServiceDocumentRequest;
+import org.apache.olingo.client.api.communication.request.retrieve.ODataRawRequest;
+import org.apache.olingo.client.api.communication.response.ODataRawResponse;
 import org.apache.olingo.client.api.communication.response.ODataRetrieveResponse;
 import org.apache.olingo.client.api.domain.ClientEntity;
 import org.apache.olingo.client.api.domain.ClientEntitySet;
 import org.apache.olingo.client.api.domain.ClientEntitySetIterator;
+import org.apache.olingo.client.api.domain.ClientProperty;
+import org.apache.olingo.client.api.serialization.ODataSerializer;
+import org.apache.olingo.client.api.serialization.ODataSerializerException;
 import org.apache.olingo.client.core.ODataClientFactory;
 import org.apache.olingo.client.core.http.BasicAuthHttpClientFactory;
+import org.apache.olingo.commons.api.data.Entity;
+import org.apache.olingo.commons.api.format.ContentType;
 import org.openntf.Utils;
+
 import uniko.iwvi.fgbas.magoetz.sbo.objects.Datasource;
+import uniko.iwvi.fgbas.magoetz.sbo.objects.Node;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.Query;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.QueryResult;
+import uniko.iwvi.fgbas.magoetz.sbo.util.Utilities;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.ibm.xsp.model.domino.DominoUtils;
@@ -227,7 +236,7 @@ public class ODataQueryService implements IQueryService, Serializable {
 
         // TODO: Evaluate whole query and change to dynamic execution for all query types (currently only IBM Domino supported)
         //String type = datasourceObject.getType();
-        //String hostname = datasourceObject.getHostname();
+        String hostname = datasourceObject.getHostname();
         String database = datasourceObject.getDatabase();
 
         // TODO: queryType was added and has to be processed (e.g. "IBM Domino")
@@ -253,94 +262,70 @@ public class ODataQueryService implements IQueryService, Serializable {
         return resultCollection;
     }
 
-    public JsonObject executeQuery(Datasource datasourceObject, Query queryObject, String objectId) throws Exception {
+    public JsonArray executeQuery(Datasource datasourceObject, Query queryObject) {
+        ODataClient client = ODataClientFactory.getClient();
+
+        client.getConfiguration().setHttpClientFactory(new BasicAuthHttpClientFactory(datasourceObject.getUser(), datasourceObject.getPassword()));
+        
+        String uriRoot 	 = datasourceObject.getHostname() + datasourceObject.getDatabase();
+        String entitySet = queryObject.getView();
+        URI uri 	 	 = client.newURIBuilder(uriRoot).appendEntitySetSegment(entitySet).filter(queryObject.getString()).build();
+
+        Utilities.remotePrint("(ODataQueryService) uri: " + uri.toString());
+        
+        ODataRawRequest request = client.getRetrieveRequestFactory().getRawRequest(uri);
+        request.setAccept("application/json");
+        request.setContentType("application/json;odata.metadata=full");
+        
+        InputStream inputStream = request.execute().getRawResponse();
+        StringWriter writer 	= new StringWriter();
+        JsonArray resultSet 	= new JsonArray();
+        try {
+			IOUtils.copy(inputStream, writer, "utf-8");
+			
+	        String jsonString = writer.toString();
+	        JsonParser parser = new JsonParser();
+	        JsonObject obj    = parser.parse(jsonString).getAsJsonObject();
+	        resultSet 		  = obj.get("value").getAsJsonArray();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+        return resultSet;
+    }
+    
+    public JsonObject executeQuery(Datasource datasourceObject, Query queryObject, String objectId) {
 
         ODataClient client = ODataClientFactory.getClient();
 
-        // add the configuration here
-        client.getConfiguration()
-                .setHttpClientFactory(new BasicAuthHttpClientFactory("mriedle", "Ogilubime859"));
+        client.getConfiguration().setHttpClientFactory(new BasicAuthHttpClientFactory(datasourceObject.getUser(), datasourceObject.getPassword()));
+        
+        String uriRoot 	 = datasourceObject.getHostname() + datasourceObject.getDatabase();
+        String entitySet = queryObject.getView();
+        URI uri 	 	 = client.newURIBuilder(uriRoot).appendEntitySetSegment(entitySet).filter(queryObject.getString()).build();
 
-        String uriRoot = "http://ec-dev-nav.bas.uni-koblenz.de:7048/DynamicsNAV80/OData/Company('K%C3%BCchenland%20GmbH')/Items?$format=json";
-        String entitySet = "Items";
-
-//        URI itemsUri = client.newURIBuilder(uriRoot).appendEntitySetSegment(entitySet).build();
-        URI itemsUri = client.newURIBuilder(uriRoot).build();
-
-        ODataEntitySetIteratorRequest<ClientEntitySet, ClientEntity> request =
-                client.getRetrieveRequestFactory().getEntitySetIteratorRequest(itemsUri);
-
-        ODataRetrieveResponse<ClientEntitySetIterator<ClientEntitySet, ClientEntity>> response = request.execute();
-        ClientEntitySetIterator<ClientEntitySet, ClientEntity> iterator = response.getBody();
-
-        while (iterator.hasNext()) {
-            ClientEntity ce = iterator.next();
-            throw new Exception(ce.getProperty("Description").getPrimitiveValue().toString());
-        }
-
-        return null;
-        /*
-        // TODO: Evaluate whole query and change to dynamic execution for all query types (currently only IBM Domino supported)
-        //String type = datasourceObject.getType();
-        String hostname = datasourceObject.getHostname();
-        String database = datasourceObject.getDatabase();
-
-        // TODO: queryType was added and has to be processed (e.g. "IBM Domino")
-        //String queryCommand = queryObject.getCommand();
-        //String queryServer = queryObject.getServer();
-        //String queryDatabase = queryObject.getDatabase();
-        String queryView = queryObject.getView();
-        // TODO process multiple values (return type is List<String>)
-        String queryKey = queryObject.getKey().toString();
-        String queryFieldname = queryObject.getFieldname();
-
-        // TODO in this case objectId, but in other cases?
-        queryKey = objectId;
-
-        String connectionString =
-                "jdbc:sqlserver://nav.erp-challenge.de;"
-                        + "database=NAV2015;"
-                        + "user=mariedle;"
-                        + "password=Uhuvegire422;"
-                        + "loginTimeout=10;";
-
-        Connection connection = null;
-        Statement statement = null;
-        ResultSet resultSet = null;
-        ArrayList<Vector<AbstractMap.SimpleEntry<Integer, String>>> resultList = new ArrayList<Vector<AbstractMap.SimpleEntry<Integer, String>>>();
+        Utilities.remotePrint("(ODataQueryService::executeQuery) uri: " + uri.toString());
+        
+        ODataRawRequest request = client.getRetrieveRequestFactory().getRawRequest(uri);
+        request.setAccept("application/json");
+        request.setContentType("application/json;odata.metadata=full");
+        
+        InputStream inputStream = request.execute().getRawResponse();
+        StringWriter writer 	= new StringWriter();
+        JsonObject jsonObject 	= new JsonObject();
         try {
-            connection = DriverManager.getConnection(connectionString);
-            statement = connection.createStatement();
-            resultSet = statement.executeQuery(queryObject.getString());
-
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
-            SimpleDateFormat formatter2 = new SimpleDateFormat("dd.MM.yyyy");
-
-            // get json object from query result
-            ArrayList<JsonObject> jsonQueryResultObjects = new ArrayList<JsonObject>();
-            while (resultSet.next()) {
-                for (int i = 1; i < resultSet.getMetaData().getColumnCount(); i++) {
-                    JsonObject o = new JsonParser().parse(resultSet.getString(i)).getAsJsonObject();
-                    jsonQueryResultObjects.add(o);
-                }
-            }
-            JsonObject jsonObject = new JsonObject();
-            try {
-                jsonObject = jsonQueryResultObjects.get(0);
-            } catch (IndexOutOfBoundsException ex) {
-                return null;
-            }
-
-            return jsonObject;
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        // log json
-        //Utilities utilities = new Utilities();
-        //utilities.printJson(jsonObject, "query result json object");
-        return null;
-        */
+			IOUtils.copy(inputStream, writer, "utf-8");
+			
+	        String jsonString = writer.toString();
+	        JsonParser parser = new JsonParser();
+	        JsonObject obj    = parser.parse(jsonString).getAsJsonObject();
+	        Utilities.remotePrint("(ODataQueryService::executeQuery) obj: " + obj.toString());
+	        jsonObject 		  = obj.get("value").getAsJsonObject();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+        return jsonObject;
     }
 
     @SuppressWarnings("unchecked")
@@ -368,9 +353,43 @@ public class ODataQueryService implements IQueryService, Serializable {
         return datasource;
     }
 
+    /**
+     * Take the configured query and replace all tokens with real values from the given node
+     * 
+     * @param node
+     * @param query
+     * @return
+     */
+    private String buildQuery(Node node, Query query) {
+    	List<String> tokens = Utilities.getTokenList(query.getString());
+    	Map<String, String> replaceAttributesMap = new HashMap<String, String>();
+        for (String replaceAttributeKey : tokens) {
+        	Utilities.remotePrint("(QueryService) replaceAttributeKey:" + replaceAttributeKey);
+            String replaceAttributeValue = node.getAttributeValueAsString(replaceAttributeKey);
+            replaceAttributesMap.put(replaceAttributeKey, replaceAttributeValue);
+        }
+        
+        Utilities.remotePrint("(QueryService) Replacements:" + replaceAttributesMap.toString());
+    	return Utilities.replaceTokens(query.getString(), replaceAttributesMap);
+    }
+    
+    /**
+     * 
+     * @param node
+     * @param query
+     * @param datasource
+     * @return
+     */
+    public JsonArray getAdjacentNodes(Node node, Query query, Datasource datasource) {
+    	String queryString = buildQuery(node, query);
+    	Query adjacentQuery = new Query(query);
+    	adjacentQuery.setString(queryString);
+    	
+    	return executeQuery(datasource, adjacentQuery);
+    }
+    
     @SuppressWarnings("unchecked")
     public Query getQueryObject(String queryName) {
-
         String searchString = "FIELD queryName = \"" + queryName + "\"";
         Document queryDoc = null;
         Query query = new Query();
@@ -414,67 +433,11 @@ public class ODataQueryService implements IQueryService, Serializable {
     }
 
     public String getEmailByNotesUsername(String notesUsername) {
-
         return this.getFieldValue("", "GEDYSIntraWare8\\georga.nsf", "Usernames", notesUsername, "email");
-        /*
-        Session session = DominoUtils.getCurrentSession();
-		try {
-			Directory dir = session.getDirectory();
-			// TODO local version
-			DirectoryNavigator dirnav = dir.lookupNames("($Users)", notesUsername, "InternetAddress");
-			dirnav.findFirstName();
-			if(dirnav.getCurrentMatches() > 0) {
-				Vector dirent = dirnav.getFirstItemValue();
-				for(Object obj : dirent) {
-					return obj.toString();
-				}
-			}
-		} catch (NotesException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return "n/a";
-		*/
     }
 
     public String getNotesUsernameByEmail(String email) {
-
         return this.getFieldValue("", "GEDYSIntraWare8\\georg.nsf", "SoNBO\\(Emails)", email, "username");
-
-		/*
-        String notesUsername = "not found";
-
-		DocumentCollection resultCollection = this.ftSearchView("names.nsf", email, "($Users)");
-		try {
-			Document doc = resultCollection.getFirstDocument();
-			notesUsername = doc.getItemValueString("MailAddress");
-		} catch (NotesException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return notesUsername;
-		*/
-
-		/*
-		Session session = DominoUtils.getCurrentSession();
-		try {
-			Directory dir = session.getDirectory();
-			// TODO local version
-			DirectoryNavigator dirnav = dir.lookupNames("($Users)", email, "InternetAddress");
-			dirnav.findFirstName();
-			if(dirnav.getCurrentMatches() > 0) {
-				Vector dirent = dirnav.getFirstItemValue();
-				for(Object obj : dirent) {
-					System.out.println(obj.toString());
-					//return obj.toString();
-				}
-			}
-		} catch (NotesException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return "n/a";
-		*/
     }
 
     protected void addEntry(List<Vector<String>> dataList, String formName) {

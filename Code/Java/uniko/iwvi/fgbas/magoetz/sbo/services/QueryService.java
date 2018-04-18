@@ -18,7 +18,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.ibm.xsp.model.domino.DominoUtils;
 
-public class QueryService implements Serializable {
+public class QueryService implements Serializable, IQueryService {
 
     private static final long serialVersionUID = 1L;
 
@@ -232,6 +232,14 @@ public class QueryService implements Serializable {
         return resultCollection;
     }
 
+    /**
+     * @TODO Implement caching
+     *
+     * @param datasourceObject
+     * @param queryObject
+     * @param objectId
+     * @return
+     */
     public JsonObject executeQuery(Datasource datasourceObject, Query queryObject, String objectId) {
 
         // TODO: Evaluate whole query and change to dynamic execution for all query types (currently only IBM Domino supported)

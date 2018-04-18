@@ -33,7 +33,7 @@ public class SoNBOManager implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private String objectId = (String) FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id");
-
+	
 	private String nodeTypeCategoryName = (String) FacesContext
 			.getCurrentInstance().getExternalContext().getRequestParameterMap().get("nodeTypeCategory");
 
@@ -406,7 +406,7 @@ public class SoNBOManager implements Serializable {
 	}
 	
 	public List<Vector<AbstractMap.SimpleEntry<Integer, String>>> getActivityStreamEntries(int maxEntries, String nodeType, String nodeID) throws Exception {
-		Node node = nodeService.getNode(nodeID, nodeType, false);
+		//Node node = nodeService.getNode(nodeID, nodeType, false);
 		
         return new ArrayList<Vector<AbstractMap.SimpleEntry<Integer, String>>>();
     }

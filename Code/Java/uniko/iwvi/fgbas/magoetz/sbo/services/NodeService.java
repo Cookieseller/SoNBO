@@ -10,18 +10,19 @@ import java.util.Vector;
 import lotus.domino.Document;
 import lotus.domino.DocumentCollection;
 import lotus.domino.NotesException;
-import uniko.iwvi.fgbas.magoetz.sbo.objects.NodeTypeAttribute;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.Datasource;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.Node;
-import uniko.iwvi.fgbas.magoetz.sbo.objects.NodeTypeCategory;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.NodeType;
+import uniko.iwvi.fgbas.magoetz.sbo.objects.NodeTypeAdjacency;
+import uniko.iwvi.fgbas.magoetz.sbo.objects.NodeTypeAttribute;
+import uniko.iwvi.fgbas.magoetz.sbo.objects.NodeTypeCategory;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.NodeTypeEvent;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.Query;
-import uniko.iwvi.fgbas.magoetz.sbo.objects.NodeTypeAdjacency;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.QueryResult;
-import uniko.iwvi.fgbas.magoetz.sbo.util.DBMock;
 import uniko.iwvi.fgbas.magoetz.sbo.util.Utilities;
+
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
@@ -31,70 +32,83 @@ public class NodeService implements Serializable {
 
     private ConfigService configService = new ConfigService();
 
-    private RDSQueryService queryService = new RDSQueryService();
+    private ODataQueryService queryService = new ODataQueryService();
 
+    /**
+     * Returns a node matching the given id and type
+     *
+     * @param id
+     * @param nodeType
+     * @param nodePreview
+     * @return
+     * @throws Exception 
+     */
     public Node getNode(String id, String nodeType, boolean nodePreview) {
 
-//		DBMock mock = new DBMock();
-//		Node node = mock.getNodeById(id);
-//		return node;
-        // 1. CREATE NEW BUSINESS OBJECT
+        NodeType configObject = configService.getNodeType(nodeType);
+        if (configObject == null) {
+            System.out.println("No configuration document found for id: " + id);
+
+            return null;
+        }
+
         Node node = new Node();
-
-        // set object id and name
         node.setId(id);
-
-        //set node type categories
         List<String> nodeTypeCategories = configService.getAllNodeTypeCategoryNames();
         node.setNodeTypeCategories(nodeTypeCategories);
 
-        // 2. GET CONFIGURATION DOCUMENT FOR OBJECT TYPE
-
         //NodeType configObject = configService.getConfigurationObject(objectName);
-        NodeType configObject = configService.getNodeType(nodeType);
-        if (configObject != null) {
-            node.setNodeType(configObject.getNodeTypeName());
+        node.setNodeType(configObject.getNodeTypeName());
+        node.setNodeTypeCategory(configObject.getNodeTypeCategory());
 
-            // 3. RETRIEVE ATTRIBUTES OF BUSINESS OBJECT
-
-            // set object class
-            node.setNodeTypeCategory(configObject.getNodeTypeCategory());
-
-            // set object image
-            // TODO: set individual image if available
-            NodeTypeCategory nodeTypeCategory = configService.getNodeTypeCategory(node.getNodeTypeCategory());
-            node.setNodeImage(nodeTypeCategory.getDefaultImage());
-
-            // get business object attributes
-            // if it is an object preview only get preview attributes otherwise all defined
-            List<NodeTypeAttribute> nodeTypeAttributes = new ArrayList<NodeTypeAttribute>();
-            if (nodePreview) {
-                nodeTypeAttributes = configObject.getPreviewAndFilterableConfigurationNodeAttributes();
-            } else {
-                nodeTypeAttributes = configObject.getNodeTypeAttributes();
-            }
-            ArrayList<QueryResult> queryResultList = this.getNodeAttributes(nodeTypeAttributes, id, nodePreview);
-
-            String nodeTypeTitleAttrName = configObject.getNodeTypeTitle();
-            // load attribute key and value into business object
-            node = loadAttributes(node, nodeTypeAttributes, nodeTypeTitleAttrName, queryResultList, nodePreview);
-
-            return node;
-        } else {
-            System.out.println("No configuration document found for id: " + id);
+        NodeTypeCategory nodeTypeCategory = configService.getNodeTypeCategory(node.getNodeTypeCategory());
+        node.setNodeImage(nodeTypeCategory.getDefaultImage());
+        
+        List<NodeTypeAttribute> nodeTypeAttributes = configObject.getNodeTypeAttributes();
+        if (nodePreview) {
+            nodeTypeAttributes = configObject.getPreviewAndFilterableConfigurationNodeAttributes();
         }
-        return null;
+        ArrayList<QueryResult> queryResultList = getNodeAttributes(nodeTypeAttributes, id, nodePreview);
+
+        String nodeTypeTitleAttrName = configObject.getNodeTypeTitle();
+        node = loadAttributes(node, nodeTypeAttributes, nodeTypeTitleAttrName, queryResultList, nodePreview);
+
+        return node;
+    }
+    
+    private Node jsonToNode(JsonObject jsonNode, NodeType nodeType) {
+    	Node node = new Node();
+    	List<String> nodeTypeCategories = configService.getAllNodeTypeCategoryNames();
+    	
+        node.setId(jsonNode.get(nodeType.getNodeTypeId()).getAsString());
+        node.setNodeTypeCategories(nodeTypeCategories);
+        node.setNodeType(nodeType.getNodeTypeName());
+        node.setNodeTypeCategory(nodeType.getNodeTypeCategory());
+        
+        NodeTypeCategory nodeTypeCategory = configService.getNodeTypeCategory(node.getNodeTypeCategory());
+        node.setNodeImage(nodeTypeCategory.getDefaultImage());
+        List<NodeTypeAttribute> nodeTypeAttributes = nodeType.getPreviewAndFilterableConfigurationNodeAttributes();
+        ArrayList<QueryResult> queryResultList = getNodeAttributes(nodeTypeAttributes, jsonNode.get(nodeType.getNodeTypeId()).getAsString(), true);
+
+        String nodeTypeTitleAttrName = nodeType.getNodeTypeTitle();
+        node = loadAttributes(node, nodeTypeAttributes, nodeTypeTitleAttrName, queryResultList, true);
+        
+        return node;
     }
 
-    /*
-     * returns list of business object attributes
+    /**
+     * Returns a list of business object attributes
+     *
+     * @param nodeTypeAttributes
+     * @param id
+     * @param nodePreview
+     * @return
+     * @throws Exception 
      */
     private ArrayList<QueryResult> getNodeAttributes(List<NodeTypeAttribute> nodeTypeAttributes, String id, boolean nodePreview) {
 
-        // cache result to prevent redundant queries
         ArrayList<QueryResult> queryResultList = new ArrayList<QueryResult>();
 
-        // get value for each object attribute
         for (NodeTypeAttribute nodeTypeAttribute : nodeTypeAttributes) {
 
             String datasource = nodeTypeAttribute.getDatasource();
@@ -105,9 +119,7 @@ public class NodeService implements Serializable {
             JsonObject jsonQueryResultObject = queryService.getQueryResult(queryResultList, queryResult);
 
             if (jsonQueryResultObject == null) {
-                // get datasource configuration
                 Datasource datasourceObject = queryService.getDatasourceObject(datasource);
-                // get query
                 Query queryObject = queryService.getQueryObject(query);
                 jsonQueryResultObject = queryService.executeQuery(datasourceObject, queryObject, id);
                 queryResult.setJsonObject(jsonQueryResultObject);
@@ -118,30 +130,52 @@ public class NodeService implements Serializable {
         return queryResultList;
     }
 
+    /**
+     * @TODO loadAttributes should return a list of attributes not alter businessObject
+     *
+     * @param businessObject
+     * @param nodeTypeAttributes
+     * @param nodeTypeTitleAttrName
+     * @param queryResultList
+     * @param nodePreview
+     * @return
+     */
     private Node loadAttributes(Node businessObject, List<NodeTypeAttribute> nodeTypeAttributes, String nodeTypeTitleAttrName, ArrayList<QueryResult> queryResultList, boolean nodePreview) {
 
         for (NodeTypeAttribute nodeTypeAttribute : nodeTypeAttributes) {
-            // get name and fieldname of attribute
-            String name = nodeTypeAttribute.getName();
-            String fieldname = nodeTypeAttribute.getFieldname();
-            // get query result for config object attribute
+
             String datasource = nodeTypeAttribute.getDatasource();
             String query = nodeTypeAttribute.getQuery();
             QueryResult queryResult = new QueryResult(datasource, query);
+
+            Datasource datasourceObject = queryService.getDatasourceObject(datasource);
+            Query queryObject = queryService.getQueryObject(query);
+            JsonArray jsonArray = queryService.executeQuery(datasourceObject, queryObject);
+            if (jsonArray.size() <= 0) {
+            	Utilities.remotePrint("(NodeService::loadAttributes) jsonArray: " + jsonArray.toString());
+            	return businessObject;
+            }
+            
+            JsonObject jsonObject = jsonArray.get(0).getAsJsonObject();
+            queryResult.setJsonObject(jsonObject);
+  
+            String name 	  = nodeTypeAttribute.getName();
+            String fieldname  = nodeTypeAttribute.getFieldname();
+            String value 	  = jsonObject.get(nodeTypeAttribute.getFieldname()).getAsString();
+
             try {
-                JsonObject jsonQueryResultObject = queryService.getQueryResult(queryResultList, queryResult);
-                // extract value from query result
-                JsonElement value = jsonQueryResultObject.get(fieldname);
-                Gson gson = new Gson();
-                String valueJson = gson.toJson(value);
+                String valueJson  = new Gson().toJson(value);
+                
+                Utilities.remotePrint("(NodeService::loadAttributes) valueJson: " + valueJson + " Value: " + value);
                 nodeTypeAttribute.setValue(valueJson);
-                // add whole nodeTypeAttribute Object with updated value
                 businessObject.addAttribute(nodeTypeAttribute);
-                //set business object title if attribute is configured as title
+                
+                /*
                 String titleAttribute = nodeTypeTitleAttrName;
                 if (titleAttribute.equals(name)) {
-                    businessObject.setNodeTitle(value.getAsString());
+                    businessObject.setNodeTitle(jsonObject.getAsString());
                 }
+                */
             } catch (NullPointerException npe) {
                 System.out.println("Failed loading attribute: " + name + " from field: " + fieldname);
             }
@@ -151,28 +185,58 @@ public class NodeService implements Serializable {
     }
 
     /**
-     * Returns a lide of Nodes which are adjacent to the given one
+     * Returns a list of Nodes which are adjacent to the given one
      *
      * @param Node businessObject
      * @return List<Node>
      */
     public List<Node> getAdjacentNodes(Node businessObject) {
+    	ArrayList<Node> nodeList 			 = new ArrayList<Node>();
+    	ArrayList<NodeTypeAdjacency> queries = getQueriesForAdjacenctNodes(businessObject.getNodeType());
+    	
+    	for (NodeTypeAdjacency query : queries) {
+    		Query queryObject 	  = queryService.getQueryObject(query.getQuery());
+    		Datasource datasource = queryService.getDatasourceObject(query.getDatasource());
+    		
+    		String queryString = createAttributeList(queryObject, businessObject);
+    		queryObject.setString(queryString);
+    		JsonArray jsonArr = queryService.executeQuery(datasource, queryObject);
+    		for (JsonElement element : jsonArr) {
+    			Utilities.remotePrint("(NodeService::getAdjacentNodes) element: " + element.toString());
+    			NodeType nodeType = configService.getNodeType(query.getTargetNode());
+    			Node node = jsonToNode(element.getAsJsonObject(), nodeType);
+    			
+    			nodeList.add(node);
+    		}
+    	}
+    	
+    	return nodeList;
+    	
+    	/*
         List<Node> adjacentNodesList = new ArrayList<Node>();
-        // determine peer query by source and target object type
         String sourceNodeType = businessObject.getNodeType();
 
-        // execute queries for getting peer object IDs
-        ArrayList<String> adjacentNodeIDs = this.getAdjacentNodeIDs(businessObject);
+        ArrayList<String> adjacentNodeIDs = getAdjacentNodeIDs(businessObject);
 
         for (String adjacentNodeId : adjacentNodeIDs) {
             // TODO set node type
-            Node adjacentNode = this.getNode(adjacentNodeId, "", true);
+            Node adjacentNode = getNode(adjacentNodeId, "", true);
             if (adjacentNode != null) {
                 adjacentNodesList.add(adjacentNode);
             }
         }
 
-        return adjacentNodesList;
+        return adjacentNodesList;*/
+    }
+
+    /**
+     * Returns a list of events
+     *
+     * @param node
+     * @return
+     */
+    public List<String> getEventsForNode(Node node) {
+        return getNodeEvents(node);
     }
 
     /**
@@ -193,9 +257,54 @@ public class NodeService implements Serializable {
         }
         return adjacencyQueryList;
     }
-    
-    private ArrayList<NodeTypeEvent> getQueriesForEvents() {
-    	return new ArrayList<NodeTypeEvent>();
+
+    /**
+     *
+     * @param node
+     * @return
+     */
+    private ArrayList<String> getNodeEvents(Node node) {
+        ArrayList<NodeTypeEvent> nodeTypeEvents = getNodeTypeEvents(node.getNodeType());
+
+        ArrayList<String> adjacentNodeIDs = new ArrayList<String>();
+
+        for (NodeTypeEvent event : nodeTypeEvents) {
+            Query queryObject = queryService.getQueryObject(event.getQuery());
+
+            //replace attributes in query string with variable values
+            String queryString = queryObject.getString();
+            this.createAttributeList(queryObject, node);
+            //System.out.println("QueryString after replacements: " + string);
+            // replace query string
+            queryObject.setString(queryString);
+            queryObject.setQueryAttributes(new ArrayList<String>());
+            String sourceNodeId = node.getId();
+
+            Datasource datasource = queryService.getDatasourceObject(event.getDatasource());
+            ArrayList<String> resultAdjacentNodeIDs = this.retrieveAdjacentNodeIDs(datasource, queryObject, sourceNodeId);
+            adjacentNodeIDs.addAll(resultAdjacentNodeIDs);
+        }
+        return adjacentNodeIDs;
+    }
+
+    /**
+     * Return all event queries for a given node type
+     *
+     * @param nodeType
+     * @return
+     */
+    private ArrayList<NodeTypeEvent> getNodeTypeEvents(String nodeType) {
+        ArrayList<String> nodeTypeNames = queryService.getFieldValues("(nodeTypeEventsSource)", nodeType, "nodeTypeEventName");
+
+        ArrayList<NodeTypeEvent> nodeEvents = new ArrayList<NodeTypeEvent>();
+        Gson gson = new Gson();
+        for (String nodeTypeName : nodeTypeNames) {
+            String eventQueryJSON = queryService.getFieldValue("", "", "nodeTypeEventsSource", nodeTypeName, "eventJson");
+
+            NodeTypeEvent adjacencyQuery = gson.fromJson(eventQueryJSON, NodeTypeEvent.class);
+            nodeEvents.add(adjacencyQuery);
+        }
+        return nodeEvents;
     }
 
     /**
@@ -211,11 +320,9 @@ public class NodeService implements Serializable {
         for (NodeTypeAdjacency adjacencyQuery : adjacencyQueryList) {
             Query queryObject = queryService.getQueryObject(adjacencyQuery.getQuery());
 
-            //replace attributes in query string with variable values
             String queryString = queryObject.getString();
-            this.createAttributeList(queryObject, node);
-            //System.out.println("QueryString after replacements: " + string);
-            // replace query string
+            queryString = this.createAttributeList(queryObject, node);
+
             queryObject.setString(queryString);
             queryObject.setQueryAttributes(new ArrayList<String>());
             String sourceNodeId = node.getId();
@@ -245,14 +352,13 @@ public class NodeService implements Serializable {
             String replaceAttrString = tokenList.get(0);
             nodeTypeAttribute = node.getAttributeOfType(replaceAttrString, "Array(String)");
         }
+        Utilities.remotePrint("(NodeService::createAttributeList) tokenList: " + Utilities.ListToString(tokenList));
         // if first attribute is not of type Array(String)
         if (nodeTypeAttribute == null) {
             // create map with replacements
             Map<String, String> replaceAttributesMap = new HashMap<String, String>();
             for (String replaceAttributeKey : tokenList) {
-                // get attribute value from business object
                 String replaceAttributeValue = node.getAttributeValueAsString(replaceAttributeKey);
-                //convert email to notes username
                 if (queryObject.getKeyValueReturnType().equals("getEmailAsNotesUsername")) {
                     replaceAttributeValue = this.queryService.getNotesUsernameByEmail(replaceAttributeValue);
                 }
@@ -274,10 +380,16 @@ public class NodeService implements Serializable {
                 }
             }
         }
-
-        return "";
+        return queryString;
     }
 
+    /**
+     *
+     * @param datasourceObject
+     * @param queryObject
+     * @param sourceNodeId
+     * @return
+     */
     @SuppressWarnings("unchecked")
     private ArrayList<String> retrieveAdjacentNodeIDs(Datasource datasourceObject, Query queryObject, String sourceNodeId) {
 
