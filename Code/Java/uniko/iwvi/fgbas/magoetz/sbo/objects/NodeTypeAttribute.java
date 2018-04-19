@@ -187,4 +187,19 @@ public class NodeTypeAttribute implements Serializable {
         }
         return "";
     }
+
+    /**
+     * Representation of a NodeTypeAttribute for rendering
+     *
+     * @param locale
+     * @return
+     */
+    public Vector<String> getAttributesForPreview(Locale locale) {
+        Vector<String> v = new Vector<String>();
+        v.add(name);
+        v.add(datatype);
+        v.add(getTranslatedName(locale));
+
+        return v;
+    }
 }
