@@ -1,22 +1,13 @@
 package uniko.iwvi.fgbas.magoetz.sbo.services;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Vector;
 
-import lotus.domino.Database;
-import lotus.domino.Document;
 import lotus.domino.DocumentCollection;
-import lotus.domino.NotesException;
-import lotus.domino.View;
-import org.openntf.Utils;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.Datasource;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.Query;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.QueryResult;
+
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.ibm.xsp.model.domino.DominoUtils;
 
 interface IQueryService {
 
@@ -55,10 +46,8 @@ interface IQueryService {
 
     public JsonObject executeQuery(Datasource datasourceObject, Query queryObject, String objectId) throws Exception;
 
-    @SuppressWarnings("unchecked")
     public Datasource getDatasourceObject(String datasourceName);
 
-    @SuppressWarnings("unchecked")
     public Query getQueryObject(String queryName);
 
     /**

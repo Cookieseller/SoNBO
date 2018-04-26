@@ -6,8 +6,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.Vector;
@@ -21,12 +23,15 @@ import uniko.iwvi.fgbas.magoetz.sbo.objects.NodeTypeAttribute;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.SortAttribute;
 import uniko.iwvi.fgbas.magoetz.sbo.services.ConfigService;
 import uniko.iwvi.fgbas.magoetz.sbo.services.ConnectionsService;
-import uniko.iwvi.fgbas.magoetz.sbo.services.DatabaseService;
 import uniko.iwvi.fgbas.magoetz.sbo.services.NodeService;
+import uniko.iwvi.fgbas.magoetz.sbo.services.QueryServiceFactory;
 import uniko.iwvi.fgbas.magoetz.sbo.util.Texts;
 
 /**
+ * SoNBOManager is a view bean, implementing the backend interface for the main XPage.
+ * 
  * @author Flemming
+ * 
  */
 public class SoNBOManager implements Serializable {
 
@@ -50,10 +55,6 @@ public class SoNBOManager implements Serializable {
 
     private ConfigService configService = new ConfigService();
 
-    private DatabaseService databaseService = new DatabaseService();
-
-    private ConnectionsService connectionsService = new ConnectionsService("connectionsSSO");
-
     private Texts texts;
 
     /**
@@ -67,6 +68,7 @@ public class SoNBOManager implements Serializable {
         if (objectId == null) {
             ConnectionsService connectionsService = new ConnectionsService("connectionsSSO");
             objectId = connectionsService.getUserEmail();
+            objectId = "MRIEDLE";
         }
 
         if (nodeTypeCategoryName == null) {
@@ -84,29 +86,22 @@ public class SoNBOManager implements Serializable {
     }
 
     /**
-     * Returns a list of all adjacent nodes, based on the currently selected node
-     *
-     * @return
-     */
-    public List<Node> getAdjacentNodeList() {
-        return adjacentNodeList;
-    }
-
-    /**
-     *
+     * Get all adjacencies to a node by the given type. NodeTypeCategory all or empty means all adjacencies
+     * regardless of type.
+     * 
      * @param nodeTypeCategory
      * @return
-     * @throws Exception
      */
-    public List<String> getNodeAdjacencyNamesByCategory(String nodeTypeCategory) throws Exception {
+    public List<String> getNodeAdjacencyNamesByCategory(String nodeTypeCategory) {
         List<String> nodeAdjacencies = new ArrayList<String>();
-        if ((nodeTypeCategory.equals("all") || nodeTypeCategory.equals(""))) {
-            for (String nodeTypeCategoryName : this.selectedNode.getNodeTypeCategories()) {
-                List<String> nodeTypes = this.configService.getAllNodeTypeNamesByCategory(nodeTypeCategoryName);
+        
+        if (nodeTypeCategory.equals("all") || nodeTypeCategory.equals("")) {
+            for (String nodeTypeCategoryName : selectedNode.getNodeTypeCategories()) {
+                List<String> nodeTypes = configService.getAllNodeTypeNamesByCategory(nodeTypeCategoryName);
                 nodeAdjacencies.addAll(nodeTypes);
             }
         } else {
-            nodeAdjacencies = this.configService.getAllNodeTypeNamesByCategory(nodeTypeCategory);
+            nodeAdjacencies = configService.getAllNodeTypeNamesByCategory(nodeTypeCategory);
         }
 
         return nodeAdjacencies;
@@ -128,9 +123,9 @@ public class SoNBOManager implements Serializable {
     }
 
     /**
-     * @TODO rename, we don't load the actual attributes but a set of vectors containing strings of attributes
+     * TODO rename, we don't load the actual attributes but a set of vectors containing strings of attributes
      *
-     * returns vector list of (unique) adjacent nodes attributes (attributeName translated)
+     * Returns vector list of (unique) adjacent nodes attributes (attributeName translated)
      *
      * @param locale
      * @return
@@ -149,7 +144,7 @@ public class SoNBOManager implements Serializable {
     }
 
     /**
-     * Returns vector list of (unique) adjacent nodes attributes which are filterable (attributeName translated)
+     * Returns a list of vectors of (unique) adjacent node attributes, which are filterable (attributeName translated)
      *
      * @param locale
      * @return
@@ -165,6 +160,7 @@ public class SoNBOManager implements Serializable {
         }
 
         List<Vector<String>> adjacentNodeAttributeList = new ArrayList<Vector<String>>(adjacentNodeAttributeNames);
+
         return sortVectorList(adjacentNodeAttributeList, 2);
     }
 
@@ -207,7 +203,7 @@ public class SoNBOManager implements Serializable {
     }
 
     /**
-     * filtered by NodeTypeCategory
+     * Filtered by NodeTypeCategory
      *
      * @param nodeTypeCategory
      * @return
@@ -229,7 +225,7 @@ public class SoNBOManager implements Serializable {
     }
 
     /**
-     * filtered by NodeType
+     * Filtered by NodeType
      *
      * @param nodeTypeCategory
      * @param nodeType
@@ -239,8 +235,8 @@ public class SoNBOManager implements Serializable {
     public List<Node> getAdjacentNodeListFilteredByNodeType(String nodeTypeCategory, String nodeType) throws Exception {
 
         List<Node> adjacentNodeListFilteredByNodeType = new ArrayList<Node>();
-        bool nodeTypeAll         = nodeType.equals("all") || nodeType.equals("");
-        bool nodeTypeCategoryAll = nodeTypeCategory.equals("all") || nodeTypeCategory.equals("");
+        boolean nodeTypeAll         = nodeType.equals("all") || nodeType.equals("");
+        boolean nodeTypeCategoryAll = nodeTypeCategory.equals("all") || nodeTypeCategory.equals("");
 
         if (nodeTypeCategoryAll && nodeTypeAll) {
             return adjacentNodeList;
@@ -398,6 +394,15 @@ public class SoNBOManager implements Serializable {
     }
 
     /**
+     * Returns a list of all adjacent nodes, based on the currently selected node
+     *
+     * @return
+     */
+    public List<Node> getAdjacentNodeList() {
+        return adjacentNodeList;
+    }
+
+    /**
      *
      * @return
      */
@@ -441,9 +446,16 @@ public class SoNBOManager implements Serializable {
      * @param nodeID
      * @return
      */
-    public List<Vector<AbstractMap.SimpleEntry<Integer, String>>> getActivityStreamEntries(int maxEntries, String nodeType, String nodeID) {
-        //Node node = nodeService.getNode(nodeID, nodeType, false);
+    public Map<String, String> getActivityStreamEntries(int maxEntries, String nodeType, String nodeID) {
+    	NodeService nodeService = new NodeService();
+        Node node = nodeService.getNode(nodeID, nodeType, false);
+        
+        nodeService.getEventsForNode(node);
 
-        return new ArrayList<Vector<AbstractMap.SimpleEntry<Integer, String>>>();
+        Map<String, String> map = new LinkedHashMap<String, String>();
+        
+        map.put("2017-06-01", "Lieferanten Bestellung 000054 wurde von Mitarbeiter MRIEDLE erstellt.");
+        
+        return map;
     }
 }

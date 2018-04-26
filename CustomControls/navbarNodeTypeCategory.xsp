@@ -8,7 +8,7 @@
 	<xe:navbar id="navbarPeers" styleClass="sbo-navbar">
 		<xp:repeat id="repeat1" var="category" disableOutputTag="true"
 			removeRepeat="true">
-			<xp:this.value><![CDATA[${javascript: var categories = soNBOManager.businessObject.getNodeTypeCategories();
+			<xp:this.value><![CDATA[${javascript: var categories = soNBOManager.selectedNode.getNodeTypeCategories();
  return getSortedStringListForView(categories, "nodeTypeCategories");}]]></xp:this.value>
  			<xp:panel styleClass="navbar-text sbo-navbar-item #{javascript: return viewScope.get('nodeTypeCategory') == category.get(0) || viewScope.get('nodeTypeCategory') == null &amp;&amp; category.get(0) == 'all' ? 'sbo-navbar-item-active' : '';}">
  			<xp:this.rendered><![CDATA[#{javascript:soNBOManager.getAdjacentNodeListFilteredByCategory(category.get(0)).size() > 0;}]]></xp:this.rendered>

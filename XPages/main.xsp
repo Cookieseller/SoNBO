@@ -6,7 +6,7 @@
 		viewScope.put("nodeType", "all");
 		viewScope.put("nodeTypeCategory", "all");
 		soNBOManager.init(context.getLocale()); 
-		soNBOSession.addChronicEntry(soNBOManager.businessObject.getNodeTitle(), soNBOManager.businessObject.getId());}]]>
+		soNBOSession.addChronicEntry(soNBOManager.selectedNode.getNodeTitle(), soNBOManager.selectedNode.getId());}]]>
 	</xp:this.beforePageLoad>
 	<xp:this.resources>
 		<xp:styleSheet href="/main.css" />

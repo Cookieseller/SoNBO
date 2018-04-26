@@ -50,6 +50,7 @@ public class Utilities {
                 matcher.appendReplacement(buffer, "");
                 buffer.append(replacement);
             }
+            Utilities.remotePrint("Replace Tokens=" + replacement + " " + matcher.group(1));
         }
         matcher.appendTail(buffer);
         return buffer.toString();

@@ -8,7 +8,7 @@
 			<xp:repeat id="chronicRepeat" var="chronicEntry" value="#{javascript: soNBOSession.getChronicEntries(0);}">
 				<xp:panel id="chronicEntriesContainer" styleClass="sbo-text-center">
 					<xp:label
-						styleClass="#{javascript:soNBOManager.businessObject.getId() == chronicEntry.get(1) ? 'sbo-link-not-active' : '';}"
+						styleClass="#{javascript:soNBOManager.selectedNode.getId() == chronicEntry.get(1) ? 'sbo-link-not-active' : '';}"
 						value="#{javascript: var entry = chronicEntry.get(0); return entry;}"
 						id="chronicLink" />
 					<div>
@@ -18,7 +18,7 @@
 			</xp:repeat>
 			<xp:panel styleClass="sbo-text-center">
 				<xp:button value="#{javascript:soNBOManager.getTranslationBundle()['button-back_to_me']}" id="buttonBackToMe"
-					disabled="#{javascript:soNBOManager.businessObject.getId() == soNBOSession.getObjectId()}">
+					disabled="#{javascript:soNBOManager.selectedNode.getId() == soNBOSession.getObjectId()}">
 				<xp:eventHandler event="onclick" submit="true"
 					refreshMode="complete">
 					<xp:this.action><![CDATA[#{javascript:soNBOSession.clearChronic(); 

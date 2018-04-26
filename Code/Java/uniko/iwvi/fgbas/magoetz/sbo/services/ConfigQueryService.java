@@ -1,13 +1,8 @@
 package uniko.iwvi.fgbas.magoetz.sbo.services;
 
-import java.io.InputStream;
 import java.io.Serializable;
-import java.io.StringWriter;
-import java.net.URI;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Vector;
 
 import lotus.domino.Database;
@@ -16,25 +11,17 @@ import lotus.domino.DocumentCollection;
 import lotus.domino.NotesException;
 import lotus.domino.View;
 
-import org.apache.commons.io.IOUtils;
-import org.apache.olingo.client.api.ODataClient;
-import org.apache.olingo.client.api.communication.request.retrieve.ODataRawRequest;
-import org.apache.olingo.client.core.ODataClientFactory;
-import org.apache.olingo.client.core.http.BasicAuthHttpClientFactory;
 import org.openntf.Utils;
 
 import uniko.iwvi.fgbas.magoetz.sbo.objects.Datasource;
-import uniko.iwvi.fgbas.magoetz.sbo.objects.Node;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.Query;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.QueryResult;
-import uniko.iwvi.fgbas.magoetz.sbo.util.Utilities;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.ibm.xsp.model.domino.DominoUtils;
 
-public class ODataQueryService implements IQueryService, Serializable {
+public class ConfigQueryService implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -156,59 +143,39 @@ public class ODataQueryService implements IQueryService, Serializable {
         return resultCollection;
     }
 
-    /*
-     * returns first json object from a query
+    /**
+     * Returns first Json object from a query
+     * 
+     * @param view
+     * @param key
+     * @param returnField
+     * @return
+     * 
+     * @throws NotesException
      */
-    public JsonObject getJsonObject(String view, String key, String returnField) {
+    public JsonObject getJsonObject(String view, String key, String returnField) throws NotesException {
+        ArrayList<JsonObject> jsonObjects = getJsonObjects(view, key, returnField);
 
-        Database notesDB = DominoUtils.getCurrentDatabase();
-
-        ArrayList<String> queryResults = new ArrayList<String>();
-        try {
-            // return values by key
-            queryResults = Utils.Dblookup(notesDB, view, key, returnField);
-        } catch (NotesException ex) {
-            // TODO Auto-generated catch block
-            ex.printStackTrace();
+        if (jsonObjects.size() > 0) {
+        	return jsonObjects.get(0);
         }
 
-        // convert query results to json objects
-        ArrayList<JsonObject> jsonObjects = new ArrayList<JsonObject>();
-
-        for (String s : queryResults) {
-            JsonObject o = new JsonParser().parse(s).getAsJsonObject();
-            jsonObjects.add(o);
-        }
-
-        JsonObject jsonObject = null;
-        try {
-            jsonObject = jsonObjects.get(0);
-        } catch (IndexOutOfBoundsException ex) {
-            System.out.println("No JSON object found in view: " + view + " with key " + key + " and returnField " + returnField);
-        }
-
-        return jsonObject;
+        return null;
     }
 
-    /*
-     * returns all json objects from a query
-     */
-    public ArrayList<JsonObject> getJsonObjects(String view, String key, String returnField) {
-
-        Database notesDB = DominoUtils.getCurrentDatabase();
-
-        ArrayList<String> queryResults = new ArrayList<String>();
-        try {
-            // return values by key
-            queryResults = Utils.Dblookup(notesDB, view, key, returnField);
-        } catch (NotesException ex) {
-            // TODO Auto-generated catch block
-            ex.printStackTrace();
-        }
-
-        // convert query results to json objects
+	/**
+	 * Returns all Json objects from a query
+	 * 
+	 * @param view
+	 * @param key
+	 * @param returnField
+	 * @return
+	 */
+    public ArrayList<JsonObject> getJsonObjects(String view, String key, String returnField) throws NotesException {
+        Database notesDB 			      = DominoUtils.getCurrentDatabase();
         ArrayList<JsonObject> jsonObjects = new ArrayList<JsonObject>();
-
+        ArrayList<String> queryResults    = Utils.Dblookup(notesDB, view, key, returnField);
+        
         for (String s : queryResults) {
             JsonObject o = new JsonParser().parse(s).getAsJsonObject();
             jsonObjects.add(o);
@@ -222,6 +189,7 @@ public class ODataQueryService implements IQueryService, Serializable {
 
         // TODO: Evaluate whole query and change to dynamic execution for all query types (currently only IBM Domino supported)
         //String type = datasourceObject.getType();
+        //String hostname = datasourceObject.getHostname();
         String database = datasourceObject.getDatabase();
 
         // TODO: queryType was added and has to be processed (e.g. "IBM Domino")
@@ -247,66 +215,62 @@ public class ODataQueryService implements IQueryService, Serializable {
         return resultCollection;
     }
 
-    public JsonArray executeQuery(Datasource datasourceObject, Query queryObject) {
-        ODataClient client = ODataClientFactory.getClient();
-
-        client.getConfiguration().setHttpClientFactory(new BasicAuthHttpClientFactory(datasourceObject.getUser(), datasourceObject.getPassword()));
-        
-        String uriRoot 	 = datasourceObject.getHostname() + datasourceObject.getDatabase();
-        String entitySet = queryObject.getView();
-        URI uri 	 	 = client.newURIBuilder(uriRoot).appendEntitySetSegment(entitySet).filter(queryObject.getString()).build();
-
-        ODataRawRequest request = client.getRetrieveRequestFactory().getRawRequest(uri);
-        request.setAccept("application/json");
-        request.setContentType("application/json;odata.metadata=full");
-        
-        InputStream inputStream = request.execute().getRawResponse();
-        StringWriter writer 	= new StringWriter();
-        JsonArray resultSet 	= new JsonArray();
-        try {
-			IOUtils.copy(inputStream, writer, "utf-8");
-			
-	        String jsonString = writer.toString();
-	        JsonParser parser = new JsonParser();
-	        JsonObject obj    = parser.parse(jsonString).getAsJsonObject();
-	        resultSet 		  = obj.get("value").getAsJsonArray();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-        return resultSet;
-    }
-    
+    /**
+     * @TODO Implement caching
+     *
+     * @param datasourceObject
+     * @param queryObject
+     * @param objectId
+     * @return
+     */
     public JsonObject executeQuery(Datasource datasourceObject, Query queryObject, String objectId) {
 
-        ODataClient client = ODataClientFactory.getClient();
+        // TODO: Evaluate whole query and change to dynamic execution for all query types (currently only IBM Domino supported)
+        //String type = datasourceObject.getType();
+        String hostname = datasourceObject.getHostname();
+        String database = datasourceObject.getDatabase();
 
-        client.getConfiguration().setHttpClientFactory(new BasicAuthHttpClientFactory(datasourceObject.getUser(), datasourceObject.getPassword()));
+        // TODO: queryType was added and has to be processed (e.g. "IBM Domino")
+        //String queryCommand = queryObject.getCommand();
+        //String queryServer = queryObject.getServer();
+        //String queryDatabase = queryObject.getDatabase();
+        String queryView = queryObject.getView();
+        // TODO process multiple values (return type is List<String>)
+        String queryKey = queryObject.getKey().toString();
+        String queryFieldname = queryObject.getFieldname();
 
-        String uriRoot 	 = datasourceObject.getHostname() + datasourceObject.getDatabase();
-        String entitySet = queryObject.getView();
-        URI uri 	 	 = client.newURIBuilder(uriRoot).appendEntitySetSegment(entitySet).filter(queryObject.getString()).build();
+        // TODO in this case objectId, but in other cases?
+        queryKey = objectId;
 
-        Utilities.remotePrint("ODataQueryService URI=" + uri.toString());
-        
-        ODataRawRequest request = client.getRetrieveRequestFactory().getRawRequest(uri);
-        request.setAccept("application/json");
-        request.setContentType("application/json;odata.metadata=full");
-        
-        InputStream inputStream = request.execute().getRawResponse();
-        StringWriter writer 	= new StringWriter();
-        JsonObject jsonObject 	= new JsonObject();
+        // execute query to get results
+        // TODO make variable dependent on query command
+        ArrayList<String> queryResults = new ArrayList<String>();
         try {
-			IOUtils.copy(inputStream, writer, "utf-8");
-			
-	        String jsonString = writer.toString();
-	        JsonParser parser = new JsonParser();
-	        JsonObject obj    = parser.parse(jsonString).getAsJsonObject();
-	        jsonObject 		  = obj.get("value").getAsJsonObject();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
+            // return values by key
+            queryResults = Utils.Dblookup(hostname, database, queryView, queryKey, queryFieldname);
+
+        } catch (NotesException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        // get json object from query result
+        ArrayList<JsonObject> jsonQueryResultObjects = new ArrayList<JsonObject>();
+
+        for (String s : queryResults) {
+            JsonObject o = new JsonParser().parse(s).getAsJsonObject();
+            jsonQueryResultObjects.add(o);
+        }
+
+        JsonObject jsonObject = new JsonObject();
+        try {
+            jsonObject = jsonQueryResultObjects.get(0);
+        } catch (IndexOutOfBoundsException ex) {
+            return null;
+        }
+        // log json
+        //Utilities utilities = new Utilities();
+        //utilities.printJson(jsonObject, "query result json object");
         return jsonObject;
     }
 
@@ -334,42 +298,9 @@ public class ODataQueryService implements IQueryService, Serializable {
         return datasource;
     }
 
-    /**
-     * @TODO should this be private?
-     * Take the configured query and replace all tokens with real values from the given node
-     * 
-     * @param node
-     * @param query
-     * @return
-     */
-    public String buildQuery(Node node, Query query) {
-    	List<String> tokens = Utilities.getTokenList(query.getString());
-    	Map<String, String> replaceAttributesMap = new HashMap<String, String>();
-        for (String replaceAttributeKey : tokens) {
-            String replaceAttributeValue = node.getAttributeValueAsString(replaceAttributeKey);
-            replaceAttributesMap.put(replaceAttributeKey, replaceAttributeValue);
-        }
-        
-    	return Utilities.replaceTokens(query.getString(), replaceAttributesMap);
-    }
-    
-    /**
-     * 
-     * @param node
-     * @param query
-     * @param datasource
-     * @return
-     */
-    public JsonArray getAdjacentNodes(Node node, Query query, Datasource datasource) {
-    	String queryString = buildQuery(node, query);
-    	Query adjacentQuery = new Query(query);
-    	adjacentQuery.setString(queryString);
-    	
-    	return executeQuery(datasource, adjacentQuery);
-    }
-    
     @SuppressWarnings("unchecked")
     public Query getQueryObject(String queryName) {
+
         String searchString = "FIELD queryName = \"" + queryName + "\"";
         Document queryDoc = null;
         Query query = new Query();
@@ -413,11 +344,67 @@ public class ODataQueryService implements IQueryService, Serializable {
     }
 
     public String getEmailByNotesUsername(String notesUsername) {
+
         return this.getFieldValue("", "GEDYSIntraWare8\\georga.nsf", "Usernames", notesUsername, "email");
+        /*
+		Session session = DominoUtils.getCurrentSession();
+		try {
+			Directory dir = session.getDirectory();
+			// TODO local version
+			DirectoryNavigator dirnav = dir.lookupNames("($Users)", notesUsername, "InternetAddress");
+			dirnav.findFirstName();
+			if(dirnav.getCurrentMatches() > 0) {
+				Vector dirent = dirnav.getFirstItemValue();
+				for(Object obj : dirent) {
+					return obj.toString();
+				}
+			}			
+		} catch (NotesException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "n/a";
+		*/
     }
 
     public String getNotesUsernameByEmail(String email) {
+
         return this.getFieldValue("", "GEDYSIntraWare8\\georg.nsf", "SoNBO\\(Emails)", email, "username");
+		
+		/* 
+		String notesUsername = "not found";
+		
+		DocumentCollection resultCollection = this.ftSearchView("names.nsf", email, "($Users)");
+		try {
+			Document doc = resultCollection.getFirstDocument();
+			notesUsername = doc.getItemValueString("MailAddress");
+		} catch (NotesException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return notesUsername;
+		*/
+		
+		/*
+		Session session = DominoUtils.getCurrentSession();
+		try {
+			Directory dir = session.getDirectory();
+			// TODO local version
+			DirectoryNavigator dirnav = dir.lookupNames("($Users)", email, "InternetAddress");
+			dirnav.findFirstName();
+			if(dirnav.getCurrentMatches() > 0) {
+				Vector dirent = dirnav.getFirstItemValue();
+				for(Object obj : dirent) {
+					System.out.println(obj.toString());
+					//return obj.toString();
+				}
+			}			
+		} catch (NotesException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "n/a";
+		*/
     }
 
     protected void addEntry(List<Vector<String>> dataList, String formName) {

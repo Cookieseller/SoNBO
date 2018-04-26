@@ -178,6 +178,10 @@ public class Node implements Serializable {
     public void addAttribute(NodeTypeAttribute nodeTypeAttribute) {
         this.attributeList.add(nodeTypeAttribute);
     }
+    
+    public void addAllAttributes(List<NodeTypeAttribute> nodeTypeAttributes) {
+    	this.attributeList.addAll(nodeTypeAttributes);
+    }
 
     public int compareByAttribute(Node otherNode, SortAttribute sortAttribute) {
 

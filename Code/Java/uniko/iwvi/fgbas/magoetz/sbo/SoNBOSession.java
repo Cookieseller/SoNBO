@@ -1,19 +1,19 @@
 package uniko.iwvi.fgbas.magoetz.sbo;
 
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.text.SimpleDateFormat;
-import java.util.AbstractMap;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 
 import uniko.iwvi.fgbas.magoetz.sbo.services.ConnectionsService;
 
+/**
+ * SoNBOSession is the session bean of the SoNBO app.
+ * Any session relevant actions, like a chronic of navigation actions, has to be put here, rather than in the SoNBOManager.
+ * 
+ * @author Mathias
+ *
+ */
 public class SoNBOSession {
 
     private String objectId;

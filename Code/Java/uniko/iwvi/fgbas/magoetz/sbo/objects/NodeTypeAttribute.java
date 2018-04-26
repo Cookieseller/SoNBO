@@ -3,6 +3,7 @@ package uniko.iwvi.fgbas.magoetz.sbo.objects;
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.Locale;
+import java.util.Vector;
 
 import uniko.iwvi.fgbas.magoetz.sbo.services.QueryService;
 import com.google.gson.Gson;

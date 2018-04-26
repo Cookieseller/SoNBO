@@ -1,14 +1,14 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note class='form' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.9'
- replicaid='C12581ED004C5206'>
-<noteinfo noteid='4b2' unid='A6D09DF797497F1AC125817A0052DD31' sequence='49'>
+ replicaid='C125825E00556E6F'>
+<noteinfo noteid='1a6' unid='A6D09DF797497F1AC125817A0052DD31' sequence='17'>
 <created><datetime dst='true'>20170812T170505,77+02</datetime></created>
-<modified><datetime>20171215T223055,83+01</datetime></modified>
-<revised><datetime>20171215T223055,82+01</datetime></revised>
-<lastaccessed><datetime>20171215T223055,83+01</datetime></lastaccessed>
-<addedtofile><datetime>20171205T145342,26+01</datetime></addedtofile></noteinfo>
-<updatedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></updatedby>
-<wassignedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></wassignedby>
+<modified><datetime dst='true'>20180426T180457,43+02</datetime></modified>
+<revised><datetime dst='true'>20180426T180457,42+02</datetime></revised>
+<lastaccessed><datetime dst='true'>20180426T180457,43+02</datetime></lastaccessed>
+<addedtofile><datetime dst='true'>20180417T235032,97+02</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Mathias Riedle/O=uniko/C=DE</name></updatedby>
+<wassignedby><name>CN=Mathias Riedle/O=uniko/C=DE</name></wassignedby>
 <item name='$Comment' sign='true'><text/></item>
 <item name='$HTMLCode' sign='true'>
 <rawitemdata type='1'>
@@ -209,6 +209,6 @@ xgsAAAAAAADtAQMABwAMAAUACTBTMEUAAAASAAIAXhsAAAAAAADtAQMABwAKAAMACTBSAL7/OgAA
 AAEAaQCfAQAABAAAAAAAAABFZGl0IAAAABIAAgDoBwAAAAAAAO0BAwAHAAwABQAJMFMwRQC+/14A
 AAABABUAnwEAAAwAAAAAAAAAU2F2ZSAmIENsb3NlPAAIABIAAgDGCwAAAAAAAO0BAwAHAAwABQAJ
 MFMwRQAAABIAAgD8EQAAAAAAAO0BAwAHAAoAAwAJMFIAvv88AAAAAQALAJ8BAAAFAAAAAAAAAENs
-b3NlACAAAAASAAIA/BEAAAAAAADtAQMABwAMAAUACTBTMEUA
+b3NlASAAAAASAAIA/BEAAAAAAADtAQMABwAMAAUACTBTMEUA
 </rawitemdata></item></note>
 

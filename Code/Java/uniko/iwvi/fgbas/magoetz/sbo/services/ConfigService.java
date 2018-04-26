@@ -21,83 +21,86 @@ public class ConfigService implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    private ConfigQueryService configQueryService = new ConfigQueryService();
+    
     private QueryService queryService = new QueryService();
 
-    public NodeType getNodeType(String nodeTypeName) {
+    /**
+     * Return NodeType by it's name
+     *
+     * @param nodeTypeName
+     * @return
+     * 
+     * @throws NotesException 
+     */
+    public NodeType getNodeTypeByName(String nodeTypeName) throws NotesException {
 
         // TODO: check if object type exists
-        JsonObject jsonNodeType = queryService.getJsonObject("nodeTypes", nodeTypeName, "nodeTypeJSON");
+    	JsonObject jsonNodeType 					= configQueryService.getJsonObject("nodeTypes", nodeTypeName, "nodeTypeJSON");
+		ArrayList<JsonObject> jsonNodeAttributeList = configQueryService.getJsonObjects("nodeTypeAttributes", nodeTypeName, "attributeJSON");
 
-        // get config information
-        Gson gson = new Gson();
+        Gson gson 		  = new Gson();
         NodeType nodeType = gson.fromJson(jsonNodeType, NodeType.class);
-
-        // attributes
-        ArrayList<JsonObject> jsonNodeAttributeList = queryService.getJsonObjects("nodeTypeAttributes", nodeTypeName, "attributeJSON");
 
         for (JsonObject jsonNodeAttribute : jsonNodeAttributeList) {
             NodeTypeAttribute attribute = gson.fromJson(jsonNodeAttribute, NodeTypeAttribute.class);
             nodeType.addConfigurationNodeAttribute(attribute);
         }
+
         return nodeType;
     }
 
     /**
-     * Returns all node type names
-     *
-     * @param locale
-     * @return
-     */
-    public List<String> getAllNodeTypeCategoryNames() {
-        return queryService.getColumnValues("nodeTypeCategories", 0);
-    }
-
-    /**
      * 
-     * @param locale
+     * @param nodeTypeCategoryName
      * @return
+     * @throws Exception
      */
-    public List<String> getAllNodeTypeCategoryNames(Locale locale) {
-        if (locale.getLanguage().equals("de")) {
-            return queryService.getColumnValues("nodeTypeCategories", 1);
-        } else {
-            return queryService.getColumnValues("nodeTypeCategories", 0);
+    public ArrayList<String> getAllNodeTypeNamesByCategory(String nodeTypeCategoryName) {
+        ArrayList<String> adjacentNodeTypes 		 = new ArrayList<String>();
+        String queryStringNodeTypes 				 = "FIELD nodeTypeCategory = " + nodeTypeCategoryName;
+        DocumentCollection resultCollectionNodeTypes = configQueryService.ftSearchView("", queryStringNodeTypes, "nodeTypes");
+        
+        if (resultCollectionNodeTypes == null) {
+        	System.out.println("Result of query " + queryStringNodeTypes + " is null.");
+        	return adjacentNodeTypes;
         }
-    }
 
-    public ArrayList<String> getAllNodeTypeNamesByCategory(String nodeTypeCategoryName) throws Exception {
-        ArrayList<String> adjacentNodeTypes = new ArrayList<String>();
-        String queryStringNodeTypes = "FIELD nodeTypeCategory = " + nodeTypeCategoryName;
-        DocumentCollection resultCollectionNodeTypes = queryService.ftSearchView("", queryStringNodeTypes, "nodeTypes");
         try {
-            if (resultCollectionNodeTypes != null) {
-                for (int i = 1; i <= resultCollectionNodeTypes.getCount(); i++) {
-                    Document doc = resultCollectionNodeTypes.getNthDocument(i);
-                    String nodeType = doc.getItemValueString("nodeTypeName");
-                    adjacentNodeTypes.add(nodeType);
-                }
-            } else {
-                System.out.println("Result of query " + queryStringNodeTypes + " is null.");
+            for (int i = 1; i <= resultCollectionNodeTypes.getCount(); i++) {
+                Document document = resultCollectionNodeTypes.getNthDocument(i);
+                String nodeType   = document.getItemValueString("nodeTypeName");
+                adjacentNodeTypes.add(nodeType);
             }
         } catch (NotesException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return adjacentNodeTypes;
     }
 
-    public NodeTypeCategory getNodeTypeCategory(String nodeTypeCategory) {
+    /**
+     * 
+     * @param nodeTypeCategory
+     * @return
+     */
+    public NodeTypeCategory getNodeTypeCategoryByName(String nodeTypeCategory) {
+        String jsonFromDb = configQueryService.getFieldValue("", "", "nodeTypeCategories", nodeTypeCategory, "nodeTypeCategoryJSON");
 
-        String jsonFromDb = queryService.getFieldValue("", "", "nodeTypeCategories", nodeTypeCategory, "nodeTypeCategoryJSON");
         return new Gson().fromJson(jsonFromDb, NodeTypeCategory.class);
     }
 
+    /**
+     * Identifies a NodeType by the given ID
+     * 
+     * @param id
+     * @return
+     */
     public NodeType getNodeTypeById(String id) {
 
         NodeType resultNodeType = null;
 
         // lookup if node type was determined before
-        String nodeTypeName = queryService.getFieldValue("", "", "nodeTypeIdMapping", id, "nodeTypeMappingType");
+        String nodeTypeName = configQueryService.getFieldValue("", "", "nodeTypeIdMapping", id, "nodeTypeMappingType");
         if (nodeTypeName == null) {
             // if node type name was not cached yet try to determine it
             resultNodeType = this.determineNodeTypeById(id);
@@ -107,24 +110,37 @@ public class ConfigService implements Serializable {
             if (nodeTypeName.equals("NOT DETERMINABLE")) {
                 return null;
             } else {
-                resultNodeType = this.getNodeType(nodeTypeName);
+        		try {
+					resultNodeType = this.getNodeTypeByName(nodeTypeName);
+				} catch (NotesException e) {
+					e.printStackTrace();
+					resultNodeType = null;
+				}	
             }
         }
 
         return resultNodeType;
     }
 
-    /*
-     * Function determines node type by searching for a matching db entry with id and (option) filter attribute
-     */
+	/**
+	 * Function determines node type by searching for a matching db entry with id and (option) filter attribute
+	 * 
+	 * @param id
+	 * @return
+	 */
     private NodeType determineNodeTypeById(String id) {
 
         NodeType resultNodeType = null;
         //get all node type definitions
-        ArrayList<String> nodeTypes = queryService.getColumnValues("nodeTypes", 0);
+        ArrayList<String> nodeTypes = configQueryService.getColumnValues("nodeTypes", 0);
         ArrayList<NodeType> nodeTypeList = new ArrayList<NodeType>();
         for (String nodeType : nodeTypes) {
-            nodeTypeList.add(this.getNodeType(nodeType));
+            try {
+            	NodeType node = this.getNodeTypeByName(nodeType);
+				nodeTypeList.add(node);
+			} catch (NotesException e) {
+				e.printStackTrace();
+			}
         }
         // search for node with id and return node type
         for (NodeType nodeType : nodeTypeList) {
@@ -132,8 +148,8 @@ public class ConfigService implements Serializable {
             NodeTypeAttribute nodeTypeAttribute = nodeType.getNodeTypeIdAttribute();
             if (nodeTypeAttribute != null) {
                 //replace attributes in query string with variable values
-                Datasource datasourceObject = queryService.getDatasourceObject(nodeTypeAttribute.getDatasource());
-                Query queryObject = queryService.getQueryObject(nodeTypeAttribute.getQuery());
+                Datasource datasourceObject = configQueryService.getDatasourceObject(nodeTypeAttribute.getDatasource());
+                Query queryObject = configQueryService.getQueryObject(nodeTypeAttribute.getQuery());
                 // set fieldname of id attribute as key to be retrieved (FTSearch)
                 ArrayList<String> idList = new ArrayList<String>();
                 idList.add(nodeTypeAttribute.getFieldname());
@@ -141,8 +157,8 @@ public class ConfigService implements Serializable {
                 JsonObject json = queryService.executeQuery(datasourceObject, queryObject, id);
                 if (json != null) {
                     // check if required key and value for node type exist
-                    String key = queryService.getFieldValue("", "", "nodeTypes", nodeType.getNodeTypeName(), "nodeTypeKey");
-                    String value = queryService.getFieldValue("", "", "nodeTypes", nodeType.getNodeTypeName(), "nodeTypeValue");
+                    String key = configQueryService.getFieldValue("", "", "nodeTypes", nodeType.getNodeTypeName(), "nodeTypeKey");
+                    String value = configQueryService.getFieldValue("", "", "nodeTypes", nodeType.getNodeTypeName(), "nodeTypeValue");
                     if (key != null && value != null && !value.equals("") && !key.equals("")) {
                         //check if json contains required key value pair
                         String jsonPrimitive = json.get(key).toString();
@@ -161,6 +177,11 @@ public class ConfigService implements Serializable {
         return resultNodeType;
     }
 
+    /**
+     * 
+     * @param id
+     * @param nodeType
+     */
     private void addNodeTypeId(String id, NodeType nodeType) {
         // always add the id
         List<Vector<String>> dataList = new ArrayList<Vector<String>>();
@@ -178,6 +199,29 @@ public class ConfigService implements Serializable {
             dataList.add(dataVector2);
         }
         dataList.add(dataVector2);
-        queryService.addEntry(dataList, "nodeTypeID");
+        configQueryService.addEntry(dataList, "nodeTypeID");
+    }
+    
+    /**
+     * Returns all node type names
+     *
+     * @return
+     */
+    public List<String> getAllNodeTypeCategoryNames() {
+        return configQueryService.getColumnValues("nodeTypeCategories", 0);
+    }
+
+    /**
+     * Returns all localized node type names
+     * 
+     * @param locale
+     * @return
+     */
+    public List<String> getAllNodeTypeCategoryNames(Locale locale) {
+        if (locale.getLanguage().equals("de")) {
+            return configQueryService.getColumnValues("nodeTypeCategories", 1);
+        }
+
+        return configQueryService.getColumnValues("nodeTypeCategories", 0);
     }
 }

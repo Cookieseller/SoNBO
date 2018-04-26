@@ -1,14 +1,14 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note class='view' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.9'
- replicaid='C12581ED004C5206'>
-<noteinfo noteid='49a' unid='602C97302BBD1747C125817A007C47F7' sequence='73'>
+ replicaid='C125825E00556E6F'>
+<noteinfo noteid='15a' unid='602C97302BBD1747C125817A007C47F7' sequence='21'>
 <created><datetime dst='true'>20170813T003728,87+02</datetime></created>
-<modified><datetime>20171215T223202,02+01</datetime></modified>
-<revised><datetime>20171215T223202,01+01</datetime></revised>
-<lastaccessed><datetime>20171215T223202,02+01</datetime></lastaccessed>
-<addedtofile><datetime>20171205T145342,14+01</datetime></addedtofile></noteinfo>
-<updatedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></updatedby>
-<wassignedby><name>CN=Flemming Goetz/O=uniko/C=DE</name></wassignedby>
+<modified><datetime dst='true'>20180426T183521,50+02</datetime></modified>
+<revised><datetime dst='true'>20180426T183521,49+02</datetime></revised>
+<lastaccessed><datetime dst='true'>20180426T183521,50+02</datetime></lastaccessed>
+<addedtofile><datetime dst='true'>20180417T235023,82+02</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Mathias Riedle/O=uniko/C=DE</name></updatedby>
+<wassignedby><name>CN=Mathias Riedle/O=uniko/C=DE</name></wassignedby>
 <item name='$FormatNote' summary='true' sign='true'>
 <rawitemdata type='4'>
 AQB/ohaee+7K8eIPRADjgCXB
@@ -17,7 +17,7 @@ AQB/ohaee+7K8eIPRADjgCXB
 <item name='$TITLE' sign='true'><text>2. Node Types\2.1 Attributes|nodeTypeAttributes</text></item>
 <item name='$Index' sign='true'><text/></item>
 <item name='$Formula' summary='true' sign='true'><formula compiled='true'>
-VgMCADAAAwAkMTEABQAZAGF0dHJpYnV0ZURpc3BsYXlmaWVsZG5hbWUAAQAAAFYCAwACAAACDQBh
+UAMCADAAAwAkMTEABQAZAGF0dHJpYnV0ZURpc3BsYXlmaWVsZG5hbWUAAQAAAFYCAwACAAACDQBh
 dHRyaWJ1dGVKU09OAAEADQB7AAkJIm5hbWUiOiAiAAUADQBhdHRyaWJ1dGVOYW1lACICAQAQACIs
 AAkJIm5hbWVERSI6ICIiAgUADwBhdHRyaWJ1dGVOYW1lREUAIgIBABAAIiwACQkibmFtZUVOIjog
 IiICBQAPAGF0dHJpYnV0ZU5hbWVFTgAiAgEAFAAiLAAJCSJkYXRhc291cmNlIjogIiICBQATAGF0
@@ -26,12 +26,12 @@ dGVRdWVyeSICAQATACIsAAkJImZpZWxkbmFtZSI6ICIAIgIFABIAYXR0cmlidXRlRmllbGRuYW1l
 IgIBABIAIiwACQkiZGF0YXR5cGUiOiAiIgIFABEAYXR0cmlidXRlRGF0YXR5cGUAIgIBABYAIiwA
 CQkiZGlzcGxheWZpZWxkIjogIiICBQAZAGF0dHJpYnV0ZURpc3BsYXlmaWVsZG5hbWUAIgIBABQA
 IiwACQkiZmlsdGVyYWJsZSI6ICIiAgUAEwBhdHRyaWJ1dGVGaWx0ZXJhYmxlACICAQARACIsAAkJ
-InByZXZpZXciOiAiACICBQAQAGF0dHJpYnV0ZVByZXZpZXciAgEAAwAiAH0AIgIDAAUA5ADgAA4A
-EQANAA8ADwATAA4AEgARAAMAEwAQAA0ACQAEAGF0dHJpYnV0ZU5vZGVUeXBlYXR0cmlidXRlTmFt
-ZWF0dHJpYnV0ZU5hbWVERWF0dHJpYnV0ZU5hbWVFTmF0dHJpYnV0ZURhdGFzb3VyY2VhdHRyaWJ1
-dGVRdWVyeWF0dHJpYnV0ZUZpZWxkbmFtZWF0dHJpYnV0ZURhdGF0eXBlJDExYXR0cmlidXRlRmls
-dGVyYWJsZWF0dHJpYnV0ZVByZXZpZXdhdHRyaWJ1dGVKU09OJENvbmZsaWN0JFJFRgQABAAAADAA
-BQAEAEZvcm0BABcAY29uZmlnTm9kZVR5cGVBdHRyaWJ1dGUACgIEAAQAAwAHAAwABQAJM1M0UwA=
+InByZXZpZXciOiAiACICBQAQAGF0dHJpYnV0ZVByZXZpZXciAgEAAwAiAH0AIgIDAAUA3gDaAA0A
+EQANAA8ADwATAA4AEgARAAMAEwAQAA0ACQBhdHRyaWJ1dGVOb2RlVHlwZWF0dHJpYnV0ZU5hbWVh
+dHRyaWJ1dGVOYW1lREVhdHRyaWJ1dGVOYW1lRU5hdHRyaWJ1dGVEYXRhc291cmNlYXR0cmlidXRl
+UXVlcnlhdHRyaWJ1dGVGaWVsZG5hbWVhdHRyaWJ1dGVEYXRhdHlwZSQxMWF0dHJpYnV0ZUZpbHRl
+cmFibGVhdHRyaWJ1dGVQcmV2aWV3YXR0cmlidXRlSlNPTiRDb25mbGljdAQABAAAADAABQAEAEZv
+cm0BABcAY29uZmlnTm9kZVR5cGVBdHRyaWJ1dGUACgIEAAQAAwAHAAwABQAJM1M0UwA=
 </formula></item>
 <item name='$Collation' summary='true'>
 <rawitemdata type='2'>
@@ -46,7 +46,7 @@ gQYAAAAAif8jAAAAAAABABcAY29uZmlnTm9kZVR5cGVBdHRyaWJ1dGUA
 </rawitemdata></item>
 <item name='$ViewFormat' sign='true'>
 <rawitemdata type='5'>
-AQAMABQAiAABAFZDAQARABEAAAAAAHgAAQAACgAAAAAAAAAAAAICAAAAVkMAAA0ADQAAAAAAYgAB
+AQAMABYAigABAFZDAQARABEAAAAAAHgAAQAACgAAAAAAAAAAAAICAAAAVkMAAA0ADQAAAAAAYgAB
 AAAKAAAAAAAAAAAAAgIAAABWQwAADwAPAAAAAACFAAEAAAoAAAAAAAAAAAACAgAAAFZDAAAPAA8A
 AAAAAHoAAQAACgAAAAAAAAAAAAICAAAAVkMAABMAEwAAAAAAbQABAAAKAAAAAAAAAAAAAgIAAABW
 QwAADgAOAAAAAACRAAEAAAoAAAAAAAAAAAACAgAAIFZDAAASABIAAAAAAHQAAQAACgAAAAAAAAAA
