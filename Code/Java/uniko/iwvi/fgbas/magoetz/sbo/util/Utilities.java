@@ -7,6 +7,7 @@ import java.io.OutputStreamWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -58,13 +59,23 @@ public class Utilities {
 
     public static void remotePrint(String print) {
 		try {
-			URL url = new URL("http://ptsv2.com/t/slitx-1523645772/post");
+			StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
+			URL url = new URL("http://78.47.252.114:2208");
 	        URLConnection connection = url.openConnection();
 	        connection.setDoOutput(true);
+	        connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
 
-	        OutputStreamWriter out = new OutputStreamWriter(
-	                                         connection.getOutputStream());
-	        out.write(print);
+	        if (print == null) {
+	        	print = "";
+	        }
+	        
+	        OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
+	        if (stackTraceElements.length >= 1) {
+	        	out.write(stackTraceElements[3].getClassName() + "::" + stackTraceElements[3].getMethodName() + "=" + URLEncoder.encode(print, "UTF-8"));	
+	        } else {
+	        	out.write("Unknown Parent=" + URLEncoder.encode(print, "UTF-8"));	
+	        }
+	        
 	        out.close();
 
 	        BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));

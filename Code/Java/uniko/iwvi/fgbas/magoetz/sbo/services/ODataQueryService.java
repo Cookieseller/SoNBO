@@ -239,7 +239,6 @@ public class ODataQueryService implements IQueryService, Serializable {
             }
 
         } catch (NotesException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (NullPointerException npe) {
             npe.printStackTrace();
@@ -248,6 +247,9 @@ public class ODataQueryService implements IQueryService, Serializable {
     }
 
     public JsonArray executeQuery(Datasource datasourceObject, Query queryObject) {
+    	
+    	CacheService cache = new CacheService();
+    	
         ODataClient client = ODataClientFactory.getClient();
 
         client.getConfiguration().setHttpClientFactory(new BasicAuthHttpClientFactory(datasourceObject.getUser(), datasourceObject.getPassword()));
@@ -256,6 +258,15 @@ public class ODataQueryService implements IQueryService, Serializable {
         String entitySet = queryObject.getView();
         URI uri 	 	 = client.newURIBuilder(uriRoot).appendEntitySetSegment(entitySet).filter(queryObject.getString()).build();
 
+        String result = cache.get(uri.toString());
+        if (result != null) {
+        	JsonParser parser = new JsonParser();
+        
+        	return parser.parse(result).getAsJsonArray();
+        }
+        
+        Utilities.remotePrint(uri.toString());
+        
         ODataRawRequest request = client.getRetrieveRequestFactory().getRawRequest(uri);
         request.setAccept("application/json");
         request.setContentType("application/json;odata.metadata=full");
@@ -270,6 +281,7 @@ public class ODataQueryService implements IQueryService, Serializable {
 	        JsonParser parser = new JsonParser();
 	        JsonObject obj    = parser.parse(jsonString).getAsJsonObject();
 	        resultSet 		  = obj.get("value").getAsJsonArray();
+	        cache.put(uri.toString(), resultSet.toString());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

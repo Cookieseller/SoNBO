@@ -1,12 +1,10 @@
 package uniko.iwvi.fgbas.magoetz.sbo;
 
 import java.io.Serializable;
-import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -24,7 +22,7 @@ import uniko.iwvi.fgbas.magoetz.sbo.objects.SortAttribute;
 import uniko.iwvi.fgbas.magoetz.sbo.services.ConfigService;
 import uniko.iwvi.fgbas.magoetz.sbo.services.ConnectionsService;
 import uniko.iwvi.fgbas.magoetz.sbo.services.NodeService;
-import uniko.iwvi.fgbas.magoetz.sbo.services.QueryServiceFactory;
+import uniko.iwvi.fgbas.magoetz.sbo.services.ui.FilterService;
 import uniko.iwvi.fgbas.magoetz.sbo.util.Texts;
 
 /**
@@ -49,9 +47,7 @@ public class SoNBOManager implements Serializable {
 
     private SortAttribute sortAttribute;
 
-    private List<Filter> filters = new ArrayList<Filter>();
-
-    private AtomicLong idCounter = new AtomicLong();
+    public final FilterService filterService = new FilterService();
 
     private ConfigService configService = new ConfigService();
 
@@ -84,7 +80,7 @@ public class SoNBOManager implements Serializable {
         selectedNode            = nodeService.getNode(objectId, nodeType, false);
         adjacentNodeList        = nodeService.getAdjacentNodes(selectedNode);
     }
-
+    
     /**
      * Get all adjacencies to a node by the given type. NodeTypeCategory all or empty means all adjacencies
      * regardless of type.
@@ -290,6 +286,7 @@ public class SoNBOManager implements Serializable {
      */
     public List<Node> getFilteredNodeList(List<Node> nodeList) {
 
+    	List<Filter> filters = filterService.getFilters();
         if (filters.size() <= 0) {
             return nodeList;
         }
@@ -342,80 +339,12 @@ public class SoNBOManager implements Serializable {
     }
 
     /**
-     *
-     * @param filterType
-     * @param attributeName
-     * @param attributeDatatype
-     * @param attributeList
-     */
-    public void addFilter(String filterType, String attributeName, String attributeDatatype, List<String> attributeList) {
-        String filterId = String.valueOf(this.idCounter.getAndIncrement());
-        Filter filter = new Filter(filterId);
-        filter.setFilterType(Boolean.valueOf(filterType));
-        filter.setAttributeName(attributeName);
-        filter.setAttributeDatatype(attributeDatatype);
-        filter.setAttributeList(attributeList);
-        this.filters.add(filter);
-    }
-
-    /**
-     *
-     * @return
-     */
-    public List<Vector<String>> getFilterList() {
-        List<Vector<String>> filterList = new ArrayList<Vector<String>>();
-        for (Filter filter : this.filters) {
-            Vector<String> vector = new Vector<String>();
-            vector.add(filter.getId());
-            vector.add(filter.getAttributeName());
-            vector.add(filter.getAttributeDatatype());
-            vector.add(filter.getAttributeListAsString());
-            String filterType = filter.isFilterType() ? "" : "!";
-            vector.add(filterType);
-            filterList.add(vector);
-        }
-        return filterList;
-    }
-
-    /**
-     *
-     * @param id
-     */
-    public void removeFilter(String id) {
-        Filter filterToRemove = null;
-        for (Filter filter : this.filters) {
-            if (filter.getId().equals(id)) {
-                filterToRemove = filter;
-            }
-        }
-        if (filterToRemove != null) {
-            this.filters.remove(filterToRemove);
-        }
-    }
-
-    /**
      * Returns a list of all adjacent nodes, based on the currently selected node
      *
      * @return
      */
     public List<Node> getAdjacentNodeList() {
         return adjacentNodeList;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public List<Filter> getFilters() {
-        return filters;
-    }
-
-    /**
-     *
-     * @param filters
-     */
-    public void setFilters(List<Filter> filters) {
-        this.filters = filters;
     }
 
     /**
@@ -450,12 +379,7 @@ public class SoNBOManager implements Serializable {
     	NodeService nodeService = new NodeService();
         Node node = nodeService.getNode(nodeID, nodeType, false);
         
-        nodeService.getEventsForNode(node);
-
-        Map<String, String> map = new LinkedHashMap<String, String>();
-        
-        map.put("2017-06-01", "Lieferanten Bestellung 000054 wurde von Mitarbeiter MRIEDLE erstellt.");
-        
-        return map;
+        Map<String, String> events = nodeService.getEventsForNode(node);
+        return events;
     }
 }

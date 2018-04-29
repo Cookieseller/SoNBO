@@ -13,7 +13,7 @@ soNBOManager.getAdjacentNodeListFilteredByNodeType(nodeTypeCategory == null ? 'a
 	</xp:this.dataContexts>
 	<xp:panel styleClass="sbo-filter-indicator">
 		<xp:label value="#{javascript: '(Filters applied: ' + filteredNodeList.size() + ' from ' + nodeListFilteredByNodeType.size() + ' results)'}" id="label1">
-			<xp:this.rendered><![CDATA[#{javascript:soNBOManager.getFilters().size() > 0;}]]></xp:this.rendered>
+			<xp:this.rendered><![CDATA[#{javascript:soNBOManager.filterService.hasFilters();}]]></xp:this.rendered>
 		</xp:label>
 	</xp:panel>
 	<xp:panel styleClass="sbo-object-preview-container"

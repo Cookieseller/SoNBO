@@ -34,7 +34,7 @@
 				<xp:panel id="activefilterarea"
 					styleClass="sbo-filter-activefilterarea">
 					<xp:repeat var="filter"
-						value="#{javascript:soNBOManager.getFilterList();}">
+						value="#{javascript:soNBOManager.filterService.getFilterList();}">
 						<div>
 							<ol>
 								<li>
@@ -66,7 +66,7 @@
 											<xp:this.action><![CDATA[#{javascript:var link:com.ibm.xsp.component.xp.XspOutputLink = this.getParent();
 		var attrList:java.util.List = link.getAttrs();
 		var attr:com.ibm.xsp.complex.Attr = attrList.get(0); 
-		soNBOManager.removeFilter(attr.getValue());												}]]>
+		soNBOManager.filterService.remove(attr.getValue());												}]]>
 											</xp:this.action>
 											<xp:this.onComplete><![CDATA[enableDesign()]]></xp:this.onComplete>
 										</xp:eventHandler>
@@ -147,7 +147,7 @@
 			valueItems = new java.util.ArrayList();
 		}
 		var valueItemList:util.java.List = java.util.Arrays.asList(valueItems);
-		soNBOManager.addFilter(filterType, filterKeyAttrArray[0], filterKeyAttrArray[1], valueItemList);}]]></xp:this.action>
+		soNBOManager.filterService.add(filterType, filterKeyAttrArray[0], filterKeyAttrArray[1], valueItemList);}]]></xp:this.action>
 					<xp:this.onComplete><![CDATA[enableDesign()]]></xp:this.onComplete>
 					</xp:eventHandler>
 				</xp:button>
