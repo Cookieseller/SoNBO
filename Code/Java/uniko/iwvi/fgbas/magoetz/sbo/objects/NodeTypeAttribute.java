@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.Locale;
 import java.util.Vector;
 
-import uniko.iwvi.fgbas.magoetz.sbo.services.QueryService;
+import uniko.iwvi.fgbas.magoetz.sbo.database.QueryService;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;

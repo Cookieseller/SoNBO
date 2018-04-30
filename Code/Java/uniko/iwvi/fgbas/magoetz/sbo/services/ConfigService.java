@@ -9,6 +9,8 @@ import java.util.Vector;
 import lotus.domino.Document;
 import lotus.domino.DocumentCollection;
 import lotus.domino.NotesException;
+import uniko.iwvi.fgbas.magoetz.sbo.database.NotesDB;
+import uniko.iwvi.fgbas.magoetz.sbo.database.QueryService;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.Datasource;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.NodeType;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.NodeTypeAttribute;
@@ -21,7 +23,7 @@ public class ConfigService implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private ConfigQueryService configQueryService = new ConfigQueryService();
+    private NotesDB configQueryService = new NotesDB();
     
     private QueryService queryService = new QueryService();
 

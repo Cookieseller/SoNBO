@@ -11,6 +11,7 @@ import java.util.Vector;
 import lotus.domino.Document;
 import lotus.domino.DocumentCollection;
 import lotus.domino.NotesException;
+import uniko.iwvi.fgbas.magoetz.sbo.database.OData;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.Datasource;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.Node;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.NodeType;
@@ -26,7 +27,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.ibm.java.diagnostics.collector.Util;
 
 public class NodeService implements Serializable {
 
@@ -34,7 +34,7 @@ public class NodeService implements Serializable {
 
     private ConfigService configService = new ConfigService();
 
-    private ODataQueryService queryService = new ODataQueryService();
+    private OData queryService = new OData();
 
     /**
      * Returns a node matching the given id and type
@@ -390,7 +390,6 @@ public class NodeService implements Serializable {
     * @param sourceNodeId
     * @return
     */
-   @SuppressWarnings("unchecked")
    private ArrayList<JsonObject> retrieveEventObjects(Datasource datasourceObject, Query queryObject, String sourceNodeId) {
 	   JsonArray result = queryService.executeQuery(datasourceObject, queryObject);
 	   ArrayList<JsonObject> objects = new ArrayList<JsonObject>();
@@ -401,6 +400,12 @@ public class NodeService implements Serializable {
        return objects;
    }
    
+   /**
+    * 
+    * @param displayText
+    * @param eventObjects
+    * @return
+    */
    private String replaceDisplayTextWithValues(String displayText, ArrayList<JsonObject> eventObjects) {
 	   ArrayList<String> tokenList = Utilities.getTokenList(displayText);
        Map<String, String> replaceAttributesMap = new HashMap<String, String>();
@@ -418,45 +423,4 @@ public class NodeService implements Serializable {
        
        return Utilities.replaceTokens(displayText, replaceAttributesMap);
    }
-   
-    /**
-     *
-     * @param datasourceObject
-     * @param queryObject
-     * @param sourceNodeId
-     * @return
-     */
-    @SuppressWarnings("unchecked")
-    private ArrayList<String> retrieveAdjacentNodeIDs(Datasource datasourceObject, Query queryObject, String sourceNodeId) {
-
-        DocumentCollection resultCollectionAdjacentNodesIDs = queryService.executeQueryFTSearch(datasourceObject, queryObject);
-        // get targetObjectIdKeys
-        List<String> targetNodeIdKeys = queryObject.getKey();
-        // extract object IDs from resultCollection
-        ArrayList<String> adjacentNodeIds = new ArrayList<String>();
-        if (resultCollectionAdjacentNodesIDs != null) {
-            try {
-                for (int i = 1; i <= resultCollectionAdjacentNodesIDs.getCount(); i++) {
-                    Document doc = resultCollectionAdjacentNodesIDs.getNthDocument(i);
-                    //System.out.println(doc.generateXML());
-                    for (String targetNodeIdKey : targetNodeIdKeys) {
-                        // expect multiple values
-                        Vector<String> nodeIds = (Vector<String>) doc.getItemValue(targetNodeIdKey);
-                        for (String nodeId : nodeIds) {
-                            // add to peer object id list if it is not the object id itself
-                            if (!nodeId.equals(sourceNodeId)) {
-                                adjacentNodeIds.add(nodeId);
-                            }
-                        }
-                    }
-                }
-            } catch (NotesException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        } else {
-            System.out.println("Result of query to get adjacentNodeIDs of is null.");
-        }
-        return adjacentNodeIds;
-    }
 }

@@ -9,7 +9,16 @@ public class CacheService implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
-    private final BeanCache cache = (BeanCache)ExtLibUtil.resolveVariable(FacesContext.getCurrentInstance(), "queryCache");
+    private final BeanCache cache;
+    
+    /**
+     * Pass in the cache to use, currently there is only a query cache but this might be expanded
+     *
+     * @param cache
+     */
+    public CacheService(String cache) {
+    	this.cache = (BeanCache)ExtLibUtil.resolveVariable(FacesContext.getCurrentInstance(), cache);
+    }
     
     public String get(String key) {
     	if (cache.contains(key)) {

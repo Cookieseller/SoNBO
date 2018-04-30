@@ -7,8 +7,6 @@ import java.util.AbstractMap.SimpleEntry;
 
 import org.joda.time.DateTime;
 
-import uniko.iwvi.fgbas.magoetz.sbo.util.Utilities;
-
 public class BeanCache implements Serializable {
 
     private static final long serialVersionUID = 1L;
