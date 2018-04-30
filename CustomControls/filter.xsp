@@ -4,7 +4,7 @@
 	<xp:this.dataContexts>
 		<xp:dataContext var="adjacentNodeKeyItemsFilter">
 			<xp:this.value><![CDATA[#{javascript:		
-		var listAdjacentNodeAttributes:java.util.List = soNBOManager.getAdjacentNodeFilterableAttributes(context.getLocale());
+		var listAdjacentNodeAttributes:java.util.List = soNBOManager.adjacencyService.getAdjacentNodeFilterableAttributes(context.getLocale());
 		var newItemList:java.util.List = new java.util.ArrayList();
 		for(var i=0;i<listAdjacentNodeAttributes.size();i++) {
 			var vItem:java.util.Vector = listAdjacentNodeAttributes.get(i);
@@ -118,7 +118,8 @@
 					var filterKeyAttrArray = ["", ""];
 				}
 			}
-			var resultList:java.util.List = soNBOManager.getAdjacentNodeAttributeValues(filterKeyAttrArray[0], filterKeyAttrArray[1]);
+			var node = soNBOManager.getSelectedNode();
+			var resultList:java.util.List = soNBOManager.adjacencyService.getAdjacentNodeAttributeValues(node, filterKeyAttrArray[0], filterKeyAttrArray[1]);
 			return resultList.toArray().sort();
 						}]]></xp:this.value>
 					</xp:selectItems>

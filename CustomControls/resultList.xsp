@@ -5,7 +5,7 @@
 		<xp:dataContext var="nodeListFilteredByNodeType">
 			<xp:this.value><![CDATA[#{javascript:var nodeType = viewScope.get('nodeType');
 var nodeTypeCategory = viewScope.get('nodeTypeCategory');
-soNBOManager.getAdjacentNodeListFilteredByNodeType(nodeTypeCategory == null ? 'all' : nodeTypeCategory, nodeType == null ? 'all' : nodeType);}]]></xp:this.value>
+soNBOManager.adjacencyService.getAdjacentNodeListFilteredByNodeType(nodeTypeCategory == null ? 'all' : nodeTypeCategory, nodeType == null ? 'all' : nodeType);}]]></xp:this.value>
 		</xp:dataContext>
 		<xp:dataContext var="filteredNodeList">
 			<xp:this.value><![CDATA[#{javascript:soNBOManager.getfilterAndSortedNodeList(nodeListFilteredByNodeType);}]]></xp:this.value>
@@ -20,7 +20,7 @@ soNBOManager.getAdjacentNodeListFilteredByNodeType(nodeTypeCategory == null ? 'a
 		id="resultList">
 		<!-- List peer objects filtered by certain criteria (relationship, filter) -->
 		<xp:repeat id="repeat1" var="adjacentNode"
-			value="#{filteredNodeList}" disableOutputTag="true" rows="${javascript: soNBOManager.getAdjacentNodeListFilteredByCategory('all').size().toString()}">
+			value="#{filteredNodeList}" disableOutputTag="true" rows="${javascript: soNBOManager.adjacencyService.getAdjacentNodeListFilteredByCategory('all').size().toString()}">
 			<xc:nodePreview />
 		</xp:repeat>
 	</xp:panel>

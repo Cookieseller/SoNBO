@@ -11,7 +11,6 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.Vector;
-import java.util.concurrent.atomic.AtomicLong;
 
 import javax.faces.context.FacesContext;
 
@@ -22,6 +21,7 @@ import uniko.iwvi.fgbas.magoetz.sbo.objects.SortAttribute;
 import uniko.iwvi.fgbas.magoetz.sbo.services.ConfigService;
 import uniko.iwvi.fgbas.magoetz.sbo.services.ConnectionsService;
 import uniko.iwvi.fgbas.magoetz.sbo.services.NodeService;
+import uniko.iwvi.fgbas.magoetz.sbo.services.ui.AdjacencyService;
 import uniko.iwvi.fgbas.magoetz.sbo.services.ui.FilterService;
 import uniko.iwvi.fgbas.magoetz.sbo.util.Texts;
 
@@ -43,13 +43,11 @@ public class SoNBOManager implements Serializable {
 
     public Node selectedNode;
 
-    private List<Node> adjacentNodeList;
-
     private SortAttribute sortAttribute;
 
     public final FilterService filterService = new FilterService();
-
-    private ConfigService configService = new ConfigService();
+    
+    public final AdjacencyService adjacencyService;
 
     private Texts texts;
 
@@ -78,87 +76,43 @@ public class SoNBOManager implements Serializable {
         texts                   = new Texts(locale);
         NodeService nodeService = new NodeService();
         selectedNode            = nodeService.getNode(objectId, nodeType, false);
-        adjacentNodeList        = nodeService.getAdjacentNodes(selectedNode);
+        
+        adjacencyService = new AdjacencyService(selectedNode);
+        //TODO do this different
+        adjacencyService.getAdjacentNodes(selectedNode);
     }
     
     /**
-     * Get all adjacencies to a node by the given type. NodeTypeCategory all or empty means all adjacencies
-     * regardless of type.
-     * 
-     * @param nodeTypeCategory
-     * @return
-     */
-    public List<String> getNodeAdjacencyNamesByCategory(String nodeTypeCategory) {
-        List<String> nodeAdjacencies = new ArrayList<String>();
-        
-        if (nodeTypeCategory.equals("all") || nodeTypeCategory.equals("")) {
-            for (String nodeTypeCategoryName : selectedNode.getNodeTypeCategories()) {
-                List<String> nodeTypes = configService.getAllNodeTypeNamesByCategory(nodeTypeCategoryName);
-                nodeAdjacencies.addAll(nodeTypes);
-            }
-        } else {
-            nodeAdjacencies = configService.getAllNodeTypeNamesByCategory(nodeTypeCategory);
-        }
-
-        return nodeAdjacencies;
-    }
-
-    /**
-     * Load all attributes for adjacent nodes
+     * Return the currently selected Node
      *
      * @return
      */
-    private List<NodeTypeAttribute> getAdjacentNodeAttributes() {
-        List<NodeTypeAttribute> adjacentNodesAttributes = new ArrayList<NodeTypeAttribute>();
-
-        for (Node adjacentNode : this.adjacentNodeList) {
-            List<NodeTypeAttribute> adjacentNodeAttributeList = adjacentNode.getAttributeList();
-            adjacentNodesAttributes.addAll(adjacentNodeAttributeList);
-        }
-        return adjacentNodesAttributes;
+    public Node getSelectedNode() {
+    	return selectedNode;
     }
+    
+	/**
+	 * Get all adjacencies to a node by the given type. NodeTypeCategory all or empty means all adjacencies regardless
+	 * of type.
+	 * 
+	 * @param nodeTypeCategory
+	 * @return
+	 */
+	public List<String> getNodeAdjacencyNamesByCategory(String nodeTypeCategory) {
+		List<String> nodeAdjacencies = new ArrayList<String>();
+		ConfigService configService = new ConfigService();
+		
+		if (nodeTypeCategory.equals("all") || nodeTypeCategory.equals("")) {
+			for (String nodeTypeCategoryName : selectedNode.getNodeTypeCategories()) {
+				List<String> nodeTypes = configService.getAllNodeTypeNamesByCategory(nodeTypeCategoryName);
+				nodeAdjacencies.addAll(nodeTypes);
+			}
+		} else {
+			nodeAdjacencies = configService.getAllNodeTypeNamesByCategory(nodeTypeCategory);
+		}
 
-    /**
-     * TODO rename, we don't load the actual attributes but a set of vectors containing strings of attributes
-     *
-     * Returns vector list of (unique) adjacent nodes attributes (attributeName translated)
-     *
-     * @param locale
-     * @return
-     */
-    public List<Vector<String>> getAdjacentNodeAttributes(Locale locale) {
-
-        Set<Vector<String>> adjacentNodeAttributeNames = new HashSet<Vector<String>>();
-        List<NodeTypeAttribute> attributeList = getAdjacentNodeAttributes();
-
-        for (NodeTypeAttribute attribute : attributeList) {
-            adjacentNodeAttributeNames.add(attribute.getAttributesForPreview(locale));
-        }
-
-        List<Vector<String>> adjacentNodeAttributeList = new ArrayList<Vector<String>>(adjacentNodeAttributeNames);
-        return sortVectorList(adjacentNodeAttributeList, 2);
-    }
-
-    /**
-     * Returns a list of vectors of (unique) adjacent node attributes, which are filterable (attributeName translated)
-     *
-     * @param locale
-     * @return
-     */
-    public List<Vector<String>> getAdjacentNodeFilterableAttributes(Locale locale) {
-        Set<Vector<String>> adjacentNodeAttributeNames = new HashSet<Vector<String>>();
-        List<NodeTypeAttribute> attributeList = getAdjacentNodeAttributes();
-
-        for (NodeTypeAttribute attribute : attributeList) {
-            if (attribute.isFilterable()) {
-                adjacentNodeAttributeNames.add(attribute.getAttributesForPreview(locale));
-            }
-        }
-
-        List<Vector<String>> adjacentNodeAttributeList = new ArrayList<Vector<String>>(adjacentNodeAttributeNames);
-
-        return sortVectorList(adjacentNodeAttributeList, 2);
-    }
+		return nodeAdjacencies;
+	}
 
     /**
      * Sorts list of vectors alphabetically after specified vector item (int) and returns list
@@ -178,83 +132,6 @@ public class SoNBOManager implements Serializable {
             }
         });
         return list;
-    }
-
-    /**
-     * Returns vector list of (unique) adjacent nodes attribute values of type string
-     *
-     * @param attributeName
-     * @param attributDatatype
-     * @return
-     */
-    public List<String> getAdjacentNodeAttributeValues(String attributeName, String attributDatatype) {
-        Set<String> attributeValues = new HashSet<String>();
-        for (Node adjacentNode : this.adjacentNodeList) {
-            String attributeValue = adjacentNode.getAttributeValueAsString(attributeName);
-            if (attributeValue != null) {
-                attributeValues.add(attributeValue);
-            }
-        }
-        return new ArrayList<String>(attributeValues);
-    }
-
-    /**
-     * Filtered by NodeTypeCategory
-     *
-     * @param nodeTypeCategory
-     * @return
-     */
-    public List<Node> getAdjacentNodeListFilteredByCategory(String nodeTypeCategory) {
-
-        List<Node> adjacentNodeListFilteredByCategory = new ArrayList<Node>();
-
-        if (nodeTypeCategory.equals("all") || nodeTypeCategory.equals("")) {
-            return this.adjacentNodeList;
-        } else {
-            for (Node adjacentNode : adjacentNodeList) {
-                if (adjacentNode.getNodeTypeCategory().equals(nodeTypeCategory)) {
-                    adjacentNodeListFilteredByCategory.add(adjacentNode);
-                }
-            }
-        }
-        return adjacentNodeListFilteredByCategory;
-    }
-
-    /**
-     * Filtered by NodeType
-     *
-     * @param nodeTypeCategory
-     * @param nodeType
-     * @return
-     * @throws Exception
-     */
-    public List<Node> getAdjacentNodeListFilteredByNodeType(String nodeTypeCategory, String nodeType) throws Exception {
-
-        List<Node> adjacentNodeListFilteredByNodeType = new ArrayList<Node>();
-        boolean nodeTypeAll         = nodeType.equals("all") || nodeType.equals("");
-        boolean nodeTypeCategoryAll = nodeTypeCategory.equals("all") || nodeTypeCategory.equals("");
-
-        if (nodeTypeCategoryAll && nodeTypeAll) {
-            return adjacentNodeList;
-        }
-
-        if (!nodeTypeCategoryAll && nodeTypeAll) {
-            List<String> nodeTypes = this.configService.getAllNodeTypeNamesByCategory(nodeTypeCategory);
-
-            for (Node adjacentNode : adjacentNodeList) {
-                if (nodeTypes.contains(adjacentNode.getNodeType())) {
-                    adjacentNodeListFilteredByNodeType.add(adjacentNode);
-                }
-            }
-        } else {
-            for (Node adjacentNode : adjacentNodeList) {
-                if (adjacentNode.getNodeType().equals(nodeType)) {
-                    adjacentNodeListFilteredByNodeType.add(adjacentNode);
-                }
-            }
-        }
-
-        return adjacentNodeListFilteredByNodeType;
     }
 
     /**
@@ -336,15 +213,6 @@ public class SoNBOManager implements Serializable {
         sortAttribute.setAttributeName(attributeVector.firstElement());
         sortAttribute.setDatatype(attributeVector.lastElement());
         this.sortAttribute = sortAttribute;
-    }
-
-    /**
-     * Returns a list of all adjacent nodes, based on the currently selected node
-     *
-     * @return
-     */
-    public List<Node> getAdjacentNodeList() {
-        return adjacentNodeList;
     }
 
     /**

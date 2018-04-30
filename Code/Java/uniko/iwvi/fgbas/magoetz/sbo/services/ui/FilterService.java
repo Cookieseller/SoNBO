@@ -2,11 +2,15 @@ package uniko.iwvi.fgbas.magoetz.sbo.services.ui;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.Vector;
 import java.util.concurrent.atomic.AtomicLong;
 
 import uniko.iwvi.fgbas.magoetz.sbo.objects.Filter;
+import uniko.iwvi.fgbas.magoetz.sbo.objects.Node;
+import uniko.iwvi.fgbas.magoetz.sbo.services.NodeService;
 
 public class FilterService implements Serializable{
 	
@@ -81,5 +85,26 @@ public class FilterService implements Serializable{
 		if (filterToRemove != null) {
 			this.filters.remove(filterToRemove);
 		}
+	}
+	
+	/**
+	 * Return all selectable values for a given Attribute.
+	 * Selectable values are determined by the attribute values of adjacent nodes
+	 * 
+	 * @return
+	 */
+	public List<String> getValuesForAttribute(Node node, String attributeName, String attributDatatype) {
+		AdjacencyService adjacencyService = new AdjacencyService();
+
+		List<Node> adjacentNodes = adjacencyService.getAdjacentNodeList(node);
+
+		Set<String> attributeValues = new HashSet<String>();
+		for (Node adjacentNode : adjacentNodes) {
+			String attributeValue = adjacentNode.getAttributeValueAsString(attributeName);
+			if (attributeValue != null) {
+				attributeValues.add(attributeValue);
+			}
+		}
+		return new ArrayList<String>(attributeValues);
 	}
 }

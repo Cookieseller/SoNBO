@@ -319,6 +319,7 @@ public class NodeService implements Serializable {
      */
     private ArrayList<NodeTypeEvent> getNodeTypeEventQueries(String nodeType) {
         ArrayList<String> eventIds = queryService.getFieldValues("(nodeTypeEvents)", nodeType, "eventID");
+        Utilities.remotePrint(nodeType);
         Utilities.remotePrint(Utilities.ListToString(eventIds));
         ArrayList<NodeTypeEvent> events = new ArrayList<NodeTypeEvent>();
         

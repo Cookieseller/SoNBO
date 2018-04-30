@@ -4,7 +4,7 @@
 	<xp:this.dataContexts>
 		<xp:dataContext var="adjacentNodeKeyItemsSort">
 			<xp:this.value><![CDATA[#{javascript:		
-		var listAdjacentNodeAttributes:java.util.List = soNBOManager.getAdjacentNodeAttributes(context.getLocale());
+		var listAdjacentNodeAttributes:java.util.List = soNBOManager.adjacencyService.getAdjacentNodeAttributes(context.getLocale());
 		var newItemList:java.util.List = new java.util.ArrayList();
 		for(var i=0;i<listAdjacentNodeAttributes.size();i++) {
 			var vItem:java.util.Vector = listAdjacentNodeAttributes.get(i);
