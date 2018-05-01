@@ -28,6 +28,16 @@ public class ConfigService implements Serializable {
     private QueryService queryService = new QueryService();
 
     /**
+     * Check if a config entry for a given node type exists
+     *
+     * @param nodeTypeName
+     * @return
+     */
+    public boolean nodeConfigExists(String nodeTypeName) {
+    	return configQueryService.getJsonObject("nodeTypes", nodeTypeName, "nodeTypeJSON") != null;
+    }
+    
+    /**
      * Return NodeType by it's name
      *
      * @param nodeTypeName
@@ -35,7 +45,7 @@ public class ConfigService implements Serializable {
      * 
      * @throws NotesException 
      */
-    public NodeType getNodeTypeByName(String nodeTypeName) throws NotesException {
+    public NodeType getNodeTypeByName(String nodeTypeName) {
 
         // TODO: check if object type exists
     	JsonObject jsonNodeType 					= configQueryService.getJsonObject("nodeTypes", nodeTypeName, "nodeTypeJSON");
@@ -112,12 +122,7 @@ public class ConfigService implements Serializable {
             if (nodeTypeName.equals("NOT DETERMINABLE")) {
                 return null;
             } else {
-        		try {
-					resultNodeType = this.getNodeTypeByName(nodeTypeName);
-				} catch (NotesException e) {
-					e.printStackTrace();
-					resultNodeType = null;
-				}	
+        		resultNodeType = this.getNodeTypeByName(nodeTypeName);	
             }
         }
 
@@ -137,12 +142,8 @@ public class ConfigService implements Serializable {
         ArrayList<String> nodeTypes = configQueryService.getColumnValues("nodeTypes", 0);
         ArrayList<NodeType> nodeTypeList = new ArrayList<NodeType>();
         for (String nodeType : nodeTypes) {
-            try {
-            	NodeType node = this.getNodeTypeByName(nodeType);
-				nodeTypeList.add(node);
-			} catch (NotesException e) {
-				e.printStackTrace();
-			}
+            NodeType node = this.getNodeTypeByName(nodeType);
+			nodeTypeList.add(node);
         }
         // search for node with id and return node type
         for (NodeType nodeType : nodeTypeList) {

@@ -164,8 +164,6 @@ public class NotesDB implements IQueryService, Serializable {
      * @param key
      * @param returnField
      * @return
-     * 
-     * @throws NotesException
      */
     public JsonObject getJsonObject(String view, String key, String returnField) {
         ArrayList<JsonObject> jsonObjects = getJsonObjects(view, key, returnField);

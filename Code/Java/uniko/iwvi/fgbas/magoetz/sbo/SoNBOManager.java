@@ -11,7 +11,6 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.Vector;
-import java.util.concurrent.atomic.AtomicLong;
 
 import javax.faces.context.FacesContext;
 
@@ -24,6 +23,7 @@ import uniko.iwvi.fgbas.magoetz.sbo.services.ConnectionsService;
 import uniko.iwvi.fgbas.magoetz.sbo.services.NodeService;
 import uniko.iwvi.fgbas.magoetz.sbo.services.ui.FilterService;
 import uniko.iwvi.fgbas.magoetz.sbo.util.Texts;
+import uniko.iwvi.fgbas.magoetz.sbo.util.Utilities;
 
 /**
  * SoNBOManager is a view bean, implementing the backend interface for the main XPage.
@@ -61,10 +61,11 @@ public class SoNBOManager implements Serializable {
      */
     public void init(Locale locale) throws Exception {
 
+    	Utilities.remotePrint("Init");
+    	
         if (objectId == null) {
             ConnectionsService connectionsService = new ConnectionsService("connectionsSSO");
             objectId = connectionsService.getUserEmail();
-            objectId = "MRIEDLE";
         }
 
         if (nodeTypeCategoryName == null) {

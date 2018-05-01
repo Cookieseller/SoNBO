@@ -6,10 +6,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Vector;
 
-import lotus.domino.Document;
-import lotus.domino.DocumentCollection;
 import lotus.domino.NotesException;
 import uniko.iwvi.fgbas.magoetz.sbo.database.OData;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.Datasource;
@@ -46,32 +43,28 @@ public class NodeService implements Serializable {
      */
     public Node getNode(String id, String nodeType, boolean nodePreview) {
 
-        NodeType configObject = null;
-		try {
-			configObject = configService.getNodeTypeByName(nodeType);
-		} catch (NotesException e) {
-		}
-        if (configObject == null) {
-            System.out.println("No configuration document found for id: " + id);
-
-            return null;
+    	Utilities.remotePrint("GetNode");
+    	
+        if (!configService.nodeConfigExists(nodeType)) {
+        	return null;
         }
+
+        NodeType nodeTypeConfig 			= configService.getNodeTypeByName(nodeType);
+        List<String> nodeTypeCategories 	= configService.getAllNodeTypeCategoryNames();
+        NodeTypeCategory nodeTypeCategory 	= configService.getNodeTypeCategoryByName(nodeTypeConfig.getNodeTypeCategory());
 
         Node node = new Node();
         node.setId(id);
-        
-        List<String> nodeTypeCategories = configService.getAllNodeTypeCategoryNames();
         node.setNodeTypeCategories(nodeTypeCategories);
-
-        //NodeType configObject = configService.getConfigurationObject(objectName);
-        node.setNodeType(configObject.getNodeTypeName());
-        node.setNodeTypeCategory(configObject.getNodeTypeCategory());
-
-        NodeTypeCategory nodeTypeCategory = configService.getNodeTypeCategoryByName(node.getNodeTypeCategory());
+        node.setNodeType(nodeTypeConfig.getNodeTypeName());
+        node.setNodeTypeCategory(nodeTypeConfig.getNodeTypeCategory());
         node.setNodeImage(nodeTypeCategory.getDefaultImage());
+
+        List<NodeTypeAttribute> nodeTypeAttributes = nodeTypeConfig.getNodeTypeAttributes();
+
+        String attributeId = nodeTypeConfig.getNodeTypeId();
         
-        List<NodeTypeAttribute> nodeTypeAttributes = configObject.getNodeTypeAttributes();
-        String attributeId = configObject.getNodeTypeId();
+        // TODO this should be done better
         NodeTypeAttribute idAttribute = null;
         for (NodeTypeAttribute attribute : nodeTypeAttributes) {
         	if (attribute.getName().equals(attributeId)) {
@@ -79,27 +72,37 @@ public class NodeService implements Serializable {
         		break;
         	}
         }
-        
+
         idAttribute.setValue(id);
         node.addAttribute(idAttribute);
         nodeTypeAttributes.remove(idAttribute);
-        
-        if (nodePreview) {
-            nodeTypeAttributes = configObject.getPreviewAndFilterableConfigurationNodeAttributes();
-        }
-        ArrayList<QueryResult> queryResultList = getNodeAttributes(nodeTypeAttributes, node, nodePreview);
 
-        String nodeTypeTitleAttrName = configObject.getNodeTypeTitle();
+        if (nodePreview) {
+            nodeTypeAttributes = nodeTypeConfig.getPreviewAndFilterableConfigurationNodeAttributes();
+        }
+        ArrayList<QueryResult> queryResultList = getNodeAttributeQueries(nodeTypeAttributes, node, nodePreview);
+        
+        String nodeTypeTitleAttrName = nodeTypeConfig.getNodeTypeTitle();
         node = loadAttributes(node, nodeTypeAttributes, nodeTypeTitleAttrName, queryResultList, nodePreview);
 
+        Utilities.remotePrint("/GetNode");
         return node;
     }
-    
+
+    /**
+     * 
+     * @param jsonNode
+     * @param nodeType
+     * @return
+     */
     private Node jsonToNode(JsonObject jsonNode, NodeType nodeType) {
     	Node node = new Node();
     	List<String> nodeTypeCategories = configService.getAllNodeTypeCategoryNames();
     	
-        node.setId(jsonNode.get(nodeType.getNodeTypeId()).getAsString());
+    	
+    	Utilities.remotePrint(jsonNode.toString());
+    	Utilities.remotePrint(nodeType.getNodeTypeId());
+        node.setId(jsonNode.get(nodeType.getNodeTypeIdAttribute().getFieldname()).getAsString());
         node.setNodeTypeCategories(nodeTypeCategories);
         node.setNodeType(nodeType.getNodeTypeName());
         node.setNodeTypeCategory(nodeType.getNodeTypeCategory());
@@ -119,13 +122,13 @@ public class NodeService implements Serializable {
     
     private List<NodeTypeAttribute> extractAttributesFromJson(JsonObject jsonNode, NodeType nodeType) {
     	List<NodeTypeAttribute> nodeTypeAttributes = nodeType.getPreviewAndFilterableConfigurationNodeAttributes();
-    	
+
     	Node node = new Node();
     	for (NodeTypeAttribute attribute : nodeTypeAttributes) {
     		attribute.setValue(jsonNode.get(attribute.getFieldname()).getAsString());
     		node.addAttribute(attribute);
     	}
-    	
+
     	return nodeTypeAttributes;
     }
 
@@ -138,7 +141,7 @@ public class NodeService implements Serializable {
      * @return
      * @throws Exception 
      */
-    private ArrayList<QueryResult> getNodeAttributes(List<NodeTypeAttribute> nodeTypeAttributes, Node node, boolean nodePreview) {
+    private ArrayList<QueryResult> getNodeAttributeQueries(List<NodeTypeAttribute> nodeTypeAttributes, Node node, boolean nodePreview) {
 
         ArrayList<QueryResult> queryResultList = new ArrayList<QueryResult>();
 
@@ -146,8 +149,7 @@ public class NodeService implements Serializable {
 
             String datasource = nodeTypeAttribute.getDatasource();
             String query = nodeTypeAttribute.getQuery();
-            
-            
+
             // TODO attributes may come from different queries or even datasources
             QueryResult queryResult = new QueryResult(datasource, query);
 
@@ -157,10 +159,10 @@ public class NodeService implements Serializable {
             if (jsonQueryResultObject == null) {
                 Datasource datasourceObject = queryService.getDatasourceObject(datasource);
                 Query queryObject = queryService.getQueryObject(query);
-                
+
                 String replacedString = createAttributeList(queryObject, node);
                 queryObject.setString(replacedString);
-                
+
                 jsonQueryResultObject = queryService.executeQuery(datasourceObject, queryObject, "");
                 queryResult.setJsonObject(jsonQueryResultObject);
                 queryResultList.add(queryResult);
@@ -183,31 +185,43 @@ public class NodeService implements Serializable {
     private Node loadAttributes(Node businessObject, List<NodeTypeAttribute> nodeTypeAttributes, String nodeTypeTitleAttrName, ArrayList<QueryResult> queryResultList, boolean nodePreview) {
 
         for (NodeTypeAttribute nodeTypeAttribute : nodeTypeAttributes) {
-
             String datasource = nodeTypeAttribute.getDatasource();
             String query = nodeTypeAttribute.getQuery();
             QueryResult queryResult = new QueryResult(datasource, query);
 
             Datasource datasourceObject = queryService.getDatasourceObject(datasource);
             Query queryObject = queryService.getQueryObject(query);
+
+            ArrayList<String> tokenList = Utilities.getTokenList(queryObject.getString());
+            Map<String, String> replaceAttributesMap = new HashMap<String, String>();
+            for (String replaceAttributeKey : tokenList) {
+                String replaceAttributeValue = businessObject.getAttributeValueAsString(replaceAttributeKey);
+                replaceAttributesMap.put(replaceAttributeKey, replaceAttributeValue);
+            }
+            String replacedQuery = Utilities.replaceTokens(queryObject.getString(), replaceAttributesMap);
+            queryObject.setString(replacedQuery);
+
             JsonArray jsonArray = queryService.executeQuery(datasourceObject, queryObject);
+
             if (jsonArray.size() <= 0) {
             	return businessObject;
             }
-            
+
             JsonObject jsonObject = jsonArray.get(0).getAsJsonObject();
             queryResult.setJsonObject(jsonObject);
-  
+
             String name 	  = nodeTypeAttribute.getName();
             String fieldname  = nodeTypeAttribute.getFieldname();
             String value 	  = jsonObject.get(nodeTypeAttribute.getFieldname()).getAsString();
 
+            Utilities.remotePrint("Fieldname: " + nodeTypeAttribute.getFieldname() + " Value: " + value);
+
             try {
                 String valueJson  = new Gson().toJson(value);
-                
+
                 nodeTypeAttribute.setValue(valueJson);
                 businessObject.addAttribute(nodeTypeAttribute);
-                
+
                 /*
                 String titleAttribute = nodeTypeTitleAttrName;
                 if (titleAttribute.equals(name)) {
@@ -216,6 +230,7 @@ public class NodeService implements Serializable {
                 */
             } catch (NullPointerException npe) {
                 System.out.println("Failed loading attribute: " + name + " from field: " + fieldname);
+                Utilities.remotePrint("Failed loading attribute: " + name + " from field: " + fieldname);
             }
         }
 
@@ -229,6 +244,8 @@ public class NodeService implements Serializable {
      * @return List<Node>
      */
     public List<Node> getAdjacentNodes(Node businessObject) {
+    	Utilities.remotePrint("getAdjacentNodes");
+    	
     	ArrayList<Node> nodeList 			 = new ArrayList<Node>();
     	ArrayList<NodeTypeAdjacency> queries = getQueriesForAdjacenctNodes(businessObject.getNodeType());
     	
@@ -240,18 +257,14 @@ public class NodeService implements Serializable {
     		queryObject.setString(queryString);
     		JsonArray jsonArr = queryService.executeQuery(datasource, queryObject);
     		for (JsonElement element : jsonArr) {
-				try {
-					NodeType nodeType = configService.getNodeTypeByName(query.getTargetNode());
-					Node node = jsonToNode(element.getAsJsonObject(), nodeType);
-	    			
-	    			nodeList.add(node);
-				} catch (NotesException e) {
-					e.printStackTrace();
-				}
-    			
+				NodeType nodeType = configService.getNodeTypeByName(query.getTargetNode());
+				Node node = jsonToNode(element.getAsJsonObject(), nodeType);
+				
+				nodeList.add(node);
     		}
     	}
     	
+    	Utilities.remotePrint("/getAdjacentNodes");
     	return nodeList;
     }
 
@@ -266,7 +279,6 @@ public class NodeService implements Serializable {
     	Map<String, String> nodeEvents 				  = new LinkedHashMap<String, String>();
         ArrayList<NodeTypeEvent> nodeTypeEventQueries = getNodeTypeEventQueries(node.getNodeType());
         
-        Utilities.remotePrint(Integer.toString(nodeTypeEventQueries.size()));
         for (NodeTypeEvent event : nodeTypeEventQueries) {
         	Query queryObject = queryService.getQueryObject(event.getQuery());
             
@@ -299,7 +311,6 @@ public class NodeService implements Serializable {
      */
     private ArrayList<NodeTypeAdjacency> getQueriesForAdjacenctNodes(String sourceNodeType) {
         ArrayList<String> adjacencyIds = queryService.getFieldValues("(nodeTypeAdjacenciesSource)", sourceNodeType, "adjacencyId");
-        Utilities.remotePrint(Utilities.ListToString(adjacencyIds));
         ArrayList<NodeTypeAdjacency> adjacencyQueryList = new ArrayList<NodeTypeAdjacency>();
         Gson gson = new Gson();
         for (String adjacencyId : adjacencyIds) {
@@ -319,13 +330,11 @@ public class NodeService implements Serializable {
      */
     private ArrayList<NodeTypeEvent> getNodeTypeEventQueries(String nodeType) {
         ArrayList<String> eventIds = queryService.getFieldValues("(nodeTypeEvents)", nodeType, "eventID");
-        Utilities.remotePrint(Utilities.ListToString(eventIds));
         ArrayList<NodeTypeEvent> events = new ArrayList<NodeTypeEvent>();
         
         Gson gson = new Gson();
         for (String eventId : eventIds) {
         	String eventJson = queryService.getFieldValue("", "", "nodeTypesEvents", eventId, "eventJson");
-        	Utilities.remotePrint(eventJson);
         	NodeTypeEvent nodeTypeEvent = gson.fromJson(eventJson, NodeTypeEvent.class);
         	events.add(nodeTypeEvent);
         }
@@ -344,8 +353,6 @@ public class NodeService implements Serializable {
         String queryString = queryObject.getString();
         ArrayList<String> tokenList = Utilities.getTokenList(queryString);
         
-        Utilities.remotePrint(Utilities.ListToString(tokenList));
-        
         NodeTypeAttribute nodeTypeAttribute = null;
         if (tokenList.size() > 0) {
             String replaceAttrString = tokenList.get(0);
@@ -360,7 +367,6 @@ public class NodeService implements Serializable {
                 if (queryObject.getKeyValueReturnType().equals("getEmailAsNotesUsername")) {
                     replaceAttributeValue = this.queryService.getNotesUsernameByEmail(replaceAttributeValue);
                 }
-                Utilities.remotePrint(replaceAttributeValue);
                 replaceAttributesMap.put(replaceAttributeKey, replaceAttributeValue);
             }
             // replace [key] in string with variable values
@@ -379,7 +385,6 @@ public class NodeService implements Serializable {
                 }
             }
         }
-        Utilities.remotePrint(queryString);
         return queryString;
     }
 

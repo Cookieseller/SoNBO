@@ -248,9 +248,7 @@ public class OData implements IQueryService, Serializable {
     }
 
     public JsonArray executeQuery(Datasource datasourceObject, Query queryObject) {
-    	
     	CacheService cache = new CacheService("queryCache");
-    	
         ODataClient client = ODataClientFactory.getClient();
 
         client.getConfiguration().setHttpClientFactory(new BasicAuthHttpClientFactory(datasourceObject.getUser(), datasourceObject.getPassword()));
@@ -259,14 +257,14 @@ public class OData implements IQueryService, Serializable {
         String entitySet = queryObject.getView();
         URI uri 	 	 = client.newURIBuilder(uriRoot).appendEntitySetSegment(entitySet).filter(queryObject.getString()).build();
 
+        Utilities.remotePrint(uri.toString());
+        
         String result = cache.get(uri.toString());
         if (result != null) {
         	JsonParser parser = new JsonParser();
         
         	return parser.parse(result).getAsJsonArray();
         }
-        
-        Utilities.remotePrint(uri.toString());
         
         ODataRawRequest request = client.getRetrieveRequestFactory().getRawRequest(uri);
         request.setAccept("application/json");
@@ -300,8 +298,6 @@ public class OData implements IQueryService, Serializable {
         String entitySet = queryObject.getView();
         URI uri 	 	 = client.newURIBuilder(uriRoot).appendEntitySetSegment(entitySet).filter(queryObject.getString()).build();
 
-        Utilities.remotePrint("ODataQueryService URI=" + uri.toString());
-        
         ODataRawRequest request = client.getRetrieveRequestFactory().getRawRequest(uri);
         request.setAccept("application/json");
         request.setContentType("application/json;odata.metadata=full");
