@@ -321,7 +321,7 @@ public class NodeService implements Serializable {
         }
         return adjacencyQueryList;
     }
-
+    
     /**
      * Return all NodeTypeEvents for a given node type
      *

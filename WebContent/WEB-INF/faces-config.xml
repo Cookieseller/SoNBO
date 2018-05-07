@@ -16,6 +16,11 @@
     <managed-bean-scope>session</managed-bean-scope>
   </managed-bean>
   <managed-bean>
+    <managed-bean-name>apiService</managed-bean-name>
+    <managed-bean-class>uniko.iwvi.fgbas.magoetz.sbo.services.ActivityStreamUpdateService</managed-bean-class>
+    <managed-bean-scope>request</managed-bean-scope>
+  </managed-bean>
+  <managed-bean>
     <managed-bean-name>connectionsSSO</managed-bean-name>
     <managed-bean-class>
 			com.ibm.sbt.services.endpoints.ConnectionsSSOEndpoint
