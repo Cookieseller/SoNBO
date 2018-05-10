@@ -22,6 +22,8 @@ import org.openntf.Utils;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.Datasource;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.Query;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.QueryResult;
+
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.ibm.xsp.model.domino.DominoUtils;
@@ -454,4 +456,9 @@ public class MSSql implements IQueryService, Serializable {
             throw new RuntimeException(e);
         }
     }
+
+	public JsonArray executeQuery(Datasource datasourceObject, Query queryObject) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

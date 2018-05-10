@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note class='form' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.9'
  replicaid='C125825E00556E6F'>
-<noteinfo noteid='19e' unid='28DC4C001A851C32C12581640041B7A8' sequence='28'>
+<noteinfo noteid='19e' unid='28DC4C001A851C32C12581640041B7A8' sequence='40'>
 <created><datetime dst='true'>20170721T135748,56+02</datetime></created>
-<modified><datetime dst='true'>20180418T220748,53+02</datetime></modified>
-<revised><datetime dst='true'>20180418T220748,52+02</datetime></revised>
-<lastaccessed><datetime dst='true'>20180418T220748,53+02</datetime></lastaccessed>
+<modified><datetime dst='true'>20180509T133505,66+02</datetime></modified>
+<revised><datetime dst='true'>20180509T133505,65+02</datetime></revised>
+<lastaccessed><datetime dst='true'>20180509T133505,66+02</datetime></lastaccessed>
 <addedtofile><datetime dst='true'>20180417T235031,66+02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Mathias Riedle/O=uniko/C=DE</name></updatedby>
 <wassignedby><name>CN=Mathias Riedle/O=uniko/C=DE</name></wassignedby>
@@ -48,12 +48,16 @@ hhgBAIAAAAAAgAAAAQABAP///wAQAAAA
 <rawitemdata type='0'>
 </rawitemdata></item>
 <item name='queryColumnNr' summary='false'><number>0</number></item>
+<item name='querySkip' placeholder='true'>
+<rawitemdata type='0'>
+</rawitemdata></item>
 <item name='queryString' placeholder='true'>
 <rawitemdata type='0'>
 </rawitemdata></item>
-<item name='$Fields'><textlist><text>queryString</text><text>queryColumnNr</text><text
->queryFieldname</text><text>queryKeyValueReturnType</text><text>queryKey</text><text
->queryView</text><text>queryCommand</text><text>queryType</text><text>queryName</text></textlist></item>
+<item name='$Fields'><textlist><text>queryString</text><text>querySkip</text><text
+>queryColumnNr</text><text>queryFieldname</text><text>queryKeyValueReturnType</text><text
+>queryKey</text><text>queryView</text><text>queryCommand</text><text>queryType</text><text
+>queryName</text></textlist></item>
 <item name='$Body' sign='true'>
 <rawitemdata type='1'>
 gQKC/1oAAQAAAAAAAAAAAKAFAACgBQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
@@ -61,7 +65,7 @@ AAAAAAAAAAABAAAAAJSHAAAAAAAAAAAAAAAAAQAAAAQAAACDBAEAhf8kAAEBAAxRdWVyeSBjb25m
 aWd1cmF0aW9uIGZvcm11bGFygQKDBAEAhf8/AAEAAApVc2UgdGhpcyBmb3JtdWxhciB0byBjb25m
 aWd1cmUgYSBuZXcgb3IgZXhpc3RpbmcgcXVlcnkuAIECgwQBAIX/CAABAAAKgQKC/1oAAgAAAAAA
 AAAAAKAFAACgBQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAA
-AJSFAAAAAKAFCgAAAAAAAQAAAAQAAACDBAIA3QYBAPv/+/8sAAAAAAAKBQAAAAAAAAAAAAAAAAAA
+AJSFAAAAAKAFCgAAAAAAAQAAAAQAAACDBAIA3QYBAPv/+/8sAAAAAAALBQAAAAAAAAAAAAAAAAAA
 AAAAAAAAAAABAAAAAAAAAAAAAABc/z4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 AAAADgAAAAAAAAABAAAKAAAAAAEAAAAAAN4GAQD7/6MOoAUoADwAAAAAAAIApBIAAKAFDw4AAFUC
 EREBAQAAgQKC/1oAAwAAAAAAAAAAAK8FDw6vBQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
@@ -170,8 +174,17 @@ ewGuAAoAegCuAAQAtQMDAAcAHgAYAAk2UzdTOFM5UzEwUzE0UzE1UzE2UzE3U3F1ZXJ5U3RyaW5n
 AGIOAQCEAAAAAAAAAAAA3gYAAIr/hf8IAAEAAAqkEgkC9hbdHwAAVQIREQEBAACBAoMEBQCF/xsA
 AQAACklCTSBEb21pbm8gRlRTZWFyY2gApBIJA90fxCgAAFUCEREBAQAAgQKDBAYAhf8IAAEAAAqk
 EgkExCirMQAAVQIREQEBAACBAoMEBwCF/zUAAQAACkZJRUxEIGZkVVBVc2VyTmFtZSBDT05UQUlO
-UyAiW0tvbnRha3RwZXJzb25dIgClBgAAAACBAoMEAQDdBgAAhf+F/wkAAQACCSoA0ggBAP8AAADe
-BgAAhf+F/xEAAQAACSByZXF1aXJlZACBAoMEAQCF/wgAAQAACg==
+UyAiW0tvbnRha3RwZXJzb25dIgCkEgoAoAUPDgAAVQIREQEBAACBAoMEAwCF/wgAAQAACt0GAACt
+/6n/MQAWAAQAAAAlAFF1ZXJ5IHN0cmluZyBmb3IgZnVsbC10ZXh0IHNlYXJjaGVzLgAAhf8SAAEA
+AApRdWVyeSBTa2lwqgLeBgAArgCF/wgAAQAACqQSCgEPDvYWAABVAhERAQEAAIECgwQEAIX/CAAB
+AAAK3QYAAIr//v9QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAeAB4AAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACK/y4AigAABQAwAgAAAAAAAAIBAAAKAAAA
+AAAAAAAJAAAAAABxdWVyeVNraXAAYg4BAIQAAAAAAAAAAADeBgAAiv+F/wgAAQAACqQSCgL2Ft0f
+AABVAhERAQEAAIECgv9aAAkAAAAAAAAAAAAFF90fBRcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAACGAQAAAABUhwAAAAAAAAAAAAAAAAEAAAAEAAAAgwQJAIX/DAAAAAAM
+FCEVIKQSCgPdH8QoAABVAhERAQEAAIECgwQGAIX/CQABAAAKMACkEgoExCirMQAAVQIREQEBAACB
+AoMEBwCF/wwAAQAACjEwMDClBgAAAACBAoMEAQDdBgAAhf+F/wkAAQACCSoA0ggBAP8AAADeBgAA
+hf+F/xEAAQAACSByZXF1aXJlZACBAoMEAQCF/wgAAQAACg==
 </rawitemdata></item>
 <item name='$V5ACTIONS' sign='true'>
 <rawitemdata type='1'>

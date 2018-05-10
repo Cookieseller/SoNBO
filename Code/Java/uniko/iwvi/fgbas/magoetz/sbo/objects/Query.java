@@ -21,6 +21,8 @@ public class Query {
     private int columnNr;
 
     private String string;
+    
+    private String skip;
 
     private ArrayList<String> queryAttributes;
 
@@ -121,4 +123,12 @@ public class Query {
     public void setQueryAttributes(ArrayList<String> attributes) {
         this.queryAttributes = attributes;
     }
+
+	public void setSkip(String skip) {
+		this.skip = skip;
+	}
+
+	public String getSkip() {
+		return skip;
+	}
 }

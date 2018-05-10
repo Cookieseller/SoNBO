@@ -335,6 +335,7 @@ public class NotesDB implements IQueryService, Serializable {
                 query.setFieldname(queryDoc.getItemValueString("queryFieldname"));
                 query.setColumnNr((int) queryDoc.getItemValueDouble("queryColumnNr"));
                 query.setString(queryDoc.getItemValueString("queryString"));
+                query.setSkip(queryDoc.getItemValueString("querySkip"));
             }
         } catch (NotesException e) {
             // TODO Auto-generated catch block
@@ -424,6 +425,24 @@ public class NotesDB implements IQueryService, Serializable {
 		return "n/a";
 		*/
     }
+    
+    public void updateConfigEntry(String entry, String value) {
+
+        String searchString = "FIELD configEntryName = \"" + entry + "\"";
+        Document doc = null;
+        Datasource datasource = new Datasource();
+        try {
+        	doc = this.ftSearchView("", searchString, "generalConfig").getFirstDocument();
+            if (doc == null) {
+            	return;
+            }
+            doc.replaceItemValue("configEntryValue", value);
+            doc.save();
+        } catch (NotesException e) {
+            System.out.println("Error retrieving config entry with name: " + entry);
+            Utilities.remotePrint("Error retrieving config entry with name: " + entry);
+        }
+    }
 
     public void addEntry(List<Vector<String>> dataList, String formName) {
 
@@ -441,4 +460,9 @@ public class NotesDB implements IQueryService, Serializable {
             throw new RuntimeException(e);
         }
     }
+
+	public JsonArray executeQuery(Datasource datasourceObject, Query queryObject) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

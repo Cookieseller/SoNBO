@@ -7,6 +7,7 @@ import uniko.iwvi.fgbas.magoetz.sbo.objects.Datasource;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.Query;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.QueryResult;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 public interface IQueryService {
@@ -46,6 +47,8 @@ public interface IQueryService {
 
     public JsonObject executeQuery(Datasource datasourceObject, Query queryObject, String objectId) throws Exception;
 
+    public JsonArray executeQuery(Datasource datasourceObject, Query queryObject);
+    
     public Datasource getDatasourceObject(String datasourceName);
 
     public Query getQueryObject(String queryName);

@@ -43,8 +43,6 @@ public class NodeService implements Serializable {
      */
     public Node getNode(String id, String nodeType, boolean nodePreview) {
 
-    	Utilities.remotePrint("GetNode");
-    	
         if (!configService.nodeConfigExists(nodeType)) {
         	return null;
         }
@@ -85,7 +83,6 @@ public class NodeService implements Serializable {
         String nodeTypeTitleAttrName = nodeTypeConfig.getNodeTypeTitle();
         node = loadAttributes(node, nodeTypeAttributes, nodeTypeTitleAttrName, queryResultList, nodePreview);
 
-        Utilities.remotePrint("/GetNode");
         return node;
     }
 
@@ -99,9 +96,6 @@ public class NodeService implements Serializable {
     	Node node = new Node();
     	List<String> nodeTypeCategories = configService.getAllNodeTypeCategoryNames();
     	
-    	
-    	Utilities.remotePrint(jsonNode.toString());
-    	Utilities.remotePrint(nodeType.getNodeTypeId());
         node.setId(jsonNode.get(nodeType.getNodeTypeIdAttribute().getFieldname()).getAsString());
         node.setNodeTypeCategories(nodeTypeCategories);
         node.setNodeType(nodeType.getNodeTypeName());
@@ -214,8 +208,6 @@ public class NodeService implements Serializable {
             String fieldname  = nodeTypeAttribute.getFieldname();
             String value 	  = jsonObject.get(nodeTypeAttribute.getFieldname()).getAsString();
 
-            Utilities.remotePrint("Fieldname: " + nodeTypeAttribute.getFieldname() + " Value: " + value);
-
             try {
                 String valueJson  = new Gson().toJson(value);
 
@@ -244,8 +236,6 @@ public class NodeService implements Serializable {
      * @return List<Node>
      */
     public List<Node> getAdjacentNodes(Node businessObject) {
-    	Utilities.remotePrint("getAdjacentNodes");
-    	
     	ArrayList<Node> nodeList 			 = new ArrayList<Node>();
     	ArrayList<NodeTypeAdjacency> queries = getQueriesForAdjacenctNodes(businessObject.getNodeType());
     	
@@ -263,8 +253,6 @@ public class NodeService implements Serializable {
 				nodeList.add(node);
     		}
     	}
-    	
-    	Utilities.remotePrint("/getAdjacentNodes");
     	return nodeList;
     }
 

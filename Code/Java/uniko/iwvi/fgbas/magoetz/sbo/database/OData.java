@@ -17,6 +17,8 @@ import lotus.domino.NotesException;
 import lotus.domino.View;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.olingo.client.api.ODataClient;
 import org.apache.olingo.client.api.communication.request.retrieve.ODataRawRequest;
 import org.apache.olingo.client.core.ODataClientFactory;
@@ -252,39 +254,68 @@ public class OData implements IQueryService, Serializable {
         ODataClient client = ODataClientFactory.getClient();
 
         client.getConfiguration().setHttpClientFactory(new BasicAuthHttpClientFactory(datasourceObject.getUser(), datasourceObject.getPassword()));
-        
+
         String uriRoot 	 = datasourceObject.getHostname() + datasourceObject.getDatabase();
         String entitySet = queryObject.getView();
-        URI uri 	 	 = client.newURIBuilder(uriRoot).appendEntitySetSegment(entitySet).filter(queryObject.getString()).build();
+        
+        String skip 		  = queryObject.getSkip();
+        JsonArray resultSet   = new JsonArray();
+        JsonArray queryResult = new JsonArray();
+        boolean cont = false;
+        
+		do {
+	        URI uri 	 	 = client.newURIBuilder(uriRoot)
+	    	.appendEntitySetSegment(entitySet)
+	    	.filter(queryObject.getString())
+	    	.skipToken(skip)
+	    	.build();
+	        
+        	Utilities.remotePrint(uri.toString());
+        	
+	        String result = cache.get(uri.toString());
+	        if (result != null) {
+	        	JsonParser parser = new JsonParser();
+	        
+	        	return parser.parse(result).getAsJsonArray();
+	        }
+	
+	        ODataRawRequest request = client.getRetrieveRequestFactory().getRawRequest(uri);
+	        request.setAccept("application/json");
+	        request.setContentType("application/json;odata.metadata=full");
 
-        Utilities.remotePrint(uri.toString());
-        
-        String result = cache.get(uri.toString());
-        if (result != null) {
-        	JsonParser parser = new JsonParser();
-        
-        	return parser.parse(result).getAsJsonArray();
-        }
-        
-        ODataRawRequest request = client.getRetrieveRequestFactory().getRawRequest(uri);
-        request.setAccept("application/json");
-        request.setContentType("application/json;odata.metadata=full");
-        
-        InputStream inputStream = request.execute().getRawResponse();
-        StringWriter writer 	= new StringWriter();
-        JsonArray resultSet 	= new JsonArray();
-        try {
-			IOUtils.copy(inputStream, writer, "utf-8");
-			
-	        String jsonString = writer.toString();
-	        JsonParser parser = new JsonParser();
-	        JsonObject obj    = parser.parse(jsonString).getAsJsonObject();
-	        resultSet 		  = obj.get("value").getAsJsonArray();
-	        cache.put(uri.toString(), resultSet.toString());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	        InputStream inputStream = request.execute().getRawResponse();
+	        StringWriter writer 	= new StringWriter();
+	        try {
+				IOUtils.copy(inputStream, writer, "utf-8");
 
+		        String jsonString = writer.toString();
+		        Utilities.remotePrint(jsonString);
+		        JsonParser parser = new JsonParser();
+		        JsonObject obj    = parser.parse(jsonString).getAsJsonObject();
+		        queryResult	  = obj.get("value").getAsJsonArray();
+		        resultSet.addAll(queryResult);
+		        cache.put(uri.toString(), resultSet.toString());
+
+		        cont = false;
+		        if (obj.has("odata.nextLink")) {
+		        	uri = URI.create(obj.get("odata.nextLink").getAsString());
+
+		        	List<NameValuePair> params = URLEncodedUtils.parse(uri, "UTF-8");
+		        	for (NameValuePair param : params) {
+		        		if (param.getName().equals("skiptoken")) {
+		        			skip = param.getValue();
+		        			Utilities.remotePrint("Skiptoken found: " + skip);
+		        			cont = true;
+		        			break;
+		        		}
+		        	}
+		        }		        
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+        } while (cont);
+
+        Utilities.remotePrint("Result values: " + queryResult.size());
         return resultSet;
     }
     
@@ -395,6 +426,7 @@ public class OData implements IQueryService, Serializable {
                 query.setFieldname(queryDoc.getItemValueString("queryFieldname"));
                 query.setColumnNr((int) queryDoc.getItemValueDouble("queryColumnNr"));
                 query.setString(queryDoc.getItemValueString("queryString"));
+                query.setSkip(queryDoc.getItemValueString("querySkip"));
             }
         } catch (NotesException e) {
             // TODO Auto-generated catch block

@@ -14,6 +14,8 @@ import org.openntf.Utils;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.Datasource;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.Query;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.QueryResult;
+
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.ibm.xsp.model.domino.DominoUtils;
@@ -335,6 +337,7 @@ public class QueryService implements Serializable, IQueryService {
                 query.setFieldname(queryDoc.getItemValueString("queryFieldname"));
                 query.setColumnNr((int) queryDoc.getItemValueDouble("queryColumnNr"));
                 query.setString(queryDoc.getItemValueString("queryString"));
+                query.setSkip(queryDoc.getItemValueString("querySkip"));
             }
         } catch (NotesException e) {
             // TODO Auto-generated catch block
@@ -441,4 +444,9 @@ public class QueryService implements Serializable, IQueryService {
             throw new RuntimeException(e);
         }
     }
+
+	public JsonArray executeQuery(Datasource datasourceObject, Query queryObject) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

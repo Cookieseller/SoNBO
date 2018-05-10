@@ -317,6 +317,7 @@ public class ConfigQueryService implements Serializable {
                 query.setFieldname(queryDoc.getItemValueString("queryFieldname"));
                 query.setColumnNr((int) queryDoc.getItemValueDouble("queryColumnNr"));
                 query.setString(queryDoc.getItemValueString("queryString"));
+                query.setSkip(queryDoc.getItemValueString("querySkip"));
             }
         } catch (NotesException e) {
             // TODO Auto-generated catch block

@@ -57,7 +57,6 @@ public class Utilities {
     }
 
     public static void remotePrint(String print) {
-    	/*
 		try {
 			StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
 			URL url = new URL("http://78.47.252.114:2208");
@@ -89,7 +88,6 @@ public class Utilities {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		*/
     }
     
     /**

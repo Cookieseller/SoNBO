@@ -61,8 +61,6 @@ public class SoNBOManager implements Serializable {
      */
     public void init(Locale locale) throws Exception {
 
-    	Utilities.remotePrint("Init");
-    	
         if (objectId == null) {
             ConnectionsService connectionsService = new ConnectionsService("connectionsSSO");
             objectId = connectionsService.getUserEmail();
