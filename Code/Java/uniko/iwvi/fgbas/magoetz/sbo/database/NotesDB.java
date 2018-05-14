@@ -461,6 +461,30 @@ public class NotesDB implements IQueryService, Serializable {
         }
     }
 
+    /**
+     * Insert a new entry into the given form with the given item values.
+     * The items params have to be in the key(column name)->value format.
+     * 
+     * @param items
+     * @param form
+     */
+    public void insertEntry(Map<String, String> items, String form) {
+        try {
+            Database db = DominoUtils.getCurrentDatabase();
+            Document doc = db.createDocument();
+
+            doc.replaceItemValue("Form", form);
+            for (String key : items.keySet()) {
+            	String val = items.get(key) == null ? "" : items.get(key).toString();
+                doc.replaceItemValue(key, val);
+            }
+            doc.save();
+
+        } catch (NotesException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 	public JsonArray executeQuery(Datasource datasourceObject, Query queryObject) {
 		// TODO Auto-generated method stub
 		return null;

@@ -9,8 +9,10 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -39,7 +41,7 @@ public class Utilities {
      * https://stackoverflow.com/questions/959731/how-to-replace-a-set-of-tokens-in-a-java-string
      */
     public static String replaceTokens(String text, Map<String, String> replacements) {
-        Pattern pattern = Pattern.compile("\\[(.+?)\\]");
+        Pattern pattern = Pattern.compile("\\[\\[(.+?)\\]\\]");
         Matcher matcher = pattern.matcher(text);
         StringBuffer buffer = new StringBuffer();
 
@@ -54,6 +56,26 @@ public class Utilities {
         }
         matcher.appendTail(buffer);
         return buffer.toString();
+    }
+
+    /*
+     * Thanks to
+     * https://stackoverflow.com/questions/959731/how-to-replace-a-set-of-tokens-in-a-java-string
+     */
+    public static String replaceTokens(String text, JsonObject data) {
+    	ArrayList<String> tokenList      = Utilities.getTokenList(text);
+    	Map<String, String> replacements = new HashMap<String, String>();
+
+    	for (String replaceAttributeKey : tokenList) {
+	    	if (data.has(replaceAttributeKey)) {
+	    		String replaceAttributeValue = data.get(replaceAttributeKey).getAsString();
+	    		replacements.put(replaceAttributeKey, replaceAttributeValue);
+	    	} else {
+	    		replacements.put(replaceAttributeKey, "No value found");
+	    	}
+	    }
+
+        return Utilities.replaceTokens(text, replacements);
     }
 
     public static void remotePrint(String print) {
@@ -95,7 +117,7 @@ public class Utilities {
      */
     public static ArrayList<String> getTokenList(String text) {
         ArrayList<String> tokenList = new ArrayList<String>();
-        Pattern pattern = Pattern.compile("\\[(.+?)\\]");
+        Pattern pattern = Pattern.compile("\\[\\[(.+?)\\]\\]");
         Matcher matcher = pattern.matcher(text);
         StringBuffer buffer = new StringBuffer();
         while (matcher.find()) {

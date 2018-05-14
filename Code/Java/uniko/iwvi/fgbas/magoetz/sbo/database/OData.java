@@ -270,8 +270,6 @@ public class OData implements IQueryService, Serializable {
 	    	.skipToken(skip)
 	    	.build();
 	        
-        	Utilities.remotePrint(uri.toString());
-        	
 	        String result = cache.get(uri.toString());
 	        if (result != null) {
 	        	JsonParser parser = new JsonParser();
@@ -289,7 +287,6 @@ public class OData implements IQueryService, Serializable {
 				IOUtils.copy(inputStream, writer, "utf-8");
 
 		        String jsonString = writer.toString();
-		        Utilities.remotePrint(jsonString);
 		        JsonParser parser = new JsonParser();
 		        JsonObject obj    = parser.parse(jsonString).getAsJsonObject();
 		        queryResult	  = obj.get("value").getAsJsonArray();
@@ -315,7 +312,6 @@ public class OData implements IQueryService, Serializable {
 			}
         } while (cont);
 
-        Utilities.remotePrint("Result values: " + queryResult.size());
         return resultSet;
     }
     
