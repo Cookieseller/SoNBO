@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
+import uniko.iwvi.fgbas.magoetz.sbo.util.Utilities;
+
 public class Node implements Serializable {
 
     private static final long serialVersionUID = 805731509510272843L;
@@ -48,9 +50,11 @@ public class Node implements Serializable {
             if (nodeTypeAttribute.isPreview()) {
                 // only add if not empty
                 if (!nodeTypeAttribute.getValueAsString().equals("")) {
-                    String attributeName = nodeTypeAttribute.getName(locale);
+                	String attributeName = nodeTypeAttribute.getName(locale);
                     String attributeValue = nodeTypeAttribute.getValueAsString();
-                    attributeListForDisplayfield.put(attributeName, attributeValue);
+                    attributeListForDisplayfield.put(attributeName, attributeValue);	
+                } else {
+                	Utilities.remotePrint(nodeTypeAttribute.getName());
                 }
             }
         }
@@ -83,6 +87,17 @@ public class Node implements Serializable {
         String value = null;
         for (NodeTypeAttribute nodeTypeAttribute : attributeList) {
             if (nodeTypeAttribute.getName().equals(key)) {
+                // TODO change to getValue if it must not be a String
+                value = nodeTypeAttribute.getValueAsString();
+            }
+        }
+        return value;
+    }
+    
+    public String getAttributeValueByField(String field) {
+        String value = null;
+        for (NodeTypeAttribute nodeTypeAttribute : attributeList) {
+            if (nodeTypeAttribute.getFieldname().equals(field)) {
                 // TODO change to getValue if it must not be a String
                 value = nodeTypeAttribute.getValueAsString();
             }

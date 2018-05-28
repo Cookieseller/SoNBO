@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core" createForm="true">
+	<xp:inputText id="user" ></xp:inputText>
+	<xp:br></xp:br>
+	<xp:inputText id="password" password="true"></xp:inputText>
+	<xp:br></xp:br>
+	<xp:button value="Submit" id="submit">
+		<xp:eventHandler event="onclick" submit="true">
+	        <xp:this.action><![CDATA[#{javascript:soNBOSession.updateCredentials(viewScope.get('user'), viewScope.get('password'));}]]></xp:this.action>
+	    </xp:eventHandler>
+	</xp:button>
+</xp:view>

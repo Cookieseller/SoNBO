@@ -6,9 +6,14 @@ import java.util.Locale;
 import java.util.Vector;
 
 import uniko.iwvi.fgbas.magoetz.sbo.database.QueryService;
+import uniko.iwvi.fgbas.magoetz.sbo.util.Utilities;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
 
 public class NodeTypeAttribute implements Serializable {
 
@@ -161,32 +166,7 @@ public class NodeTypeAttribute implements Serializable {
     }
 
     public String getValueAsString() {
-        Gson gson = new Gson();
-        JsonElement value = gson.fromJson(this.value, JsonElement.class);
-        //TODO support arrays etc.
-        try {
-            if (this.datatype.equals("String")) {
-                return value.getAsString();
-            } else if (this.datatype.equals("Integer")) {
-                return String.valueOf(value.getAsInt());
-            } else if (this.datatype.equals("Array(String)")) {
-                JsonArray jsonArray = value.getAsJsonArray();
-                String stringValue = "";
-                Iterator<JsonElement> it = jsonArray.iterator();
-                while (it.hasNext()) {
-                    stringValue += it.next().getAsString();
-                    if (it.hasNext()) {
-                        stringValue += ", ";
-                    }
-                }
-                return stringValue;
-            } else if (this.datatype.equals("NotesUsername")) {
-                return queryService.getEmailByNotesUsername(value.getAsString());
-            }
-        } catch (NullPointerException npe) {
-            System.out.println("NullPointerException for datatype: " + this.datatype);
-        }
-        return "";
+        return this.value;
     }
 
     /**

@@ -82,6 +82,8 @@ public class NodeService implements Serializable {
         
         String nodeTypeTitleAttrName = nodeTypeConfig.getNodeTypeTitle();
         node = loadAttributes(node, nodeTypeAttributes, nodeTypeTitleAttrName, queryResultList, nodePreview);
+        String title = node.getAttributeValueAsString(nodeTypeConfig.getNodeTypeTitle());
+        node.setNodeTitle(title);
 
         return node;
     }
@@ -189,16 +191,17 @@ public class NodeService implements Serializable {
             ArrayList<String> tokenList = Utilities.getTokenList(queryObject.getString());
             Map<String, String> replaceAttributesMap = new HashMap<String, String>();
             for (String replaceAttributeKey : tokenList) {
-                String replaceAttributeValue = businessObject.getAttributeValueAsString(replaceAttributeKey);
+            	String replaceAttributeValue = businessObject.getAttributeValueByField(replaceAttributeKey);
                 replaceAttributesMap.put(replaceAttributeKey, replaceAttributeValue);
             }
+
             String replacedQuery = Utilities.replaceTokens(queryObject.getString(), replaceAttributesMap);
             queryObject.setString(replacedQuery);
 
             JsonArray jsonArray = queryService.executeQuery(datasourceObject, queryObject);
 
             if (jsonArray.size() <= 0) {
-            	return businessObject;
+            	continue;
             }
 
             JsonObject jsonObject = jsonArray.get(0).getAsJsonObject();
@@ -209,18 +212,9 @@ public class NodeService implements Serializable {
             String value 	  = jsonObject.get(nodeTypeAttribute.getFieldname()).getAsString();
 
             try {
-                String valueJson  = new Gson().toJson(value);
-
-                nodeTypeAttribute.setValue(valueJson);
+                nodeTypeAttribute.setValue(value);
                 businessObject.addAttribute(nodeTypeAttribute);
-
-                /*
-                String titleAttribute = nodeTypeTitleAttrName;
-                if (titleAttribute.equals(name)) {
-                    businessObject.setNodeTitle(jsonObject.getAsString());
-                }
-                */
-            } catch (NullPointerException npe) {
+             } catch (NullPointerException npe) {
                 System.out.println("Failed loading attribute: " + name + " from field: " + fieldname);
                 Utilities.remotePrint("Failed loading attribute: " + name + " from field: " + fieldname);
             }
@@ -351,7 +345,7 @@ public class NodeService implements Serializable {
             // create map with replacements
             Map<String, String> replaceAttributesMap = new HashMap<String, String>();
             for (String replaceAttributeKey : tokenList) {
-                String replaceAttributeValue = node.getAttributeValueAsString(replaceAttributeKey);
+                String replaceAttributeValue = node.getAttributeValueByField(replaceAttributeKey);
                 if (queryObject.getKeyValueReturnType().equals("getEmailAsNotesUsername")) {
                     replaceAttributeValue = this.queryService.getNotesUsernameByEmail(replaceAttributeValue);
                 }

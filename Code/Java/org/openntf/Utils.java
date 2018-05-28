@@ -425,8 +425,8 @@ public class Utils implements Serializable {
   }
     
   private static Session getSession() {
-    FacesContext context = FacesContext.getCurrentInstance();
-    return (Session) context.getApplication().getVariableResolver().resolveVariable(context, "session");
+	FacesContext context = FacesContext.getCurrentInstance();
+	return (Session) context.getApplication().getVariableResolver().resolveVariable(context, "session");
   }
     
   private static Map<String, Object> sessionScope() {

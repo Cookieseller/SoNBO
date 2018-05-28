@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
+import javax.faces.context.FacesContext;
+
 import lotus.domino.Database;
 import lotus.domino.Document;
 import lotus.domino.DocumentCollection;
@@ -25,6 +27,8 @@ import org.apache.olingo.client.core.ODataClientFactory;
 import org.apache.olingo.client.core.http.BasicAuthHttpClientFactory;
 import org.openntf.Utils;
 
+import uniko.iwvi.fgbas.magoetz.sbo.SoNBOManager;
+import uniko.iwvi.fgbas.magoetz.sbo.SoNBOSession;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.Datasource;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.Node;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.Query;
@@ -52,7 +56,6 @@ public class OData implements IQueryService, Serializable {
             // return values by key
             queryResults = Utils.Dblookup(notesDB, view, key, returnField);
         } catch (NotesException ex) {
-            // TODO Auto-generated catch block
             ex.printStackTrace();
         }
         String fieldValue = new String();
@@ -76,7 +79,6 @@ public class OData implements IQueryService, Serializable {
             // return values by key
             queryResults = Utils.Dblookup(notesDB, queryView, queryKey, queryFieldname);
         } catch (NotesException ex) {
-            // TODO Auto-generated catch block
             ex.printStackTrace();
         }
         return queryResults;
@@ -92,7 +94,6 @@ public class OData implements IQueryService, Serializable {
             // return values by key
             queryResults = Utils.Dblookup(queryServer, queryDatabase, queryView, queryKey, queryFieldname);
         } catch (NotesException ex) {
-            // TODO Auto-generated catch block
             ex.printStackTrace();
         }
         return queryResults;
@@ -122,7 +123,6 @@ public class OData implements IQueryService, Serializable {
             //notesDB.updateFTIndex(true);
             resultCollection = notesDB.FTSearch(searchString);
         } catch (NotesException e1) {
-            // TODO Auto-generated catch block
             e1.printStackTrace();
         }
         return resultCollection;
@@ -153,7 +153,6 @@ public class OData implements IQueryService, Serializable {
             // Clear the full-text search
             view.clear();
         } catch (NotesException e1) {
-            // TODO Auto-generated catch block
             e1.printStackTrace();
         }
         return resultCollection;
@@ -171,7 +170,6 @@ public class OData implements IQueryService, Serializable {
             // return values by key
             queryResults = Utils.Dblookup(notesDB, view, key, returnField);
         } catch (NotesException ex) {
-            // TODO Auto-generated catch block
             ex.printStackTrace();
         }
 
@@ -205,7 +203,6 @@ public class OData implements IQueryService, Serializable {
             // return values by key
             queryResults = Utils.Dblookup(notesDB, view, key, returnField);
         } catch (NotesException ex) {
-            // TODO Auto-generated catch block
             ex.printStackTrace();
         }
 
@@ -253,35 +250,42 @@ public class OData implements IQueryService, Serializable {
     	CacheService cache = new CacheService("queryCache");
         ODataClient client = ODataClientFactory.getClient();
 
-        client.getConfiguration().setHttpClientFactory(new BasicAuthHttpClientFactory(datasourceObject.getUser(), datasourceObject.getPassword()));
+        FacesContext ctx = FacesContext.getCurrentInstance(); 
+        SoNBOSession session = (SoNBOSession) ctx.getApplication().getVariableResolver().resolveVariable(ctx, "soNBOSession");
+        client.getConfiguration().setHttpClientFactory(session.getClientFactory());
 
         String uriRoot 	 = datasourceObject.getHostname() + datasourceObject.getDatabase();
         String entitySet = queryObject.getView();
-        
+
         String skip 		  = queryObject.getSkip();
         JsonArray resultSet   = new JsonArray();
         JsonArray queryResult = new JsonArray();
-        boolean cont = false;
-        
+        boolean cont 		  = false;
+
 		do {
-	        URI uri 	 	 = client.newURIBuilder(uriRoot)
-	    	.appendEntitySetSegment(entitySet)
-	    	.filter(queryObject.getString())
-	    	.skipToken(skip)
-	    	.build();
-	        
+	        URI uri = client.newURIBuilder(uriRoot)
+		    	.appendEntitySetSegment(entitySet)
+		    	.filter(queryObject.getString())
+		    	.skipToken(skip)
+		    	.build();
+
 	        String result = cache.get(uri.toString());
 	        if (result != null) {
-	        	JsonParser parser = new JsonParser();
-	        
-	        	return parser.parse(result).getAsJsonArray();
+	        	return new JsonParser().parse(result).getAsJsonArray();
 	        }
-	
-	        ODataRawRequest request = client.getRetrieveRequestFactory().getRawRequest(uri);
-	        request.setAccept("application/json");
-	        request.setContentType("application/json;odata.metadata=full");
 
-	        InputStream inputStream = request.execute().getRawResponse();
+	        InputStream inputStream;
+	        try {
+	        	ODataRawRequest request = client.getRetrieveRequestFactory().getRawRequest(uri);
+	        	request.setAccept("application/json");
+		        request.setContentType("application/json;odata.metadata=full");
+
+		        inputStream = request.execute().getRawResponse();
+	        } catch (Exception e) {
+	        	Utilities.redirectToAuthentication();
+	        	return null;
+	        }
+	        
 	        StringWriter writer 	= new StringWriter();
 	        try {
 				IOUtils.copy(inputStream, writer, "utf-8");
@@ -314,22 +318,32 @@ public class OData implements IQueryService, Serializable {
 
         return resultSet;
     }
-    
+
     public JsonObject executeQuery(Datasource datasourceObject, Query queryObject, String objectId) {
 
         ODataClient client = ODataClientFactory.getClient();
 
-        client.getConfiguration().setHttpClientFactory(new BasicAuthHttpClientFactory(datasourceObject.getUser(), datasourceObject.getPassword()));
+        FacesContext ctx = FacesContext.getCurrentInstance(); 
+        SoNBOSession session = (SoNBOSession) ctx.getApplication().getVariableResolver().resolveVariable(ctx, "soNBOSession");
+        client.getConfiguration().setHttpClientFactory(session.getClientFactory());
 
         String uriRoot 	 = datasourceObject.getHostname() + datasourceObject.getDatabase();
         String entitySet = queryObject.getView();
         URI uri 	 	 = client.newURIBuilder(uriRoot).appendEntitySetSegment(entitySet).filter(queryObject.getString()).build();
 
-        ODataRawRequest request = client.getRetrieveRequestFactory().getRawRequest(uri);
-        request.setAccept("application/json");
-        request.setContentType("application/json;odata.metadata=full");
+        InputStream inputStream;
+        try {
+        	ODataRawRequest request = client.getRetrieveRequestFactory().getRawRequest(uri);
+            request.setAccept("application/json");
+            request.setContentType("application/json;odata.metadata=full");
+            
+            inputStream = request.execute().getRawResponse();
+        } catch (Exception e) {
+        	Utilities.redirectToAuthentication();
+        	return null;
+        }
+
         
-        InputStream inputStream = request.execute().getRawResponse();
         StringWriter writer 	= new StringWriter();
         JsonObject jsonObject 	= new JsonObject();
         try {
@@ -363,7 +377,6 @@ public class OData implements IQueryService, Serializable {
                 datasource.setPassword(datasourceDoc.getItemValueString("datasourcePassword"));
             }
         } catch (NotesException e) {
-            // TODO Auto-generated catch block
             System.out.println("Error retrieving datasource with name: " + datasourceName);
             e.printStackTrace();
         }
@@ -382,10 +395,11 @@ public class OData implements IQueryService, Serializable {
     	List<String> tokens = Utilities.getTokenList(query.getString());
     	Map<String, String> replaceAttributesMap = new HashMap<String, String>();
         for (String replaceAttributeKey : tokens) {
-            String replaceAttributeValue = node.getAttributeValueAsString(replaceAttributeKey);
+            String replaceAttributeValue = node.getAttributeValueByField(replaceAttributeKey);
             replaceAttributesMap.put(replaceAttributeKey, replaceAttributeValue);
         }
         
+        Utilities.remotePrint(Utilities.replaceTokens(query.getString(), replaceAttributesMap));
     	return Utilities.replaceTokens(query.getString(), replaceAttributesMap);
     }
     
@@ -425,7 +439,6 @@ public class OData implements IQueryService, Serializable {
                 query.setSkip(queryDoc.getItemValueString("querySkip"));
             }
         } catch (NotesException e) {
-            // TODO Auto-generated catch block
             System.out.println("Error retrieving query with name: " + queryName);
             e.printStackTrace();
         }

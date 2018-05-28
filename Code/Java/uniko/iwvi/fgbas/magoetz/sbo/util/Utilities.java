@@ -16,7 +16,11 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.faces.context.FacesContext;
+
 import org.apache.commons.lang3.StringUtils;
+
+import uniko.iwvi.fgbas.magoetz.sbo.SoNBOSession;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -111,6 +115,17 @@ public class Utilities {
 			e.printStackTrace();
 		}
     }
+    
+    public static void redirectToAuthentication() {
+    	FacesContext ctx = FacesContext.getCurrentInstance(); 
+        SoNBOSession session = (SoNBOSession) ctx.getApplication().getVariableResolver().resolveVariable(ctx, "soNBOSession");
+
+        try {
+        	ctx.getExternalContext().redirect("https://devil.bas.uni-koblenz.de/SoNBO/SNBO-NAV.nsf/auth.xsp");	
+        } catch (IOException e) {
+        	e.printStackTrace();
+        }
+	}
     
     /**
      * Returns List of tokens identified in a text string delimited by [token]
