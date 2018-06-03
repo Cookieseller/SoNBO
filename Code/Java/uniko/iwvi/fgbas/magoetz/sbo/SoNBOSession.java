@@ -32,10 +32,8 @@ public class SoNBOSession {
     public SoNBOSession() {
         this.connectionsService = new ConnectionsService("connectionsSSO");
         this.objectId = connectionsService.getUserEmail();
-        
-        Utilities.remotePrint("SoNBOSession");
+
         clientFactory = new BasicAuthHttpClientFactory("", "");
-        //clientFactory = new BasicAuthHttpClientFactory("mriedle", "Ogilubime859");
     }
 
     public String getObjectId() {
@@ -69,10 +67,6 @@ public class SoNBOSession {
     }
 
     public void updateCredentials(String username, String password) {
-    	Utilities.remotePrint("User: " + username + " Password: " + password);
-    	String user = (String) FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("user");
-    	String passwd = (String) FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("password");
-    	Utilities.remotePrint("User: " + user + " Password: " + passwd);
     	this.clientFactory = new BasicAuthHttpClientFactory(username, password);
     }
     

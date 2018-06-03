@@ -34,6 +34,7 @@ import uniko.iwvi.fgbas.magoetz.sbo.objects.Node;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.Query;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.QueryResult;
 import uniko.iwvi.fgbas.magoetz.sbo.services.CacheService;
+import uniko.iwvi.fgbas.magoetz.sbo.services.authentication.RedirectService;
 import uniko.iwvi.fgbas.magoetz.sbo.util.Utilities;
 
 import com.google.gson.JsonArray;
@@ -247,7 +248,7 @@ public class OData implements IQueryService, Serializable {
     }
 
     public JsonArray executeQuery(Datasource datasourceObject, Query queryObject) {
-    	CacheService cache = new CacheService("queryCache");
+    	CacheService cache = new CacheService("localCache");
         ODataClient client = ODataClientFactory.getClient();
 
         FacesContext ctx = FacesContext.getCurrentInstance(); 
@@ -282,7 +283,7 @@ public class OData implements IQueryService, Serializable {
 
 		        inputStream = request.execute().getRawResponse();
 	        } catch (Exception e) {
-	        	Utilities.redirectToAuthentication();
+	        	new RedirectService().redirectToAuthentication();
 	        	return null;
 	        }
 	        
@@ -339,7 +340,7 @@ public class OData implements IQueryService, Serializable {
             
             inputStream = request.execute().getRawResponse();
         } catch (Exception e) {
-        	Utilities.redirectToAuthentication();
+        	new RedirectService().redirectToAuthentication();
         	return null;
         }
 

@@ -12,11 +12,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -25,9 +25,12 @@ import uniko.iwvi.fgbas.magoetz.sbo.SoNBOSession;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
+import com.ibm.xsp.designer.context.XSPContext;
 
 public class Utilities {
 
+	private static String redirectUrl = "";
+	
     public void printJson(JsonObject json, String info) {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String jsonString = gson.toJson(json);
@@ -120,6 +123,9 @@ public class Utilities {
     	FacesContext ctx = FacesContext.getCurrentInstance(); 
         SoNBOSession session = (SoNBOSession) ctx.getApplication().getVariableResolver().resolveVariable(ctx, "soNBOSession");
 
+        XSPContext context = XSPContext.getXSPContext(ctx);
+        redirectUrl = context.getUrl().getAddress();
+        Utilities.remotePrint(redirectUrl);
         try {
         	ctx.getExternalContext().redirect("https://devil.bas.uni-koblenz.de/SoNBO/SNBO-NAV.nsf/auth.xsp");	
         } catch (IOException e) {

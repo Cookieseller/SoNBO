@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.faces.context.FacesContext;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.KeyManager;
@@ -30,6 +31,7 @@ import lotus.domino.Document;
 import lotus.domino.NotesException;
 import lotus.domino.ViewEntry;
 import lotus.domino.ViewEntryCollection;
+import uniko.iwvi.fgbas.magoetz.sbo.SoNBOSession;
 import uniko.iwvi.fgbas.magoetz.sbo.database.IQueryService;
 import uniko.iwvi.fgbas.magoetz.sbo.database.NotesDB;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.ActivityEntry;
@@ -60,11 +62,19 @@ public class ActivityStreamUpdateService {
 	public void updateActivityStream() throws ClientServicesException, MalformedURLException {
 
 		NotesDB notesDB = new NotesDB();
+		FacesContext ctx = FacesContext.getCurrentInstance(); 
+        SoNBOSession session = (SoNBOSession) ctx.getApplication().getVariableResolver().resolveVariable(ctx, "soNBOSession");
+        session.updateCredentials("mriedle", "Ogilubime859");
 
 		try {
 			ViewEntryCollection activities    = getActivities();
 			ViewEntryCollection postedEntries = getPostedActivtyEntries();
-			List<ActivityEntry> unpostedEntries = getUnpostedActivityEntries(activities, postedEntries);
+			List<ActivityEntry> unpostedEntries = new ArrayList<ActivityEntry>();
+			try {
+				unpostedEntries = getUnpostedActivityEntries(activities, postedEntries);	
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 
 			for (ActivityEntry post : unpostedEntries) {
 				if (postActivityEntry(post)) {
@@ -131,18 +141,22 @@ public class ActivityStreamUpdateService {
 			query.setSkip(getSkiptoken());
 
 			IQueryService service = QueryServiceFactory.getQueryServiceByDatasource(datasource.getType());
+			Utilities.remotePrint(query.getString());
 			JsonArray result 	  = service.executeQuery(datasource, query);
-
 			for (JsonElement el : result) {
 				if (!el.getAsJsonObject().has("Entry_No"))
 					continue;
 
-				Utilities.remotePrint(el.getAsJsonObject().toString());
 				String entryNo = el.getAsJsonObject().get("Entry_No").getAsString();
-				if (viewEntryCollectionContainsValue(postedActivityEntries, "postedActivityObjectID", entryNo))
+				if (viewEntryCollectionContainsValue(postedActivityEntries, "postedActivityObjectID", entryNo)) {
 					continue;
-
-				unpostedEntries.add(getActivityEntry(document, el.getAsJsonObject()));
+				}
+				
+				try {
+					unpostedEntries.add(getActivityEntry(document, el.getAsJsonObject()));	
+				} catch (NullPointerException e) {
+					e.printStackTrace();
+				}
 			}
 
 			ViewEntry entry = activities.getNextEntry();
@@ -243,6 +257,7 @@ public class ActivityStreamUpdateService {
 			JsonObject associatedObject 	 = loadAssociatedObject(changelogEntry, associatedObjectQuery);
 
 			if (associatedObject == null) {
+				Utilities.remotePrint(associatedObjectQuery.getView() + "/" + associatedObjectQuery.getCommand());
 				throw new NullPointerException("Unable to load the associated object for entry: " + changelogEntryID);
 			}
 
@@ -274,13 +289,10 @@ public class ActivityStreamUpdateService {
 		try {
 			Document document = collection.getFirstEntry().getDocument();
 			while (document != null) {
-				for (Object t : document.getItems()) {
-					Utilities.remotePrint(t.toString());
-				}
 				String documentValue = document.getItemValueString(key);
-				Utilities.remotePrint("Value: " + documentValue != null ? value : "null");
-				if (documentValue == value)
+				if (documentValue.equals(value)) {
 					return true;
+				}
 
 				ViewEntry entry = collection.getNextEntry();
 				if (entry == null)
@@ -344,10 +356,11 @@ public class ActivityStreamUpdateService {
 
 		//TODO load datasource by query type
 		JsonArray associatedObject = service.executeQuery(datasource, associatedObjectQuery);
-
+		Utilities.remotePrint(associatedObjectQuery.getView() + "/" + associatedObjectQuery.getString());
 		if (associatedObject.size() != 1) {
 			System.out.println("Failed loading the original object, " + associatedObject.size() + " objects found but expected 1.");
 			Utilities.remotePrint("Failed loading the original object, " + associatedObject.size() + " objects found but expected 1.");
+			Utilities.remotePrint(associatedObjectQuery.getView() + " " + replacedQuery + " should be " + changelogEntry.get("Table_Caption").getAsString());
 
 			return null;
 		}

@@ -11,7 +11,7 @@
     <managed-bean-scope>session</managed-bean-scope>
   </managed-bean>
   <managed-bean>
-    <managed-bean-name>queryCache</managed-bean-name>
+    <managed-bean-name>localCache</managed-bean-name>
     <managed-bean-class>uniko.iwvi.fgbas.magoetz.sbo.caching.BeanCache</managed-bean-class>
     <managed-bean-scope>session</managed-bean-scope>
   </managed-bean>

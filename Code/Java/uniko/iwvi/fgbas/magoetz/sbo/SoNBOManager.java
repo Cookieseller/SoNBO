@@ -353,10 +353,10 @@ public class SoNBOManager implements Serializable {
      */
     public List<Node> getfilterAndSortedNodeList(List<Node> nodeList) {
         List<Node> filteredAndSortedList = this.getFilteredNodeList(nodeList);
-        if (this.sortAttribute != null) {
-            filteredAndSortedList = this.getSortedNodeList(filteredAndSortedList, this.sortAttribute);
-        }
-        return filteredAndSortedList;
+        //if (this.sortAttribute != null) {
+        //    filteredAndSortedList = this.getSortedNodeList(filteredAndSortedList, this.sortAttribute);
+        //}
+        return nodeList;
     }
 
     /**
