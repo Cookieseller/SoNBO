@@ -14,6 +14,7 @@ import java.util.Vector;
 
 import javax.faces.context.FacesContext;
 
+import uniko.iwvi.fgbas.magoetz.sbo.exceptions.NodeNotFoundException;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.Filter;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.Node;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.NodeTypeAttribute;
@@ -23,7 +24,6 @@ import uniko.iwvi.fgbas.magoetz.sbo.services.ConnectionsService;
 import uniko.iwvi.fgbas.magoetz.sbo.services.NodeService;
 import uniko.iwvi.fgbas.magoetz.sbo.services.ui.FilterService;
 import uniko.iwvi.fgbas.magoetz.sbo.util.Texts;
-import uniko.iwvi.fgbas.magoetz.sbo.util.Utilities;
 
 /**
  * SoNBOManager is a view bean, implementing the backend interface for the main XPage.
@@ -34,12 +34,6 @@ import uniko.iwvi.fgbas.magoetz.sbo.util.Utilities;
 public class SoNBOManager implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
-    private String objectId = (String) FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id");
-
-    private String nodeType = (String) FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("nodeType");
-
-    private String nodeTypeCategoryName = (String) FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("nodeTypeCategory");
 
     public Node selectedNode;
 
@@ -61,25 +55,44 @@ public class SoNBOManager implements Serializable {
      */
     public void init(Locale locale) throws Exception {
 
-        if (objectId == null) {
-            ConnectionsService connectionsService = new ConnectionsService("connectionsSSO");
+    	String objectId = getRequestParameter("id");
+    	if (objectId == null) {
+    		ConnectionsService connectionsService = new ConnectionsService("connectionsSSO");
             objectId = connectionsService.getUserEmail();
-        }
+    	}
 
-        if (nodeTypeCategoryName == null) {
-            nodeTypeCategoryName = "Personen";
-        }
-
-        if (nodeType == null) {
-            nodeType = "Mitarbeiter";
-        }
-
+    	String nodeType 		= getRequestValueOrDefault("nodeType", "Mitarbeiter");
         texts                   = new Texts(locale);
         NodeService nodeService = new NodeService();
         selectedNode            = nodeService.getNode(objectId, nodeType, false);
         adjacentNodeList        = nodeService.getAdjacentNodes(selectedNode);
     }
-    
+
+
+    /**
+     * Returns either the request parameter or the default value if no parameter is given
+     *
+     * @param parameterName
+     * @param defaultValue
+     * @return
+     */
+    private String getRequestValueOrDefault(String parameterName, String defaultValue) {
+    	String parameterValue = getRequestParameter(parameterName);
+    	if (parameterValue == null)
+    		return defaultValue;
+
+    	return parameterValue;
+    }
+    /**
+     * Returns the request parameter with the given name
+     *
+     * @param parameterName
+     * @return
+     */
+    private String getRequestParameter(String parameterName) {
+    	return (String) FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get(parameterName);
+    }
+ 
     /**
      * Get all adjacencies to a node by the given type. NodeTypeCategory all or empty means all adjacencies
      * regardless of type.
@@ -118,8 +131,6 @@ public class SoNBOManager implements Serializable {
     }
 
     /**
-     * TODO rename, we don't load the actual attributes but a set of vectors containing strings of attributes
-     *
      * Returns vector list of (unique) adjacent nodes attributes (attributeName translated)
      *
      * @param locale
@@ -353,9 +364,9 @@ public class SoNBOManager implements Serializable {
      */
     public List<Node> getfilterAndSortedNodeList(List<Node> nodeList) {
         List<Node> filteredAndSortedList = this.getFilteredNodeList(nodeList);
-        //if (this.sortAttribute != null) {
-        //    filteredAndSortedList = this.getSortedNodeList(filteredAndSortedList, this.sortAttribute);
-        //}
+        if (this.sortAttribute != null) {
+            filteredAndSortedList = this.getSortedNodeList(filteredAndSortedList, this.sortAttribute);
+        }
         return nodeList;
     }
 
@@ -373,8 +384,9 @@ public class SoNBOManager implements Serializable {
      * @param nodeType
      * @param nodeID
      * @return
+     * @throws NodeNotFoundException 
      */
-    public Map<String, String> getActivityStreamEntries(int maxEntries, String nodeType, String nodeID) {
+    public Map<String, String> getActivityStreamEntries(int maxEntries, String nodeType, String nodeID) throws NodeNotFoundException {
     	NodeService nodeService = new NodeService();
         Node node = nodeService.getNode(nodeID, nodeType, false);
         

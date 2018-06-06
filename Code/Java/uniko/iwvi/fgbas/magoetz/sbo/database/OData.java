@@ -283,6 +283,8 @@ public class OData implements IQueryService, Serializable {
 
 		        inputStream = request.execute().getRawResponse();
 	        } catch (Exception e) {
+	        	Utilities.remotePrint(e.getMessage());
+	        	Utilities.remotePrint(uri.toString());
 	        	new RedirectService().redirectToAuthentication();
 	        	return null;
 	        }
@@ -340,6 +342,8 @@ public class OData implements IQueryService, Serializable {
             
             inputStream = request.execute().getRawResponse();
         } catch (Exception e) {
+        	Utilities.remotePrint(e.getMessage());
+        	Utilities.remotePrint(uri.toString());
         	new RedirectService().redirectToAuthentication();
         	return null;
         }
@@ -464,11 +468,11 @@ public class OData implements IQueryService, Serializable {
     }
 
     public String getEmailByNotesUsername(String notesUsername) {
-        return this.getFieldValue("", "GEDYSIntraWare8\\georga.nsf", "Usernames", notesUsername, "email");
+        return this.getFieldValue("", "GEDYSIntraWare8_kobis\\georga.nsf", "Usernames", notesUsername, "email");
     }
 
     public String getNotesUsernameByEmail(String email) {
-        return this.getFieldValue("", "GEDYSIntraWare8\\georg.nsf", "SoNBO\\(Emails)", email, "username");
+        return this.getFieldValue("", "GEDYSIntraWare8_kobis\\georg.nsf", "SoNBO\\(Emails)", email, "username");
     }
 
     protected void addEntry(List<Vector<String>> dataList, String formName) {

@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note class='view' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.9'
  replicaid='C125825E00556E6F'>
-<noteinfo noteid='6ea' unid='B8D355C87377D1C8C1258272003A1695' sequence='28'>
+<noteinfo noteid='6ea' unid='B8D355C87377D1C8C1258272003A1695' sequence='39'>
 <created><datetime dst='true'>20180417T123428,69+02</datetime></created>
-<modified><datetime dst='true'>20180428T130144,09+02</datetime></modified>
-<revised><datetime dst='true'>20180428T130144,08+02</datetime></revised>
-<lastaccessed><datetime dst='true'>20180428T130144,09+02</datetime></lastaccessed>
-<addedtofile><datetime dst='true'>20180417T235022,69+02</datetime></addedtofile></noteinfo>
+<modified><datetime dst='true'>20180605T210844,43+02</datetime></modified>
+<revised><datetime dst='true'>20180605T210844,42+02</datetime></revised>
+<lastaccessed><datetime dst='true'>20180605T210844,43+02</datetime></lastaccessed>
+<addedtofile><datetime dst='true'>20180501T160613,99+02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Mathias Riedle/O=uniko/C=DE</name></updatedby>
 <wassignedby><name>CN=Mathias Riedle/O=uniko/C=DE</name></wassignedby>
 <item name='$FormatNote' summary='true'>
@@ -64,10 +64,11 @@ vRwBAAAAAQABAAAAIwMAAAAAAAABAAAKIAACAHn/bAABAP///wABAAAAAAAJAAAAAAABAPDw8AAA
 ACQAAQAAAAAAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAHH/PAAAAAAAAwATABoAAAAAAAAAAAAAAAAAAAAAAAAAAABT
 b05CT19Mb2dvX2xhYmVsX3NtYWxsLnBuZ/z/OgAAAAAAAQAAAAAAAwAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAEAAKAAAAAAAAAAAAAAAAC+/2AAAAABAB4AnwEAABQAAAAAAAAAQ3JlYXRlIE5l
-dyBOb2RlIFR5cGU2AAAAKAACAOgDAAAAAAAAAQAAAAEADgBjb25maWdOb2RlVHlwZe0DAwAHAAwA
-BQAJNFM2UwC+/1AAAAABABYAngEAABoAAAAAAAAAUmVmcmVzaCBzZWxlY3RlZCBkb2N1bWVudHMg
-AAAAEgACAJcXAAAAAAAA7QEDAAcADAAFAAkwUzBFAL7/TAAAAAEAFgCeAQAAFQAAAAAAAABSZWZy
-ZXNoIGFsbCBkb2N1bWVudHNDIAAAABIAAgCYFwAAAAAAAO0BAwAHAAwABQAJMFMwRQA=
+AAAAAAAAAAAAAAEAAKAAAAAAAAAAAAAAAAC+/2gAAAABAB4AnwEAABUAAAAAAAAAQ3JlYXRlIE5l
+dyBOb2RlIEV2ZW50ADwAAAAuAAIA6AMAAAAAAAABAAAAAQATAGNvbmZpZ05vZGVUeXBlRXZlbnQA
+7QMDAAcADAAFAAk0UzZTAL7/UAAAAAEAFgCeAQAAGgAAAAAAAABSZWZyZXNoIHNlbGVjdGVkIGRv
+Y3VtZW50cyAAAAASAAIAlxcAAAAAAADtAQMABwAMAAUACTBTMEUAvv9MAAAAAQAWAJ4BAAAVAAAA
+AAAAAFJlZnJlc2ggYWxsIGRvY3VtZW50c28gAAAAEgACAJgXAAAAAAAA7QEDAAcADAAFAAkwUzBF
+AA==
 </rawitemdata></item></note>
 

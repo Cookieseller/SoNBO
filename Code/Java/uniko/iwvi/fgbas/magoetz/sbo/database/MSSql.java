@@ -378,7 +378,7 @@ public class MSSql implements IQueryService, Serializable {
 
     public String getEmailByNotesUsername(String notesUsername) {
 
-        return this.getFieldValue("", "GEDYSIntraWare8\\georga.nsf", "Usernames", notesUsername, "email");
+        return this.getFieldValue("", "GEDYSIntraWare8_kobis\\georga.nsf", "Usernames", notesUsername, "email");
         /*
         Session session = DominoUtils.getCurrentSession();
 		try {
@@ -402,7 +402,7 @@ public class MSSql implements IQueryService, Serializable {
 
     public String getNotesUsernameByEmail(String email) {
 
-        return this.getFieldValue("", "GEDYSIntraWare8\\georg.nsf", "SoNBO\\(Emails)", email, "username");
+        return this.getFieldValue("", "GEDYSIntraWare8_kobis\\georg.nsf", "SoNBO\\(Emails)", email, "username");
 
 		/*
         String notesUsername = "not found";

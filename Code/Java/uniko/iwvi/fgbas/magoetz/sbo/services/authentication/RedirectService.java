@@ -2,11 +2,9 @@ package uniko.iwvi.fgbas.magoetz.sbo.services.authentication;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.AbstractMap.SimpleEntry;
 
 import javax.faces.context.FacesContext;
 
-import org.joda.time.DateTime;
 
 import uniko.iwvi.fgbas.magoetz.sbo.caching.BeanCache;
 

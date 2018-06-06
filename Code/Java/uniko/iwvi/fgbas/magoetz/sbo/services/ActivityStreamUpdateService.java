@@ -64,7 +64,7 @@ public class ActivityStreamUpdateService {
 		NotesDB notesDB = new NotesDB();
 		FacesContext ctx = FacesContext.getCurrentInstance(); 
         SoNBOSession session = (SoNBOSession) ctx.getApplication().getVariableResolver().resolveVariable(ctx, "soNBOSession");
-        session.updateCredentials("mriedle", "Ogilubime859");
+        session.updateCredentials("mriedle", "D0CcohEQrauCqxleP+3TayEtU+eQbYw0PHNT+m7Sf2s=");
 
 		try {
 			ViewEntryCollection activities    = getActivities();
@@ -151,7 +151,7 @@ public class ActivityStreamUpdateService {
 				if (viewEntryCollectionContainsValue(postedActivityEntries, "postedActivityObjectID", entryNo)) {
 					continue;
 				}
-				
+
 				try {
 					unpostedEntries.add(getActivityEntry(document, el.getAsJsonObject()));	
 				} catch (NullPointerException e) {
@@ -159,6 +159,7 @@ public class ActivityStreamUpdateService {
 				}
 			}
 
+			
 			ViewEntry entry = activities.getNextEntry();
 			if (entry == null)
 				break;
@@ -351,6 +352,7 @@ public class ActivityStreamUpdateService {
         		replaceAttributesMap.put(replaceAttributeKey, "No value found");
         	}
         }
+
         String replacedQuery = Utilities.replaceTokens(associatedObjectQuery.getString(), replaceAttributesMap);
         associatedObjectQuery.setString(replacedQuery);
 
