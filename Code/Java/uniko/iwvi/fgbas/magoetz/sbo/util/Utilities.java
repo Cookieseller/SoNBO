@@ -8,7 +8,12 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,7 +21,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpServletRequest;
+
+import lotus.domino.Database;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -24,12 +30,15 @@ import uniko.iwvi.fgbas.magoetz.sbo.SoNBOSession;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.ibm.xsp.designer.context.XSPContext;
 
 public class Utilities {
 
 	private static String redirectUrl = "";
+	private static Database currentDb = null;
 	
     public void printJson(JsonObject json, String info) {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -43,6 +52,22 @@ public class Utilities {
     	return StringUtils.join(list, ", ");
     }
 
+    public static String formatDateString(String dateString) {
+    	List<String> formatStrings = Arrays.asList("yyyy-MM-dd'T'HH:mm:ss.S'Z'", "yyyy-MM-dd'T'HH:mm:ss'Z'", "yyyy-MM-dd'T'HH:mm:ss");
+
+    	String formattedDate = dateString;
+    	for (String format : formatStrings) {
+			try {
+				DateFormat dateFormat = new SimpleDateFormat(format);
+				Date date = dateFormat.parse(dateString);
+				formattedDate = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss'Uhr'").format(date);	
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+    	}
+    	return formattedDate;
+    }
+    
     /*
      * Thanks to
      * https://stackoverflow.com/questions/959731/how-to-replace-a-set-of-tokens-in-a-java-string
@@ -84,6 +109,14 @@ public class Utilities {
 
         return Utilities.replaceTokens(text, replacements);
     }
+    
+    public static void setCurrentDatabase(Database db) {
+		currentDb = db;
+	}
+    
+    public static Database getCurrentDatabase() {
+    	return currentDb;
+    }
 
     public static void remotePrint(String print) {
 		try {
@@ -119,13 +152,24 @@ public class Utilities {
 		}
     }
     
+    public static JsonElement mergeJson(final JsonElement obj1, final JsonElement obj2) {
+    	JsonObject target = new JsonParser().parse(obj1.toString()).getAsJsonObject();
+    	JsonObject source = obj2.getAsJsonObject();
+    	
+    	for (Map.Entry<String, JsonElement> entry : source.entrySet()) {
+    		if (!target.has(entry.getKey()))
+    			target.add(entry.getKey(), entry.getValue());
+    	}
+    	
+    	return new JsonParser().parse(target.toString());
+    }
+    
     public static void redirectToAuthentication() {
     	FacesContext ctx = FacesContext.getCurrentInstance(); 
         SoNBOSession session = (SoNBOSession) ctx.getApplication().getVariableResolver().resolveVariable(ctx, "soNBOSession");
 
         XSPContext context = XSPContext.getXSPContext(ctx);
         redirectUrl = context.getUrl().getAddress();
-        Utilities.remotePrint(redirectUrl);
         try {
         	ctx.getExternalContext().redirect("https://devil.bas.uni-koblenz.de/SoNBO/SNBO-NAV.nsf/auth.xsp");	
         } catch (IOException e) {

@@ -1,11 +1,7 @@
 package uniko.iwvi.fgbas.magoetz.sbo.database;
 
-import java.io.InputStream;
 import java.io.Serializable;
-import java.io.StringWriter;
-import java.net.URI;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
@@ -16,18 +12,11 @@ import lotus.domino.DocumentCollection;
 import lotus.domino.NotesException;
 import lotus.domino.View;
 
-import org.apache.commons.io.IOUtils;
-import org.apache.olingo.client.api.ODataClient;
-import org.apache.olingo.client.api.communication.request.retrieve.ODataRawRequest;
-import org.apache.olingo.client.core.ODataClientFactory;
-import org.apache.olingo.client.core.http.BasicAuthHttpClientFactory;
 import org.openntf.Utils;
 
 import uniko.iwvi.fgbas.magoetz.sbo.objects.Datasource;
-import uniko.iwvi.fgbas.magoetz.sbo.objects.Node;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.Query;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.QueryResult;
-import uniko.iwvi.fgbas.magoetz.sbo.services.CacheService;
 import uniko.iwvi.fgbas.magoetz.sbo.util.Utilities;
 
 import com.google.gson.JsonArray;
@@ -43,8 +32,7 @@ public class NotesDB implements IQueryService, Serializable {
      * return first returned field value as string
      */
     public String getFieldValue(String hostname, String database, String view, String key, String returnField) {
-
-        Database notesDB = DominoUtils.getCurrentDatabase();
+		Database notesDB = DominoUtils.getCurrentDatabase();
         ArrayList<String> queryResults = new ArrayList<String>();
         try {
             // return values by key
@@ -98,13 +86,12 @@ public class NotesDB implements IQueryService, Serializable {
 
     public ArrayList<String> getColumnValues(String queryView, int columnNr) {
 
-        Database notesDB = DominoUtils.getCurrentDatabase();
+		Database notesDB = DominoUtils.getCurrentDatabase();
         ArrayList<String> queryResults = new ArrayList<String>();
         try {
             // return values by key
             queryResults = Utils.Dbcolumn(notesDB, queryView, columnNr);
         } catch (NotesException ex) {
-            // TODO Auto-generated catch block
             ex.printStackTrace();
         }
         return queryResults;
@@ -112,7 +99,7 @@ public class NotesDB implements IQueryService, Serializable {
 
     public DocumentCollection ftSearch(String databasename, String searchString) {
 
-        Database notesDB;
+		Database notesDB;
         DocumentCollection resultCollection = null;
         try {
             notesDB = DominoUtils.openDatabaseByName(databasename);
@@ -120,14 +107,13 @@ public class NotesDB implements IQueryService, Serializable {
             //notesDB.updateFTIndex(true);
             resultCollection = notesDB.FTSearch(searchString);
         } catch (NotesException e1) {
-            // TODO Auto-generated catch block
             e1.printStackTrace();
         }
         return resultCollection;
     }
 
     public DocumentCollection ftSearchView(String databasename, String searchString, String viewname) {
-        Database notesDB;
+		Database notesDB;
         DocumentCollection resultCollection = null;
         try {
             notesDB = DominoUtils.openDatabaseByName(databasename);
@@ -151,7 +137,6 @@ public class NotesDB implements IQueryService, Serializable {
             // Clear the full-text search
             view.clear();
         } catch (NotesException e1) {
-            // TODO Auto-generated catch block
             e1.printStackTrace();
         }
         return resultCollection;

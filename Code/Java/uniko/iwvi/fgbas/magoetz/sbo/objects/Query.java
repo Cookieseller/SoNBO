@@ -26,6 +26,12 @@ public class Query {
 
     private ArrayList<String> queryAttributes;
 
+    private boolean distinctQuery;
+
+    private String distinctField;
+
+    private Query joinQuery;
+
     public Query() {
     	key = new ArrayList<String>();
     	queryAttributes =new ArrayList<String>();
@@ -41,6 +47,9 @@ public class Query {
     	this.fieldname = copy.fieldname;
     	this.columnNr = copy.columnNr;
     	this.string = copy.string;
+    	this.joinQuery = new Query(copy.joinQuery);
+    	this.distinctQuery = copy.distinctQuery;
+    	this.distinctField = copy.distinctField;
     	this.queryAttributes = new ArrayList<String>(copy.queryAttributes);
     }
     
@@ -124,11 +133,35 @@ public class Query {
         this.queryAttributes = attributes;
     }
 
+    public void setJoinQuery(Query joinQuery) {
+		this.joinQuery = joinQuery;
+	}
+
+    public Query getJoinQuery() {
+		return this.joinQuery;
+	}
+    
 	public void setSkip(String skip) {
 		this.skip = skip;
 	}
-
+	
 	public String getSkip() {
 		return skip;
+	}
+
+	public void setDistinctQuery(boolean distinctQuery) {
+		this.distinctQuery = distinctQuery;
+	}
+
+	public boolean isDistinctQuery() {
+		return distinctQuery;
+	}
+
+	public void setDistinctField(String distinctField) {
+		this.distinctField = distinctField;
+	}
+
+	public String getDistinctField() {
+		return distinctField;
 	}
 }

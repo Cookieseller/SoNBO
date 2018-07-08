@@ -1,11 +1,19 @@
 package uniko.iwvi.fgbas.magoetz.sbo.services;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.AbstractMap;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.AbstractMap.SimpleEntry;
 
 import uniko.iwvi.fgbas.magoetz.sbo.database.OData;
 import uniko.iwvi.fgbas.magoetz.sbo.exceptions.NodeNotFoundException;
@@ -43,7 +51,6 @@ public class NodeService implements Serializable {
      */
     public Node getNode(String id, String nodeType, boolean nodePreview) throws NodeNotFoundException {
 
-    	Utilities.remotePrint(nodeType);
         if (!configService.nodeConfigExists(nodeType)) {
         	throw new NodeNotFoundException("The selected node does not exist");
         }
@@ -52,7 +59,7 @@ public class NodeService implements Serializable {
         Node node 								   = createNodeByType(nodeTypeConfig);
         List<NodeTypeAttribute> nodeTypeAttributes = nodeTypeConfig.getNodeTypeAttributes();
         NodeTypeAttribute nodeAttributeId          = nodeTypeConfig.getNodeTypeIdAttribute();
-        
+
         // TODO the special treatment for the id attribute could be fixed by not defining the id as a default attribute which has to be loaded
         node.setId(id);
         nodeAttributeId.setValue(id);
@@ -100,12 +107,12 @@ public class NodeService implements Serializable {
     private Node jsonToNode(JsonObject jsonNode, NodeType nodeType) {
     	Node node = new Node();
     	List<String> nodeTypeCategories = configService.getAllNodeTypeCategoryNames();
-    	
+
         node.setId(jsonNode.get(nodeType.getNodeTypeIdAttribute().getFieldname()).getAsString());
         node.setNodeTypeCategories(nodeTypeCategories);
         node.setNodeType(nodeType.getNodeTypeName());
         node.setNodeTypeCategory(nodeType.getNodeTypeCategory());
-        
+
         //TODO the node is already complete, no need to query individual attributes, this may however be necessary for other Query Types, 
         // so mb implement a Attribute type which could be query or string
         NodeTypeCategory nodeTypeCategory = configService.getNodeTypeCategoryByName(node.getNodeTypeCategory());
@@ -113,14 +120,14 @@ public class NodeService implements Serializable {
         List<NodeTypeAttribute> nodeTypeAttributes = extractAttributesFromJson(jsonNode, nodeType);
         node.addAllAttributes(nodeTypeAttributes);
 
-        String nodeTypeTitleAttrName = nodeType.getNodeTypeTitle();
-        
+        //String nodeTypeTitleAttrName = nodeType.getNodeTypeTitle();
+
         List<NodeTypeAttribute> nodeAttributes = getNodeAttributes(node, nodeTypeAttributes);
         node.addAllAttributes(nodeAttributes);
-        
+
         return node;
     }
-    
+
     private List<NodeTypeAttribute> extractAttributesFromJson(JsonObject jsonNode, NodeType nodeType) {
     	List<NodeTypeAttribute> nodeTypeAttributes = nodeType.getPreviewAndFilterableConfigurationNodeAttributes();
 
@@ -177,7 +184,7 @@ public class NodeService implements Serializable {
      * @param Node businessObject
      * @return List<Node>
      */
-    public List<Node> getAdjacentNodes(Node businessObject) {
+    public List<Node> getAdjacentNodes(final Node businessObject) throws Exception{
     	ArrayList<Node> nodeList 			 = new ArrayList<Node>();
     	ArrayList<NodeTypeAdjacency> queries = getQueriesForAdjacenctNodes(businessObject.getNodeType());
 
@@ -196,6 +203,61 @@ public class NodeService implements Serializable {
     		}
     	}
     	return nodeList;
+    	
+    	/*
+    	ArrayList<NodeTypeAdjacency> queries = getQueriesForAdjacenctNodes(businessObject.getNodeType());
+
+    	ExecutorService taskExecutor = Executors.newFixedThreadPool(10);
+    	
+    	FacesContext ctx = FacesContext.getCurrentInstance(); 
+        final SoNBOSession session = (SoNBOSession) ctx.getApplication().getVariableResolver().resolveVariable(ctx, "soNBOSession");
+
+        final CopyOnWriteArrayList<AbstractMap.SimpleEntry<NodeType, JsonElement>> threadSafeList = new CopyOnWriteArrayList<AbstractMap.SimpleEntry<NodeType, JsonElement>>();
+    	for (final NodeTypeAdjacency query : queries) {
+    		final Query queryObject 	= queryService.getQueryObject(query.getQuery());
+    		final Datasource datasource = queryService.getDatasourceObject(query.getDatasource());
+
+    		String queryString = createAttributeList(businessObject, queryObject);
+    		queryObject.setString(queryString);
+    		
+			taskExecutor.execute(new Runnable() {
+				public void run() {
+					try {
+			    		JsonArray jsonArr = queryService.executeQuery(datasource, queryObject, session);
+			    		for (JsonElement element : jsonArr) {
+			    			NodeType nodeType 	= configService.getNodeTypeByName(query.getTargetNode());
+			    			threadSafeList.add(new AbstractMap.SimpleEntry<NodeType, JsonElement>(nodeType, element));
+			    		}	
+					} catch (Exception e) {
+						Utilities.remotePrint(e.getMessage());
+					}
+				}
+	    	});
+    	}
+    	taskExecutor.shutdown();
+    	try {
+    		taskExecutor.awaitTermination(30, TimeUnit.SECONDS);
+    	} catch (InterruptedException e) {
+    		taskExecutor.shutdownNow();
+    		Utilities.remotePrint(e.getMessage());
+    		System.out.println(e.getMessage());
+    		return new ArrayList<Node>();
+    	}
+
+    	ArrayList<Node> nodeList = new ArrayList<Node>();
+    	for(AbstractMap.SimpleEntry<NodeType, JsonElement> element : threadSafeList) {
+    		Node node = jsonToNode(element.getValue().getAsJsonObject(), element.getKey());
+    		nodeList.add(node);
+    	}
+
+    	for (Node node : nodeList) {
+    		Utilities.remotePrint("-------Nodetype: " + node.getNodeType() + " ID: " + node.getId());
+    		for (NodeTypeAttribute attr : node.getAttributeList()) {
+    			Utilities.remotePrint(attr.getName() + ": " + attr.getValueAsString());
+    		}
+    	}
+    	
+    	return nodeList;*/
     }
 
     /**
@@ -205,32 +267,50 @@ public class NodeService implements Serializable {
      * @param node
      * @return
      */
-    public Map<String, String> getEventsForNode(Node node) {
+    public List<AbstractMap.SimpleEntry<String, String>> getEventsForNode(Node node) {
+    	List<AbstractMap.SimpleEntry<String, String>> events = new ArrayList<AbstractMap.SimpleEntry<String, String>>();
     	Map<String, String> nodeEvents 				  = new LinkedHashMap<String, String>();
         ArrayList<NodeTypeEvent> nodeTypeEventQueries = getNodeTypeEventQueries(node.getNodeType());
-        
+
         for (NodeTypeEvent event : nodeTypeEventQueries) {
         	Query queryObject = queryService.getQueryObject(event.getQuery());
-            
+
             String replacedString = createAttributeList(node, queryObject);
-            
+
             queryObject.setString(replacedString);
             queryObject.setQueryAttributes(new ArrayList<String>());
             String sourceNodeId = node.getId();
 
             Datasource datasource = queryService.getDatasourceObject(event.getDatasource());
             ArrayList<JsonObject> eventObjects = retrieveEventObjects(datasource, queryObject, sourceNodeId);
-            String eventText = replaceDisplayTextWithValues(event.getDisplayText(), eventObjects);
-            
-            if (eventObjects.size() > 0) {
-            	if (eventObjects.get(0).has(event.getDateField())) {
-            		nodeEvents.put(eventObjects.get(0).get(event.getDateField()).getAsString(), eventText);		
-            	}
+
+            for (JsonObject obj : eventObjects) {
+            	String eventText = replaceDisplayTextWithValues(event.getDisplayText(), obj);
+            	String dateString = obj.get(event.getDateField()).getAsString();
+        		String formattedDate = Utilities.formatDateString(dateString);
+
+        		events.add(new AbstractMap.SimpleEntry<String, String>(formattedDate, eventText));
+        		nodeEvents.put(formattedDate, eventText);
             }
-            
         }
+
+        Collections.sort(events, new Comparator<AbstractMap.SimpleEntry<String, String>>() {
+			public int compare(SimpleEntry<String, String> arg0, SimpleEntry<String, String> arg1) {
+				DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss'Uhr'");
+				try {
+					Date date1 = dateFormat.parse(arg0.getKey());
+					Date date2 = dateFormat.parse(arg1.getKey());
+
+					return date1.compareTo(date2) * -1;
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+
+				return 0;
+			}
+        });
         
-        return nodeEvents;
+        return events;
     }
 
     /**
@@ -279,44 +359,44 @@ public class NodeService implements Serializable {
      * @param Node   node
      * @return String
      */
-    private String createAttributeList(Node node, Query queryObject) {
-        String queryString = queryObject.getString();
-        ArrayList<String> tokenList = Utilities.getTokenList(queryString);
-        
-        NodeTypeAttribute nodeTypeAttribute = null;
-        if (tokenList.size() > 0) {
-            String replaceAttrString = tokenList.get(0);
-            nodeTypeAttribute = node.getAttributeOfType(replaceAttrString, "Array(String)");
-        }
-        // if first attribute is not of type Array(String)
-        if (nodeTypeAttribute == null) {
-            // create map with replacements
-            Map<String, String> replaceAttributesMap = new HashMap<String, String>();
-            for (String replaceAttributeKey : tokenList) {
-                String replaceAttributeValue = node.getAttributeValueByField(replaceAttributeKey);
-                if (queryObject.getKeyValueReturnType().equals("getEmailAsNotesUsername")) {
-                    replaceAttributeValue = this.queryService.getNotesUsernameByEmail(replaceAttributeValue);
-                }
-                replaceAttributesMap.put(replaceAttributeKey, replaceAttributeValue);
-            }
-            // replace [key] in string with variable values
-            queryString = Utilities.replaceTokens(queryString, replaceAttributesMap);
-            // if first attribute is of type Array(String) concatenate values
-        } else {
-            String[] stringValues = nodeTypeAttribute.getValueAsString().split(",");
-            String[] words = queryString.split(" ");
-            queryString = "";
-            String fieldname = words[1];
-            for (int i = 0; i < stringValues.length; i++) {
-                if (i < stringValues.length - 1) {
-                    queryString += "FIELD " + fieldname + " CONTAINS " + stringValues[i] + " OR ";
-                } else {
-                    queryString += "FIELD " + fieldname + " CONTAINS " + stringValues[i];
-                }
-            }
-        }
-        return queryString;
-    }
+    private synchronized String createAttributeList(Node node, Query queryObject) {
+	    String queryString = queryObject.getString();
+	    ArrayList<String> tokenList = Utilities.getTokenList(queryString);
+	
+	    NodeTypeAttribute nodeTypeAttribute = null;
+	    if (tokenList.size() > 0) {
+	        String replaceAttrString = tokenList.get(0);
+	        nodeTypeAttribute = node.getAttributeOfType(replaceAttrString, "Array(String)");
+	    }
+	    // if first attribute is not of type Array(String)
+	    if (nodeTypeAttribute == null) {
+	        // create map with replacements
+	        Map<String, String> replaceAttributesMap = new HashMap<String, String>();
+	        for (String replaceAttributeKey : tokenList) {
+	            String replaceAttributeValue = node.getAttributeValueByField(replaceAttributeKey);
+	            if (queryObject.getKeyValueReturnType().equals("getEmailAsNotesUsername")) {
+	                replaceAttributeValue = this.queryService.getNotesUsernameByEmail(replaceAttributeValue);
+	            }
+	            replaceAttributesMap.put(replaceAttributeKey, replaceAttributeValue);
+	        }
+	        // replace [key] in string with variable values
+	        queryString = Utilities.replaceTokens(queryString, replaceAttributesMap);
+	        // if first attribute is of type Array(String) concatenate values
+	    } else {
+	        String[] stringValues = nodeTypeAttribute.getValueAsString().split(",");
+	        String[] words = queryString.split(" ");
+	        queryString = "";
+	        String fieldname = words[1];
+	        for (int i = 0; i < stringValues.length; i++) {
+	            if (i < stringValues.length - 1) {
+	                queryString += "FIELD " + fieldname + " CONTAINS " + stringValues[i] + " OR ";
+	            } else {
+	                queryString += "FIELD " + fieldname + " CONTAINS " + stringValues[i];
+	            }
+	        }
+	    }
+	    return queryString;
+	}
 
     /**
     *
@@ -325,37 +405,33 @@ public class NodeService implements Serializable {
     * @param sourceNodeId
     * @return
     */
-   private ArrayList<JsonObject> retrieveEventObjects(Datasource datasourceObject, Query queryObject, String sourceNodeId) {
-	   JsonArray result = queryService.executeQuery(datasourceObject, queryObject);
-	   ArrayList<JsonObject> objects = new ArrayList<JsonObject>();
-	   for (JsonElement element : result) {
-		   objects.add(element.getAsJsonObject());
-	   }
+	private ArrayList<JsonObject> retrieveEventObjects(Datasource datasourceObject, Query queryObject, String sourceNodeId) {
+		JsonArray result = queryService.executeQuery(datasourceObject, queryObject);
+		ArrayList<JsonObject> objects = new ArrayList<JsonObject>();
+		for (JsonElement element : result) {
+			objects.add(element.getAsJsonObject());
+		}
        
-       return objects;
-   }
-   
+		return objects;
+	}
+
    /**
     * 
     * @param displayText
     * @param eventObjects
     * @return
     */
-   private String replaceDisplayTextWithValues(String displayText, ArrayList<JsonObject> eventObjects) {
-	   ArrayList<String> tokenList = Utilities.getTokenList(displayText);
-       Map<String, String> replaceAttributesMap = new HashMap<String, String>();
+	private String replaceDisplayTextWithValues(String displayText, JsonObject eventObject) {
+		ArrayList<String> tokenList = Utilities.getTokenList(displayText);
+		Map<String, String> replaceAttributesMap = new HashMap<String, String>();
        
-       if (eventObjects.size() < 1)
-    	   return "";
        
-       JsonObject node = eventObjects.get(0);
+		for (String replaceAttributeKey : tokenList) {
+			if (eventObject.has(replaceAttributeKey)) {
+				replaceAttributesMap.put(replaceAttributeKey, eventObject.get(replaceAttributeKey).getAsString());   
+			}
+		}
        
-       for (String replaceAttributeKey : tokenList) {
-    	   if (node.has(replaceAttributeKey)) {
-    		   replaceAttributesMap.put(replaceAttributeKey, node.get(replaceAttributeKey).getAsString());   
-    	   }
-       }
-       
-       return Utilities.replaceTokens(displayText, replaceAttributesMap);
-   }
+		return Utilities.replaceTokens(displayText, replaceAttributesMap);
+	}
 }

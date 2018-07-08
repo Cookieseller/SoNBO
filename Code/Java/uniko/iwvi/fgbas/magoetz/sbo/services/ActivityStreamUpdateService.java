@@ -141,7 +141,6 @@ public class ActivityStreamUpdateService {
 			query.setSkip(getSkiptoken());
 
 			IQueryService service = QueryServiceFactory.getQueryServiceByDatasource(datasource.getType());
-			Utilities.remotePrint(query.getString());
 			JsonArray result 	  = service.executeQuery(datasource, query);
 			for (JsonElement el : result) {
 				if (!el.getAsJsonObject().has("Entry_No"))
@@ -258,7 +257,6 @@ public class ActivityStreamUpdateService {
 			JsonObject associatedObject 	 = loadAssociatedObject(changelogEntry, associatedObjectQuery);
 
 			if (associatedObject == null) {
-				Utilities.remotePrint(associatedObjectQuery.getView() + "/" + associatedObjectQuery.getCommand());
 				throw new NullPointerException("Unable to load the associated object for entry: " + changelogEntryID);
 			}
 
@@ -358,11 +356,8 @@ public class ActivityStreamUpdateService {
 
 		//TODO load datasource by query type
 		JsonArray associatedObject = service.executeQuery(datasource, associatedObjectQuery);
-		Utilities.remotePrint(associatedObjectQuery.getView() + "/" + associatedObjectQuery.getString());
 		if (associatedObject.size() != 1) {
 			System.out.println("Failed loading the original object, " + associatedObject.size() + " objects found but expected 1.");
-			Utilities.remotePrint("Failed loading the original object, " + associatedObject.size() + " objects found but expected 1.");
-			Utilities.remotePrint(associatedObjectQuery.getView() + " " + replacedQuery + " should be " + changelogEntry.get("Table_Caption").getAsString());
 
 			return null;
 		}

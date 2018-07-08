@@ -125,9 +125,7 @@ public class Node implements Serializable {
 
     public boolean containsAttributeOfTypeWithValue(String key, String datatype, Object value) {
         for (NodeTypeAttribute nodeTypeAttribute : attributeList) {
-        	Utilities.remotePrint("Key: " + key + " Value: " + value + " NodeAttribute: " + nodeTypeAttribute.getName() + " Value: " + nodeTypeAttribute.getValueAsString());
             if (nodeTypeAttribute.getName().equals(key) && nodeTypeAttribute.getDatatype().equals(datatype) && nodeTypeAttribute.getValueAsString().equals(value)) {
-            	Utilities.remotePrint("Equals");
                 return true;
             }
         }

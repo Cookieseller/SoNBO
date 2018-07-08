@@ -21,10 +21,9 @@ public class CacheService implements Serializable {
     }
     
     public String get(String key) {
-    	/*
     	if (cache.contains(key)) {
     		return cache.get(key).getValue();
-    	}*/
+    	}
     	
     	return null;
     }

@@ -22,7 +22,7 @@ import com.google.gson.JsonObject;
 public class ConfigService implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
+    
     private NotesDB configQueryService = new NotesDB();
     
     private QueryService queryService = new QueryService();

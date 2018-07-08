@@ -288,7 +288,7 @@ select.form-control {
 
 .sbo-widget-container-inner-scroll {
 	padding: 0.4em;
-	overflow-y: scroll;
+	overflow-y: auto;
 	overflow-x: auto;
 	height: 24em;
 	position: relative;
@@ -303,6 +303,11 @@ select.form-control {
 	padding-top: 0.5em;
 	padding-bottom: 0.5em;
 	padding-left: 0.5em;
+}
+
+.list-entry {
+	padding: 10px 0px 10px 0px;
+	border-bottom: 1px solid #ccc;
 }
 
 <!-- dojo rangeSlider -->

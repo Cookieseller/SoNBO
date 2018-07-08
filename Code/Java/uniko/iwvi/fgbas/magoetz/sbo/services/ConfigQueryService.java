@@ -16,6 +16,7 @@ import org.openntf.Utils;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.Datasource;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.Query;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.QueryResult;
+import uniko.iwvi.fgbas.magoetz.sbo.util.Utilities;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -318,7 +319,15 @@ public class ConfigQueryService implements Serializable {
                 query.setColumnNr((int) queryDoc.getItemValueDouble("queryColumnNr"));
                 query.setString(queryDoc.getItemValueString("queryString"));
                 query.setSkip(queryDoc.getItemValueString("querySkip"));
-            }
+                String joinQueryName = queryDoc.getItemValueString("joinQuery");
+                if (joinQueryName == null || joinQueryName.isEmpty()) {
+                	query.setJoinQuery(null);
+                } else {
+                	query.setJoinQuery(getQueryObject(queryDoc.getItemValueString("joinQuery")));	
+                }
+                query.setDistinctQuery(!queryDoc.getItemValueString("distinctQuery").isEmpty());
+                query.setDistinctField(queryDoc.getItemValueString("distinctField"));
+             }
         } catch (NotesException e) {
             // TODO Auto-generated catch block
             System.out.println("Error retrieving query with name: " + queryName);

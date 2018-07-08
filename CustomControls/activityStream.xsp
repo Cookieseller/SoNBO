@@ -8,8 +8,8 @@
 		</h4>
 		<div class="sbo-widget-container-inner-scroll">
 			<xp:repeat id="activityRepeat" var="activityEntry"
-				value="#{javascript: soNBOManager.getActivityStreamEntries(10, soNBOManager.selectedNode.getNodeType(), soNBOManager.selectedNode.getId()).entrySet().toArray();}">
-				<xp:panel id="activityStreamEntriesContainer">
+				value="#{javascript: soNBOManager.getActivityStreamEntries(10, soNBOManager.selectedNode.getNodeType(), soNBOManager.selectedNode.getId()).toArray();}">
+				<xp:panel id="activityStreamEntriesContainer" styleClass="list-entry">
 					<xp:label
 						value="#{javascript: return activityEntry.key;}"
 						id="activityDate" />
@@ -18,8 +18,6 @@
 						<xp:label
 							value="#{javascript: return activityEntry.value;}"
 							id="activityLink" />
-						<xp:br></xp:br>
-						<xp:br></xp:br>
 					</div>
 				</xp:panel>
 			</xp:repeat>

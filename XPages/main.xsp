@@ -2,10 +2,10 @@
 <xp:view xmlns:xp="http://www.ibm.com/xsp/core" xmlns:xc="http://www.ibm.com/xsp/custom"
 	dojoParseOnLoad="true" dojoTheme="true">
 	<xp:this.beforePageLoad>
-		<![CDATA[#{javascript: 
+		<![CDATA[#{javascript:
 		viewScope.put("nodeType", "all");
 		viewScope.put("nodeTypeCategory", "all");
-		soNBOManager.init(context.getLocale()); 
+		soNBOManager.init(context.getLocale());
 		soNBOSession.addChronicEntry(soNBOManager.selectedNode.getNodeTitle(), soNBOManager.selectedNode.getId());}]]>
 	</xp:this.beforePageLoad>
 	<xp:this.resources>
@@ -18,7 +18,7 @@
 				<xp:panel xp:key="facetLeft" id="filter">
 					<xc:chronic />
 					
-					<xc:filter />
+					<!-- <xc:filter />  -->
 				</xp:panel>
 				<xp:panel xp:key="facetMiddle" id="content">
 					<xc:node />

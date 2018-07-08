@@ -8,6 +8,7 @@ import java.util.Vector;
 import org.apache.olingo.client.core.http.BasicAuthHttpClientFactory;
 
 import uniko.iwvi.fgbas.magoetz.sbo.services.ConnectionsService;
+import uniko.iwvi.fgbas.magoetz.sbo.util.Utilities;
 
 /**
  * SoNBOSession is the session bean of the SoNBO app.

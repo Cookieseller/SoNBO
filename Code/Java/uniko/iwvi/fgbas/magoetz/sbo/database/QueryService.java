@@ -14,6 +14,7 @@ import org.openntf.Utils;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.Datasource;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.Query;
 import uniko.iwvi.fgbas.magoetz.sbo.objects.QueryResult;
+import uniko.iwvi.fgbas.magoetz.sbo.util.Utilities;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -96,7 +97,6 @@ public class QueryService implements Serializable, IQueryService {
     }
 
     public DocumentCollection ftSearch(String databasename, String searchString) {
-
         Database notesDB;
         DocumentCollection resultCollection = null;
         try {
@@ -180,7 +180,6 @@ public class QueryService implements Serializable, IQueryService {
      * returns all json objects from a query
      */
     public ArrayList<JsonObject> getJsonObjects(String view, String key, String returnField) {
-
         Database notesDB = DominoUtils.getCurrentDatabase();
 
         ArrayList<String> queryResults = new ArrayList<String>();
@@ -205,7 +204,6 @@ public class QueryService implements Serializable, IQueryService {
 
     // TODO: write wrapper function for various query types
     public DocumentCollection executeQueryFTSearch(Datasource datasourceObject, Query queryObject) {
-
         // TODO: Evaluate whole query and change to dynamic execution for all query types (currently only IBM Domino supported)
         //String type = datasourceObject.getType();
         //String hostname = datasourceObject.getHostname();
@@ -294,7 +292,7 @@ public class QueryService implements Serializable, IQueryService {
     }
 
     @SuppressWarnings("unchecked")
-    public Datasource getDatasourceObject(String datasourceName) {
+    public synchronized Datasource getDatasourceObject(String datasourceName) {
 
         String searchString = "FIELD datasourcename = \"" + datasourceName + "\"";
         Document datasourceDoc = null;
@@ -319,7 +317,7 @@ public class QueryService implements Serializable, IQueryService {
     }
 
     @SuppressWarnings("unchecked")
-    public Query getQueryObject(String queryName) {
+    public synchronized Query getQueryObject(String queryName) {
 
         String searchString = "FIELD queryName = \"" + queryName + "\"";
         Document queryDoc = null;
@@ -338,6 +336,14 @@ public class QueryService implements Serializable, IQueryService {
                 query.setColumnNr((int) queryDoc.getItemValueDouble("queryColumnNr"));
                 query.setString(queryDoc.getItemValueString("queryString"));
                 query.setSkip(queryDoc.getItemValueString("querySkip"));
+                String joinQueryName = queryDoc.getItemValueString("joinQuery");
+                if (joinQueryName == null || joinQueryName.isEmpty()) {
+                	query.setJoinQuery(null);
+                } else {
+                	query.setJoinQuery(getQueryObject(queryDoc.getItemValueString("joinQuery")));	
+                }
+                query.setDistinctQuery(!queryDoc.getItemValueString("distinctQuery").isEmpty());
+                query.setDistinctField(queryDoc.getItemValueString("distinctField"));
             }
         } catch (NotesException e) {
             // TODO Auto-generated catch block

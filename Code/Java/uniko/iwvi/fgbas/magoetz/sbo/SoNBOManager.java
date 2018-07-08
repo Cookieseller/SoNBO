@@ -1,13 +1,13 @@
 package uniko.iwvi.fgbas.magoetz.sbo;
 
 import java.io.Serializable;
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.Vector;
@@ -55,6 +55,7 @@ public class SoNBOManager implements Serializable {
      */
     public void init(Locale locale) throws Exception {
 
+    	//Utilities.setCurrentDatabase(DominoUtils.getCurrentDatabase());
     	String objectId = getRequestParameter("id");
     	if (objectId == null) {
     		ConnectionsService connectionsService = new ConnectionsService("connectionsSSO");
@@ -67,7 +68,6 @@ public class SoNBOManager implements Serializable {
         selectedNode            = nodeService.getNode(objectId, nodeType, false);
         adjacentNodeList        = nodeService.getAdjacentNodes(selectedNode);
     }
-
 
     /**
      * Returns either the request parameter or the default value if no parameter is given
@@ -386,11 +386,10 @@ public class SoNBOManager implements Serializable {
      * @return
      * @throws NodeNotFoundException 
      */
-    public Map<String, String> getActivityStreamEntries(int maxEntries, String nodeType, String nodeID) throws NodeNotFoundException {
+    public List<AbstractMap.SimpleEntry<String, String>> getActivityStreamEntries(int maxEntries, String nodeType, String nodeID) throws NodeNotFoundException {
     	NodeService nodeService = new NodeService();
         Node node = nodeService.getNode(nodeID, nodeType, false);
-        
-        Map<String, String> events = nodeService.getEventsForNode(node);
-        return events;
+
+        return nodeService.getEventsForNode(node);
     }
 }
